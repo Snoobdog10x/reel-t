@@ -15,7 +15,7 @@ Future<void> main() async {
   setup();
   runApp(
     MaterialApp(
-      home: SampleScreen(),
+      home: FeedScreen(),
     ),
   );
 }

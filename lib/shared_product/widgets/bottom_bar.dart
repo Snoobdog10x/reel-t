@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:reel_t/screens/feed_viewmodel.dart';
-import 'package:reel_t/utils/tik_tok_icons_icons.dart';
+import 'package:reel_t/shared_product/tik_tok_icons_icons.dart';
 import 'package:get_it/get_it.dart';
 
 class BottomBar extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_state.dart';
 import 'package:reel_t/screens/sample_screen/sample_provider.dart';
-import 'package:reel_t/widgets/default_appbar.dart';
+import 'package:reel_t/shared_product/widgets/default_appbar.dart';
 
 class SampleScreen extends StatefulWidget {
   const SampleScreen({super.key});
