@@ -52,12 +52,22 @@ class _SampleScreenState extends AbstractState<SampleScreen> {
       alignment: Alignment.center,
       child: Column(
         children: [
-          Text(sampleProvider.count.toString()),
+          TextFormField(
+            onChanged: (value) {
+              sampleProvider.email = value;
+            },
+          ),
+          TextFormField(
+            onChanged: (value) {
+              sampleProvider.password = value;
+            },
+          ),
           TextButton(
             onPressed: () {
-              sampleProvider.onTapButton();
+              sampleProvider.sendUserCreateEvent(
+                  sampleProvider.email, sampleProvider.password);
             },
-            child: Text("count++"),
+            child: Text("signup"),
           ),
         ],
       ),

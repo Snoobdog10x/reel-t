@@ -22,6 +22,7 @@ dependencies:
   cloud_firestore: 4.4.3
   shared_preferences: 2.0.18
   provider: 6.0.5
+  firebase_auth: ^4.2.9
 
 dev_dependencies:
   flutter_test:
@@ -41,5 +42,5 @@ flutter:
   fonts:
     - family:  TikTokIcons
       fonts:
-       - asset: assets/fonts/TikTokIcons.ttf
+       - asset: lib/shared_product/assets/fonts/TikTokIcons.ttf
 
