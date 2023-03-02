@@ -1,4 +1,4 @@
-import 'package:Reel_T/screens/feed_viewmodel.dart';
+import 'package:reel_t/screens/feed_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 
 final locator = GetIt.instance;

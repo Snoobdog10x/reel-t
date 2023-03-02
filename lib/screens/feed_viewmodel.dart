@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:Reel_T/data/videos_firebase.dart';
+import 'package:reel_t/data/videos_firebase.dart';
 import 'package:stacked/stacked.dart';
 import 'package:video_player/video_player.dart';
 

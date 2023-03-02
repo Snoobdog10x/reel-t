@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:Reel_T/data/demo_data.dart';
-import 'package:Reel_T/data/video.dart';
+import 'package:reel_t/data/demo_data.dart';
+import 'package:reel_t/data/video.dart';
 
 class VideosAPI {
   List<Video> listVideos = <Video>[];
