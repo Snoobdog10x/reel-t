@@ -73,4 +73,7 @@ class _SampleScreenState extends AbstractState<SampleScreen> {
       ),
     );
   }
+
+  @override
+  void onDispose() {}
 }

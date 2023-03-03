@@ -1,13 +1,20 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'abstract_provider.dart';
 
 abstract class AbstractState<T extends StatefulWidget> extends State<T> {
   AbstractProvider? _provider;
   BuildContext? _context;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
   late double _topPadding;
   late double _screenHeight;
   late double _screenWidth;
   void onCreate();
+  void onDispose();
   AbstractProvider initProvider();
   BuildContext initContext();
   Widget buildScreen({
@@ -17,6 +24,12 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     Widget? body,
   }) {
     List<Widget> layout = [];
+    if (_connectionStatus == ConnectivityResult.none) {
+      layout.add(buildConnectionStatus(false));
+    } else {
+      layout.add(buildConnectionStatus(true));
+    }
+
     if (appBar != null) {
       layout.add(appBar);
     }
@@ -42,12 +55,23 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     );
   }
 
+  Widget buildConnectionStatus(bool isConnected) {
+    return Container(
+      height: 40,
+      width: double.infinity,
+      alignment: Alignment.center,
+      color: isConnected ? Colors.green : Colors.red,
+      child: Text(isConnected ? "Connected" : "Disconnected"),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     onCreate();
     _provider = initProvider();
     _context = initContext();
+    initConnectivity();
   }
 
   void notifyDataChanged() {
@@ -91,4 +115,27 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
 
   @override
   Widget build(BuildContext context);
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _updateConnectionStatus(ConnectivityResult result) {
+    _connectionStatus = result;
+    notifyDataChanged();
+  }
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+      _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    } on PlatformException catch (e) {
+      print("connect");
+      return;
+    }
+
+    return _updateConnectionStatus(result);
+  }
 }
