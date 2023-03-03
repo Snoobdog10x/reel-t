@@ -9,15 +9,18 @@ abstract class UserCreateEvent {
         email: email,
         password: password,
       );
-      onUserCreatedEvent(null);
+      UserProfile createdUser = UserProfile();
+      createdUser.mergeFromFirebase(credential.user);
+      onUserCreatedEvent(createdUser, null);
     } on FirebaseAuthException catch (e) {
-      onUserCreatedEvent(e);
+      onUserCreatedEvent(null, e);
     } catch (e) {
       print(e);
     }
   }
 
   void onUserCreatedEvent(
+    UserProfile? userProfile,
     FirebaseException? firebaseException,
   );
 }

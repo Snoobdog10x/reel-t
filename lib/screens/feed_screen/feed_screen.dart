@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_state.dart';
-import 'package:reel_t/screens/sample_screen/sample_provider.dart';
+import 'package:reel_t/screens/feed_screen/feed_provider.dart';
 import 'package:reel_t/shared_product/widgets/default_appbar.dart';
 
-class SampleScreen extends StatefulWidget {
-  const SampleScreen({super.key});
+class FeedScreen extends StatefulWidget {
+  const FeedScreen({super.key});
 
   @override
-  State<SampleScreen> createState() => _SampleScreenState();
+  State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _SampleScreenState extends AbstractState<SampleScreen> {
-  late SampleProvider sampleProvider;
+class _FeedScreenState extends AbstractState<FeedScreen> {
+  late FeedProvider sampleProvider;
   @override
   AbstractProvider initProvider() {
     return sampleProvider;
@@ -26,7 +26,7 @@ class _SampleScreenState extends AbstractState<SampleScreen> {
 
   @override
   void onCreate() {
-    sampleProvider = SampleProvider();
+    sampleProvider = FeedProvider();
   }
 
   @override
@@ -34,7 +34,7 @@ class _SampleScreenState extends AbstractState<SampleScreen> {
     return ChangeNotifierProvider(
       create: (context) => sampleProvider,
       builder: (context, child) {
-        return Consumer<SampleProvider>(
+        return Consumer<FeedProvider>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -52,30 +52,7 @@ class _SampleScreenState extends AbstractState<SampleScreen> {
       alignment: Alignment.center,
       child: Column(
         children: [
-          TextFormField(
-            onChanged: (value) {
-              sampleProvider.email = value;
-            },
-          ),
-          TextFormField(
-            onChanged: (value) {
-              sampleProvider.password = value;
-            },
-          ),
-          TextButton(
-            onPressed: () {
-              sampleProvider.sendUserCreateEvent(
-                  sampleProvider.email, sampleProvider.password);
-            },
-            child: Text("signup"),
-          ),
-          Text(sampleProvider.count.toString()),
-          TextButton(
-            onPressed: () {
-              sampleProvider.onCountButtonPressed();
-            },
-            child: Text("Button"),
-          )
+      
         ],
       ),
     );

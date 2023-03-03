@@ -3,7 +3,7 @@ import 'package:reel_t/events/command/user_create_event.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 
-class SampleProvider extends AbstractProvider with UserCreateEvent {
+class FeedProvider extends AbstractProvider with UserCreateEvent {
   String email = "";
   String password = "";
   int count = 0;
