@@ -13,10 +13,10 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends AbstractState<FeedScreen> {
-  late FeedProvider sampleProvider;
+  late FeedProvider feedProvider;
   @override
   AbstractProvider initProvider() {
-    return sampleProvider;
+    return feedProvider;
   }
 
   @override
@@ -26,13 +26,13 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
 
   @override
   void onCreate() {
-    sampleProvider = FeedProvider();
+    feedProvider = FeedProvider();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => sampleProvider,
+      create: (context) => feedProvider,
       builder: (context, child) {
         return Consumer<FeedProvider>(
           builder: (context, value, child) {
