@@ -1,15 +1,17 @@
 
 import 'dart:convert';
 
+
+
 class Video {
   String? id;
 
   Video({
-    this.id = "",
+    this.id,
   });
 
   Video.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"] ?? "";
+    id = json["id"];
   }
 
   Video.fromStringJson(String stringJson) {

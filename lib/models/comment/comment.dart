@@ -1,15 +1,17 @@
 
 import 'dart:convert';
 
+
+
 class Comment {
   String? id;
 
   Comment({
-    this.id = "",
+    this.id,
   });
 
   Comment.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"] ?? "";
+    id = json["id"];
   }
 
   Comment.fromStringJson(String stringJson) {

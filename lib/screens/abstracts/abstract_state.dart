@@ -1,21 +1,23 @@
-
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'abstract_provider.dart';
 
 abstract class AbstractState<T extends StatefulWidget> extends State<T> {
-  AbstractProvider? _provider;
-  BuildContext? _context;
-  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  late AbstractProvider _provider;
+  late BuildContext _context;
+  ConnectivityResult _previousConnectionStatus = ConnectivityResult.wifi;
+  ConnectivityResult _connectionStatus = ConnectivityResult.wifi;
   final Connectivity _connectivity = Connectivity();
   late double _topPadding;
   late double _screenHeight;
   late double _screenWidth;
   void onCreate();
   void onDispose();
+  void onReady();
   AbstractProvider initProvider();
   BuildContext initContext();
   Widget buildScreen({
@@ -25,12 +27,19 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     Widget? body,
   }) {
     List<Widget> layout = [];
-    if (_connectionStatus == ConnectivityResult.none) {
+    if (_previousConnectionStatus == ConnectivityResult.wifi &&
+        _connectionStatus == ConnectivityResult.none) {
       layout.add(buildConnectionStatus(false));
-    } else {
-      layout.add(buildConnectionStatus(true));
     }
 
+    if (_previousConnectionStatus == ConnectivityResult.none &&
+        _connectionStatus == ConnectivityResult.wifi) {
+      layout.add(buildConnectionStatus(true));
+      Future.delayed(Duration(seconds: 3), () {
+        _updateConnectionStatus(ConnectivityResult.wifi);
+      });
+    }
+    
     if (appBar != null) {
       layout.add(appBar);
     }
@@ -73,6 +82,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     _provider = initProvider();
     _context = initContext();
     initConnectivity();
+    onReady();
   }
 
   void notifyDataChanged() {
@@ -119,9 +129,11 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
   @override
   void dispose() {
     super.dispose();
+    onDispose();
   }
 
   void _updateConnectionStatus(ConnectivityResult result) {
+    _previousConnectionStatus = _connectionStatus;
     _connectionStatus = result;
     notifyDataChanged();
   }
@@ -138,5 +150,43 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     }
 
     return _updateConnectionStatus(result);
+  }
+
+  bool _isLoading = false;
+  void stopLoading() {
+    if (!_isLoading) return;
+    Navigator.pop(_context);
+    _isLoading = false;
+  }
+
+  void startLoading() {
+    if (_isLoading) return;
+
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.transparent,
+      shadowColor: Colors.transparent,
+      content: new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CupertinoActivityIndicator(
+            radius: 20,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: _context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+    _isLoading = true;
+    Future.delayed(Duration(seconds: 10), () {
+      if (_isLoading) {
+        stopLoading();
+      }
+    });
   }
 }

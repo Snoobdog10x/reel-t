@@ -1,15 +1,17 @@
 
 import 'dart:convert';
 
+
+
 class Like {
   String? id;
 
   Like({
-    this.id = "",
+    this.id,
   });
 
   Like.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"] ?? "";
+    id = json["id"];
   }
 
   Like.fromStringJson(String stringJson) {

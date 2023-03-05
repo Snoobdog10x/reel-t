@@ -1,13 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/video/video.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_state.dart';
 import 'package:reel_t/screens/feed/feed_provider.dart';
 import 'package:reel_t/shared_product/widgets/default_appbar.dart';
 
 class FeedScreen extends StatefulWidget {
-  const FeedScreen ({super.key});
+  final List<Video>? videos;
+  const FeedScreen({super.key, this.videos});
 
   @override
   State<FeedScreen> createState() => _FeedScreenState();
@@ -53,7 +54,12 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
       alignment: Alignment.center,
       child: Column(
         children: [
-
+          TextButton(
+            onPressed: () {
+              startLoading();
+            },
+            child: Text("loading"),
+          ),
         ],
       ),
     );
@@ -61,4 +67,9 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
 
   @override
   void onDispose() {}
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+  }
 }

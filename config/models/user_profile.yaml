@@ -1,4 +1,11 @@
 arguments:
   - id: String
-  - name: String
+  - fullName: String
   - email: String
+  - displayName: String
+  - avatar: String
+  - numFollower: String
+  - numFollowing: String
+  - isOnline: bool
+  - isActive: bool
+  - isDeleted: bool
