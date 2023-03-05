@@ -39,7 +39,7 @@ class DefaultAppBar extends StatelessWidget {
                 appBarTitle ?? "",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),

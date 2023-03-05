@@ -4,8 +4,8 @@ arguments:
   - email: String
   - displayName: String
   - avatar: String
-  - numFollower: String
-  - numFollowing: String
+  - numFollower: int
+  - numFollowing: int
   - isOnline: bool
   - isActive: bool
   - isDeleted: bool

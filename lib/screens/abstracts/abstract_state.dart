@@ -1,12 +1,15 @@
+
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:reel_t/shared_product/services/app_store.dart';
 import 'abstract_provider.dart';
 
 abstract class AbstractState<T extends StatefulWidget> extends State<T> {
+  AppStore appStore = AppStore();
   late AbstractProvider _provider;
   late BuildContext _context;
   ConnectivityResult _previousConnectionStatus = ConnectivityResult.wifi;
@@ -87,6 +90,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     super.initState();
     onCreate();
     _provider = initProvider();
+    _provider.state = this;
     _context = initContext();
     initConnectivity();
     onReady();
@@ -164,6 +168,49 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     if (!_isLoading) return;
     Navigator.pop(_context);
     _isLoading = false;
+  }
+
+  void showAlertDialog({
+    String? title,
+    String? content,
+    Function? confirm,
+    Function? cancel,
+    bool isLockOutsideTap = false,
+  }) {
+    List<CupertinoDialogAction> actions = [];
+    if (confirm != null) {
+      actions.add(
+        CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: () {
+            confirm();
+            Navigator.pop(_context);
+          },
+          child: const Text('OK'),
+        ),
+      );
+    }
+
+    if (cancel != null) {
+      actions.add(
+        CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: () {
+            cancel();
+            Navigator.pop(_context);
+          },
+          child: const Text('NO'),
+        ),
+      );
+    }
+    showCupertinoModalPopup<void>(
+      context: _context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title ?? ""),
+        content: Text(content ?? ""),
+        actions: actions,
+      ),
+    );
   }
 
   void startLoading() {

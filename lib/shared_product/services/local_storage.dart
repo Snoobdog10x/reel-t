@@ -23,4 +23,9 @@ class LocalStorage {
 
     return data;
   }
+
+  void removeCache(String key) {
+    if (_preferences == null) return;
+    _preferences!.remove(key);
+  }
 }

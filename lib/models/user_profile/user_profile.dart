@@ -9,8 +9,8 @@ class UserProfile {
 	String? email;
 	String? displayName;
 	String? avatar;
-	String? numFollower;
-	String? numFollowing;
+	int? numFollower;
+	int? numFollowing;
 	bool? isOnline;
 	bool? isActive;
 	bool? isDeleted;
