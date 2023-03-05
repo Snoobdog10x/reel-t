@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_state.dart';
+import 'package:reel_t/screens/feed/feed_screen.dart';
 import 'package:reel_t/screens/login/login_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_provider.dart';
 import 'package:reel_t/shared_product/widgets/default_appbar.dart';
@@ -81,12 +82,11 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   void onReady() {
-    var isLogin = appStore.localUser.isLogin();
-    if (isLogin) {
+    Future.delayed(Duration(seconds: 1), () {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-        (Route<dynamic> route) => false,
+        MaterialPageRoute(builder: (context) => FeedScreen()),
+        (_) => false,
       );
-    }
+    });
   }
 }
