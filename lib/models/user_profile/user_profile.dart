@@ -4,41 +4,41 @@ import 'dart:convert';
 
 
 class UserProfile {
-  String? id;
-	String? fullName;
-	String? email;
-	String? displayName;
-	String? avatar;
-	int? numFollower;
-	int? numFollowing;
-	bool? isOnline;
-	bool? isActive;
-	bool? isDeleted;
+  late String id;
+	late String fullName;
+	late String email;
+	late String displayName;
+	late String avatar;
+	late int numFollower;
+	late int numFollowing;
+	late bool isOnline;
+	late bool isActive;
+	late bool isDeleted;
 
   UserProfile({
-    this.id,
-		this.fullName,
-		this.email,
-		this.displayName,
-		this.avatar,
-		this.numFollower,
-		this.numFollowing,
-		this.isOnline,
-		this.isActive,
-		this.isDeleted,
+    this.id = "",
+		this.fullName = "",
+		this.email = "",
+		this.displayName = "",
+		this.avatar = "",
+		this.numFollower = 0,
+		this.numFollowing = 0,
+		this.isOnline = false,
+		this.isActive = false,
+		this.isDeleted = false,
   });
 
   UserProfile.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"];
-		fullName = json["fullName"];
-		email = json["email"];
-		displayName = json["displayName"];
-		avatar = json["avatar"];
-		numFollower = json["numFollower"];
-		numFollowing = json["numFollowing"];
-		isOnline = json["isOnline"];
-		isActive = json["isActive"];
-		isDeleted = json["isDeleted"];
+    id = json["id"] ?? "";
+		fullName = json["fullName"] ?? "";
+		email = json["email"] ?? "";
+		displayName = json["displayName"] ?? "";
+		avatar = json["avatar"] ?? "";
+		numFollower = json["numFollower"] ?? 0;
+		numFollowing = json["numFollowing"] ?? 0;
+		isOnline = json["isOnline"] ?? false;
+		isActive = json["isActive"] ?? false;
+		isDeleted = json["isDeleted"] ?? false;
   }
 
   UserProfile.fromStringJson(String stringJson) {
