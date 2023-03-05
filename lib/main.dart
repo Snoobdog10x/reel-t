@@ -11,10 +11,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirstInit.appStore.init();
+  SetUp.firstInit.init();
   runApp(
     MaterialApp(
-      home: WelcomeScreen(),
+      home: FeedScreen(),
     ),
   );
 }

@@ -1,2 +1,14 @@
 arguments:
   - id: String
+  - videoUrl: String
+  - songName: String
+  - creatorId: String
+  - publicMode: int
+  - comments: int
+  - likes: int
+  - views: int
+  - isDeleted: bool
+enums:
+  - public_mode:
+      - public
+      - private

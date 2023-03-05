@@ -29,6 +29,7 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
   @override
   void onCreate() {
     provider = FeedProvider();
+    provider.videos = widget.videos ?? [];
   }
 
   @override
