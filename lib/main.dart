@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:reel_t/screens/feed/feed_screen.dart';
+import 'package:reel_t/screens/signup/signup_screen.dart';
 import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +10,7 @@ Future<void> main() async {
   );
   runApp(
     MaterialApp(
-      home: FeedScreen(),
+      home: SignupScreen(),
     ),
   );
 }

@@ -25,21 +25,22 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     Widget? appBar,
     Widget? bottomNavBar,
     Widget? body,
+    EdgeInsets? padding,
   }) {
     List<Widget> layout = [];
     if (_previousConnectionStatus == ConnectivityResult.wifi &&
         _connectionStatus == ConnectivityResult.none) {
-      layout.add(buildConnectionStatus(false));
+      layout.add(_buildConnectionStatus(false));
     }
 
     if (_previousConnectionStatus == ConnectivityResult.none &&
         _connectionStatus == ConnectivityResult.wifi) {
-      layout.add(buildConnectionStatus(true));
+      layout.add(_buildConnectionStatus(true));
       Future.delayed(Duration(seconds: 3), () {
         _updateConnectionStatus(ConnectivityResult.wifi);
       });
     }
-    
+
     if (appBar != null) {
       layout.add(appBar);
     }
@@ -48,7 +49,12 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
       return Scaffold(
         bottomNavigationBar: bottomNavBar,
         body: Container(
-          padding: EdgeInsets.only(top: paddingTop(), bottom: paddingBottom()),
+          padding: EdgeInsets.only(
+            top: paddingTop(),
+            left: padding?.left ?? 0,
+            right: padding?.right ?? 0,
+            bottom: paddingBottom(),
+          ),
           child: Column(
             children: layout,
           ),
@@ -58,6 +64,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     return Scaffold(
       bottomNavigationBar: bottomNavBar,
       body: Container(
+        padding: padding ?? EdgeInsets.zero,
         child: Column(
           children: layout,
         ),
@@ -65,7 +72,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  Widget buildConnectionStatus(bool isConnected) {
+  Widget _buildConnectionStatus(bool isConnected) {
     return Container(
       height: 40,
       width: double.infinity,
@@ -188,5 +195,9 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
         stopLoading();
       }
     });
+  }
+
+  void popTopDisplay() {
+    Navigator.pop(_context);
   }
 }

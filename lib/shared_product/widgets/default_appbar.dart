@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class DefaultAppBar extends StatelessWidget {
   final String? appBarTitle;
   final Widget? appBarAction;
+  final Function? onTapBackButton;
   const DefaultAppBar({
     super.key,
     this.appBarTitle,
     this.appBarAction,
+    this.onTapBackButton,
   });
 
   @override
@@ -17,8 +19,16 @@ class DefaultAppBar extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: GestureDetector(
-              child: Icon(Icons.arrow_back_ios),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: onTapBackButton == null
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () {
+                        onTapBackButton?.call();
+                      },
+                      child: Icon(Icons.arrow_back_ios),
+                    ),
             ),
           ),
           Expanded(
@@ -27,6 +37,11 @@ class DefaultAppBar extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 appBarTitle ?? "",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
