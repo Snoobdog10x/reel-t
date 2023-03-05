@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -29,6 +28,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     Widget? bottomNavBar,
     Widget? body,
     EdgeInsets? padding,
+    Color background = Colors.white,
   }) {
     List<Widget> layout = [];
     if (_previousConnectionStatus == ConnectivityResult.wifi &&
@@ -50,6 +50,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     layout.add(body ?? Container());
     if (isSafe) {
       return Scaffold(
+        backgroundColor: background,
         bottomNavigationBar: bottomNavBar,
         body: Container(
           padding: EdgeInsets.only(
@@ -65,6 +66,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
       );
     }
     return Scaffold(
+      backgroundColor: background,
       bottomNavigationBar: bottomNavBar,
       body: Container(
         padding: padding ?? EdgeInsets.zero,
@@ -92,12 +94,17 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     _provider = initProvider();
     _provider.state = this;
     _context = initContext();
-    initConnectivity();
-    onReady();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        await appStore.init();
+        await initConnectivity();
+        onReady();
+      },
+    );
   }
 
   void notifyDataChanged() {
-    _provider?.notifyDataChanged();
+    _provider.notifyDataChanged();
   }
 
   double screenHeight() {
