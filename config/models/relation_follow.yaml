@@ -1,0 +1,9 @@
+arguments:
+  - id: String
+  - userId: String
+  - followerId: String
+  - followType: int
+enums:
+  - follow_type:
+    - unfollow
+    - follow

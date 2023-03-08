@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_state.dart';
 import 'package:reel_t/screens/feed/feed_screen.dart';
-import 'package:reel_t/screens/login/login_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_provider.dart';
-import 'package:reel_t/shared_product/widgets/default_appbar.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
