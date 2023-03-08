@@ -11,7 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SetUp.firstInit.init();
+  await FirstInit.appStore.init();
   runApp(
     MaterialApp(
       home: FeedScreen(),

@@ -5,14 +5,14 @@ import 'package:reel_t/shared_product/services/local_storage.dart';
 import 'package:reel_t/shared_product/services/local_user.dart';
 
 class AppStore {
-  Function? notifyDataChanged;
+  Function? _notifyDataChanged;
   LocalStorage localStorage = LocalStorage();
   LocalUser localUser = LocalUser();
   CloudStorage cloudStorage = CloudStorage();
   ConnectivityResult _connectionStatus = ConnectivityResult.wifi;
   final Connectivity _connectivity = Connectivity();
   void setNotify(Function notifyDataChanged) {
-    this.notifyDataChanged = notifyDataChanged;
+    _notifyDataChanged = notifyDataChanged;
   }
 
   Future<void> init() async {
@@ -27,17 +27,15 @@ class AppStore {
 
   void _updateConnectionStatus(ConnectivityResult result) {
     _connectionStatus = result;
-    notifyDataChanged?.call();
+    _notifyDataChanged?.call();
   }
 
   Future<void> initConnectivity() async {
     late ConnectivityResult result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
       _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     } on PlatformException catch (e) {
-      print("connect");
       return;
     }
 
