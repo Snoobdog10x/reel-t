@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:reel_t/models/video/video.dart';
 import 'package:reel_t/models/video/video_data.dart';
 import 'package:reel_t/shared_product/services/app_store.dart';
 
