@@ -1,6 +1,6 @@
 
 import 'dart:convert';
-import '../../models/like/like.dart';
+
 enum PublicMode { PUBLIC,PRIVATE }
 
 class Video {
@@ -13,7 +13,6 @@ class Video {
 	late int likes;
 	late int views;
 	late bool isDeleted;
-	late List<Like> userLikes;
 
   Video({
     String? id,
@@ -25,7 +24,6 @@ class Video {
 		int? likes,
 		int? views,
 		bool? isDeleted,
-		List<Like>? userLikes,
   }){
     this.id = id ?? "";
 		this.videoUrl = videoUrl ?? "";
@@ -36,7 +34,6 @@ class Video {
 		this.likes = likes ?? 0;
 		this.views = views ?? 0;
 		this.isDeleted = isDeleted ?? false;
-		this.userLikes = userLikes ?? [];
   }
 
   Video.fromJson(Map<dynamic, dynamic> json) {
@@ -49,7 +46,6 @@ class Video {
 		likes = json["likes"];
 		views = json["views"];
 		isDeleted = json["isDeleted"];
-		userLikes = json["userLikes"];
   }
 
   Video.fromStringJson(String stringJson) {
@@ -72,7 +68,6 @@ class Video {
 		data["likes"] = this.likes;
 		data["views"] = this.views;
 		data["isDeleted"] = this.isDeleted;
-		data["userLikes"] = this.userLikes;
     return data;
   }
 }

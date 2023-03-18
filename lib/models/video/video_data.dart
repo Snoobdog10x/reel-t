@@ -21,8 +21,6 @@ class VideoData {
       "https://firebasestorage.googleapis.com/v0/b/reel-t.appspot.com/o/videos%2F02062023_video_Beauty_6.mp4?alt=media&token=57f64899-2b2a-4a1f-be24-3e6648a3d484",
     ];
     final _random = new Random();
-    List<Like> userLikes = [];
-    userLikes.add(Like());
     for (int i = 0; i < 60; i++) {
       videoData.add(
         Video(
@@ -35,7 +33,6 @@ class VideoData {
           comments: _random.nextInt(2000000),
           views: _random.nextInt(2000000),
           isDeleted: false,
-          userLikes: userLikes,
         ),
       );
     }
