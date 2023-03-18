@@ -15,6 +15,7 @@ class LoginProvider extends AbstractProvider with UserSignInEvent {
     if (e.isEmpty) {
       state.stopLoading();
       appStore.localUser.login(signedInUserProfile!);
+      state.popTopDisplay();
       return;
     }
     state.showAlertDialog(title: "Login fail", content: e, confirm: () {});

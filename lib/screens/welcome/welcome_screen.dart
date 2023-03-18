@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_state.dart';
 import 'package:reel_t/screens/feed/feed_screen.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -82,7 +83,7 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
   void onReady() {
     Future.delayed(Duration(seconds: 1), () {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => FeedScreen()),
+        MaterialPageRoute(builder: (context) => NavigationScreen()),
         (_) => false,
       );
     });

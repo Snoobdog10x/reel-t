@@ -15,7 +15,7 @@ Future<void> main() async {
   // FirstInit.addVideos();
   runApp(
     MaterialApp(
-      home: LoginScreen(),
+      home: WelcomeScreen(),
     ),
   );
 }

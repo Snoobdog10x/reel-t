@@ -15,7 +15,7 @@ class LocalUser {
   void login(UserProfile userProfile) {
     storage.setCache(
       LocalStorage.SIGNED_IN_USER_CACHE_KEY,
-      userProfile.toString(),
+      userProfile.toStringJson(),
     );
   }
 
