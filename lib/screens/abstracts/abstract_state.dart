@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -166,6 +164,7 @@ abstract class AbstractState<T extends StatefulWidget> extends State<T> {
     Function? cancel,
     bool isLockOutsideTap = false,
   }) {
+    stopLoading();
     List<CupertinoDialogAction> actions = [];
     if (confirm != null) {
       actions.add(

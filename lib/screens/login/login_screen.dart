@@ -122,7 +122,7 @@ class _LoginScreenState extends AbstractState<LoginScreen> {
           ThreeRowButton(
             onTap: () {
               startLoading();
-              // provider.signIn();
+              provider.login();
             },
             title: Text(
               "LOGIN",

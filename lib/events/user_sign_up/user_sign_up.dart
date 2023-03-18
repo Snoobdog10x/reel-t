@@ -14,17 +14,20 @@ abstract class UserSignUpEvent {
         email: userProfile.email ?? "",
         password: password,
       );
-      db.collection("UserProfiles").doc().set(userProfile.toJson());
+      db
+          .collection("UserProfiles")
+          .doc(credential.user!.uid.toString())
+          .set(userProfile.toJson());
       onUserSignUpEventDone("");
     } on FirebaseAuthException catch (e) {
-      var errorMessage = _getMessageFromErrorCode(e);
+      var errorMessage = getMessageFromErrorCode(e);
       onUserSignUpEventDone(errorMessage);
     }
   }
 
   void onUserSignUpEventDone(String errorMessage);
 
-  String _getMessageFromErrorCode(FirebaseAuthException error) {
+  static String getMessageFromErrorCode(FirebaseAuthException error) {
     switch (error.code) {
       case "ERROR_EMAIL_ALREADY_IN_USE":
       case "account-exists-with-different-credential":
@@ -32,7 +35,7 @@ abstract class UserSignUpEvent {
         return "Email already used. Go to login page.";
       case "ERROR_WRONG_PASSWORD":
       case "wrong-password":
-        return "Wrong email/password combination.";
+        return "Wrong email/password.";
       case "ERROR_USER_NOT_FOUND":
       case "user-not-found":
         return "No user found with this email.";
