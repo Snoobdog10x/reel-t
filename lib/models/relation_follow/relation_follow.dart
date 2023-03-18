@@ -10,17 +10,22 @@ class RelationFollow {
 	late int followType;
 
   RelationFollow({
-    this.id = "",
-		this.userId = "",
-		this.followerId = "",
-		this.followType = 0,
-  });
+    String? id,
+		String? userId,
+		String? followerId,
+		int? followType,
+  }){
+    this.id = id ?? "";
+		this.userId = userId ?? "";
+		this.followerId = followerId ?? "";
+		this.followType = followType ?? 0;
+  }
 
   RelationFollow.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"] ?? "";
-		userId = json["userId"] ?? "";
-		followerId = json["followerId"] ?? "";
-		followType = json["followType"] ?? 0;
+    id = json["id"];
+		userId = json["userId"];
+		followerId = json["followerId"];
+		followType = json["followType"];
   }
 
   RelationFollow.fromStringJson(String stringJson) {

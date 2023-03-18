@@ -16,29 +16,40 @@ class UserProfile {
 	late bool isDeleted;
 
   UserProfile({
-    this.id = "",
-		this.fullName = "",
-		this.email = "",
-		this.displayName = "",
-		this.avatar = "",
-		this.numFollower = 0,
-		this.numFollowing = 0,
-		this.isOnline = false,
-		this.isActive = false,
-		this.isDeleted = false,
-  });
+    String? id,
+		String? fullName,
+		String? email,
+		String? displayName,
+		String? avatar,
+		int? numFollower,
+		int? numFollowing,
+		bool? isOnline,
+		bool? isActive,
+		bool? isDeleted,
+  }){
+    this.id = id ?? "";
+		this.fullName = fullName ?? "";
+		this.email = email ?? "";
+		this.displayName = displayName ?? "";
+		this.avatar = avatar ?? "";
+		this.numFollower = numFollower ?? 0;
+		this.numFollowing = numFollowing ?? 0;
+		this.isOnline = isOnline ?? false;
+		this.isActive = isActive ?? false;
+		this.isDeleted = isDeleted ?? false;
+  }
 
   UserProfile.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"] ?? "";
-		fullName = json["fullName"] ?? "";
-		email = json["email"] ?? "";
-		displayName = json["displayName"] ?? "";
-		avatar = json["avatar"] ?? "";
-		numFollower = json["numFollower"] ?? 0;
-		numFollowing = json["numFollowing"] ?? 0;
-		isOnline = json["isOnline"] ?? false;
-		isActive = json["isActive"] ?? false;
-		isDeleted = json["isDeleted"] ?? false;
+    id = json["id"];
+		fullName = json["fullName"];
+		email = json["email"];
+		displayName = json["displayName"];
+		avatar = json["avatar"];
+		numFollower = json["numFollower"];
+		numFollowing = json["numFollowing"];
+		isOnline = json["isOnline"];
+		isActive = json["isActive"];
+		isDeleted = json["isDeleted"];
   }
 
   UserProfile.fromStringJson(String stringJson) {

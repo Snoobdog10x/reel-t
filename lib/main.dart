@@ -10,6 +10,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirstInit.appStore.init();
+  FirstInit.addVideos();
   runApp(
     MaterialApp(
       home: FeedScreen(),

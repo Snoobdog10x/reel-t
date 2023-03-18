@@ -7,11 +7,13 @@ class Comment {
   late String id;
 
   Comment({
-    this.id = "",
-  });
+    String? id,
+  }){
+    this.id = id ?? "";
+  }
 
   Comment.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"] ?? "";
+    id = json["id"];
   }
 
   Comment.fromStringJson(String stringJson) {

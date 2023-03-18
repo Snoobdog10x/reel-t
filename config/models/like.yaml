@@ -1,7 +1,6 @@
 arguments:
   - id: String
   - userId: String
-  - videoId: String
   - likeType: int
 enums:
   - like_type:

@@ -16,29 +16,40 @@ class Video {
 	late List<Like> userLikes;
 
   Video({
-    this.id = "",
-		this.videoUrl = "",
-		this.songName = "",
-		this.creatorId = "",
-		this.publicMode = 0,
-		this.comments = 0,
-		this.likes = 0,
-		this.views = 0,
-		this.isDeleted = false,
-		this.userLikes = const [],
-  });
+    String? id,
+		String? videoUrl,
+		String? songName,
+		String? creatorId,
+		int? publicMode,
+		int? comments,
+		int? likes,
+		int? views,
+		bool? isDeleted,
+		List<Like>? userLikes,
+  }){
+    this.id = id ?? "";
+		this.videoUrl = videoUrl ?? "";
+		this.songName = songName ?? "";
+		this.creatorId = creatorId ?? "";
+		this.publicMode = publicMode ?? 0;
+		this.comments = comments ?? 0;
+		this.likes = likes ?? 0;
+		this.views = views ?? 0;
+		this.isDeleted = isDeleted ?? false;
+		this.userLikes = userLikes ?? [];
+  }
 
   Video.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"] ?? "";
-		videoUrl = json["videoUrl"] ?? "";
-		songName = json["songName"] ?? "";
-		creatorId = json["creatorId"] ?? "";
-		publicMode = json["publicMode"] ?? 0;
-		comments = json["comments"] ?? 0;
-		likes = json["likes"] ?? 0;
-		views = json["views"] ?? 0;
-		isDeleted = json["isDeleted"] ?? false;
-		userLikes = json["userLikes"] ?? const [];
+    id = json["id"];
+		videoUrl = json["videoUrl"];
+		songName = json["songName"];
+		creatorId = json["creatorId"];
+		publicMode = json["publicMode"];
+		comments = json["comments"];
+		likes = json["likes"];
+		views = json["views"];
+		isDeleted = json["isDeleted"];
+		userLikes = json["userLikes"];
   }
 
   Video.fromStringJson(String stringJson) {

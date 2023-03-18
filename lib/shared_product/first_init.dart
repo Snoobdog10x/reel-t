@@ -5,7 +5,7 @@ import 'package:reel_t/shared_product/services/app_store.dart';
 class FirstInit {
   static final AppStore appStore = AppStore();
 
-  void addVideos() {
+  static void addVideos() {
     final db = FirebaseFirestore.instance;
     VideoData videoData = VideoData();
     videoData.getVideoData().forEach((video) async {
