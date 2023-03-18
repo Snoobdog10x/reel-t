@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
@@ -7,7 +6,7 @@ import 'package:reel_t/screens/profile/profile_provider.dart';
 import 'package:reel_t/shared_product/widgets/default_appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen ({super.key});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -50,15 +49,13 @@ class _ProfileScreenState extends AbstractState<ProfileScreen> {
 
   Widget buildBody() {
     return Column(
-        children: [],
+      children: [],
     );
   }
 
   @override
-  void onDispose() {
-    
-  }
-  
+  void onDispose() {}
+
   @override
   void onReady() {
     // TODO: implement onReady

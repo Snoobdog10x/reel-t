@@ -3,13 +3,13 @@ import 'dart:convert';
 
 enum FollowType { UNFOLLOW,FOLLOW }
 
-class RelationFollow {
+class Follow {
   late String id;
 	late String userId;
 	late String followerId;
 	late int followType;
 
-  RelationFollow({
+  Follow({
     String? id,
 		String? userId,
 		String? followerId,
@@ -21,16 +21,16 @@ class RelationFollow {
 		this.followType = followType ?? 0;
   }
 
-  RelationFollow.fromJson(Map<dynamic, dynamic> json) {
+  Follow.fromJson(Map<dynamic, dynamic> json) {
     id = json["id"];
 		userId = json["userId"];
 		followerId = json["followerId"];
 		followType = json["followType"];
   }
 
-  RelationFollow.fromStringJson(String stringJson) {
+  Follow.fromStringJson(String stringJson) {
     Map valueMap = json.decode(stringJson);
-    RelationFollow.fromJson(valueMap);
+    Follow.fromJson(valueMap);
   }
 
   String toStringJson() {

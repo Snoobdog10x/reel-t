@@ -4,7 +4,8 @@ import 'package:reel_t/models/video/video.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 import 'package:reel_t/screens/abstracts/abstract_state.dart';
 import 'package:reel_t/screens/feed/feed_provider.dart';
-import 'package:reel_t/shared_product/widgets/default_appbar.dart';
+import 'package:reel_t/screens/list_video/list_video_screen.dart';
+import '../list_video/list_video_controller.dart';
 
 class FeedScreen extends StatefulWidget {
   final List<Video>? videos;
@@ -14,8 +15,12 @@ class FeedScreen extends StatefulWidget {
   State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _FeedScreenState extends AbstractState<FeedScreen> {
+class _FeedScreenState extends AbstractState<FeedScreen>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late FeedProvider provider;
+  late TabController tabController;
+  late ListVideoController foryouController = ListVideoController();
+  late ListVideoController followingController = ListVideoController();
   @override
   AbstractProvider initProvider() {
     return provider;
@@ -30,6 +35,7 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
   void onCreate() {
     provider = FeedProvider();
     provider.videos = widget.videos ?? [];
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -41,8 +47,8 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
-              body: body,
+              body: body, isSafe: false,
+              // background: Colors.black,
             );
           },
         );
@@ -50,19 +56,72 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
     );
   }
 
-  Widget buildBody() {
+  Widget buildAppBar() {
     return Container(
-      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: paddingTop()),
+      height: 50,
+      width: screenWidth(),
+      decoration: BoxDecoration(),
       child: Column(
         children: [
-          TextButton(
-            onPressed: () {
-              startLoading();
-            },
-            child: Text("loading"),
+          Expanded(flex: 2, child: Container()),
+          Expanded(
+            flex: 6,
+            child: TabBar(
+              controller: tabController,
+              isScrollable: true, // here
+              indicator: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(13),
+              ),
+              labelColor: Colors.white,
+              labelStyle: TextStyle(
+                fontFamily: "SF Pro Text",
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+              unselectedLabelColor: Colors.white,
+              unselectedLabelStyle: TextStyle(
+                fontFamily: "SF Pro Text",
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+              tabs: <Widget>[
+                Tab(
+                  child: Text(
+                    "For you",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Following",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
           ),
+          Expanded(flex: 2, child: Container()),
         ],
       ),
+    );
+  }
+
+  Widget buildBody() {
+    return Stack(
+      children: [
+        TabBarView(
+          controller: tabController,
+          children: [
+            ListVideoScreen(controller: foryouController),
+            ListVideoScreen(controller: followingController),
+          ],
+        ),
+        buildAppBar(),
+      ],
     );
   }
 
@@ -73,4 +132,8 @@ class _FeedScreenState extends AbstractState<FeedScreen> {
   void onReady() {
     // TODO: implement onReady
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

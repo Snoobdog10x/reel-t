@@ -21,6 +21,7 @@ enum NavigationPage { FEED, SEARCH, NOTIFICATION, PROFILE }
 
 class _NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationProvider provider;
+  PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;
   Map<int, Widget> pages = {
     NavigationPage.FEED.index: FeedScreen(),
@@ -50,7 +51,7 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
       builder: (context, child) {
         return Consumer<NavigationProvider>(
           builder: (context, value, child) {
-            var body = pages[currentScreen];
+            var body = buildBody();
             return buildScreen(
               body: body,
               background: Colors.black,
@@ -74,8 +75,9 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
               "Feed",
               TikTokIcons.home,
               currentScreen == NavigationPage.FEED.index,
-              onTap: () {
+              onTap: () async {
                 currentScreen = NavigationPage.FEED.index;
+                _pageController.jumpToPage(NavigationPage.FEED.index);
                 notifyDataChanged();
               },
             ),
@@ -87,6 +89,8 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
               currentScreen == NavigationPage.SEARCH.index,
               onTap: () {
                 currentScreen = NavigationPage.SEARCH.index;
+                _pageController.jumpToPage(NavigationPage.SEARCH.index);
+
                 notifyDataChanged();
               },
             ),
@@ -99,6 +103,8 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
               currentScreen == NavigationPage.NOTIFICATION.index,
               onTap: () {
                 currentScreen = NavigationPage.NOTIFICATION.index;
+                _pageController.jumpToPage(NavigationPage.NOTIFICATION.index);
+
                 notifyDataChanged();
               },
             ),
@@ -110,6 +116,7 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
               currentScreen == NavigationPage.PROFILE.index,
               onTap: () {
                 currentScreen = NavigationPage.PROFILE.index;
+                _pageController.jumpToPage(NavigationPage.PROFILE.index);
                 notifyDataChanged();
               },
             ),
@@ -178,11 +185,10 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   Widget buildBody() {
-    return Column(
-      children: [
-        Expanded(child: Container()),
-        Expanded(child: Container()),
-      ],
+    return PageView(
+      controller: _pageController,
+      physics: NeverScrollableScrollPhysics(),
+      children: pages.values.toList(),
     );
   }
 
