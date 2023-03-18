@@ -1,8 +1,8 @@
-import 'package:reel_t/events/user_sign_in/user_sign_in.dart';
+import 'package:reel_t/events/user_sign_up/user_sign_up.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/abstracts/abstract_provider.dart';
 
-class SignupProvider extends AbstractProvider with UserSignInEvent {
+class SignupProvider extends AbstractProvider with UserSignUpEvent {
   String name = "";
   String email = "";
   String password = "";
@@ -14,17 +14,20 @@ class SignupProvider extends AbstractProvider with UserSignInEvent {
       numFollower: 0,
       numFollowing: 0,
     );
-    this.sendUserSignInEventEvent(userProfile, password);
+    var hashedPassword = state.appStore.security.hashPassword(password);
+    this.sendUserSignUpEventEvent(userProfile, hashedPassword);
   }
 
   @override
-  void onUserSignInEventDone(String errorMessage) {
+  void onUserSignUpEventDone(String errorMessage) {
     state.stopLoading();
     if (errorMessage.isEmpty) {
       state.showAlertDialog(
         title: "Sign-up",
         content: "Success",
-        confirm: () {},
+        confirm: () {
+          state.popTopDisplay();
+        },
       );
       state.appStore.localUser.login(userProfile);
       return;

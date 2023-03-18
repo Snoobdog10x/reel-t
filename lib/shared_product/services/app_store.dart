@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:reel_t/shared_product/services/cloud_storage.dart';
 import 'package:reel_t/shared_product/services/local_storage.dart';
 import 'package:reel_t/shared_product/services/local_user.dart';
+import 'package:reel_t/shared_product/services/security.dart';
 
 class AppStore {
   Function? _notifyDataChanged;
@@ -11,6 +12,7 @@ class AppStore {
   CloudStorage cloudStorage = CloudStorage();
   ConnectivityResult _connectionStatus = ConnectivityResult.wifi;
   final Connectivity _connectivity = Connectivity();
+  Security security = Security();
   void setNotify(Function notifyDataChanged) {
     _notifyDataChanged = notifyDataChanged;
   }

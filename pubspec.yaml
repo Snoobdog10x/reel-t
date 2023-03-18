@@ -24,8 +24,8 @@ dependencies:
   firebase_auth: 4.2.9
   connectivity_plus: 3.0.3
   firebase_storage: 11.0.14
-  firebase_database: ^10.0.14
-
+  firebase_database: 10.0.14
+  crypto: 3.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
