@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_state.dart';
-import 'package:reel_t/screens/signup/signup_provider.dart';
-import 'package:reel_t/shared_product/widgets/button/three_row_button.dart';
-import 'package:reel_t/shared_product/widgets/text_field/custom_text_field.dart';
-import 'package:reel_t/shared_product/widgets/default_appbar.dart';
+import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_state.dart';
+import '../signup/signup_provider.dart';
+import '../../shared_product/widgets/button/three_row_button.dart';
+import '../../shared_product/widgets/text_field/custom_text_field.dart';
+import '../../shared_product/widgets/default_appbar.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

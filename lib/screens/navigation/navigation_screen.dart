@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_state.dart';
-import 'package:reel_t/screens/feed/feed_screen.dart';
-import 'package:reel_t/screens/navigation/navigation_provider.dart';
-import 'package:reel_t/screens/notification/notification_screen.dart';
-import 'package:reel_t/screens/profile/profile_screen.dart';
-import 'package:reel_t/screens/search/search_screen.dart';
+import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_state.dart';
+import '../feed/feed_screen.dart';
+import '../navigation/navigation_provider.dart';
+import '../notification/notification_screen.dart';
+import '../profile/profile_screen.dart';
+import '../search/search_screen.dart';
 
 import '../../shared_product/assets/icon/tik_tok_icons_icons.dart';
 

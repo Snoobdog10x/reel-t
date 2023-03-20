@@ -1,6 +1,3 @@
+import '../../generated/abstract_provider.dart';
 
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-
-class WelcomeProvider extends AbstractProvider {
-
-}
+class WelcomeProvider extends AbstractProvider {}

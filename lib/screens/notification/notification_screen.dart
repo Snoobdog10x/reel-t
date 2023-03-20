@@ -1,13 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_state.dart';
-import 'package:reel_t/screens/notification/notification_provider.dart';
-import 'package:reel_t/shared_product/widgets/default_appbar.dart';
+import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_state.dart';
+import '../notification/notification_provider.dart';
+import '../../shared_product/widgets/default_appbar.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen ({super.key});
+  const NotificationScreen({super.key});
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -50,15 +49,13 @@ class _NotificationScreenState extends AbstractState<NotificationScreen> {
 
   Widget buildBody() {
     return Column(
-        children: [],
+      children: [],
     );
   }
 
   @override
-  void onDispose() {
-    
-  }
-  
+  void onDispose() {}
+
   @override
   void onReady() {
     // TODO: implement onReady

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_state.dart';
-import 'package:reel_t/screens/feed/feed_screen.dart';
-import 'package:reel_t/screens/navigation/navigation_screen.dart';
-import 'package:reel_t/screens/welcome/welcome_provider.dart';
+import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_state.dart';
+import '../navigation/navigation_screen.dart';
+import '../welcome/welcome_provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

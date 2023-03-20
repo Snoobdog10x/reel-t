@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reel_t/models/video/video.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerItem extends StatefulWidget {

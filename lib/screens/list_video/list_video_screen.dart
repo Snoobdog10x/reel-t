@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/models/follow/follow.dart';
-import 'package:reel_t/models/like/like.dart';
-import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/models/video/video.dart';
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_state.dart';
+import '../../models/follow/follow.dart';
+import '../../models/like/like.dart';
+import '../../models/user_profile/user_profile.dart';
+import '../../models/video/video.dart';
+import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_state.dart';
 import 'package:reel_t/screens/list_video/list_video_provider.dart';
 
 import '../../shared_product/widgets/video_player_item.dart';
@@ -79,4 +79,3 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
-

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:reel_t/models/video/video.dart';
+import '../../models/video/video.dart';
 
 import '../like/like.dart';
 

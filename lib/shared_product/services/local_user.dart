@@ -1,4 +1,4 @@
-import 'package:reel_t/models/user_profile/user_profile.dart';
+import '../../models/user_profile/user_profile.dart';
 import 'package:reel_t/shared_product/services/local_storage.dart';
 
 class LocalUser {

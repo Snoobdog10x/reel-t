@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_state.dart';
-import 'package:reel_t/screens/profile/profile_provider.dart';
-import 'package:reel_t/shared_product/widgets/default_appbar.dart';
+import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_state.dart';
+import 'profile_provider.dart';
+import '../../shared_product/widgets/default_appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

@@ -1,13 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_provider.dart';
-import 'package:reel_t/screens/abstracts/abstract_state.dart';
+import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_state.dart';
 import 'package:reel_t/screens/search/search_provider.dart';
 import 'package:reel_t/shared_product/widgets/default_appbar.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen ({super.key});
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -50,15 +49,13 @@ class _SearchScreenState extends AbstractState<SearchScreen> {
 
   Widget buildBody() {
     return Column(
-        children: [],
+      children: [],
     );
   }
 
   @override
-  void onDispose() {
-    
-  }
-  
+  void onDispose() {}
+
   @override
   void onReady() {
     // TODO: implement onReady
