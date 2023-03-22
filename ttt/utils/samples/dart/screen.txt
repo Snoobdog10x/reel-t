@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '$PARENT_PATH$generated/abstract_provider.dart';
+import '$PARENT_PATH$generated/abstract_state.dart';
+import '$FILE_NAME$_provider.dart';
+import '$PARENT_PATH$shared_product/widgets/default_appbar.dart';
+
+class $NAMING$Screen extends StatefulWidget {
+  const $NAMING$Screen ({super.key});
+
+  @override
+  State<$NAMING$Screen> createState() => _$NAMING$ScreenState();
+}
+
+class _$NAMING$ScreenState extends AbstractState<$NAMING$Screen> {
+  late $NAMING$Provider provider;
+  @override
+  AbstractProvider initProvider() {
+    return provider;
+  }
+
+  @override
+  BuildContext initContext() {
+    return context;
+  }
+
+  @override
+  void onCreate() {
+    provider = $NAMING$Provider();
+  }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => provider,
+      builder: (context, child) {
+        return Consumer<$NAMING$Provider>(
+          builder: (context, value, child) {
+            var body = buildBody();
+            return buildScreen(
+              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
+              body: body,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget buildBody() {
+    return Column(
+        children: [],
+    );
+  }
+
+  @override
+  void onDispose() {
+
+  }
+}

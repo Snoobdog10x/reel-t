@@ -1,14 +1,11 @@
-
 import 'dart:convert';
-
-
 
 class Comment {
   late String id;
 
   Comment({
     String? id,
-  }){
+  }) {
     this.id = id ?? "";
   }
 
@@ -20,7 +17,7 @@ class Comment {
     Map valueMap = json.decode(stringJson);
     Comment.fromJson(valueMap);
   }
-
+  
   String toStringJson() {
     return json.encode(this.toJson());
   }

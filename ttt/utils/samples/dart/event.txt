@@ -1,0 +1,12 @@
+abstract class $NAMING$Event {
+  void send$NAMING$EventEvent() {
+    try {
+      on$NAMING$EventDone(null);
+    } catch (e) {
+      on$NAMING$EventDone(e);
+    }
+  }
+
+  void on$NAMING$EventDone(dynamic e);
+}
+
