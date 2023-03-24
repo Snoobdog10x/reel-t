@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/screens/messenger/detail_chat_screen/detail_chat_screen_screen.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import 'home_chat_provider.dart';
@@ -70,8 +72,21 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
             itemBuilder: ((context, index) {
               var conv = provider.conversations[index.toString()];
               UserProfile user = conv![provider.USER_KEY] as UserProfile;
+              Conversation conversation =
+                  conv[provider.CONVERSATION_KEY] as Conversation;
               return buildConversation(
-                  avataUrl: user.avatar, userName: user.fullName);
+                  avataUrl: user.avatar,
+                  userName: user.fullName,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DetailChatScreenScreen(
+                          userProfile: user,
+                          conversation: conversation,
+                        ),
+                      ),
+                    );
+                  });
             }),
           ),
         )
@@ -83,51 +98,53 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
     String? avataUrl,
     String? userName,
     String? lastedMessage,
+    required Function onTap,
   }) {
-    return Container(
-      height: 70,
-      child: Row(
-        children: <Widget>[
-          avataUrl != null
-              ? Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey,
-                  ),
-                  child: CircleAvatar(
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        height: 70,
+        child: Row(
+          children: <Widget>[
+            avataUrl != null
+                ? CircleAvatar(
                     backgroundImage: NetworkImage(
                       avataUrl,
                     ),
-                    radius: 40,
-                  ),
-                )
-              : Container(),
-          SizedBox(width: 16),
-          Expanded(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    userName ?? "",
-                    style: TextStyle(
-                      color: Colors.black,
+                    radius: 32,
+                  )
+                : Container(),
+            SizedBox(width: 16),
+            Expanded(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userName ?? "",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  Text(
-                    lastedMessage ?? "",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
+                    Text(
+                      lastedMessage ?? "You have a new message",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
