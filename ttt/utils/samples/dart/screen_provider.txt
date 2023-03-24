@@ -3,5 +3,5 @@ import '$PARENT_PATH$generated/abstract_provider.dart';
 class $NAMING$Provider extends AbstractProvider {
   void init(){
 
-  {
+  }
 }
