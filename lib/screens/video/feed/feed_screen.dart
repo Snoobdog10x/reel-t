@@ -5,7 +5,6 @@ import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import 'feed_provider.dart';
 import '../list_video/list_video_screen.dart';
-import '../list_video/list_video_controller.dart';
 
 class FeedScreen extends StatefulWidget {
   final List<Video>? videos;
@@ -19,8 +18,6 @@ class _FeedScreenState extends AbstractState<FeedScreen>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late FeedProvider provider;
   late TabController tabController;
-  late ListVideoController foryouController = ListVideoController();
-  late ListVideoController followingController = ListVideoController();
   @override
   AbstractProvider initProvider() {
     return provider;
@@ -34,8 +31,10 @@ class _FeedScreenState extends AbstractState<FeedScreen>
   @override
   void onCreate() {
     provider = FeedProvider();
-    provider.videos = widget.videos ?? [];
     tabController = TabController(length: 2, vsync: this);
+    if (appStore.isConnected()) {
+      provider.sendRetrieveVideosEvent();
+    }
   }
 
   @override
@@ -117,8 +116,8 @@ class _FeedScreenState extends AbstractState<FeedScreen>
         TabBarView(
           controller: tabController,
           children: [
-            ListVideoScreen(controller: foryouController),
-            ListVideoScreen(controller: followingController),
+            ListVideoScreen(videos: provider.forYou),
+            ListVideoScreen(videos: provider.following),
           ],
         ),
         buildAppBar(),

@@ -10,11 +10,13 @@ import '../../../generated/abstract_state.dart';
 import 'list_video_provider.dart';
 
 import '../../../shared_product/widgets/video_player_item.dart';
-import 'list_video_controller.dart';
 
 class ListVideoScreen extends StatefulWidget {
-  final ListVideoController controller;
-  const ListVideoScreen({super.key, required this.controller});
+  final List<Video> videos;
+  const ListVideoScreen({
+    super.key,
+    required this.videos,
+  });
 
   @override
   State<ListVideoScreen> createState() => _ListVideoScreenState();
@@ -23,7 +25,6 @@ class ListVideoScreen extends StatefulWidget {
 class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoProvider provider;
-  late ListVideoController controller = widget.controller;
 
   @override
   AbstractProvider initProvider() {
@@ -60,12 +61,12 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   Widget buildBody() {
     return PreloadPageView.builder(
-      itemCount: 1,
+      preloadPagesCount: 4,
+      itemCount: widget.videos.length,
       itemBuilder: (context, index) {
+        var video = widget.videos[index];
         return VideoPlayerItem(
-          video: Video(
-              videoUrl:
-                  "https://firebasestorage.googleapis.com/v0/b/reel-t.appspot.com/o/videos%2F02062023_video_Beauty_1.mp4?alt=media&token=881730bb-a631-4d37-ae55-dc519fcd7f27"),
+          video: video,
         );
       },
     );

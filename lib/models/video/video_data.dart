@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../models/video/video.dart';
 
 import '../like/like.dart';
@@ -37,5 +39,16 @@ class VideoData {
       );
     }
     return videoData;
+  }
+
+  void initSampleData() {
+    var videos = getVideoData();
+    for (var video in videos) {
+      final db = FirebaseFirestore.instance;
+      db
+          .collection("Videos")
+          .doc(videos.indexOf(video).toString())
+          .set(video.toJson());
+    }
   }
 }

@@ -1,5 +1,5 @@
 abstract class $NAMING$Event {
-  void send$NAMING$EventEvent() {
+  void send$NAMING$Event() {
     try {
       on$NAMING$EventDone(null);
     } catch (e) {
