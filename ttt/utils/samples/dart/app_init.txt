@@ -1,5 +1,5 @@
 import 'app_store.dart';
 
 class AppInit {
-  static late AppStore appStore;
+  static late AppStore appStore = AppStore();
 }
