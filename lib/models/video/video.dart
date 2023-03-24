@@ -39,7 +39,7 @@ class Video {
     this.viewsNum = viewsNum ?? 0;
     this.isDeleted = isDeleted ?? false;
   }
-  void initController(Function notifyDataChanged) async {
+  void initController(bool isPlay, Function notifyDataChanged) async {
     if (_controller != null && _controller!.value.isInitialized) {
       return;
     }
@@ -50,7 +50,9 @@ class Video {
     });
     _controller!.setLooping(true);
     await _controller!.initialize();
-    _controller!.play();
+    if (isPlay) {
+      _controller!.play();
+    }
   }
 
   void disposeController() {
@@ -65,11 +67,19 @@ class Video {
     return false;
   }
 
-  void playVideo() {
+  void changeVideoState() {
+    if (_controller!.value.isPlaying) {
+      _stopVideo();
+      return;
+    }
+    _playVideo();
+  }
+
+  void _playVideo() {
     _controller?.play();
   }
 
-  void stopVideo() {
+  void _stopVideo() {
     _controller?.pause();
   }
 

@@ -8,6 +8,7 @@ import '../like/like.dart';
 
 class VideoData {
   List<Video> getVideoData() {
+    String downloadUrl = "https://drive.google.com/uc?export=download&id=";
     List<Video> videoData = [];
     List<String> videoUrls = [
       "https://firebasestorage.googleapis.com/v0/b/reel-t.appspot.com/o/videos%2F02062023_video_Beauty_1.mp4?alt=media&token=881730bb-a631-4d37-ae55-dc519fcd7f27",

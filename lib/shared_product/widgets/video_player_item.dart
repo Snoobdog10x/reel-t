@@ -5,9 +5,11 @@ import '../../models/video/video.dart';
 
 class VideoPlayerItem extends StatefulWidget {
   final Video video;
+  final bool isPlay;
   const VideoPlayerItem({
     super.key,
     required this.video,
+    this.isPlay = false,
   });
 
   @override
@@ -18,7 +20,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   @override
   void initState() {
     super.initState();
-    widget.video.initController(notifyDataChanged);
+    widget.video.initController(widget.isPlay, notifyDataChanged);
   }
 
   @override
@@ -37,12 +39,17 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
 
   Widget buildReadyVideo() {
     var _controller = widget.video.getVideoController()!;
-    return FittedBox(
-      fit: BoxFit.cover,
-      child: SizedBox(
-        width: _controller.value.aspectRatio,
-        height: 1,
-        child: VideoPlayer(_controller),
+    return GestureDetector(
+      onTap: () {
+        widget.video.changeVideoState();
+      },
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: SizedBox(
+          width: _controller.value.aspectRatio,
+          height: 1,
+          child: VideoPlayer(_controller),
+        ),
       ),
     );
   }

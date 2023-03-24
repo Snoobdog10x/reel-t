@@ -11,7 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  AppInit.appStore.init();
+  await AppInit.appStore.init();
   // VideoData().initSampleData();
   runApp(
     MaterialApp(
