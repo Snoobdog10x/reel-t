@@ -73,7 +73,7 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
           Expanded(
             child: buildBottomBarItem(
               "Feed",
-              TikTokIcons.home,
+              Icons.chat,
               currentScreen == NavigationPage.FEED.index,
               onTap: () async {
                 currentScreen = NavigationPage.FEED.index;

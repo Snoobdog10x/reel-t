@@ -49,7 +49,19 @@ class _SearchScreenState extends AbstractState<SearchScreen> {
 
   Widget buildBody() {
     return Column(
-      children: [],
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return Container(
+                height: screenHeight(),
+                width: screenWidth(),
+                color: Colors.black,
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 
