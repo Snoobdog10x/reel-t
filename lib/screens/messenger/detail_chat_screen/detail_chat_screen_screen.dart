@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
-import 'main_provider.dart';
+import 'detail_chat_screen_provider.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen ({super.key});
+class DetailChatScreenScreen extends StatefulWidget {
+  const DetailChatScreenScreen ({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<DetailChatScreenScreen> createState() => _DetailChatScreenScreenState();
 }
 
-class _MainScreenState extends AbstractState<MainScreen> {
-  late MainProvider provider;
+class _DetailChatScreenScreenState extends AbstractState<DetailChatScreenScreen> {
+  late DetailChatScreenProvider provider;
   @override
   AbstractProvider initProvider() {
     return provider;
@@ -26,7 +26,7 @@ class _MainScreenState extends AbstractState<MainScreen> {
 
   @override
   void onCreate() {
-    provider = MainProvider();
+    provider = DetailChatScreenProvider();
   }
 
   @override
@@ -39,7 +39,7 @@ class _MainScreenState extends AbstractState<MainScreen> {
     return ChangeNotifierProvider(
       create: (context) => provider,
       builder: (context, child) {
-        return Consumer<MainProvider>(
+        return Consumer<DetailChatScreenProvider>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(

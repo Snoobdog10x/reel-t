@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../generated/abstract_provider.dart';
 import '../../generated/abstract_state.dart';
+import '../messenger/home_chat/home_chat_screen.dart';
 import '../video/feed/feed_screen.dart';
 import '../navigation/navigation_provider.dart';
 import '../notification/notification_screen.dart';
@@ -17,7 +18,7 @@ class NavigationScreen extends StatefulWidget {
   State<NavigationScreen> createState() => _NavigationScreenState();
 }
 
-enum NavigationPage { FEED, SEARCH, NOTIFICATION, PROFILE }
+enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
 class _NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationProvider provider;
@@ -25,7 +26,7 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
   int currentScreen = NavigationPage.FEED.index;
   Map<int, Widget> pages = {
     NavigationPage.FEED.index: FeedScreen(),
-    NavigationPage.SEARCH.index: SearchScreen(),
+    NavigationPage.CHAT.index: HomeChatScreen(),
     NavigationPage.NOTIFICATION.index: NotificationScreen(),
     NavigationPage.PROFILE.index: ProfileScreen(),
   };
@@ -84,12 +85,12 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
           ),
           Expanded(
             child: buildBottomBarItem(
-              "Search",
-              TikTokIcons.search,
-              currentScreen == NavigationPage.SEARCH.index,
+              "Chat",
+              TikTokIcons.messages,
+              currentScreen == NavigationPage.CHAT.index,
               onTap: () {
-                currentScreen = NavigationPage.SEARCH.index;
-                _pageController.jumpToPage(NavigationPage.SEARCH.index);
+                currentScreen = NavigationPage.CHAT.index;
+                _pageController.jumpToPage(NavigationPage.CHAT.index);
 
                 notifyDataChanged();
               },

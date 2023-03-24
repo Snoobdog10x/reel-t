@@ -1,6 +1,6 @@
 import '../../../generated/abstract_provider.dart';
 
-class MainProvider extends AbstractProvider {
+class DetailChatScreenProvider extends AbstractProvider {
   void init(){
 
   }
