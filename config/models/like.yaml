@@ -3,6 +3,7 @@ arguments:
   - userId: String
   - videoId: String
   - likeType: int
+  - isDeleted: bool
 enums:
   - like_type:
     - unlike

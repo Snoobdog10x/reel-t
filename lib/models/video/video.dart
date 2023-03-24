@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:reel_t/models/like/like.dart';
+import '../../generated/abstract_model.dart';
+import '../../models/like/like.dart';
 import 'package:video_player/video_player.dart';
 
 enum PublicMode { PUBLIC, PRIVATE }
 
-class Video {
+class Video extends AbstractModel{
   late String id;
   late String videoUrl;
   late String songName;
@@ -15,6 +16,7 @@ class Video {
   late int likesNum;
   late int viewsNum;
   late bool isDeleted;
+  static String PATH = "Videos";
   List<Like> likes = [];
   Function? _notifyDataChanged;
   VideoPlayerController? _controller;

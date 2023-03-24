@@ -1,12 +1,14 @@
 import 'dart:convert';
+import '../../generated/abstract_model.dart';
 
 
 
-class Message {
+class Message extends AbstractModel{
   late String id;
 	late String userId;
 	late String content;
 	late bool isDeleted;
+	static String PATH = "Messages";
 
   Message({
     String? id,
@@ -34,6 +36,10 @@ class Message {
 
   String toStringJson() {
     return json.encode(this.toJson());
+  }
+
+  String toString() {
+    return toStringJson();
   }
 
   Map<String, dynamic> toJson() {

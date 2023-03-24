@@ -3,6 +3,7 @@ arguments:
   - userId: String
   - followerId: String
   - followType: int
+  - isDeleted: bool
 enums:
   - follow_type:
     - unfollow

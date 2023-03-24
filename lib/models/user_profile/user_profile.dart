@@ -1,9 +1,9 @@
-
 import 'dart:convert';
+import '../../generated/abstract_model.dart';
 
 
 
-class UserProfile {
+class UserProfile extends AbstractModel{
   late String id;
 	late String fullName;
 	late String email;
@@ -14,6 +14,8 @@ class UserProfile {
 	late bool isOnline;
 	late bool isActive;
 	late bool isDeleted;
+	static String PATH = "UserProfiles";
+
   UserProfile({
     String? id,
 		String? fullName,
@@ -58,6 +60,10 @@ class UserProfile {
 
   String toStringJson() {
     return json.encode(this.toJson());
+  }
+
+  String toString() {
+    return toStringJson();
   }
 
   Map<String, dynamic> toJson() {

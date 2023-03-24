@@ -1,7 +1,0 @@
-abstract class AbstractModel {
-  String toStringJson();
-  Map<String, dynamic> toJson();
-  List<Map<String, dynamic>> modelsToJsonList(List<AbstractModel> models) {
-    return [for (var model in models) model.toJson()];
-  }
-}

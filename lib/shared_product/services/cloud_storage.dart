@@ -13,6 +13,13 @@ class CloudStorage {
     return await fileRef.getDownloadURL();
   }
 
+  Future<List<String>> getDownloadURLs() async {
+    final storageRef =
+        FirebaseStorage.instance.ref(_getRefPathFromFileType(File_Type.VIDEO));
+    var listResult = await storageRef.listAll();
+    return [for (var item in listResult.items) await item.getDownloadURL()];
+  }
+
   String _getRefPathFromFileType(File_Type file_type) {
     var fileTypeName = file_type.name.toLowerCase();
     return "${fileTypeName}s";

@@ -7,7 +7,7 @@ class FeedProvider extends AbstractProvider with RetrieveVideosEvent {
   List<Video> forYou = [];
   List<Video> following = [];
   int page = 0;
-  int limit = 10;
+  int limit = 5;
   void sendRetrieveVideos() {
     this.sendRetrieveVideosEvent(page, limit);
   }
@@ -17,7 +17,6 @@ class FeedProvider extends AbstractProvider with RetrieveVideosEvent {
     if (e == null) {
       page++;
       forYou.addAll(loadedVideo);
-      print("loaded");
       notifyDataChanged();
       return;
     }
