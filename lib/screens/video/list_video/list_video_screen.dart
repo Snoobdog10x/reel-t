@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
-import '../../models/follow/follow.dart';
-import '../../models/like/like.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../models/video/video.dart';
-import '../../generated/abstract_provider.dart';
-import '../../generated/abstract_state.dart';
-import 'package:reel_t/screens/list_video/list_video_provider.dart';
+import '../../../models/follow/follow.dart';
+import '../../../models/like/like.dart';
+import '../../../models/user_profile/user_profile.dart';
+import '../../../models/video/video.dart';
+import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_state.dart';
+import 'list_video_provider.dart';
 
-import '../../shared_product/widgets/video_player_item.dart';
+import '../../../shared_product/widgets/video_player_item.dart';
 import 'list_video_controller.dart';
 
 class ListVideoScreen extends StatefulWidget {

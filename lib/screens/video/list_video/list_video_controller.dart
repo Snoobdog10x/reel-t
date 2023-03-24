@@ -1,7 +1,7 @@
-import '../../models/follow/follow.dart';
-import '../../models/like/like.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../models/video/video.dart';
+import '../../../models/follow/follow.dart';
+import '../../../models/like/like.dart';
+import '../../../models/user_profile/user_profile.dart';
+import '../../../models/video/video.dart';
 
 class ListVideoController {
   final List<Video> _videos = [];

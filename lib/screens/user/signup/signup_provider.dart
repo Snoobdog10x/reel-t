@@ -1,6 +1,6 @@
 import 'package:reel_t/events/user_sign_up/user_sign_up.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../generated/abstract_provider.dart';
+import '../../../models/user_profile/user_profile.dart';
+import '../../../generated/abstract_provider.dart';
 
 class SignupProvider extends AbstractProvider with UserSignUpEvent {
   String name = "";

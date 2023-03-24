@@ -1,6 +1,6 @@
 import 'package:reel_t/events/user_sign_in/user_sign_in.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../generated/abstract_provider.dart';
+import '../../../models/user_profile/user_profile.dart';
+import '../../../generated/abstract_provider.dart';
 
 class LoginProvider extends AbstractProvider with UserSignInEvent {
   String email = "";

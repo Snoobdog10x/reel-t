@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/video/video.dart';
-import '../../generated/abstract_provider.dart';
-import '../../generated/abstract_state.dart';
+import '../../../models/video/video.dart';
+import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_state.dart';
 import 'feed_provider.dart';
 import '../list_video/list_video_screen.dart';
 import '../list_video/list_video_controller.dart';
