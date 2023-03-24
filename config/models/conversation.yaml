@@ -1,0 +1,6 @@
+arguments:
+  - id: String
+  - firstUserId: String
+  - secondUserId: String
+  - isMute: bool
+  - isDeleted: bool

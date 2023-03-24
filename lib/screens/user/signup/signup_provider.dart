@@ -29,7 +29,7 @@ class SignupProvider extends AbstractProvider with UserSignUpEvent {
           state.popTopDisplay();
         },
       );
-      state.appStore.localUser.login(userProfile);
+      appStore.localUser.login(userProfile);
       return;
     }
     state.showAlertDialog(

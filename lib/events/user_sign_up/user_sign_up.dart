@@ -14,7 +14,7 @@ abstract class UserSignUpEvent {
         email: userProfile.email ?? "",
         password: password,
       );
-      db
+      await db
           .collection("UserProfiles")
           .doc(credential.user!.uid.toString())
           .set(userProfile.toJson());
