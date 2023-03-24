@@ -55,6 +55,7 @@ class Video {
 
   void disposeController() {
     _controller?.dispose();
+    _controller = null;
   }
 
   bool isInitialized() {

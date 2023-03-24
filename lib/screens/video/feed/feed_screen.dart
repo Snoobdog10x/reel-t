@@ -116,8 +116,16 @@ class _FeedScreenState extends AbstractState<FeedScreen>
         TabBarView(
           controller: tabController,
           children: [
-            ListVideoScreen(videos: provider.forYou),
-            ListVideoScreen(videos: provider.following),
+            ListVideoScreen(
+              videos: provider.forYou,
+              loadMoreVideos: () {
+                provider.sendRetrieveVideos();
+              },
+            ),
+            ListVideoScreen(
+              videos: provider.following,
+              loadMoreVideos: () {},
+            ),
           ],
         ),
         buildAppBar(),

@@ -13,9 +13,11 @@ import '../../../shared_product/widgets/video_player_item.dart';
 
 class ListVideoScreen extends StatefulWidget {
   final List<Video> videos;
+  final Function loadMoreVideos;
   const ListVideoScreen({
     super.key,
     required this.videos,
+    required this.loadMoreVideos,
   });
 
   @override
@@ -25,7 +27,7 @@ class ListVideoScreen extends StatefulWidget {
 class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoProvider provider;
-
+  int currentVideo = 0;
   @override
   AbstractProvider initProvider() {
     return provider;
@@ -61,8 +63,18 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   Widget buildBody() {
     return PreloadPageView.builder(
+      scrollDirection: Axis.vertical,
       preloadPagesCount: 4,
       itemCount: widget.videos.length,
+      onPageChanged: (index) {
+        widget.videos[currentVideo].stopVideo();
+        currentVideo = index;
+        widget.videos[currentVideo].playVideo();
+        notifyDataChanged();
+        if (index >= widget.videos.length - 4) {
+          widget.loadMoreVideos();
+        }
+      },
       itemBuilder: (context, index) {
         var video = widget.videos[index];
         return VideoPlayerItem(

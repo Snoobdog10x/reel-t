@@ -30,7 +30,9 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   }
 
   void notifyDataChanged() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Widget buildReadyVideo() {
@@ -47,7 +49,6 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     widget.video.disposeController();
   }
