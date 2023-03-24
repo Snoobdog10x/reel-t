@@ -33,7 +33,7 @@ class _FeedScreenState extends AbstractState<FeedScreen>
     provider = FeedProvider();
     tabController = TabController(length: 2, vsync: this);
     if (appStore.isConnected()) {
-      provider.sendRetrieveVideosEvent();
+      provider.sendRetrieveVideos();
     }
   }
 

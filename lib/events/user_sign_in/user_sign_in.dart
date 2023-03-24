@@ -4,7 +4,7 @@ import 'package:reel_t/events/user_sign_up/user_sign_up.dart';
 import '../../models/user_profile/user_profile.dart';
 
 abstract class UserSignInEvent {
-  Future<void> sendUserSignInEventEvent(String email, String password) async {
+  Future<void> sendUserSignInEvent(String email, String password) async {
     try {
       UserCredential credential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(

@@ -8,8 +8,8 @@ class FeedProvider extends AbstractProvider with RetrieveVideosEvent {
   List<Video> following = [];
   int page = 0;
   int limit = 10;
-  void sendRetrieveVideosEvent() {
-    this.sendRetrieveVideosEventEvent(page, limit);
+  void sendRetrieveVideos() {
+    this.sendRetrieveVideosEvent(page, limit);
   }
 
   @override

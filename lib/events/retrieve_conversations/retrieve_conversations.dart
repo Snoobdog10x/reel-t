@@ -1,5 +1,5 @@
 abstract class RetrieveConversationsEvent {
-  void sendRetrieveConversationsEventEvent() {
+  void sendRetrieveConversationsEvent() {
     try {
       onRetrieveConversationsEventDone(null);
     } catch (e) {

@@ -1,6 +1,6 @@
 
 abstract class RetrieveVideoDetailEvent {
-  void sendRetrieveVideoDetailEventEvent() {
+  void sendRetrieveVideoDetailEvent() {
     try {
       onRetrieveVideoDetailEventDone(null);
     } catch (e) {

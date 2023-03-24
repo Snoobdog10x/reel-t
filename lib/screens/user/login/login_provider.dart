@@ -7,7 +7,7 @@ class LoginProvider extends AbstractProvider with UserSignInEvent {
   String password = "";
   void login() {
     var hashedPassword = appStore.security.hashPassword(password);
-    sendUserSignInEventEvent(email, hashedPassword);
+    sendUserSignInEvent(email, hashedPassword);
   }
 
   @override

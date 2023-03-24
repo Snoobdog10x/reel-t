@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/video/video.dart';
 
 abstract class RetrieveVideosEvent {
-  void sendRetrieveVideosEventEvent(int page, int limit) async {
+  void sendRetrieveVideosEvent(int page, int limit) async {
     try {
       final db = FirebaseFirestore.instance;
       var snapshot = await db

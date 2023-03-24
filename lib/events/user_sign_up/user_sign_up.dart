@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../models/user_profile/user_profile.dart';
 
 abstract class UserSignUpEvent {
-  void sendUserSignUpEventEvent(
+  void sendUserSignUpEvent(
     UserProfile userProfile,
     String password,
   ) async {
