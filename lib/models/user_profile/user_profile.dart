@@ -14,7 +14,6 @@ class UserProfile {
 	late bool isOnline;
 	late bool isActive;
 	late bool isDeleted;
-
   UserProfile({
     String? id,
 		String? fullName,

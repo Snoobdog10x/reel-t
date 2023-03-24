@@ -29,9 +29,9 @@ class VideoData {
           songName: "",
           creatorId: "",
           publicMode: PublicMode.PUBLIC.index,
-          likes: _random.nextInt(2000000),
+          likesNum: _random.nextInt(2000000),
           comments: _random.nextInt(2000000),
-          views: _random.nextInt(2000000),
+          viewsNum: _random.nextInt(2000000),
           isDeleted: false,
         ),
       );

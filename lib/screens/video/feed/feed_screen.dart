@@ -47,10 +47,10 @@ class _FeedScreenState extends AbstractState<FeedScreen>
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-                body: body,
-                isSafe: false,
-                // background: Colors.black,
-                appBar: buildAppBar());
+              body: body,
+              isSafe: false,
+              background: Colors.black,
+            );
           },
         );
       },
@@ -112,11 +112,16 @@ class _FeedScreenState extends AbstractState<FeedScreen>
   }
 
   Widget buildBody() {
-    return TabBarView(
-      controller: tabController,
+    return Stack(
       children: [
-        ListVideoScreen(controller: foryouController),
-        ListVideoScreen(controller: followingController),
+        TabBarView(
+          controller: tabController,
+          children: [
+            ListVideoScreen(controller: foryouController),
+            ListVideoScreen(controller: followingController),
+          ],
+        ),
+        buildAppBar(),
       ],
     );
   }

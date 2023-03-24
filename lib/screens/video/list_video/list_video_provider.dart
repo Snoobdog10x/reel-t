@@ -1,3 +1,5 @@
 import '../../../generated/abstract_provider.dart';
 
-class ListVideoProvider extends AbstractProvider {}
+class ListVideoProvider extends AbstractProvider {
+  
+}

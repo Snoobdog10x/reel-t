@@ -5,8 +5,8 @@ arguments:
   - creatorId: String
   - publicMode: int
   - comments: int
-  - likes: int
-  - views: int
+  - likesNum: int
+  - viewsNum: int
   - isDeleted: bool
 enums:
   - public_mode:
