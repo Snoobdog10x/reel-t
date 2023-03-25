@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/shared_product/widgets/tiktok/actions_toolbar.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/video_description.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import '../../../models/follow/follow.dart';
@@ -101,9 +102,17 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
         username: "Quynh xinh dep",
-        videtoTitle: "testasdasdasd1232132132132132132132132132132132131231232 asddasdasdasdasdd",
+        videtoTitle:
+            "testasdasdasd1232132132132132132132132132132132131231232 asddasdasdasdasdd",
         songInfo: "Em that xinh dep",
       ),
+    );
+  }
+
+  Widget buildActionBar() {
+    return Container(
+      alignment: Alignment.bottomRight,
+      child: ActionsToolbar(),
     );
   }
 
@@ -117,6 +126,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       children: [
         buildPreloadPageVideo(),
         buildDescription(),
+        buildActionBar(),
       ],
     );
   }

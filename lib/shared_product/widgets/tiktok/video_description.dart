@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:readmore/readmore.dart';
 
 class VideoDescription extends StatelessWidget {
   final String username;
@@ -14,7 +15,7 @@ class VideoDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120.0,
+      width: 200,
       padding: EdgeInsets.only(left: 20.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,8 +30,23 @@ class VideoDescription extends StatelessWidget {
           SizedBox(
             height: 7,
           ),
-          Text(
-            videtoTitle,
+          ReadMoreText(
+            videtoTitle + " ",
+            trimLines: 2,
+            trimLength: 30,
+            moreStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+            lessStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+            trimMode: TrimMode.Line,
+            trimCollapsedText: 'Show more',
+            trimExpandedText: 'Show less',
             style: TextStyle(
               fontSize: 16,
               color: Colors.white,

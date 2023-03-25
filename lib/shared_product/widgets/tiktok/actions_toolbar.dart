@@ -23,19 +23,41 @@ class ActionsToolbar extends StatelessWidget {
   final String numLikes;
   final String numComments;
   final String userPic;
-
-  ActionsToolbar(this.numLikes, this.numComments, this.userPic);
-
+  final Function? onTapFollow;
+  final Function? onTapLike;
+  final Function? onTapComment;
+  final Function? onTapShare;
+  ActionsToolbar({
+    this.numLikes = "0",
+    this.numComments = "0",
+    this.userPic = "",
+    this.onTapFollow,
+    this.onTapShare,
+    this.onTapComment,
+    this.onTapLike,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 100.0,
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         _getFollowAction(pictureUrl: userPic),
-        _getSocialAction(icon: TikTokIcons.heart, title: numLikes),
-        _getSocialAction(icon: TikTokIcons.chat_bubble, title: numComments),
         _getSocialAction(
-            icon: TikTokIcons.reply, title: 'Share', isShare: true),
+          icon: TikTokIcons.heart,
+          title: numLikes,
+          onTap: onTapLike,
+        ),
+        _getSocialAction(
+          icon: TikTokIcons.chat_bubble,
+          title: numComments,
+          onTap: onTapComment,
+        ),
+        _getSocialAction(
+          icon: TikTokIcons.reply,
+          title: 'Share',
+          isShare: true,
+          onTap: onTapShare,
+        ),
         CircleImageAnimation(
           child: _getMusicPlayerAction(userPic),
         )
@@ -43,39 +65,60 @@ class ActionsToolbar extends StatelessWidget {
     );
   }
 
-  Widget _getSocialAction(
-      {required String title, required IconData icon, bool isShare = false}) {
-    return Container(
-        margin: EdgeInsets.only(top: 15.0),
-        width: 60.0,
-        height: 60.0,
-        child: Column(children: [
-          Icon(icon, size: isShare ? 25.0 : 35.0, color: Colors.grey[300]),
-          Padding(
-            padding: EdgeInsets.only(top: isShare ? 8.0 : 8.0),
-            child: Text(title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: isShare ? 14.0 : 14.0)),
-          )
-        ]));
+  Widget _getSocialAction({
+    required String title,
+    required IconData icon,
+    bool isShare = false,
+    Function? onTap,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        onTap?.call();
+      },
+      child: Container(
+          margin: EdgeInsets.only(top: 15.0),
+          width: 60.0,
+          height: 60.0,
+          child: Column(children: [
+            Icon(icon, size: isShare ? 25.0 : 35.0, color: Colors.grey[300]),
+            Padding(
+              padding: EdgeInsets.only(top: isShare ? 8.0 : 8.0),
+              child: Text(title,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: isShare ? 14.0 : 14.0)),
+            )
+          ])),
+    );
   }
 
   Widget _getFollowAction({required String pictureUrl}) {
-    return Container(
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         width: 60.0,
         height: 60.0,
-        child:
-            Stack(children: [_getProfilePicture(pictureUrl), _getPlusIcon()]));
+        child: Stack(
+          children: [
+            _getProfilePicture(pictureUrl),
+            _getPlusIcon(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _getPlusIcon() {
     return Positioned(
       bottom: 0,
       left: ((ActionWidgetSize / 2) - (PlusIconSize / 2)),
-      child: Container(
+      child: GestureDetector(
+        onTap: () {
+          onTapFollow?.call();
+        },
+        child: Container(
           width: PlusIconSize, // PlusIconSize = 20.0;
           height: PlusIconSize, // PlusIconSize = 20.0;
           decoration: BoxDecoration(
@@ -85,7 +128,9 @@ class ActionsToolbar extends StatelessWidget {
             Icons.add,
             color: Colors.white,
             size: 20.0,
-          )),
+          ),
+        ),
+      ),
     );
   }
 
