@@ -17,7 +17,7 @@ class ListVideoScreen extends StatefulWidget {
   final Function loadMoreVideos;
   ListVideoScreen({
     super.key,
-    required this.videos,
+    this.videos = const [],
     required this.loadMoreVideos,
   });
 
@@ -28,7 +28,6 @@ class ListVideoScreen extends StatefulWidget {
 class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoProvider provider;
-  int currentIndex = 0;
   @override
   AbstractProvider initProvider() {
     return provider;
@@ -63,11 +62,18 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildBody() {
+    if (widget.videos.isEmpty) {
+      return Container(
+        color: Colors.black,
+      );
+    }
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
         if (info.visibleFraction <= 0.5) {
-          widget.videos[currentIndex].changeVideoState();
+          widget.videos[provider.currentPage].stopVideo();
+          return;
         }
+        widget.videos[provider.currentPage].playVideo();
       },
       key: ObjectKey(this),
       child: PreloadPageView.builder(
@@ -75,9 +81,9 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         preloadPagesCount: 4,
         itemCount: widget.videos.length,
         onPageChanged: (index) {
-          widget.videos[currentIndex].changeVideoState();
-          currentIndex = index;
-          widget.videos[currentIndex].changeVideoState();
+          widget.videos[provider.currentPage].changeVideoState();
+          provider.currentPage = index;
+          widget.videos[provider.currentPage].changeVideoState();
           notifyDataChanged();
           if (index >= widget.videos.length - 4) {
             widget.loadMoreVideos();
@@ -87,7 +93,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
           var video = widget.videos[index];
           return VideoPlayerItem(
             video: video,
-            isPlay: index == currentIndex,
+            isPlay: index == provider.currentPage,
           );
         },
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../generated/abstract_provider.dart';
 import '../../generated/abstract_state.dart';
+import '../../generated/app_init.dart';
+import '../../models/video/video_data.dart';
 import '../navigation/navigation_screen.dart';
 import '../welcome/welcome_provider.dart';
 
@@ -79,12 +81,13 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
   void onDispose() {}
 
   @override
-  void onReady() {
-    Future.delayed(Duration(seconds: 1), () {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => NavigationScreen()),
-        (_) => false,
-      );
-    });
+  Future<void> onReady() async {
+    await AppInit.appStore.init();
+    await VideoData().initSampleData();
+    
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => NavigationScreen()),
+      (_) => false,
+    );
   }
 }

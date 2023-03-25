@@ -8,9 +8,9 @@ import '../../shared_product/services/cloud_storage.dart';
 import '../like/like.dart';
 
 class VideoData {
-  CloudStorage cloudStorage = CloudStorage();
-  Future<List<Video>> getVideoData() async {
-    var videoUrls = await cloudStorage.getDownloadURLs();
+  CloudStorage _cloudStorage = CloudStorage();
+  Future<List<Video>> _getVideoData() async {
+    var videoUrls = await _cloudStorage.getDownloadURLs();
     List<Video> videoData = [];
     final _random = new Random();
     for (int i = 0; i < videoUrls.length; i++) {
@@ -32,7 +32,7 @@ class VideoData {
   }
 
   Future<void> initSampleData() async {
-    var videos = await getVideoData();
+    var videos = await _getVideoData();
     for (var video in videos) {
       final db = FirebaseFirestore.instance;
       db

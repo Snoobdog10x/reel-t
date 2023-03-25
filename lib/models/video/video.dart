@@ -71,17 +71,17 @@ class Video extends AbstractModel {
 
   void changeVideoState() {
     if (_controller!.value.isPlaying) {
-      _stopVideo();
+      stopVideo();
       return;
     }
-    _playVideo();
+    playVideo();
   }
 
-  void _playVideo() {
+  void playVideo() {
     _controller?.play();
   }
 
-  void _stopVideo() {
+  void stopVideo() {
     _controller?.pause();
   }
 

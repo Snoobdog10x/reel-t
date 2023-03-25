@@ -7,4 +7,5 @@ import '../../../models/video/video.dart';
 class ListVideoProvider extends AbstractProvider {
   final Map<String, UserProfile> creators = {};
   final Map<String, Follow> follow = {};
+  int currentPage = 0;
 }

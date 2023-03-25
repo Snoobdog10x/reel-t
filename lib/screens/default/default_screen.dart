@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/messenger/home_chat/home_chat_screen.dart';
-import 'package:reel_t/screens/navigation/navigation_screen.dart';
-import 'package:reel_t/screens/user/login/login_screen.dart';
-import 'package:reel_t/screens/user/signup/signup_screen.dart';
-import 'package:reel_t/screens/video/feed/feed_screen.dart';
+import '../messenger/home_chat/home_chat_screen.dart';
+import '../navigation/navigation_screen.dart';
+import '../user/login/login_screen.dart';
+import '../user/signup/signup_screen.dart';
+import '../video/feed/feed_screen.dart';
+import '../welcome/welcome_screen.dart';
 import '../../generated/abstract_provider.dart';
 import '../../generated/abstract_state.dart';
 import 'default_provider.dart';
@@ -111,8 +112,13 @@ class _DefaultScreenState extends AbstractState<DefaultScreen> {
         ),
         SizedBox(height: 16),
         TextButton(
-          onPressed: () {},
-          child: Text("Navigation"),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => WelcomeScreen()),
+              (_) => false,
+            );
+          },
+          child: Text("Welcome - init sample data"),
         ),
         SizedBox(height: 16),
       ],

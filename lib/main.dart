@@ -13,8 +13,6 @@ Future<void> main() async {
     name: 'ReelT',
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await AppInit.appStore.init();
-  // VideoData().initSampleData();
   runApp(
     MaterialApp(
       home: DefaultScreen(),
