@@ -37,7 +37,7 @@ class VideoData {
     for (var video in videos) {
       final db = FirebaseFirestore.instance;
       db
-          .collection("Videos")
+          .collection(Video.PATH)
           .doc(videos.indexOf(video).toString())
           .set(video.toJson());
     }

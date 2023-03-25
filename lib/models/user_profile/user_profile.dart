@@ -6,8 +6,9 @@ class UserProfile extends AbstractModel {
   late String id;
   late String fullName;
   late String email;
-  late String displayName;
+  late String userName;
   late String avatar;
+  late String bio;
   late int numFollower;
   late int numFollowing;
   late bool isOnline;
@@ -21,8 +22,9 @@ class UserProfile extends AbstractModel {
     String? id,
     String? fullName,
     String? email,
-    String? displayName,
+    String? userName,
     String? avatar,
+    String? bio,
     int? numFollower,
     int? numFollowing,
     bool? isOnline,
@@ -32,8 +34,9 @@ class UserProfile extends AbstractModel {
     this.id = id ?? "";
     this.fullName = fullName ?? "";
     this.email = email ?? "";
-    this.displayName = displayName ?? "";
+    this.userName = userName ?? "";
     this.avatar = avatar ?? "";
+    this.bio = bio ?? "";
     this.numFollower = numFollower ?? 0;
     this.numFollowing = numFollowing ?? 0;
     this.isOnline = isOnline ?? false;
@@ -45,8 +48,9 @@ class UserProfile extends AbstractModel {
     id = json["id"];
     fullName = json["fullName"];
     email = json["email"];
-    displayName = json["displayName"];
+    userName = json["userName"];
     avatar = json["avatar"];
+    bio = json["bio"];
     numFollower = json["numFollower"];
     numFollowing = json["numFollowing"];
     isOnline = json["isOnline"];
@@ -72,8 +76,9 @@ class UserProfile extends AbstractModel {
     data["id"] = this.id;
     data["fullName"] = this.fullName;
     data["email"] = this.email;
-    data["displayName"] = this.displayName;
+    data["userName"] = this.userName;
     data["avatar"] = this.avatar;
+    data["bio"] = this.bio;
     data["numFollower"] = this.numFollower;
     data["numFollowing"] = this.numFollowing;
     data["isOnline"] = this.isOnline;
