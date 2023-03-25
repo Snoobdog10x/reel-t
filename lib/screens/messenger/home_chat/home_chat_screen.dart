@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
@@ -55,6 +56,7 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
                 ),
               ),
               body: body,
+              isSafeBottom: false,
               padding: EdgeInsets.symmetric(horizontal: 16),
             );
           },
@@ -65,7 +67,9 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   Widget buildBody() {
     return ListView.separated(
-      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      // shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
       separatorBuilder: (context, index) {
         return SizedBox(height: 8);
       },
@@ -104,12 +108,13 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
         onTap();
       },
       child: Container(
+        height: 80,
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
         ),
-        height: 70,
+        // height: 70,
         child: Row(
           children: <Widget>[
             avataUrl != null
