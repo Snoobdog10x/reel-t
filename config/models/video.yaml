@@ -3,8 +3,9 @@ arguments:
   - videoUrl: String
   - songName: String
   - creatorId: String
+  - title: String
   - publicMode: int
-  - comments: int
+  - commentsNum: int
   - likesNum: int
   - viewsNum: int
   - isDeleted: bool

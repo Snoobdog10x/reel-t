@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:reel_t/models/user_profile/user_profile.dart';
+
 import '../../generated/abstract_model.dart';
 import '../../models/like/like.dart';
 import 'package:video_player/video_player.dart';
@@ -11,6 +13,7 @@ class Video extends AbstractModel {
   late String videoUrl;
   late String songName;
   late String creatorId;
+  late String title;
   late int publicMode;
   late int commentsNum;
   late int likesNum;
@@ -18,6 +21,7 @@ class Video extends AbstractModel {
   late bool isDeleted;
   static String PATH = "Videos";
   List<Like> likes = [];
+  UserProfile? creator = UserProfile();
   Function? _notifyDataChanged;
   VideoPlayerController? _controller;
   Video({
@@ -25,6 +29,7 @@ class Video extends AbstractModel {
     String? videoUrl,
     String? songName,
     String? creatorId,
+    String? title,
     int? publicMode,
     int? commentsNum,
     int? likesNum,
@@ -35,6 +40,7 @@ class Video extends AbstractModel {
     this.videoUrl = videoUrl ?? "";
     this.songName = songName ?? "";
     this.creatorId = creatorId ?? "";
+    this.title = title ?? "";
     this.publicMode = publicMode ?? 0;
     this.commentsNum = commentsNum ?? 0;
     this.likesNum = likesNum ?? 0;
@@ -94,6 +100,7 @@ class Video extends AbstractModel {
     videoUrl = json["videoUrl"];
     songName = json["songName"];
     creatorId = json["creatorId"];
+    title = json["title"];
     publicMode = json["publicMode"];
     commentsNum = json["commentsNum"];
     likesNum = json["likesNum"];
@@ -120,6 +127,7 @@ class Video extends AbstractModel {
     data["videoUrl"] = this.videoUrl;
     data["songName"] = this.songName;
     data["creatorId"] = this.creatorId;
+    data["title"] = this.title;
     data["publicMode"] = this.publicMode;
     data["commentsNum"] = this.commentsNum;
     data["likesNum"] = this.likesNum;

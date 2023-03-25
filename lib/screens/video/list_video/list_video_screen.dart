@@ -80,7 +80,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         return Stack(
           children: [
             buildVideoPlayer(video, index),
-            buildDescription(),
+            buildDescription(video, video.creator!),
             buildActionBar(video),
           ],
         );
@@ -99,13 +99,12 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     );
   }
 
-  Widget buildDescription() {
+  Widget buildDescription(Video video, UserProfile creator) {
     return Container(
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
         username: "Quynh xinh dep",
-        videtoTitle:
-            "testasdasdasd1232132132132132132132132132132132131231232 asddasdasdasdasdd",
+        videtoTitle: video.title,
         songInfo: "Em that xinh dep",
       ),
     );
