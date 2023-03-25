@@ -16,6 +16,7 @@ class VideoDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 200,
+      color: Colors.transparent,
       padding: EdgeInsets.only(left: 20.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -12,7 +12,7 @@ class Video extends AbstractModel {
   late String songName;
   late String creatorId;
   late int publicMode;
-  late int comments;
+  late int commentsNum;
   late int likesNum;
   late int viewsNum;
   late bool isDeleted;
@@ -26,7 +26,7 @@ class Video extends AbstractModel {
     String? songName,
     String? creatorId,
     int? publicMode,
-    int? comments,
+    int? commentsNum,
     int? likesNum,
     int? viewsNum,
     bool? isDeleted,
@@ -36,7 +36,7 @@ class Video extends AbstractModel {
     this.songName = songName ?? "";
     this.creatorId = creatorId ?? "";
     this.publicMode = publicMode ?? 0;
-    this.comments = comments ?? 0;
+    this.commentsNum = commentsNum ?? 0;
     this.likesNum = likesNum ?? 0;
     this.viewsNum = viewsNum ?? 0;
     this.isDeleted = isDeleted ?? false;
@@ -95,7 +95,7 @@ class Video extends AbstractModel {
     songName = json["songName"];
     creatorId = json["creatorId"];
     publicMode = json["publicMode"];
-    comments = json["comments"];
+    commentsNum = json["commentsNum"];
     likesNum = json["likesNum"];
     viewsNum = json["viewsNum"];
     isDeleted = json["isDeleted"];
@@ -121,7 +121,7 @@ class Video extends AbstractModel {
     data["songName"] = this.songName;
     data["creatorId"] = this.creatorId;
     data["publicMode"] = this.publicMode;
-    data["comments"] = this.comments;
+    data["commentsNum"] = this.commentsNum;
     data["likesNum"] = this.likesNum;
     data["viewsNum"] = this.viewsNum;
     data["isDeleted"] = this.isDeleted;

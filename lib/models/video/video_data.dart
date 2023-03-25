@@ -23,7 +23,7 @@ class VideoData {
           creatorId: "",
           publicMode: PublicMode.PUBLIC.index,
           likesNum: _random.nextInt(2000000),
-          comments: _random.nextInt(2000000),
+          commentsNum: _random.nextInt(2000000),
           viewsNum: _random.nextInt(2000000),
           isDeleted: false,
         ),

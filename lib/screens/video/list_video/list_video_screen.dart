@@ -47,6 +47,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (context) => provider,
       builder: (context, child) {
@@ -56,6 +57,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
             return buildScreen(
               isSafe: false,
               body: body,
+              background: Colors.black,
             );
           },
         );
@@ -64,41 +66,42 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildPreloadPageVideo() {
-    return VisibilityDetector(
-      onVisibilityChanged: (VisibilityInfo info) {
-        if (info.visibleFraction <= 0.5) {
-          widget.videos[provider.currentPage].stopVideo();
-          return;
+    return PreloadPageView.builder(
+      scrollDirection: Axis.vertical,
+      preloadPagesCount: 4,
+      itemCount: widget.videos.length,
+      onPageChanged: (index) {
+        if (index >= widget.videos.length - 4) {
+          widget.loadMoreVideos();
         }
-        widget.videos[provider.currentPage].playVideo();
       },
-      key: ObjectKey(this),
-      child: PreloadPageView.builder(
-        scrollDirection: Axis.vertical,
-        preloadPagesCount: 4,
-        itemCount: widget.videos.length,
-        onPageChanged: (index) {
-          widget.videos[provider.currentPage].changeVideoState();
-          provider.currentPage = index;
-          widget.videos[provider.currentPage].changeVideoState();
-          notifyDataChanged();
-          if (index >= widget.videos.length - 4) {
-            widget.loadMoreVideos();
-          }
-        },
-        itemBuilder: (context, index) {
-          var video = widget.videos[index];
-          return VideoPlayerItem(
-            video: video,
-            isPlay: index == provider.currentPage,
-          );
-        },
+      itemBuilder: (context, index) {
+        var video = widget.videos[index];
+        return Stack(
+          children: [
+            buildVideoPlayer(video, index),
+            buildDescription(),
+            buildActionBar(video),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildVideoPlayer(Video video, int index) {
+    return Container(
+      height: screenHeight(),
+      width: screenWidth(),
+      child: VideoPlayerItem(
+        video: video,
+        isPlay: index == provider.currentPage,
       ),
     );
   }
 
   Widget buildDescription() {
     return Container(
+      color: Colors.transparent,
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
         username: "Quynh xinh dep",
@@ -109,10 +112,13 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     );
   }
 
-  Widget buildActionBar() {
+  Widget buildActionBar(Video video) {
     return Container(
       alignment: Alignment.bottomRight,
-      child: ActionsToolbar(),
+      child: ActionsToolbar(
+        numLikes: provider.formatNumber(video.likesNum),
+        numComments: provider.formatNumber(video.commentsNum),
+      ),
     );
   }
 
@@ -122,13 +128,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         color: Colors.black,
       );
     }
-    return Stack(
-      children: [
-        buildPreloadPageVideo(),
-        buildDescription(),
-        buildActionBar(),
-      ],
-    );
+    return buildPreloadPageVideo();
   }
 
   @override

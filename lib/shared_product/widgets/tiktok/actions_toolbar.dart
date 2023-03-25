@@ -40,28 +40,31 @@ class ActionsToolbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 100.0,
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        _getFollowAction(pictureUrl: userPic),
-        _getSocialAction(
-          icon: TikTokIcons.heart,
-          title: numLikes,
-          onTap: onTapLike,
-        ),
-        _getSocialAction(
-          icon: TikTokIcons.chat_bubble,
-          title: numComments,
-          onTap: onTapComment,
-        ),
-        _getSocialAction(
-          icon: TikTokIcons.reply,
-          title: 'Share',
-          isShare: true,
-          onTap: onTapShare,
-        ),
-        CircleImageAnimation(
-          child: _getMusicPlayerAction(userPic),
-        )
-      ]),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _getFollowAction(pictureUrl: userPic),
+          _getSocialAction(
+            icon: TikTokIcons.heart,
+            title: numLikes,
+            onTap: onTapLike,
+          ),
+          _getSocialAction(
+            icon: TikTokIcons.chat_bubble,
+            title: numComments,
+            onTap: onTapComment,
+          ),
+          _getSocialAction(
+            icon: TikTokIcons.reply,
+            title: 'Share',
+            isShare: true,
+            onTap: onTapShare,
+          ),
+          CircleImageAnimation(
+            child: _getMusicPlayerAction(userPic),
+          ),
+        ],
+      ),
     );
   }
 

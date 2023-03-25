@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../models/video/video.dart';
 
@@ -43,12 +44,22 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
       onTap: () {
         widget.video.changeVideoState();
       },
-      child: FittedBox(
-        fit: BoxFit.cover,
-        child: SizedBox(
-          width: _controller.value.aspectRatio,
-          height: 1,
-          child: VideoPlayer(_controller),
+      child: VisibilityDetector(
+        onVisibilityChanged: (VisibilityInfo info) {
+          if (info.visibleFraction <= 0.7) {
+            widget.video.stopVideo();
+            return;
+          }
+          widget.video.playVideo();
+        },
+        key: ObjectKey(this),
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: SizedBox(
+            width: _controller.value.aspectRatio,
+            height: 1,
+            child: VideoPlayer(_controller),
+          ),
         ),
       ),
     );
