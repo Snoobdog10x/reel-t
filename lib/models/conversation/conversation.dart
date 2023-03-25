@@ -1,36 +1,38 @@
 import 'dart:convert';
+import 'package:reel_t/models/user_profile/user_profile.dart';
+
 import '../../generated/abstract_model.dart';
 
-
-
-class Conversation extends AbstractModel{
+class Conversation extends AbstractModel {
   late String id;
-	late String firstUserId;
-	late String secondUserId;
-	late bool isMute;
-	late bool isDeleted;
-	static String PATH = "Conversations";
+  late String firstUserId;
+  late String secondUserId;
+  late bool isMute;
+  late bool isDeleted;
+  UserProfile? user1;
+  UserProfile? user2;
+  static String PATH = "Conversations";
 
   Conversation({
     String? id,
-		String? firstUserId,
-		String? secondUserId,
-		bool? isMute,
-		bool? isDeleted,
-  }){
+    String? firstUserId,
+    String? secondUserId,
+    bool? isMute,
+    bool? isDeleted,
+  }) {
     this.id = id ?? "";
-		this.firstUserId = firstUserId ?? "";
-		this.secondUserId = secondUserId ?? "";
-		this.isMute = isMute ?? false;
-		this.isDeleted = isDeleted ?? false;
+    this.firstUserId = firstUserId ?? "";
+    this.secondUserId = secondUserId ?? "";
+    this.isMute = isMute ?? false;
+    this.isDeleted = isDeleted ?? false;
   }
 
   Conversation.fromJson(Map<dynamic, dynamic> json) {
     id = json["id"];
-		firstUserId = json["firstUserId"];
-		secondUserId = json["secondUserId"];
-		isMute = json["isMute"];
-		isDeleted = json["isDeleted"];
+    firstUserId = json["firstUserId"];
+    secondUserId = json["secondUserId"];
+    isMute = json["isMute"];
+    isDeleted = json["isDeleted"];
   }
 
   Conversation.fromStringJson(String stringJson) {
@@ -49,10 +51,10 @@ class Conversation extends AbstractModel{
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data["id"] = this.id;
-		data["firstUserId"] = this.firstUserId;
-		data["secondUserId"] = this.secondUserId;
-		data["isMute"] = this.isMute;
-		data["isDeleted"] = this.isDeleted;
+    data["firstUserId"] = this.firstUserId;
+    data["secondUserId"] = this.secondUserId;
+    data["isMute"] = this.isMute;
+    data["isDeleted"] = this.isDeleted;
     return data;
   }
 }

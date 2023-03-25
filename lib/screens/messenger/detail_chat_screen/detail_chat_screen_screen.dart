@@ -9,11 +9,9 @@ import 'detail_chat_screen_provider.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class DetailChatScreenScreen extends StatefulWidget {
-  final UserProfile userProfile;
   final Conversation conversation;
   const DetailChatScreenScreen({
     super.key,
-    required this.userProfile,
     required this.conversation,
   });
 
@@ -54,7 +52,7 @@ class _DetailChatScreenScreenState
           builder: (context, value, child) {
             var body = buildBody();
             var bottom = buidBottom();
-            UserProfile user = widget.userProfile;
+            UserProfile user = widget.conversation.user2!;
             return buildScreen(
               appBar: buildAppbar(
                 avataUrl: user.avatar,

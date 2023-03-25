@@ -75,18 +75,14 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
       },
       itemCount: provider.conversations.length,
       itemBuilder: ((context, index) {
-        var conv = provider.conversations[index.toString()];
-        UserProfile user = conv![provider.USER_KEY] as UserProfile;
-        Conversation conversation =
-            conv[provider.CONVERSATION_KEY] as Conversation;
+        var conversation = provider.conversations[index];
         return buildConversation(
-          avataUrl: user.avatar,
-          userName: user.fullName,
+          avataUrl: conversation.user2!.avatar,
+          userName: conversation.user2!.fullName,
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DetailChatScreenScreen(
-                  userProfile: user,
                   conversation: conversation,
                 ),
               ),

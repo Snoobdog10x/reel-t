@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/shared_product/widgets/tiktok/video_description.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import '../../../models/follow/follow.dart';
 import '../../../models/like/like.dart';
@@ -61,12 +62,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     );
   }
 
-  Widget buildBody() {
-    if (widget.videos.isEmpty) {
-      return Container(
-        color: Colors.black,
-      );
-    }
+  Widget buildPreloadPageVideo() {
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
         if (info.visibleFraction <= 0.5) {
@@ -100,10 +96,33 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     );
   }
 
-  @override
-  void onDispose() {
-    
+  Widget buildDescription() {
+    return Container(
+      alignment: Alignment.bottomLeft,
+      child: VideoDescription(
+        username: "Quynh xinh dep",
+        videtoTitle: "testasdasdasd1232132132132132132132132132132132131231232 asddasdasdasdasdd",
+        songInfo: "Em that xinh dep",
+      ),
+    );
   }
+
+  Widget buildBody() {
+    if (widget.videos.isEmpty) {
+      return Container(
+        color: Colors.black,
+      );
+    }
+    return Stack(
+      children: [
+        buildPreloadPageVideo(),
+        buildDescription(),
+      ],
+    );
+  }
+
+  @override
+  void onDispose() {}
 
   @override
   void onReady() {
