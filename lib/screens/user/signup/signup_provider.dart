@@ -1,4 +1,4 @@
-import 'package:reel_t/events/user_sign_up/user_sign_up.dart';
+import '../../../events/user/user_sign_up/user_sign_up_event.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_provider.dart';
 
