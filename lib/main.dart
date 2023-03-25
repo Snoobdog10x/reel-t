@@ -10,6 +10,7 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'ReelT',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AppInit.appStore.init();

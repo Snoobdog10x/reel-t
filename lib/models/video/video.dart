@@ -6,7 +6,7 @@ import 'package:video_player/video_player.dart';
 
 enum PublicMode { PUBLIC, PRIVATE }
 
-class Video extends AbstractModel{
+class Video extends AbstractModel {
   late String id;
   late String videoUrl;
   late String songName;
@@ -108,6 +108,10 @@ class Video extends AbstractModel{
 
   String toStringJson() {
     return json.encode(this.toJson());
+  }
+
+  String toString() {
+    return toStringJson();
   }
 
   Map<String, dynamic> toJson() {
