@@ -53,12 +53,14 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
           widget.video.playVideo();
         },
         key: ObjectKey(this),
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: SizedBox(
-            width: _controller.value.aspectRatio,
-            height: 1,
-            child: VideoPlayer(_controller),
+        child: SizedBox.expand(
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: _controller.value.aspectRatio,
+              height: 1,
+              child: VideoPlayer(_controller),
+            ),
           ),
         ),
       ),

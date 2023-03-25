@@ -101,7 +101,6 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   Widget buildDescription() {
     return Container(
-      color: Colors.transparent,
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
         username: "Quynh xinh dep",
