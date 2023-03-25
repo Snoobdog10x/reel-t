@@ -20,8 +20,6 @@ class Video extends AbstractModel {
   late int viewsNum;
   late bool isDeleted;
   static String PATH = "Videos";
-  List<Like> likes = [];
-  UserProfile? creator = UserProfile();
   Function? _notifyDataChanged;
   VideoPlayerController? _controller;
   Video({

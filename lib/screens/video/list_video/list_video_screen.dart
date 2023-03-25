@@ -77,10 +77,17 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       },
       itemBuilder: (context, index) {
         var video = widget.videos[index];
+        if (!provider.isLoadDetail(video.id)) {
+          provider.sendVideoDetailData(video.id);
+          return Container(
+            color: Colors.black,
+          );
+        }
+        var userProfile = provider.creators[video.id]!;
         return Stack(
           children: [
             buildVideoPlayer(video, index),
-            buildDescription(video, video.creator!),
+            buildDescription(video, userProfile),
             buildActionBar(video),
           ],
         );
@@ -135,6 +142,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   @override
   void onReady() {
     // TODO: implement onReady
+    provider.init();
   }
 
   @override

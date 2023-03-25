@@ -83,7 +83,6 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   Future<void> onReady() async {
-    await AppInit.appStore.init();
     // await VideoData().initSampleData();
     // await UserProfileData().initSampleData();
     Navigator.of(context).pushAndRemoveUntil(
