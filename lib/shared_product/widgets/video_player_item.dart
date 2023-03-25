@@ -56,7 +56,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
 
   @override
   void dispose() {
-    super.dispose();
     widget.video.disposeController();
+    super.dispose();
   }
 }

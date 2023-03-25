@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
@@ -47,13 +48,15 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-                appBar: DefaultAppBar(
-                    appBarTitle: "Chat",
-                    appBarAction: GestureDetector(
-                      child: Icon(Icons.chat_outlined, size: 30),
-                    )),
-                body: body,
-                padding: EdgeInsets.symmetric(horizontal: 16));
+              appBar: DefaultAppBar(
+                appBarTitle: "Chat",
+                appBarAction: GestureDetector(
+                  child: Icon(Icons.chat_outlined, size: 30),
+                ),
+              ),
+              body: body,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+            );
           },
         );
       },
@@ -61,36 +64,32 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   }
 
   Widget buildBody() {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: ListView.separated(
-            separatorBuilder: (context, index) {
-              return SizedBox(height: 8);
-            },
-            itemCount: provider.conversations.length,
-            itemBuilder: ((context, index) {
-              var conv = provider.conversations[index.toString()];
-              UserProfile user = conv![provider.USER_KEY] as UserProfile;
-              Conversation conversation =
-                  conv[provider.CONVERSATION_KEY] as Conversation;
-              return buildConversation(
-                  avataUrl: user.avatar,
-                  userName: user.fullName,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => DetailChatScreenScreen(
-                          userProfile: user,
-                          conversation: conversation,
-                        ),
-                      ),
-                    );
-                  });
-            }),
-          ),
-        )
-      ],
+    return ListView.separated(
+      shrinkWrap: true,
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 8);
+      },
+      itemCount: provider.conversations.length,
+      itemBuilder: ((context, index) {
+        var conv = provider.conversations[index.toString()];
+        UserProfile user = conv![provider.USER_KEY] as UserProfile;
+        Conversation conversation =
+            conv[provider.CONVERSATION_KEY] as Conversation;
+        return buildConversation(
+          avataUrl: user.avatar,
+          userName: user.fullName,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DetailChatScreenScreen(
+                  userProfile: user,
+                  conversation: conversation,
+                ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 
@@ -114,14 +113,22 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
         child: Row(
           children: <Widget>[
             avataUrl != null
-                ? CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      avataUrl,
+                ? CachedNetworkImage(
+                    height: 60,
+                    width: 60,
+                    imageUrl: avataUrl,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                    radius: 32,
                   )
                 : Container(),
-            SizedBox(width: 16),
+            SizedBox(width: 8),
             Expanded(
               child: Container(
                 child: Column(

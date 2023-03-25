@@ -101,7 +101,9 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   @override
-  void onDispose() {}
+  void onDispose() {
+    
+  }
 
   @override
   void onReady() {

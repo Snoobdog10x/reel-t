@@ -11,6 +11,7 @@ class VideoData {
   CloudStorage _cloudStorage = CloudStorage();
   Future<List<Video>> _getVideoData() async {
     var videoUrls = await _cloudStorage.getDownloadURLs();
+    print(videoUrls);
     List<Video> videoData = [];
     final _random = new Random();
     for (int i = 0; i < videoUrls.length; i++) {

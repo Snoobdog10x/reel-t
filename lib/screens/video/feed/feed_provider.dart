@@ -20,6 +20,5 @@ class FeedProvider extends AbstractProvider with RetrieveVideosEvent {
       notifyDataChanged();
       return;
     }
-    print(e);
   }
 }

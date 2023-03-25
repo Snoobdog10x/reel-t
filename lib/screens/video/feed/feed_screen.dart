@@ -134,7 +134,9 @@ class _FeedScreenState extends AbstractState<FeedScreen>
   }
 
   @override
-  void onDispose() {}
+  void onDispose() {
+    
+  }
 
   @override
   void onReady() {

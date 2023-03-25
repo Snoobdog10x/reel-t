@@ -8,7 +8,7 @@ class HomeChatProvider extends AbstractProvider {
   String CONVERSATION_KEY = "conversation";
   Map<String, Map<String, dynamic>> conversations = {};
   String avatar =
-      "https://firebasestorage.googleapis.com/v0/b/reel-t.appspot.com/o/images%2F02062023_image_Beauty_10.jpg?alt=media&token=d24a6d63-4911-4b97-87c1-25a65cb89749";
+      "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F02062023_image_Beauty_1.jpg?alt=media&token=cec98024-1775-48a5-9740-63d79d441842";
   void init() {
     for (int i = 0; i < 10; i++) {
       conversations[i.toString()] = {
