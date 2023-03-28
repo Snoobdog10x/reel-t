@@ -16,15 +16,15 @@ abstract class RetrieveLikeVideoEvent {
 
       var docs = snapshot.docs;
       if (docs.isEmpty) {
-        onRetrieveLikeVideoEventDone(null, videoId);
+        onRetrieveLikeVideoEventDone(Like(videoId: videoId));
         return;
       }
-      onRetrieveLikeVideoEventDone(Like.fromJson(docs.first.data()), videoId);
+      onRetrieveLikeVideoEventDone(Like.fromJson(docs.first.data()));
     } catch (e) {
       print(e);
-      onRetrieveLikeVideoEventDone(null, videoId);
+      onRetrieveLikeVideoEventDone(Like(videoId: videoId));
     }
   }
 
-  void onRetrieveLikeVideoEventDone(Like? like, String videoId);
+  void onRetrieveLikeVideoEventDone(Like like);
 }

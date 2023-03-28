@@ -1,14 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:reel_t/events/follow/retrieve_follow_user/retrieve_follow_user_event.dart';
 import 'package:reel_t/events/like/retrieve_like_video/retrieve_like_video_event.dart';
-
 import '../../../generated/abstract_provider.dart';
 import '../../../models/follow/follow.dart';
 import '../../../models/like/like.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 
-class ListVideoProvider extends AbstractProvider with RetrieveLikeVideoEvent {
+class ListVideoProvider extends AbstractProvider
+    with RetrieveLikeVideoEvent, RetrieveFollowUserEvent {
   late UserProfile currentUser;
   final Map<String, UserProfile> creators = {};
   final Map<String, Follow> follows = {};
@@ -42,15 +42,12 @@ class ListVideoProvider extends AbstractProvider with RetrieveLikeVideoEvent {
   }
 
   @override
-  void onRetrieveLikeVideoEventDone(Like? like, String videoId) {
-    if (like == null) {
-      likes[videoId] = Like(
-        userId: currentUser.id,
-        videoId: videoId,
-        likeType: LikeType.UNLIKE.index,
-      );
-      return;
-    }
+  void onRetrieveLikeVideoEventDone(Like like) {
     likes[like.videoId] = like;
+  }
+
+  @override
+  void onRetrieveFollowUserEventDone(Follow follow) {
+    // follows[]
   }
 }
