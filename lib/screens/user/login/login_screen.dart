@@ -57,14 +57,20 @@ class _LoginScreenState extends AbstractState<LoginScreen> {
 
   Widget buildBody() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 8 * 12),
-        buildTitle(),
-        SizedBox(height: 16),
-        buildLoginFields(),
-        SizedBox(height: 8 * 6),
-        buildButtons(),
+        Expanded(flex: 1, child: Container()),
+        Expanded(
+          flex: 10,
+          child: Column(
+            children: [
+              buildTitle(),
+              SizedBox(height: 16),
+              buildLoginFields(),
+              SizedBox(height: 8 * 6),
+              buildButtons(),
+            ],
+          ),
+        ),
       ],
     );
   }

@@ -57,12 +57,19 @@ class _SignupScreenState extends AbstractState<SignupScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 8 * 7),
-        buildTitle(),
-        SizedBox(height: 8),
-        buildSignInFields(),
-        SizedBox(height: 8 * 6),
-        buildButtons(),
+        Expanded(flex: 1, child: Container()),
+        Expanded(
+          flex: 9,
+          child: Column(
+            children: [
+              buildTitle(),
+              SizedBox(height: 8),
+              buildSignInFields(),
+              SizedBox(height: 8 * 6),
+              buildButtons(),
+            ],
+          ),
+        ),
       ],
     );
   }
