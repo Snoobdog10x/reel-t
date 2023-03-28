@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:reel_t/events/Like/like_video/like_video_event.dart';
 import 'package:reel_t/events/video/retrieve_video_detail/retrieve_video_detail_event.dart';
 import 'package:reel_t/models/like/like.dart';
 import 'package:reel_t/models/follow/follow.dart';
@@ -6,7 +7,8 @@ import '../../../generated/abstract_provider.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../video_detail.dart';
 
-class ListVideoProvider extends AbstractProvider with RetrieveVideoDetailEvent {
+class ListVideoProvider extends AbstractProvider
+    with RetrieveVideoDetailEvent, LikeVideoEvent {
   List<VideoDetail> videoDetails = [];
   late UserProfile currentUser;
   int currentPage = 0;
@@ -31,5 +33,13 @@ class ListVideoProvider extends AbstractProvider with RetrieveVideoDetailEvent {
     videoDetails[index].follow = follow;
     videoDetails[index].creator = creator;
     notifyDataChanged();
+  }
+
+  @override
+  void onLikeVideoEventDone(e) {
+    if (e == null) {
+      return;
+    }
+    print("bug");
   }
 }

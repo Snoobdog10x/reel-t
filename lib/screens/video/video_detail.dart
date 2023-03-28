@@ -23,4 +23,9 @@ class VideoDetail {
 
     return true;
   }
+
+  void likeVideo() {
+    if (like == null) return;
+    like!.likeVideo();
+  }
 }

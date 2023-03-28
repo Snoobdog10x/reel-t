@@ -151,6 +151,12 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         numComments: provider.formatNumber(video.commentsNum),
         isLiked: videoDetail.like!.likeType == LikeType.LIKE.index,
         userPic: videoDetail.creator!.avatar,
+        onTapLike: () {
+          videoDetail.likeVideo();
+          notifyDataChanged();
+          
+          // provider.sendLikeVideoEventEvent(videoDetail.like!);
+        },
       ),
     );
   }

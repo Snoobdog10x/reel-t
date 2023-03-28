@@ -50,6 +50,7 @@ class ActionsToolbar extends StatelessWidget {
             icon: TikTokIcons.heart,
             title: numLikes,
             onTap: onTapLike,
+            isActive: isLiked!,
           ),
           _getSocialAction(
             icon: TikTokIcons.chat_bubble,

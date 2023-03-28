@@ -58,7 +58,7 @@ abstract class RetrieveVideoDetailEvent {
         .get();
     var docs = snapshot.docs;
     if (docs.isEmpty) {
-      return Like();
+      return Like(videoId: videoId, userId: currentUserId);
     }
     return Like.fromJson(docs.first.data());
   }
