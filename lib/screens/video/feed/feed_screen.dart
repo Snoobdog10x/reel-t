@@ -39,6 +39,7 @@ class _FeedScreenState extends AbstractState<FeedScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (context) => provider,
       builder: (context, child) {
