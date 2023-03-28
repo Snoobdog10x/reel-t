@@ -8,14 +8,12 @@ class SignupProvider extends AbstractProvider with UserSignUpEvent {
   String password = "";
   late UserProfile userProfile;
   void signIn() {
-    userProfile = UserProfile(
+    var hashedPassword = state.appStore.security.hashPassword(password);
+    this.sendUserSignUpEvent(
       fullName: name,
       email: email,
-      numFollower: 0,
-      numFollowing: 0,
+      password: hashedPassword,
     );
-    var hashedPassword = state.appStore.security.hashPassword(password);
-    this.sendUserSignUpEvent(userProfile, hashedPassword);
   }
 
   @override

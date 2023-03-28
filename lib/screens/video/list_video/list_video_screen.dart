@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/video/video_detail.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/actions_toolbar.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/video_description.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -15,7 +17,7 @@ import 'list_video_provider.dart';
 import '../../../shared_product/widgets/video_player_item.dart';
 
 class ListVideoScreen extends StatefulWidget {
-  final List<Video> videos;
+  final List<VideoDetail> videos;
   final Function loadMoreVideos;
   ListVideoScreen({
     super.key,
@@ -43,6 +45,12 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   @override
   void onCreate() {
     provider = ListVideoProvider();
+    provider.init(widget.videos);
+  }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
   }
 
   @override
@@ -53,6 +61,9 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       builder: (context, child) {
         return Consumer<ListVideoProvider>(
           builder: (context, value, child) {
+            if (widget.videos.isEmpty) {
+              return buildLoadWidget();
+            }
             var body = buildBody();
             return buildScreen(
               isSafe: false,
@@ -76,48 +87,62 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         }
       },
       itemBuilder: (context, index) {
-        var video = widget.videos[index];
-        if (!provider.isLoadDetail(video.id)) {
-          provider.sendVideoDetailData(video.id);
-          return Container(
-            color: Colors.black,
+        var videoDetail = widget.videos[index];
+        var video = videoDetail.video;
+        if (!videoDetail.isLoadDetail()) {
+          provider.sendRetrieveVideoDetailEventEvent(
+            videoId: video.id,
+            currentUserId: provider.currentUser.id,
+            creatorId: video.creatorId,
+            index: index,
           );
+          return buildLoadWidget();
         }
-        var userProfile = provider.creators[video.id]!;
         return Stack(
           children: [
-            buildVideoPlayer(video, index),
-            buildDescription(video, userProfile),
-            buildActionBar(video),
+            buildVideoPlayer(videoDetail, index),
+            buildDescription(videoDetail),
+            buildActionBar(videoDetail),
           ],
         );
       },
     );
   }
 
-  Widget buildVideoPlayer(Video video, int index) {
+  Widget buildLoadWidget() {
+    return Container(
+      color: Colors.black,
+      child: CupertinoActivityIndicator(
+        radius: 20,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  Widget buildVideoPlayer(VideoDetail videoDetail, int index) {
     return Container(
       height: screenHeight(),
       width: screenWidth(),
       child: VideoPlayerItem(
-        video: video,
+        video: videoDetail.video,
         isPlay: index == provider.currentPage,
       ),
     );
   }
 
-  Widget buildDescription(Video video, UserProfile creator) {
+  Widget buildDescription(VideoDetail videoDetail) {
     return Container(
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
         username: "Quynh xinh dep",
-        videtoTitle: video.title,
+        videtoTitle: videoDetail.video.title,
         songInfo: "Em that xinh dep",
       ),
     );
   }
 
-  Widget buildActionBar(Video video) {
+  Widget buildActionBar(VideoDetail videoDetail) {
+    var video = videoDetail.video;
     return Container(
       alignment: Alignment.bottomRight,
       child: ActionsToolbar(
@@ -138,12 +163,6 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   @override
   void onDispose() {}
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-    provider.init();
-  }
 
   @override
   // TODO: implement wantKeepAlive

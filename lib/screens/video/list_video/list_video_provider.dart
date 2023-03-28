@@ -1,53 +1,35 @@
 import 'package:intl/intl.dart';
-import 'package:reel_t/events/follow/retrieve_follow_user/retrieve_follow_user_event.dart';
-import 'package:reel_t/events/like/retrieve_like_video/retrieve_like_video_event.dart';
+import 'package:reel_t/events/video/retrieve_video_detail/retrieve_video_detail_event.dart';
+import 'package:reel_t/models/like/like.dart';
+import 'package:reel_t/models/follow/follow.dart';
 import '../../../generated/abstract_provider.dart';
-import '../../../models/follow/follow.dart';
-import '../../../models/like/like.dart';
 import '../../../models/user_profile/user_profile.dart';
-import '../../../models/video/video.dart';
+import '../video_detail.dart';
 
-class ListVideoProvider extends AbstractProvider
-    with RetrieveLikeVideoEvent, RetrieveFollowUserEvent {
+class ListVideoProvider extends AbstractProvider with RetrieveVideoDetailEvent {
+  List<VideoDetail> videoDetails = [];
   late UserProfile currentUser;
-  final Map<String, UserProfile> creators = {};
-  final Map<String, Follow> follows = {};
-  final Map<String, Like> likes = {};
   int currentPage = 0;
-  void init() {
+  void init(List<VideoDetail> videoDetails) {
     currentUser = appStore.localUser.getCurrentUser();
+    this.videoDetails = videoDetails;
+    notifyDataChanged();
   }
 
   String formatNumber(int number) {
     return NumberFormat.compact().format(number);
   }
 
-  void sendVideoDetailData(
-    String videoId,
+  @override
+  void onRetrieveVideoDetailEventDone(
+    Like like,
+    Follow follow,
+    UserProfile creator,
+    int index,
   ) {
-    sendRetrieveLikeVideoEventEvent(videoId, currentUser.id);
-  }
-
-  bool isLoadDetail(String videoId) {
-    if (creators[videoId] == null) {
-      return false;
-    }
-    if (likes[videoId] == null) {
-      return false;
-    }
-    if (follows[videoId] == null) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  void onRetrieveLikeVideoEventDone(Like like) {
-    likes[like.videoId] = like;
-  }
-
-  @override
-  void onRetrieveFollowUserEventDone(Follow follow) {
-    // follows[]
+    videoDetails[index].like = like;
+    videoDetails[index].follow = follow;
+    videoDetails[index].creator = creator;
+    notifyDataChanged();
   }
 }

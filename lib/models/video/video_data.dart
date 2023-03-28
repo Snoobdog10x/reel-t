@@ -46,7 +46,7 @@ class VideoData {
           id: i.toString(),
           videoUrl: url,
           songName: "",
-          creatorId: "",
+          creatorId: "${_random.nextInt(10)}",
           publicMode: PublicMode.PUBLIC.index,
           likesNum: _random.nextInt(2000000),
           commentsNum: _random.nextInt(2000000),

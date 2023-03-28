@@ -3,21 +3,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../models/user_profile/user_profile.dart';
 
 abstract class UserSignUpEvent {
-  void sendUserSignUpEvent(
-    UserProfile userProfile,
-    String password,
-  ) async {
+  void sendUserSignUpEvent({
+    required String fullName,
+    required String email,
+    required String password,
+  }) async {
     try {
       final db = FirebaseFirestore.instance;
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: userProfile.email ?? "",
+        email: email,
         password: password,
       );
-      await db
-          .collection(UserProfile.PATH)
-          .doc(credential.user!.uid.toString())
-          .set(userProfile.toJson());
+      String id = credential.user!.uid;
+      var userProfile = UserProfile(
+        id: id,
+        email: email,
+        fullName: fullName,
+      ).toJson();
+      await db.collection(UserProfile.PATH).doc(id).set(userProfile);
       onUserSignUpEventDone("");
     } on FirebaseAuthException catch (e) {
       var errorMessage = getMessageFromErrorCode(e);
