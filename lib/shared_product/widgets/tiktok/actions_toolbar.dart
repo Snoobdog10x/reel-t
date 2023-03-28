@@ -27,10 +27,12 @@ class ActionsToolbar extends StatelessWidget {
   final Function? onTapLike;
   final Function? onTapComment;
   final Function? onTapShare;
+  final bool? isLiked;
   ActionsToolbar({
     this.numLikes = "0",
     this.numComments = "0",
     this.userPic = "",
+    this.isLiked = false,
     this.onTapFollow,
     this.onTapShare,
     this.onTapComment,
@@ -71,6 +73,7 @@ class ActionsToolbar extends StatelessWidget {
   Widget _getSocialAction({
     required String title,
     required IconData icon,
+    bool isActive = false,
     bool isShare = false,
     Function? onTap,
   }) {
@@ -79,20 +82,28 @@ class ActionsToolbar extends StatelessWidget {
         onTap?.call();
       },
       child: Container(
-          margin: EdgeInsets.only(top: 15.0),
-          width: 60.0,
-          height: 60.0,
-          child: Column(children: [
-            Icon(icon, size: isShare ? 25.0 : 35.0, color: Colors.grey[300]),
+        margin: EdgeInsets.only(top: 15.0),
+        width: 60.0,
+        height: 60.0,
+        child: Column(
+          children: [
+            Icon(icon,
+                size: isShare ? 25.0 : 35.0,
+                color: isActive ? Colors.red : Colors.white),
             Padding(
               padding: EdgeInsets.only(top: isShare ? 8.0 : 8.0),
-              child: Text(title,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: isShare ? 14.0 : 14.0)),
-            )
-          ])),
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: isShare ? 14.0 : 14.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -138,25 +149,47 @@ class ActionsToolbar extends StatelessWidget {
   }
 
   Widget _getProfilePicture(userPic) {
-    return Positioned(
+    if (userPic.isEmpty) {
+      return Positioned(
         left: (ActionWidgetSize / 2) - (ProfileImageSize / 2),
         child: Container(
-            padding:
-                EdgeInsets.all(1.0), // Add 1.0 point padding to create border
-            height: ProfileImageSize, // ProfileImageSize = 50.0;
-            width: ProfileImageSize, // ProfileImageSize = 50.0;
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(ProfileImageSize / 2)),
-            // import 'package:cached_network_image/cached_network_image.dart'; at the top to use CachedNetworkImage
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(10000.0),
-                child: CachedNetworkImage(
-                  imageUrl: userPic,
-                  placeholder: (context, url) =>
-                      new CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => new Icon(Icons.error),
-                ))));
+          padding:
+              EdgeInsets.all(1.0), // Add 1.0 point padding to create border
+          height: ProfileImageSize, // ProfileImageSize = 50.0;
+          width: ProfileImageSize, // ProfileImageSize = 50.0;
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(ProfileImageSize / 2)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10000.0),
+            child: Icon(
+              Icons.people_alt,
+              size: ProfileImageSize,
+              color: Colors.grey[300],
+            ),
+          ),
+        ),
+      );
+    }
+    return Positioned(
+      left: (ActionWidgetSize / 2) - (ProfileImageSize / 2),
+      child: Container(
+        padding: EdgeInsets.all(1.0), // Add 1.0 point padding to create border
+        height: ProfileImageSize, // ProfileImageSize = 50.0;
+        width: ProfileImageSize, // ProfileImageSize = 50.0;
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(ProfileImageSize / 2)),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10000.0),
+          child: CachedNetworkImage(
+            imageUrl: userPic,
+            placeholder: (context, url) => new CircularProgressIndicator(),
+            errorWidget: (context, url, error) => new Icon(Icons.error),
+          ),
+        ),
+      ),
+    );
   }
 
   LinearGradient get musicGradient => LinearGradient(colors: [

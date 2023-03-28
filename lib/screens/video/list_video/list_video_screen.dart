@@ -131,12 +131,13 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildDescription(VideoDetail videoDetail) {
+    var video = videoDetail.video;
     return Container(
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
-        username: "Quynh xinh dep",
-        videtoTitle: videoDetail.video.title,
-        songInfo: "Em that xinh dep",
+        username: videoDetail.creator!.userName,
+        videtoTitle: video.title,
+        songInfo: video.songName,
       ),
     );
   }
@@ -148,6 +149,8 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       child: ActionsToolbar(
         numLikes: provider.formatNumber(video.likesNum),
         numComments: provider.formatNumber(video.commentsNum),
+        isLiked: videoDetail.like!.likeType == LikeType.LIKE.index,
+        userPic: videoDetail.creator!.avatar,
       ),
     );
   }
