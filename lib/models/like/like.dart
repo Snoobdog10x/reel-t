@@ -63,7 +63,9 @@ class Like extends AbstractModel {
   void likeVideo() {
     if (likeType == LikeType.LIKE) {
       likeType = LikeType.UNLIKE.index;
+      return;
     }
     likeType = LikeType.LIKE.index;
+    return;
   }
 }

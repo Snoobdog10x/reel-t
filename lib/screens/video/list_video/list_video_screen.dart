@@ -149,10 +149,13 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         isLiked: videoDetail.like!.likeType == LikeType.LIKE.index,
         userPic: videoDetail.creator!.avatar,
         onTapLike: () {
+          if (provider.currentUser.id == "") {
+            return;
+          }
           videoDetail.likeVideo();
           videoDetail.lockLike();
           notifyDataChanged();
-          // provider.sendLikeVideoEventEvent(videoDetail.like!);
+          provider.sendLikeVideoEventEvent(videoDetail);
         },
       ),
     );
