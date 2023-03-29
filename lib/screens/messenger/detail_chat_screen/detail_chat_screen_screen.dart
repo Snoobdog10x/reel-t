@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
@@ -116,7 +117,11 @@ class _DetailChatScreenScreenState
             Container(
               child: GestureDetector(
                 onTap: () {
-                  popTopDisplay();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => DetailChatSettingScreen(),
+                    ),
+                  );
                 },
                 child: Icon(
                   Icons.more_vert,
