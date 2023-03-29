@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
   static final String SIGNED_IN_USER_CACHE_KEY = "sign_in_user";
+  static final String CONVERSATIONS_KEY = "conversations_key";
   SharedPreferences? _preferences;
 
   Future<void> init() async {
@@ -12,6 +13,12 @@ class LocalStorage {
     if (_preferences == null) return false;
 
     bool isSet = await _preferences!.setString(key, value);
+    return isSet;
+  }
+
+  Future<bool> setListCache(String key, List<String> values) async {
+    if (_preferences == null) return false;
+    bool isSet = await _preferences!.setStringList(key, values);
     return isSet;
   }
 

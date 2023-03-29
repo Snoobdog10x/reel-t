@@ -14,7 +14,7 @@ class Conversation extends AbstractModel {
   UserProfile? user2;
   List<Message> messages = [];
   static String PATH = "Conversations";
-
+  
   Conversation({
     String? id,
     String? firstUserId,
