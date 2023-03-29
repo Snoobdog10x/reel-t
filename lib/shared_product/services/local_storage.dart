@@ -22,6 +22,15 @@ class LocalStorage {
     return isSet;
   }
 
+  List<String> getListStringCache(String key) {
+    if (_preferences != null) return [];
+
+    var data = _preferences!.getStringList(key);
+    if (data == null) return [];
+
+    return data;
+  }
+
   String getCache(String key) {
     if (_preferences != null) return "";
 
