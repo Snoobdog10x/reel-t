@@ -60,7 +60,17 @@ class UserProfile extends AbstractModel {
 
   UserProfile.fromStringJson(String stringJson) {
     Map valueMap = json.decode(stringJson);
-    UserProfile.fromJson(valueMap);
+    id = valueMap["id"];
+    fullName = valueMap["fullName"];
+    email = valueMap["email"];
+    userName = valueMap["userName"];
+    avatar = valueMap["avatar"];
+    bio = valueMap["bio"];
+    numFollower = valueMap["numFollower"];
+    numFollowing = valueMap["numFollowing"];
+    isOnline = valueMap["isOnline"];
+    isActive = valueMap["isActive"];
+    isDeleted = valueMap["isDeleted"];
   }
 
   String toStringJson() {

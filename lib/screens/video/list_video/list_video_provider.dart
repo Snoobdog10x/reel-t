@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:reel_t/events/Like/like_video/like_video_event.dart';
 import 'package:reel_t/events/video/retrieve_video_detail/retrieve_video_detail_event.dart';
@@ -10,10 +11,11 @@ import '../video_detail.dart';
 class ListVideoProvider extends AbstractProvider
     with RetrieveVideoDetailEvent, LikeVideoEvent {
   List<VideoDetail> videoDetails = [];
-  late UserProfile currentUser;
+  UserProfile currentUser = UserProfile();
   int currentPage = 0;
   void init(List<VideoDetail> videoDetails) {
     currentUser = appStore.localUser.getCurrentUser();
+    print(appStore.localUser.getCurrentUser());
     this.videoDetails = videoDetails;
     notifyDataChanged();
   }
@@ -47,7 +49,7 @@ class ListVideoProvider extends AbstractProvider
       videoDetail.unlockLike();
       return;
     }
-    
+
     videoDetail.unlockLike();
     videoDetail.likeVideo();
     notifyDataChanged();

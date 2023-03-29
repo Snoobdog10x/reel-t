@@ -23,7 +23,7 @@ class LocalStorage {
   }
 
   List<String> getListStringCache(String key) {
-    if (_preferences != null) return [];
+    if (_preferences == null) return [];
 
     var data = _preferences!.getStringList(key);
     if (data == null) return [];
@@ -32,7 +32,7 @@ class LocalStorage {
   }
 
   String getCache(String key) {
-    if (_preferences != null) return "";
+    if (_preferences == null) return "";
 
     var data = _preferences!.getString(key);
     if (data == null) return "";

@@ -36,9 +36,7 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   }
 
   @override
-  void onReady() {
-    // TODO: implement onReady
-  }
+  void onReady() {}
 
   @override
   Widget build(BuildContext context) {
@@ -158,5 +156,7 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   }
 
   @override
-  void onDispose() {}
+  void onDispose() {
+    provider.setLocalConversations();
+  }
 }
