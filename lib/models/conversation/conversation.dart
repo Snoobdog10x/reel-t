@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:reel_t/models/user_profile/user_profile.dart';
+import '../../models/message/message.dart';
+import '../../models/user_profile/user_profile.dart';
 
 import '../../generated/abstract_model.dart';
 
@@ -11,6 +12,7 @@ class Conversation extends AbstractModel {
   late bool isDeleted;
   UserProfile? user1;
   UserProfile? user2;
+  List<Message> messages = [];
   static String PATH = "Conversations";
 
   Conversation({

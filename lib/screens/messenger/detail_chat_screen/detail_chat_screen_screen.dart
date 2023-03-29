@@ -35,7 +35,7 @@ class _DetailChatScreenScreenState
   @override
   void onCreate() {
     provider = DetailChatScreenProvider();
-    widget.conversation;
+    provider.init(widget.conversation);
   }
 
   @override
