@@ -35,11 +35,21 @@ class ListVideoProvider extends AbstractProvider
     notifyDataChanged();
   }
 
+  void likeVideo(VideoDetail videoDetail) {
+    videoDetail.likeVideo();
+    sendLikeVideoEventEvent(videoDetail);
+    notifyDataChanged();
+  }
+
   @override
-  void onLikeVideoEventDone(e) {
+  void onLikeVideoEventDone(e, VideoDetail videoDetail) {
     if (e == null) {
+      videoDetail.unlockLike();
       return;
     }
-    print("bug");
+    
+    videoDetail.unlockLike();
+    videoDetail.likeVideo();
+    notifyDataChanged();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -27,7 +28,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   @override
   Widget build(BuildContext context) {
     if (!widget.video.isInitialized()) {
-      return Container(color: Colors.black);
+      return buildLoadWidget();
     }
     return buildReadyVideo();
   }
@@ -63,6 +64,16 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildLoadWidget() {
+    return Container(
+      color: Colors.black,
+      child: CupertinoActivityIndicator(
+        radius: 20,
+        color: Colors.white,
       ),
     );
   }

@@ -61,9 +61,6 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       builder: (context, child) {
         return Consumer<ListVideoProvider>(
           builder: (context, value, child) {
-            if (widget.videos.isEmpty) {
-              return buildLoadWidget();
-            }
             var body = buildBody();
             return buildScreen(
               isSafe: false,
@@ -153,8 +150,8 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         userPic: videoDetail.creator!.avatar,
         onTapLike: () {
           videoDetail.likeVideo();
+          videoDetail.lockLike();
           notifyDataChanged();
-          
           // provider.sendLikeVideoEventEvent(videoDetail.like!);
         },
       ),
@@ -163,9 +160,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   Widget buildBody() {
     if (widget.videos.isEmpty) {
-      return Container(
-        color: Colors.black,
-      );
+      return buildLoadWidget();
     }
     return buildPreloadPageVideo();
   }

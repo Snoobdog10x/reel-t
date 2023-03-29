@@ -10,6 +10,7 @@ class VideoDetail {
   UserProfile? creator;
   Follow? follow;
   Like? like;
+  bool _isLockLike = false;
   VideoDetail({required this.video, this.creator, this.follow, this.like});
   @override
   String toString() {
@@ -24,8 +25,18 @@ class VideoDetail {
     return true;
   }
 
+  void lockLike() {
+    if (_isLockLike) return;
+    _isLockLike = !_isLockLike;
+  }
+
+  void unlockLike() {
+    if (!_isLockLike) return;
+    _isLockLike = !_isLockLike;
+  }
+
   void likeVideo() {
-    if (like == null) return;
+    if (like == null && _isLockLike) return;
     like!.likeVideo();
   }
 }
