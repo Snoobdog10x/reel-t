@@ -1,41 +1,45 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 
-enum FollowType { UNFOLLOW, FOLLOW }
+enum FollowType { UNFOLLOW,FOLLOW }
 
-class Follow extends AbstractModel {
+class Follow extends AbstractModel{
   late String id;
-  late String userId;
-  late String followerId;
-  late int followType;
-  late bool isDeleted;
-  static String PATH = "Follows";
+	late String userId;
+	late String followerId;
+	late int followType;
+	late bool isDeleted;
+	static String PATH = "Follows";
 
   Follow({
     String? id,
-    String? userId,
-    String? followerId,
-    int? followType,
-    bool? isDeleted,
-  }) {
+		String? userId,
+		String? followerId,
+		int? followType,
+		bool? isDeleted,
+  }){
     this.id = id ?? "";
-    this.userId = userId ?? "";
-    this.followerId = followerId ?? "";
-    this.followType = followType ?? 0;
-    this.isDeleted = isDeleted ?? false;
+		this.userId = userId ?? "";
+		this.followerId = followerId ?? "";
+		this.followType = followType ?? 0;
+		this.isDeleted = isDeleted ?? false;
   }
 
-  Follow.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"];
-    userId = json["userId"];
-    followerId = json["followerId"];
-    followType = json["followType"];
-    isDeleted = json["isDeleted"];
+  Follow.fromJson(Map<dynamic, dynamic> jsonMap) {
+    id = jsonMap["id"] ?? "";
+		userId = jsonMap["userId"] ?? "";
+		followerId = jsonMap["followerId"] ?? "";
+		followType = jsonMap["followType"] ?? 0;
+		isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   Follow.fromStringJson(String stringJson) {
-    Map valueMap = json.decode(stringJson);
-    Follow.fromJson(valueMap);
+    Map jsonMap = json.decode(stringJson);
+    id = jsonMap["id"] ?? "";
+		userId = jsonMap["userId"] ?? "";
+		followerId = jsonMap["followerId"] ?? "";
+		followType = jsonMap["followType"] ?? 0;
+		isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   String toStringJson() {
@@ -49,10 +53,10 @@ class Follow extends AbstractModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data["id"] = this.id;
-    data["userId"] = this.userId;
-    data["followerId"] = this.followerId;
-    data["followType"] = this.followType;
-    data["isDeleted"] = this.isDeleted;
+		data["userId"] = this.userId;
+		data["followerId"] = this.followerId;
+		data["followType"] = this.followType;
+		data["isDeleted"] = this.isDeleted;
     return data;
   }
 }

@@ -13,13 +13,13 @@ class Comment extends AbstractModel{
     this.id = id ?? "";
   }
 
-  Comment.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"];
+  Comment.fromJson(Map<dynamic, dynamic> jsonMap) {
+    id = jsonMap["id"] ?? "";
   }
 
   Comment.fromStringJson(String stringJson) {
-    Map valueMap = json.decode(stringJson);
-    Comment.fromJson(valueMap);
+    Map jsonMap = json.decode(stringJson);
+    id = jsonMap["id"] ?? "";
   }
 
   String toStringJson() {

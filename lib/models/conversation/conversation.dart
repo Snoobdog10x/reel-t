@@ -14,7 +14,7 @@ class Conversation extends AbstractModel {
   UserProfile? user2;
   List<Message> messages = [];
   static String PATH = "Conversations";
-  
+
   Conversation({
     String? id,
     String? firstUserId,
@@ -29,17 +29,21 @@ class Conversation extends AbstractModel {
     this.isDeleted = isDeleted ?? false;
   }
 
-  Conversation.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"];
-    firstUserId = json["firstUserId"];
-    secondUserId = json["secondUserId"];
-    isMute = json["isMute"];
-    isDeleted = json["isDeleted"];
+  Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
+    id = jsonMap["id"] ?? "";
+    firstUserId = jsonMap["firstUserId"] ?? "";
+    secondUserId = jsonMap["secondUserId"] ?? "";
+    isMute = jsonMap["isMute"] ?? false;
+    isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   Conversation.fromStringJson(String stringJson) {
-    Map valueMap = json.decode(stringJson);
-    Conversation.fromJson(valueMap);
+    Map jsonMap = json.decode(stringJson);
+    id = jsonMap["id"] ?? "";
+    firstUserId = jsonMap["firstUserId"] ?? "";
+    secondUserId = jsonMap["secondUserId"] ?? "";
+    isMute = jsonMap["isMute"] ?? false;
+    isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   String toStringJson() {

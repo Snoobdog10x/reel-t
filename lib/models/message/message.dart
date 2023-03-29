@@ -22,16 +22,19 @@ class Message extends AbstractModel{
 		this.isDeleted = isDeleted ?? false;
   }
 
-  Message.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"];
-		userId = json["userId"];
-		content = json["content"];
-		isDeleted = json["isDeleted"];
+  Message.fromJson(Map<dynamic, dynamic> jsonMap) {
+    id = jsonMap["id"] ?? "";
+		userId = jsonMap["userId"] ?? "";
+		content = jsonMap["content"] ?? "";
+		isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   Message.fromStringJson(String stringJson) {
-    Map valueMap = json.decode(stringJson);
-    Message.fromJson(valueMap);
+    Map jsonMap = json.decode(stringJson);
+    id = jsonMap["id"] ?? "";
+		userId = jsonMap["userId"] ?? "";
+		content = jsonMap["content"] ?? "";
+		isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   String toStringJson() {

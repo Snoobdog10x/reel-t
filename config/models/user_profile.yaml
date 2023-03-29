@@ -2,7 +2,8 @@ arguments:
   - id: String
   - fullName: String
   - email: String
-  - displayName: String
+  - userName: String
+  - bio: String
   - avatar: String
   - numFollower: int
   - numFollowing: int

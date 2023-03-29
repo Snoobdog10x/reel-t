@@ -25,17 +25,21 @@ class Like extends AbstractModel {
     this.isDeleted = isDeleted ?? false;
   }
 
-  Like.fromJson(Map<dynamic, dynamic> json) {
-    id = json["id"];
-    userId = json["userId"];
-    videoId = json["videoId"];
-    likeType = json["likeType"];
-    isDeleted = json["isDeleted"];
+  Like.fromJson(Map<dynamic, dynamic> jsonMap) {
+    id = jsonMap["id"] ?? "";
+    userId = jsonMap["userId"] ?? "";
+    videoId = jsonMap["videoId"] ?? "";
+    likeType = jsonMap["likeType"] ?? 0;
+    isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   Like.fromStringJson(String stringJson) {
-    Map valueMap = json.decode(stringJson);
-    Like.fromJson(valueMap);
+    Map jsonMap = json.decode(stringJson);
+    id = jsonMap["id"] ?? "";
+    userId = jsonMap["userId"] ?? "";
+    videoId = jsonMap["videoId"] ?? "";
+    likeType = jsonMap["likeType"] ?? 0;
+    isDeleted = jsonMap["isDeleted"] ?? false;
   }
 
   String toStringJson() {
@@ -57,10 +61,8 @@ class Like extends AbstractModel {
   }
 
   void likeVideo() {
-    if (likeType == LikeType.LIKE.index) {
-      likeType = LikeType.UNLIKE.index;
-      return;
+    if(likeType == LikeType.LIKE){
+      
     }
-    likeType = LikeType.LIKE.index;
   }
 }
