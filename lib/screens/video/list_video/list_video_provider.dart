@@ -11,11 +11,10 @@ import '../video_detail.dart';
 class ListVideoProvider extends AbstractProvider
     with RetrieveVideoDetailEvent, LikeVideoEvent {
   List<VideoDetail> videoDetails = [];
-  UserProfile currentUser = UserProfile();
+  late UserProfile currentUser;
   int currentPage = 0;
   void init(List<VideoDetail> videoDetails) {
     currentUser = appStore.localUser.getCurrentUser();
-    print(appStore.localUser.getCurrentUser());
     this.videoDetails = videoDetails;
     notifyDataChanged();
   }

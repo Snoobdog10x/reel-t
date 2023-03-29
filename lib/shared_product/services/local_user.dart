@@ -15,7 +15,7 @@ class LocalUser {
     if (stringJsonUser.isEmpty) {
       return UserProfile();
     }
-    print(UserProfile.fromStringJson(stringJsonUser));
+    
     var userProfile = UserProfile.fromStringJson(stringJsonUser);
     return userProfile;
   }

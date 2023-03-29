@@ -17,12 +17,13 @@ class HomeChatProvider extends AbstractProvider {
   String avatar =
       "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F02062023_image_Beauty_1.jpg?alt=media&token=cec98024-1775-48a5-9740-63d79d441842";
   void init() {
-    print(appStore.localUser.getCurrentUser());
     currentUser = appStore.localUser.getCurrentUser();
+    print("local");
     getLocalConversations();
-    // if (conversations.isEmpty) {
-    //   addMockData();
-    // }
+    if (conversations.isEmpty) {
+      print("mockdata");
+      addMockData();
+    }
     notifyDataChanged();
   }
 
@@ -89,9 +90,7 @@ class HomeChatProvider extends AbstractProvider {
         .getListStringCache(LocalStorage.CONVERSATIONS_KEY);
     for (var conversationSting in listStringConversation) {
       Map conversationMap = json.decode(conversationSting);
-      print(_loadLocalConversation(conversationMap));
       conversations.add(_loadLocalConversation(conversationMap));
-      break;
     }
     notifyDataChanged();
   }
