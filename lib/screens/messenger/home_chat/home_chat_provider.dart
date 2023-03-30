@@ -9,9 +9,6 @@ import 'package:reel_t/shared_product/services/local_storage.dart';
 import '../../../generated/abstract_provider.dart';
 
 class HomeChatProvider extends AbstractProvider {
-  String USER_KEY = "user_key";
-  String CONVERSATION_KEY = "conversation";
-  String MESSAGES_KEY = "MESSAGES_KEY";
   List<Conversation> conversations = [];
   late UserProfile currentUser;
   String avatar =
