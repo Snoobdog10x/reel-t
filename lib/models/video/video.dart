@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'package:hive/hive.dart';
+
 import '../../generated/abstract_model.dart';
 import 'package:video_player/video_player.dart';
 
 
 enum PublicMode { PUBLIC,PRIVATE }
 
-class Video extends AbstractModel{
+class Video extends HiveObject{
   late String id;
 	late String videoUrl;
 	late String songName;
