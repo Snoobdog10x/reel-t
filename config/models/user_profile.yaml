@@ -1,3 +1,4 @@
+isStoreLocal: True
 arguments:
   - id: String
   - fullName: String

@@ -1,37 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
 
 import '../../models/user_profile/user_profile.dart';
 import 'package:reel_t/shared_product/services/local_storage.dart';
 
 class LocalUser {
-  late LocalStorage storage;
-  void init(LocalStorage storage) {
-    this.storage = storage;
+  late Box<UserProfile> userBox;
+  String LOCAL_USER_PATH = UserProfile.PATH + "_local";
+  Future<void> init() async {
+    userBox = await Hive.openBox(LOCAL_USER_PATH);
   }
 
   UserProfile getCurrentUser() {
-    var stringJsonUser =
-        storage.getCache(LocalStorage.SIGNED_IN_USER_CACHE_KEY);
-    if (stringJsonUser.isEmpty) {
-      return UserProfile();
+    if (!isLogin()) {
+      return UserProfile(fullName: "Guest");
     }
     
-    var userProfile = UserProfile.fromStringJson(stringJsonUser);
-    return userProfile;
+    List<UserProfile> userProfiles = userBox.values.toList();
+    return userProfiles.first;
   }
 
   bool isLogin() {
-    return storage.getCache(LocalStorage.SIGNED_IN_USER_CACHE_KEY).isEmpty;
+    return userBox.isEmpty;
   }
 
   void login(UserProfile userProfile) {
-    storage.setCache(
-      LocalStorage.SIGNED_IN_USER_CACHE_KEY,
-      userProfile.toStringJson(),
-    );
+    userBox.add(userProfile);
+    userProfile.save();
   }
 
   void logout() {
-    storage.removeCache(LocalStorage.SIGNED_IN_USER_CACHE_KEY);
+    if (!isLogin()) return;
+    userBox.getAt(0)!.delete();
   }
 }

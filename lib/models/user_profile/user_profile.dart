@@ -1,20 +1,31 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
+import 'package:hive/hive.dart';
 
 
-
-
-class UserProfile{
-  String id = "";
+@HiveType(typeId: 0)
+class UserProfile extends HiveObject{
+  @HiveField(0) 
+	String id = "";
+	@HiveField(1) 
 	String fullName = "";
+	@HiveField(2) 
 	String email = "";
+	@HiveField(3) 
 	String userName = "";
+	@HiveField(4) 
 	String bio = "";
+	@HiveField(5) 
 	String avatar = "";
+	@HiveField(6) 
 	int numFollower = 0;
+	@HiveField(7) 
 	int numFollowing = 0;
+	@HiveField(8) 
 	bool isOnline = false;
+	@HiveField(9) 
 	bool isActive = false;
+	@HiveField(10) 
 	bool isDeleted = false;
 	static String PATH = "UserProfiles";
 
