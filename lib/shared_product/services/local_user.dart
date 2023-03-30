@@ -8,6 +8,7 @@ class LocalUser {
   late Box<UserProfile> userBox;
   String LOCAL_USER_PATH = UserProfile.PATH + "_local";
   Future<void> init() async {
+    Hive.registerAdapter(UserProfileAdapter());
     userBox = await Hive.openBox(LOCAL_USER_PATH);
   }
 
@@ -15,7 +16,7 @@ class LocalUser {
     if (!isLogin()) {
       return UserProfile(fullName: "Guest");
     }
-    
+
     List<UserProfile> userProfiles = userBox.values.toList();
     return userProfiles.first;
   }

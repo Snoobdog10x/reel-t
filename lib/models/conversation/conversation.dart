@@ -1,8 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/message/message.dart';
 import '../../models/user_profile/user_profile.dart';
+import '../../models/message/message.dart';
 import 'package:hive/hive.dart';
+part 'conversation.g.dart';
 
 
 @HiveType(typeId: 0)
