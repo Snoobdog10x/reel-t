@@ -158,6 +158,7 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   @override
   void onDispose() {
-    // provider.setLocalConversations();
+    appStore.localMessenger
+        .saveConversations(provider.conversations);
   }
 }

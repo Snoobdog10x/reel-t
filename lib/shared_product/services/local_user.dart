@@ -6,10 +6,11 @@ import 'package:reel_t/shared_product/services/local_storage.dart';
 
 class LocalUser {
   late Box<UserProfile> userBox;
-  String LOCAL_USER_PATH = UserProfile.PATH + "_local";
+  String USER_PATH = UserProfile.PATH;
+  String LOCAL_USER_KEY = "local_user_key";
   Future<void> init() async {
     Hive.registerAdapter(UserProfileAdapter());
-    userBox = await Hive.openBox(LOCAL_USER_PATH);
+    userBox = await Hive.openBox(USER_PATH);
   }
 
   UserProfile getCurrentUser() {
@@ -17,21 +18,21 @@ class LocalUser {
       return UserProfile(fullName: "Guest");
     }
 
-    List<UserProfile> userProfiles = userBox.values.toList();
-    return userProfiles.first;
+    var currentUser = userBox.get(LOCAL_USER_KEY)!;
+    return currentUser;
   }
 
   bool isLogin() {
-    return userBox.isEmpty;
+    return userBox.get(LOCAL_USER_KEY) != null;
   }
 
   void login(UserProfile userProfile) {
-    userBox.add(userProfile);
-    userProfile.save();
+    if (isLogin()) return;
+    userBox.put(LOCAL_USER_KEY, userProfile);
   }
 
   void logout() {
     if (!isLogin()) return;
-    userBox.getAt(0)!.delete();
+    userBox.get(LOCAL_USER_KEY)!.delete();
   }
 }
