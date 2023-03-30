@@ -3,12 +3,13 @@ import '../../generated/abstract_model.dart';
 
 enum FollowType { UNFOLLOW,FOLLOW }
 
-class Follow extends AbstractModel{
-  late String id;
-	late String userId;
-	late String followerId;
-	late int followType;
-	late bool isDeleted;
+
+class Follow{
+  String id = "";
+	String userId = "";
+	String followerId = "";
+	int followType = 0;
+	bool isDeleted = false;
 	static String PATH = "Follows";
 
   Follow({
@@ -18,28 +19,28 @@ class Follow extends AbstractModel{
 		int? followType,
 		bool? isDeleted,
   }){
-    this.id = id ?? "";
-		this.userId = userId ?? "";
-		this.followerId = followerId ?? "";
-		this.followType = followType ?? 0;
-		this.isDeleted = isDeleted ?? false;
+    if(id != null) this.id = id;
+		if(userId != null) this.userId = userId;
+		if(followerId != null) this.followerId = followerId;
+		if(followType != null) this.followType = followType;
+		if(isDeleted != null) this.isDeleted = isDeleted;
   }
 
   Follow.fromJson(Map<dynamic, dynamic> jsonMap) {
-    id = jsonMap["id"] ?? "";
-		userId = jsonMap["userId"] ?? "";
-		followerId = jsonMap["followerId"] ?? "";
-		followType = jsonMap["followType"] ?? 0;
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["followerId"] != null) followerId = jsonMap["followerId"];
+		if(jsonMap["followType"] != null) followType = jsonMap["followType"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   Follow.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
-    id = jsonMap["id"] ?? "";
-		userId = jsonMap["userId"] ?? "";
-		followerId = jsonMap["followerId"] ?? "";
-		followType = jsonMap["followType"] ?? 0;
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["followerId"] != null) followerId = jsonMap["followerId"];
+		if(jsonMap["followType"] != null) followType = jsonMap["followType"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   String toStringJson() {
@@ -51,12 +52,12 @@ class Follow extends AbstractModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-		data["userId"] = this.userId;
-		data["followerId"] = this.followerId;
-		data["followType"] = this.followType;
-		data["isDeleted"] = this.isDeleted;
-    return data;
+    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
+    jsonMap["id"] = id;
+		jsonMap["userId"] = userId;
+		jsonMap["followerId"] = followerId;
+		jsonMap["followType"] = followType;
+		jsonMap["isDeleted"] = isDeleted;
+    return jsonMap;
   }
 }

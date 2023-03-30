@@ -1,26 +1,27 @@
 import 'dart:convert';
-import 'package:hive/hive.dart';
-
 import '../../generated/abstract_model.dart';
-import 'package:video_player/video_player.dart';
-
-
+import '../../models/user_profile/user_profile.dart';
+import '../../models/like/like.dart';
+import '../../models/comment/comment.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
-class Video extends HiveObject{
-  late String id;
-	late String videoUrl;
-	late String songName;
-	late String creatorId;
-	late String title;
-	late int publicMode;
-	late int commentsNum;
-	late int likesNum;
-	late int viewsNum;
-	late bool isDeleted;
+
+class Video{
+  String id = "";
+	String videoUrl = "";
+	String songName = "";
+	String creatorId = "";
+	String title = "";
+	int publicMode = 0;
+	int commentsNum = 0;
+	int likesNum = 0;
+	int viewsNum = 0;
+	bool isDeleted = false;
+	List<Like> likes = [];
+	List<Comment> comment = [];
+	List<UserProfile> creator = [];
 	static String PATH = "Videos";
-  Function? _notifyDataChanged;
-    VideoPlayerController? _controller;
+
   Video({
     String? id,
 		String? videoUrl,
@@ -32,44 +33,50 @@ class Video extends HiveObject{
 		int? likesNum,
 		int? viewsNum,
 		bool? isDeleted,
+		List<Like>? likes,
+		List<Comment>? comment,
+		List<UserProfile>? creator,
   }){
-    this.id = id ?? "";
-		this.videoUrl = videoUrl ?? "";
-		this.songName = songName ?? "";
-		this.creatorId = creatorId ?? "";
-		this.title = title ?? "";
-		this.publicMode = publicMode ?? 0;
-		this.commentsNum = commentsNum ?? 0;
-		this.likesNum = likesNum ?? 0;
-		this.viewsNum = viewsNum ?? 0;
-		this.isDeleted = isDeleted ?? false;
+    if(id != null) this.id = id;
+		if(videoUrl != null) this.videoUrl = videoUrl;
+		if(songName != null) this.songName = songName;
+		if(creatorId != null) this.creatorId = creatorId;
+		if(title != null) this.title = title;
+		if(publicMode != null) this.publicMode = publicMode;
+		if(commentsNum != null) this.commentsNum = commentsNum;
+		if(likesNum != null) this.likesNum = likesNum;
+		if(viewsNum != null) this.viewsNum = viewsNum;
+		if(isDeleted != null) this.isDeleted = isDeleted;
+		if(likes != null) this.likes = likes;
+		if(comment != null) this.comment = comment;
+		if(creator != null) this.creator = creator;
   }
 
   Video.fromJson(Map<dynamic, dynamic> jsonMap) {
-    id = jsonMap["id"] ?? "";
-		videoUrl = jsonMap["videoUrl"] ?? "";
-		songName = jsonMap["songName"] ?? "";
-		creatorId = jsonMap["creatorId"] ?? "";
-		title = jsonMap["title"] ?? "";
-		publicMode = jsonMap["publicMode"] ?? 0;
-		commentsNum = jsonMap["commentsNum"] ?? 0;
-		likesNum = jsonMap["likesNum"] ?? 0;
-		viewsNum = jsonMap["viewsNum"] ?? 0;
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["videoUrl"] != null) videoUrl = jsonMap["videoUrl"];
+		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
+		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];
+		if(jsonMap["title"] != null) title = jsonMap["title"];
+		if(jsonMap["publicMode"] != null) publicMode = jsonMap["publicMode"];
+		if(jsonMap["commentsNum"] != null) commentsNum = jsonMap["commentsNum"];
+		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
+		if(jsonMap["viewsNum"] != null) viewsNum = jsonMap["viewsNum"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   Video.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
-    id = jsonMap["id"] ?? "";
-		videoUrl = jsonMap["videoUrl"] ?? "";
-		songName = jsonMap["songName"] ?? "";
-		creatorId = jsonMap["creatorId"] ?? "";
-		title = jsonMap["title"] ?? "";
-		publicMode = jsonMap["publicMode"] ?? 0;
-		commentsNum = jsonMap["commentsNum"] ?? 0;
-		likesNum = jsonMap["likesNum"] ?? 0;
-		viewsNum = jsonMap["viewsNum"] ?? 0;
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["videoUrl"] != null) videoUrl = jsonMap["videoUrl"];
+		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
+		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];
+		if(jsonMap["title"] != null) title = jsonMap["title"];
+		if(jsonMap["publicMode"] != null) publicMode = jsonMap["publicMode"];
+		if(jsonMap["commentsNum"] != null) commentsNum = jsonMap["commentsNum"];
+		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
+		if(jsonMap["viewsNum"] != null) viewsNum = jsonMap["viewsNum"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   String toStringJson() {
@@ -81,65 +88,17 @@ class Video extends HiveObject{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-		data["videoUrl"] = this.videoUrl;
-		data["songName"] = this.songName;
-		data["creatorId"] = this.creatorId;
-		data["title"] = this.title;
-		data["publicMode"] = this.publicMode;
-		data["commentsNum"] = this.commentsNum;
-		data["likesNum"] = this.likesNum;
-		data["viewsNum"] = this.viewsNum;
-		data["isDeleted"] = this.isDeleted;
-    return data;
-  }
-
-   void initController(bool isPlay, Function notifyDataChanged) async {
-    if (_controller != null && _controller!.value.isInitialized) {
-      return;
-    }
-    this._notifyDataChanged = notifyDataChanged;
-    _controller = VideoPlayerController.network(videoUrl);
-    _controller!.addListener(() {
-      notifyDataChanged();
-    });
-    _controller!.setLooping(true);
-    await _controller!.initialize();
-    if (isPlay) {
-      _controller!.play();
-    }
-  }
-
-  void disposeController() {
-    _controller?.dispose();
-    _controller = null;
-  }
-
-  bool isInitialized() {
-    if (_controller != null && _controller!.value.isInitialized) {
-      return true;
-    }
-    return false;
-  }
-
-  void changeVideoState() {
-    if (_controller!.value.isPlaying) {
-      stopVideo();
-      return;
-    }
-    playVideo();
-  }
-
-  void playVideo() {
-    _controller?.play();
-  }
-
-  void stopVideo() {
-    _controller?.pause();
-  }
-
-  VideoPlayerController? getVideoController() {
-    return _controller;
+    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
+    jsonMap["id"] = id;
+		jsonMap["videoUrl"] = videoUrl;
+		jsonMap["songName"] = songName;
+		jsonMap["creatorId"] = creatorId;
+		jsonMap["title"] = title;
+		jsonMap["publicMode"] = publicMode;
+		jsonMap["commentsNum"] = commentsNum;
+		jsonMap["likesNum"] = likesNum;
+		jsonMap["viewsNum"] = viewsNum;
+		jsonMap["isDeleted"] = isDeleted;
+    return jsonMap;
   }
 }

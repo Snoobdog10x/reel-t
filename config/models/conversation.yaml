@@ -1,6 +1,9 @@
+isStoreLocal: True
 arguments:
   - id: String
   - firstUserId: String
   - secondUserId: String
+  - messages: Message
+  - secondUser: UserProfile
   - isMute: bool
   - isDeleted: bool

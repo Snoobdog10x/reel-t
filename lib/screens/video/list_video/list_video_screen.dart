@@ -121,7 +121,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       height: screenHeight(),
       width: screenWidth(),
       child: VideoPlayerItem(
-        video: videoDetail.video,
+        videoUrl: videoDetail.video.videoUrl,
         isPlay: index == provider.currentPage,
       ),
     );

@@ -1,18 +1,21 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 
-class UserProfile extends AbstractModel{
-  late String id;
-	late String fullName;
-	late String email;
-	late String userName;
-	late String bio;
-	late String avatar;
-	late int numFollower;
-	late int numFollowing;
-	late bool isOnline;
-	late bool isActive;
-	late bool isDeleted;
+
+
+
+class UserProfile{
+  String id = "";
+	String fullName = "";
+	String email = "";
+	String userName = "";
+	String bio = "";
+	String avatar = "";
+	int numFollower = 0;
+	int numFollowing = 0;
+	bool isOnline = false;
+	bool isActive = false;
+	bool isDeleted = false;
 	static String PATH = "UserProfiles";
 
   UserProfile({
@@ -28,46 +31,46 @@ class UserProfile extends AbstractModel{
 		bool? isActive,
 		bool? isDeleted,
   }){
-    this.id = id ?? "";
-		this.fullName = fullName ?? "";
-		this.email = email ?? "";
-		this.userName = userName ?? "";
-		this.bio = bio ?? "";
-		this.avatar = avatar ?? "";
-		this.numFollower = numFollower ?? 0;
-		this.numFollowing = numFollowing ?? 0;
-		this.isOnline = isOnline ?? false;
-		this.isActive = isActive ?? false;
-		this.isDeleted = isDeleted ?? false;
+    if(id != null) this.id = id;
+		if(fullName != null) this.fullName = fullName;
+		if(email != null) this.email = email;
+		if(userName != null) this.userName = userName;
+		if(bio != null) this.bio = bio;
+		if(avatar != null) this.avatar = avatar;
+		if(numFollower != null) this.numFollower = numFollower;
+		if(numFollowing != null) this.numFollowing = numFollowing;
+		if(isOnline != null) this.isOnline = isOnline;
+		if(isActive != null) this.isActive = isActive;
+		if(isDeleted != null) this.isDeleted = isDeleted;
   }
 
   UserProfile.fromJson(Map<dynamic, dynamic> jsonMap) {
-    id = jsonMap["id"] ?? "";
-		fullName = jsonMap["fullName"] ?? "";
-		email = jsonMap["email"] ?? "";
-		userName = jsonMap["userName"] ?? "";
-		bio = jsonMap["bio"] ?? "";
-		avatar = jsonMap["avatar"] ?? "";
-		numFollower = jsonMap["numFollower"] ?? 0;
-		numFollowing = jsonMap["numFollowing"] ?? 0;
-		isOnline = jsonMap["isOnline"] ?? false;
-		isActive = jsonMap["isActive"] ?? false;
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["fullName"] != null) fullName = jsonMap["fullName"];
+		if(jsonMap["email"] != null) email = jsonMap["email"];
+		if(jsonMap["userName"] != null) userName = jsonMap["userName"];
+		if(jsonMap["bio"] != null) bio = jsonMap["bio"];
+		if(jsonMap["avatar"] != null) avatar = jsonMap["avatar"];
+		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
+		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
+		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
+		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   UserProfile.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
-    id = jsonMap["id"] ?? "";
-		fullName = jsonMap["fullName"] ?? "";
-		email = jsonMap["email"] ?? "";
-		userName = jsonMap["userName"] ?? "";
-		bio = jsonMap["bio"] ?? "";
-		avatar = jsonMap["avatar"] ?? "";
-		numFollower = jsonMap["numFollower"] ?? 0;
-		numFollowing = jsonMap["numFollowing"] ?? 0;
-		isOnline = jsonMap["isOnline"] ?? false;
-		isActive = jsonMap["isActive"] ?? false;
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["fullName"] != null) fullName = jsonMap["fullName"];
+		if(jsonMap["email"] != null) email = jsonMap["email"];
+		if(jsonMap["userName"] != null) userName = jsonMap["userName"];
+		if(jsonMap["bio"] != null) bio = jsonMap["bio"];
+		if(jsonMap["avatar"] != null) avatar = jsonMap["avatar"];
+		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
+		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
+		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
+		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   String toStringJson() {
@@ -79,18 +82,18 @@ class UserProfile extends AbstractModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-		data["fullName"] = this.fullName;
-		data["email"] = this.email;
-		data["userName"] = this.userName;
-		data["bio"] = this.bio;
-		data["avatar"] = this.avatar;
-		data["numFollower"] = this.numFollower;
-		data["numFollowing"] = this.numFollowing;
-		data["isOnline"] = this.isOnline;
-		data["isActive"] = this.isActive;
-		data["isDeleted"] = this.isDeleted;
-    return data;
+    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
+    jsonMap["id"] = id;
+		jsonMap["fullName"] = fullName;
+		jsonMap["email"] = email;
+		jsonMap["userName"] = userName;
+		jsonMap["bio"] = bio;
+		jsonMap["avatar"] = avatar;
+		jsonMap["numFollower"] = numFollower;
+		jsonMap["numFollowing"] = numFollowing;
+		jsonMap["isOnline"] = isOnline;
+		jsonMap["isActive"] = isActive;
+		jsonMap["isDeleted"] = isDeleted;
+    return jsonMap;
   }
 }

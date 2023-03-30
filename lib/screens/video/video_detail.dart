@@ -37,6 +37,6 @@ class VideoDetail {
 
   void likeVideo() {
     if (like == null && _isLockLike) return;
-    like!.likeVideo();
+    
   }
 }

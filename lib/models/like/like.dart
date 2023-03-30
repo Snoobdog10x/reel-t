@@ -1,45 +1,46 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 
-enum LikeType { UNLIKE, LIKE }
+enum LikeType { UNLIKE,LIKE }
 
-class Like extends AbstractModel {
-  late String id;
-  late String userId;
-  late String videoId;
-  late int likeType;
-  late bool isDeleted;
-  static String PATH = "Likes";
+
+class Like{
+  String id = "";
+	String userId = "";
+	String videoId = "";
+	int likeType = 0;
+	bool isDeleted = false;
+	static String PATH = "Likes";
 
   Like({
     String? id,
-    String? userId,
-    String? videoId,
-    int? likeType,
-    bool? isDeleted,
-  }) {
-    this.id = id ?? "";
-    this.userId = userId ?? "";
-    this.videoId = videoId ?? "";
-    this.likeType = likeType ?? 0;
-    this.isDeleted = isDeleted ?? false;
+		String? userId,
+		String? videoId,
+		int? likeType,
+		bool? isDeleted,
+  }){
+    if(id != null) this.id = id;
+		if(userId != null) this.userId = userId;
+		if(videoId != null) this.videoId = videoId;
+		if(likeType != null) this.likeType = likeType;
+		if(isDeleted != null) this.isDeleted = isDeleted;
   }
 
   Like.fromJson(Map<dynamic, dynamic> jsonMap) {
-    id = jsonMap["id"] ?? "";
-    userId = jsonMap["userId"] ?? "";
-    videoId = jsonMap["videoId"] ?? "";
-    likeType = jsonMap["likeType"] ?? 0;
-    isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
+		if(jsonMap["likeType"] != null) likeType = jsonMap["likeType"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   Like.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
-    id = jsonMap["id"] ?? "";
-    userId = jsonMap["userId"] ?? "";
-    videoId = jsonMap["videoId"] ?? "";
-    likeType = jsonMap["likeType"] ?? 0;
-    isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
+		if(jsonMap["likeType"] != null) likeType = jsonMap["likeType"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   String toStringJson() {
@@ -51,21 +52,12 @@ class Like extends AbstractModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-    data["userId"] = this.userId;
-    data["videoId"] = this.videoId;
-    data["likeType"] = this.likeType;
-    data["isDeleted"] = this.isDeleted;
-    return data;
-  }
-
-  void likeVideo() {
-    if (likeType == LikeType.LIKE) {
-      likeType = LikeType.UNLIKE.index;
-      return;
-    }
-    likeType = LikeType.LIKE.index;
-    return;
+    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
+    jsonMap["id"] = id;
+		jsonMap["userId"] = userId;
+		jsonMap["videoId"] = videoId;
+		jsonMap["likeType"] = likeType;
+		jsonMap["isDeleted"] = isDeleted;
+    return jsonMap;
   }
 }

@@ -74,9 +74,10 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
       itemCount: provider.conversations.length,
       itemBuilder: ((context, index) {
         var conversation = provider.conversations[index];
+        var user = conversation.secondUser.first;
         return buildConversation(
-          avataUrl: conversation.user2!.avatar,
-          userName: conversation.user2!.fullName,
+          avataUrl: user.avatar,
+          userName: user.fullName,
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -157,6 +158,6 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   @override
   void onDispose() {
-    provider.setLocalConversations();
+    // provider.setLocalConversations();
   }
 }

@@ -6,11 +6,11 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../models/video/video.dart';
 
 class VideoPlayerItem extends StatefulWidget {
-  final Video video;
+  final String videoUrl;
   final bool isPlay;
   const VideoPlayerItem({
     super.key,
-    required this.video,
+    required this.videoUrl,
     this.isPlay = false,
   });
 
@@ -19,15 +19,16 @@ class VideoPlayerItem extends StatefulWidget {
 }
 
 class _VideoPlayerItemState extends State<VideoPlayerItem> {
+  VideoPlayerController? _controller;
   @override
   void initState() {
     super.initState();
-    widget.video.initController(widget.isPlay, notifyDataChanged);
+    _initController(widget.isPlay);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.video.isInitialized()) {
+    if (!_isInitialized()) {
       return buildLoadWidget();
     }
     return buildReadyVideo();
@@ -40,27 +41,26 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   }
 
   Widget buildReadyVideo() {
-    var _controller = widget.video.getVideoController()!;
     return GestureDetector(
       onTap: () {
-        widget.video.changeVideoState();
+        _changeVideoState();
       },
       child: VisibilityDetector(
         onVisibilityChanged: (VisibilityInfo info) {
           if (info.visibleFraction <= 0.7) {
-            widget.video.stopVideo();
+            _stopVideo();
             return;
           }
-          widget.video.playVideo();
+          _playVideo();
         },
         key: ObjectKey(this),
         child: SizedBox.expand(
           child: FittedBox(
             fit: BoxFit.cover,
             child: SizedBox(
-              width: _controller.value.aspectRatio,
+              width: _controller!.value.aspectRatio,
               height: 1,
-              child: VideoPlayer(_controller),
+              child: VideoPlayer(_controller!),
             ),
           ),
         ),
@@ -78,9 +78,52 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     );
   }
 
+  void _initController(bool isPlay) async {
+    if (_controller != null && _controller!.value.isInitialized) {
+      return;
+    }
+    _controller = VideoPlayerController.network(widget.videoUrl);
+    _controller!.addListener(() {
+      notifyDataChanged();
+    });
+    _controller!.setLooping(true);
+    await _controller!.initialize();
+    if (isPlay) {
+      _controller!.play();
+    }
+  }
+
+  void _disposeController() {
+    _controller?.dispose();
+    _controller = null;
+  }
+
+  bool _isInitialized() {
+    if (_controller != null && _controller!.value.isInitialized) {
+      return true;
+    }
+    return false;
+  }
+
+  void _changeVideoState() {
+    if (_controller!.value.isPlaying) {
+      _stopVideo();
+      return;
+    }
+    _playVideo();
+  }
+
+  void _playVideo() {
+    _controller?.play();
+  }
+
+  void _stopVideo() {
+    _controller?.pause();
+  }
+
   @override
   void dispose() {
-    widget.video.disposeController();
+    _disposeController();
     super.dispose();
   }
 }

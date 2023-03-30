@@ -19,7 +19,6 @@ class HomeChatProvider extends AbstractProvider {
   void init() {
     currentUser = appStore.localUser.getCurrentUser();
     print("local");
-    getLocalConversations();
     if (conversations.isEmpty) {
       print("mockdata");
       addMockData();
@@ -35,8 +34,7 @@ class HomeChatProvider extends AbstractProvider {
         id: i.toString(),
         secondUserId: i.toString(),
       );
-      conversation.user1 = currentUser;
-      conversation.user2 = user2;
+      conversation.secondUser.add(user2);
       addMessageToConversation(conversation);
       conversations.add(conversation);
     }
@@ -44,7 +42,7 @@ class HomeChatProvider extends AbstractProvider {
 
   void addMessageToConversation(Conversation conversation) {
     Random random = Random();
-    List<String> userIds = [conversation.user1!.id, conversation.user2!.id];
+    List<String> userIds = [currentUser.id, conversation.secondUserId];
     List<String> contents = [
       "hihi",
       "Chao em",
@@ -68,42 +66,5 @@ class HomeChatProvider extends AbstractProvider {
       );
     }
     conversation.messages.addAll(messages);
-  }
-
-  void setLocalConversations() async {
-    List<String> conversationsString = [];
-    var revertConversations = conversations.reversed.toList();
-    for (var conversation in revertConversations.getRange(0, 10)) {
-      Map<String, String> conversationMap = {};
-      var messagesString = json.encode(conversation.messages);
-      conversationMap[MESSAGES_KEY] = messagesString;
-      conversationMap[CONVERSATION_KEY] = conversation.toStringJson();
-      conversationMap[USER_KEY] = conversation.user2!.toStringJson();
-      conversationsString.add(json.encode(conversationMap));
-    }
-    appStore.localStorage
-        .setListCache(LocalStorage.CONVERSATIONS_KEY, conversationsString);
-  }
-
-  void getLocalConversations() {
-    var listStringConversation = appStore.localStorage
-        .getListStringCache(LocalStorage.CONVERSATIONS_KEY);
-    for (var conversationSting in listStringConversation) {
-      Map conversationMap = json.decode(conversationSting);
-      conversations.add(_loadLocalConversation(conversationMap));
-    }
-    notifyDataChanged();
-  }
-
-  Conversation _loadLocalConversation(Map conversationMap) {
-    List<dynamic> messageStrings = json.decode(conversationMap[MESSAGES_KEY]!);
-    Conversation conversation =
-        Conversation.fromJson(json.decode(conversationMap[CONVERSATION_KEY]!));
-    conversation.messages = [
-      for (var message in messageStrings) Message.fromJson(message)
-    ];
-    conversation.user1 = currentUser;
-    conversation.user2 = UserProfile.fromStringJson(conversationMap[USER_KEY]);
-    return conversation;
   }
 }

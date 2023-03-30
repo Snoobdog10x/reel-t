@@ -1,13 +1,18 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
+import 'package:hive/hive.dart';
 
 
-
-class Message extends AbstractModel{
-  late String id;
-	late String userId;
-	late String content;
-	late bool isDeleted;
+@HiveType(typeId: 0)
+class Message extends HiveObject{
+  @HiveField(0) 
+	String id = "";
+	@HiveField(1) 
+	String userId = "";
+	@HiveField(2) 
+	String content = "";
+	@HiveField(3) 
+	bool isDeleted = false;
 	static String PATH = "Messages";
 
   Message({
@@ -16,25 +21,25 @@ class Message extends AbstractModel{
 		String? content,
 		bool? isDeleted,
   }){
-    this.id = id ?? "";
-		this.userId = userId ?? "";
-		this.content = content ?? "";
-		this.isDeleted = isDeleted ?? false;
+    if(id != null) this.id = id;
+		if(userId != null) this.userId = userId;
+		if(content != null) this.content = content;
+		if(isDeleted != null) this.isDeleted = isDeleted;
   }
 
   Message.fromJson(Map<dynamic, dynamic> jsonMap) {
-    id = jsonMap["id"] ?? "";
-		userId = jsonMap["userId"] ?? "";
-		content = jsonMap["content"] ?? "";
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["content"] != null) content = jsonMap["content"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   Message.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
-    id = jsonMap["id"] ?? "";
-		userId = jsonMap["userId"] ?? "";
-		content = jsonMap["content"] ?? "";
-		isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["content"] != null) content = jsonMap["content"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   String toStringJson() {
@@ -46,11 +51,11 @@ class Message extends AbstractModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-		data["userId"] = this.userId;
-		data["content"] = this.content;
-		data["isDeleted"] = this.isDeleted;
-    return data;
+    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
+    jsonMap["id"] = id;
+		jsonMap["userId"] = userId;
+		jsonMap["content"] = content;
+		jsonMap["isDeleted"] = isDeleted;
+    return jsonMap;
   }
 }

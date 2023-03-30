@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/user_profile/user_profile_data.dart';
+import '../../models/user_profile/user_profile_sample_data.dart';
+import '../../models/video/video_sample_data.dart';
 import '../../generated/abstract_provider.dart';
 import '../../generated/abstract_state.dart';
 import '../../generated/app_init.dart';
-import '../../models/video/video_data.dart';
 import '../navigation/navigation_screen.dart';
 import '../welcome/welcome_provider.dart';
 
@@ -83,8 +83,8 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   Future<void> onReady() async {
-    // await VideoData().initSampleData();
-    // await UserProfileData().initSampleData();
+    VideoData().initVideoData();
+    UserProfileData().initUserProfileData();
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => NavigationScreen()),
       (_) => false,

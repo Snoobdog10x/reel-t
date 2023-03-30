@@ -3,23 +3,24 @@ import '../../generated/abstract_model.dart';
 
 
 
-class Comment extends AbstractModel{
-  late String id;
+
+class Comment{
+  String id = "";
 	static String PATH = "Comments";
 
   Comment({
     String? id,
   }){
-    this.id = id ?? "";
+    if(id != null) this.id = id;
   }
 
   Comment.fromJson(Map<dynamic, dynamic> jsonMap) {
-    id = jsonMap["id"] ?? "";
+    if(jsonMap["id"] != null) id = jsonMap["id"];
   }
 
   Comment.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
-    id = jsonMap["id"] ?? "";
+    if(jsonMap["id"] != null) id = jsonMap["id"];
   }
 
   String toStringJson() {
@@ -31,8 +32,8 @@ class Comment extends AbstractModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-    return data;
+    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
+    jsonMap["id"] = id;
+    return jsonMap;
   }
 }

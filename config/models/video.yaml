@@ -9,6 +9,9 @@ arguments:
   - likesNum: int
   - viewsNum: int
   - isDeleted: bool
+  - likes: Like
+  - comment: Comment
+  - creator: UserProfile
 enums:
   - public_mode:
       - public

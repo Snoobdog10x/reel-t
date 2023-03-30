@@ -1,49 +1,61 @@
 import 'dart:convert';
+import '../../generated/abstract_model.dart';
 import '../../models/message/message.dart';
 import '../../models/user_profile/user_profile.dart';
+import 'package:hive/hive.dart';
 
-import '../../generated/abstract_model.dart';
 
-class Conversation extends AbstractModel {
-  late String id;
-  late String firstUserId;
-  late String secondUserId;
-  late bool isMute;
-  late bool isDeleted;
-  UserProfile? user1;
-  UserProfile? user2;
-  List<Message> messages = [];
-  static String PATH = "Conversations";
+@HiveType(typeId: 0)
+class Conversation extends HiveObject{
+  @HiveField(0) 
+	String id = "";
+	@HiveField(1) 
+	String firstUserId = "";
+	@HiveField(2) 
+	String secondUserId = "";
+	@HiveField(3) 
+	List<Message> messages = [];
+	@HiveField(4) 
+	List<UserProfile> secondUser = [];
+	@HiveField(5) 
+	bool isMute = false;
+	@HiveField(6) 
+	bool isDeleted = false;
+	static String PATH = "Conversations";
 
   Conversation({
     String? id,
-    String? firstUserId,
-    String? secondUserId,
-    bool? isMute,
-    bool? isDeleted,
-  }) {
-    this.id = id ?? "";
-    this.firstUserId = firstUserId ?? "";
-    this.secondUserId = secondUserId ?? "";
-    this.isMute = isMute ?? false;
-    this.isDeleted = isDeleted ?? false;
+		String? firstUserId,
+		String? secondUserId,
+		List<Message>? messages,
+		List<UserProfile>? secondUser,
+		bool? isMute,
+		bool? isDeleted,
+  }){
+    if(id != null) this.id = id;
+		if(firstUserId != null) this.firstUserId = firstUserId;
+		if(secondUserId != null) this.secondUserId = secondUserId;
+		if(messages != null) this.messages = messages;
+		if(secondUser != null) this.secondUser = secondUser;
+		if(isMute != null) this.isMute = isMute;
+		if(isDeleted != null) this.isDeleted = isDeleted;
   }
 
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
-    id = jsonMap["id"] ?? "";
-    firstUserId = jsonMap["firstUserId"] ?? "";
-    secondUserId = jsonMap["secondUserId"] ?? "";
-    isMute = jsonMap["isMute"] ?? false;
-    isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
+		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
+		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   Conversation.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
-    id = jsonMap["id"] ?? "";
-    firstUserId = jsonMap["firstUserId"] ?? "";
-    secondUserId = jsonMap["secondUserId"] ?? "";
-    isMute = jsonMap["isMute"] ?? false;
-    isDeleted = jsonMap["isDeleted"] ?? false;
+    if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
+		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
+		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
+		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   String toStringJson() {
@@ -55,12 +67,12 @@ class Conversation extends AbstractModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-    data["firstUserId"] = this.firstUserId;
-    data["secondUserId"] = this.secondUserId;
-    data["isMute"] = this.isMute;
-    data["isDeleted"] = this.isDeleted;
-    return data;
+    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
+    jsonMap["id"] = id;
+		jsonMap["firstUserId"] = firstUserId;
+		jsonMap["secondUserId"] = secondUserId;
+		jsonMap["isMute"] = isMute;
+		jsonMap["isDeleted"] = isDeleted;
+    return jsonMap;
   }
 }

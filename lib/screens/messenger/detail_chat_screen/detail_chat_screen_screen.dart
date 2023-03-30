@@ -53,7 +53,7 @@ class _DetailChatScreenScreenState
           builder: (context, value, child) {
             var body = buildBody();
             var bottom = buidBottom();
-            UserProfile user = widget.conversation.user2!;
+            UserProfile user = widget.conversation.secondUser.first;
             return buildScreen(
               appBar: buildAppbar(
                 avataUrl: user.avatar,
