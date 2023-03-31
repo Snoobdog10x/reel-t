@@ -25,6 +25,8 @@ class _DetailChatScreenScreenState
     extends AbstractState<DetailChatScreenScreen> {
   late DetailChatScreenProvider provider;
   @override
+
+  
   AbstractProvider initProvider() {
     return provider;
   }
