@@ -151,6 +151,13 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   }
 
   @override
+  void onPopWidget() {
+    // TODO: implement onPopWidget
+    super.onPopWidget();
+    print("object");
+  }
+
+  @override
   void onDispose() {
     appStore.localMessenger.saveConversations(provider.conversations);
   }
