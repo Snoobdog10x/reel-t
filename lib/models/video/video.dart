@@ -1,9 +1,10 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
+import '../../models/comment/comment.dart';
 import '../../models/like/like.dart';
 import '../../models/user_profile/user_profile.dart';
-import '../../models/comment/comment.dart';
+import '../../models/follow/follow.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 
@@ -18,7 +19,8 @@ class Video{
 	int likesNum = 0;
 	int viewsNum = 0;
 	bool isDeleted = false;
-	List<Like> likes = [];
+	List<Like> like = [];
+	List<Follow> followCreator = [];
 	List<Comment> comment = [];
 	List<UserProfile> creator = [];
 	static String PATH = "Videos";
@@ -34,7 +36,8 @@ class Video{
 		int? likesNum,
 		int? viewsNum,
 		bool? isDeleted,
-		List<Like>? likes,
+		List<Like>? like,
+		List<Follow>? followCreator,
 		List<Comment>? comment,
 		List<UserProfile>? creator,
   }){
@@ -48,7 +51,8 @@ class Video{
 		if(likesNum != null) this.likesNum = likesNum;
 		if(viewsNum != null) this.viewsNum = viewsNum;
 		if(isDeleted != null) this.isDeleted = isDeleted;
-		if(likes != null) this.likes = likes;
+		if(like != null) this.like = like;
+		if(followCreator != null) this.followCreator = followCreator;
 		if(comment != null) this.comment = comment;
 		if(creator != null) this.creator = creator;
   }

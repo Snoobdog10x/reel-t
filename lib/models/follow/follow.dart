@@ -2,14 +2,14 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 
-enum FollowType { UNFOLLOW,FOLLOW }
+
 
 
 class Follow{
   String id = "";
 	String userId = "";
 	String followerId = "";
-	int followType = 0;
+	bool isFollow = false;
 	bool isDeleted = false;
 	static String PATH = "Follows";
 
@@ -17,13 +17,13 @@ class Follow{
     String? id,
 		String? userId,
 		String? followerId,
-		int? followType,
+		bool? isFollow,
 		bool? isDeleted,
   }){
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(followerId != null) this.followerId = followerId;
-		if(followType != null) this.followType = followType;
+		if(isFollow != null) this.isFollow = isFollow;
 		if(isDeleted != null) this.isDeleted = isDeleted;
   }
 
@@ -31,7 +31,7 @@ class Follow{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["followerId"] != null) followerId = jsonMap["followerId"];
-		if(jsonMap["followType"] != null) followType = jsonMap["followType"];
+		if(jsonMap["isFollow"] != null) isFollow = jsonMap["isFollow"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
@@ -40,7 +40,7 @@ class Follow{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["followerId"] != null) followerId = jsonMap["followerId"];
-		if(jsonMap["followType"] != null) followType = jsonMap["followType"];
+		if(jsonMap["isFollow"] != null) isFollow = jsonMap["isFollow"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
@@ -57,7 +57,7 @@ class Follow{
     jsonMap["id"] = id;
 		jsonMap["userId"] = userId;
 		jsonMap["followerId"] = followerId;
-		jsonMap["followType"] = followType;
+		jsonMap["isFollow"] = isFollow;
 		jsonMap["isDeleted"] = isDeleted;
     return jsonMap;
   }

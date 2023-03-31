@@ -5,9 +5,9 @@ import 'package:reel_t/screens/video/video_detail.dart';
 import '../../../models/like/like.dart';
 
 abstract class LikeVideoEvent {
-  void sendLikeVideoEventEvent(VideoDetail videoDetail) {
+  void sendLikeVideoEventEvent(Video video) {
     try {
-      var like = videoDetail.like!;
+      var like = video.like.first;
       var db = FirebaseFirestore.instance
           .collection(Video.PATH)
           .doc(like.videoId)
@@ -16,11 +16,11 @@ abstract class LikeVideoEvent {
       var id = db.id;
       like.id = id;
       db.set(like.toJson());
-      onLikeVideoEventDone(null, videoDetail);
+      onLikeVideoEventDone(null, video);
     } catch (e) {
-      onLikeVideoEventDone(e, videoDetail);
+      onLikeVideoEventDone(e, video);
     }
   }
 
-  void onLikeVideoEventDone(dynamic e, VideoDetail videoDetail);
+  void onLikeVideoEventDone(dynamic e, Video video);
 }

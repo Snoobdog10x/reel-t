@@ -9,7 +9,8 @@ arguments:
   - likesNum: int
   - viewsNum: int
   - isDeleted: bool
-  - likes: Like
+  - like: Like
+  - followCreator: Follow
   - comment: Comment
   - creator: UserProfile
 enums:

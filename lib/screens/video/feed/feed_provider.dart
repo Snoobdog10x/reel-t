@@ -5,8 +5,8 @@ import '../../../generated/abstract_provider.dart';
 import '../../../models/video/video.dart';
 
 class FeedProvider extends AbstractProvider with RetrieveVideosEvent {
-  List<VideoDetail> forYou = [];
-  List<VideoDetail> following = [];
+  List<Video> forYou = [];
+  List<Video> following = [];
   int page = 0;
   int limit = 5;
   void sendRetrieveVideos() {
@@ -17,10 +17,7 @@ class FeedProvider extends AbstractProvider with RetrieveVideosEvent {
   void onRetrieveVideosEventDone(e, List<Video> loadedVideo) {
     if (e == null) {
       page++;
-      for (var video in loadedVideo) {
-        forYou.add(VideoDetail(video: video));
-      }
-
+      forYou.addAll(loadedVideo);
       notifyDataChanged();
       return;
     }

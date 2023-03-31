@@ -6,16 +6,20 @@ import 'package:reel_t/models/like/like.dart';
 import 'package:reel_t/models/follow/follow.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../models/user_profile/user_profile.dart';
+import '../../../models/video/video.dart';
 import '../video_detail.dart';
 
 class ListVideoProvider extends AbstractProvider
     with RetrieveVideoDetailEvent, LikeVideoEvent {
-  List<VideoDetail> videoDetails = [];
+  List<Video> videos = [];
+  Map<Video, bool> _isLockLike = {};
+  Map<Follow, bool> _isLockFollow = {};
+  Map<Video, bool> _isLockSendDetail = {};
   late UserProfile currentUser;
   int currentPage = 0;
-  void init(List<VideoDetail> videoDetails) {
+  void init(List<Video> videos) {
     currentUser = appStore.localUser.getCurrentUser();
-    this.videoDetails = videoDetails;
+    this.videos = videos;
     notifyDataChanged();
   }
 
@@ -24,33 +28,77 @@ class ListVideoProvider extends AbstractProvider
   }
 
   @override
-  void onRetrieveVideoDetailEventDone(
-    Like like,
-    Follow follow,
-    UserProfile creator,
-    int index,
-  ) {
-    videoDetails[index].like = like;
-    videoDetails[index].follow = follow;
-    videoDetails[index].creator = creator;
+  void onRetrieveVideoDetailEventDone(e) {
+    if (e != null) {
+      print(e);
+    }
     notifyDataChanged();
   }
 
-  void likeVideo(VideoDetail videoDetail) {
-    videoDetail.likeVideo();
-    sendLikeVideoEventEvent(videoDetail);
+  void loadVideoDetail(Video video) {
+    if (_isLockSendDetail[video] != null) return;
+    _lockSendVideo(video);
+    sendRetrieveVideoDetailEventEvent(
+      currentUser: currentUser,
+      video: video,
+    );
+  }
+
+  bool isLoadVideoDetail(Video video) {
+    if (video.creator.isEmpty) return false;
+    // if (video.comment.isEmpty) return false;
+
+    if (currentUser.id.isNotEmpty) {
+      if (!isFollow(video)) return false;
+      if (video.like.isEmpty) return false;
+    }
+    return true;
+  }
+
+  void _lockSendVideo(Video video) {
+    if (_isLockSendDetail[video] != null) return;
+    _isLockSendDetail[video] = true;
+  }
+
+  void _lockLike(Video video) {
+    if (_isLockLike[video] != null) return;
+    _isLockLike[video] = true;
+  }
+
+  void _unlockLike(Video video) {
+    if (_isLockLike[video] == null) return;
+    _isLockLike.remove(video);
+  }
+
+  void _changeLikeState(Video video) {
+    video.like.first.isLike = !video.like.first.isLike;
+  }
+
+  bool isFollow(Video video) {
+    return video.followCreator.isNotEmpty;
+  }
+
+  void likeVideo(Video video) {
+    if (_isLockLike[video] != null) return;
+    _changeLikeState(video);
+    _lockLike(video);
+    sendLikeVideoEventEvent(video);
     notifyDataChanged();
+  }
+
+  bool isLikeVideo(Video video) {
+    return video.like.first.isLike;
   }
 
   @override
-  void onLikeVideoEventDone(e, VideoDetail videoDetail) {
+  void onLikeVideoEventDone(e, Video video) {
     if (e == null) {
-      videoDetail.unlockLike();
+      _unlockLike(video);
+      notifyDataChanged();
       return;
     }
-
-    videoDetail.unlockLike();
-    videoDetail.likeVideo();
+    _unlockLike(video);
+    _changeLikeState(video);
     notifyDataChanged();
   }
 }

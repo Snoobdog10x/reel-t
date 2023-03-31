@@ -2,14 +2,14 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 
-enum LikeType { UNLIKE,LIKE }
+
 
 
 class Like{
   String id = "";
 	String userId = "";
 	String videoId = "";
-	int likeType = 0;
+	bool isLike = false;
 	bool isDeleted = false;
 	static String PATH = "Likes";
 
@@ -17,13 +17,13 @@ class Like{
     String? id,
 		String? userId,
 		String? videoId,
-		int? likeType,
+		bool? isLike,
 		bool? isDeleted,
   }){
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(videoId != null) this.videoId = videoId;
-		if(likeType != null) this.likeType = likeType;
+		if(isLike != null) this.isLike = isLike;
 		if(isDeleted != null) this.isDeleted = isDeleted;
   }
 
@@ -31,7 +31,7 @@ class Like{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
-		if(jsonMap["likeType"] != null) likeType = jsonMap["likeType"];
+		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
@@ -40,7 +40,7 @@ class Like{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
-		if(jsonMap["likeType"] != null) likeType = jsonMap["likeType"];
+		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
@@ -57,7 +57,7 @@ class Like{
     jsonMap["id"] = id;
 		jsonMap["userId"] = userId;
 		jsonMap["videoId"] = videoId;
-		jsonMap["likeType"] = likeType;
+		jsonMap["isLike"] = isLike;
 		jsonMap["isDeleted"] = isDeleted;
     return jsonMap;
   }

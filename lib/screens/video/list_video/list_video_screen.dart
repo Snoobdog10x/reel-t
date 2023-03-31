@@ -17,7 +17,7 @@ import 'list_video_provider.dart';
 import '../../../shared_product/widgets/video_player_item.dart';
 
 class ListVideoScreen extends StatefulWidget {
-  final List<VideoDetail> videos;
+  final List<Video> videos;
   final Function loadMoreVideos;
   ListVideoScreen({
     super.key,
@@ -84,22 +84,16 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         }
       },
       itemBuilder: (context, index) {
-        var videoDetail = widget.videos[index];
-        var video = videoDetail.video;
-        if (!videoDetail.isLoadDetail()) {
-          provider.sendRetrieveVideoDetailEventEvent(
-            videoId: video.id,
-            currentUserId: provider.currentUser.id,
-            creatorId: video.creatorId,
-            index: index,
-          );
+        var video = provider.videos[index];
+        if (!provider.isLoadVideoDetail(video)) {
+          provider.loadVideoDetail(video);
           return buildLoadWidget();
         }
         return Stack(
           children: [
-            buildVideoPlayer(videoDetail, index),
-            buildDescription(videoDetail),
-            buildActionBar(videoDetail),
+            buildVideoPlayer(video, index),
+            buildDescription(video),
+            buildActionBar(video),
           ],
         );
       },
@@ -116,46 +110,43 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     );
   }
 
-  Widget buildVideoPlayer(VideoDetail videoDetail, int index) {
+  Widget buildVideoPlayer(Video video, int index) {
     return Container(
       height: screenHeight(),
       width: screenWidth(),
       child: VideoPlayerItem(
-        videoUrl: videoDetail.video.videoUrl,
+        videoUrl: video.videoUrl,
         isPlay: index == provider.currentPage,
       ),
     );
   }
 
-  Widget buildDescription(VideoDetail videoDetail) {
-    var video = videoDetail.video;
+  Widget buildDescription(Video video) {
+    var creator = video.creator.first;
     return Container(
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
-        username: videoDetail.creator!.userName,
+        username: creator.userName,
         videtoTitle: video.title,
         songInfo: video.songName,
       ),
     );
   }
 
-  Widget buildActionBar(VideoDetail videoDetail) {
-    var video = videoDetail.video;
+  Widget buildActionBar(Video video) {
+    var creator = video.creator.first;
     return Container(
       alignment: Alignment.bottomRight,
       child: ActionsToolbar(
         numLikes: provider.formatNumber(video.likesNum),
         numComments: provider.formatNumber(video.commentsNum),
-        isLiked: videoDetail.like!.likeType == LikeType.LIKE.index,
-        userPic: videoDetail.creator!.avatar,
+        isLiked: provider.isLikeVideo(video),
+        userPic: creator.avatar,
         onTapLike: () {
-          if (provider.currentUser.id == "") {
+          if (provider.currentUser.id.isEmpty) {
             return;
           }
-          videoDetail.likeVideo();
-          videoDetail.lockLike();
-          notifyDataChanged();
-          provider.sendLikeVideoEventEvent(videoDetail);
+          provider.likeVideo(video);
         },
       ),
     );
