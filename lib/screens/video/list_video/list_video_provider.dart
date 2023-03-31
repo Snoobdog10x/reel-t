@@ -7,7 +7,6 @@ import 'package:reel_t/models/follow/follow.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
-import '../video_detail.dart';
 
 class ListVideoProvider extends AbstractProvider
     with RetrieveVideoDetailEvent, LikeVideoEvent {

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/video/video_detail.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/actions_toolbar.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/video_description.dart';
 import 'package:visibility_detector/visibility_detector.dart';

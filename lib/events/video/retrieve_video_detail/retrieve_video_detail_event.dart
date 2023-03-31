@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/screens/video/video_detail.dart';
 
 import '../../../models/follow/follow.dart';
 import '../../../models/like/like.dart';

@@ -1,5 +1,3 @@
-import 'package:reel_t/screens/video/video_detail.dart';
-
 import '../../../events/video/retrieve_videos/retrieve_videos_event.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../models/video/video.dart';
