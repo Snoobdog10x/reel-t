@@ -25,8 +25,6 @@ class _DetailChatScreenScreenState
     extends AbstractState<DetailChatScreenScreen> {
   late DetailChatScreenProvider provider;
   @override
-
-  
   AbstractProvider initProvider() {
     return provider;
   }
@@ -142,6 +140,7 @@ class _DetailChatScreenScreenState
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: ListView.builder(
+        reverse: true,
         itemCount: provider.conversation.messages.length,
         itemBuilder: (context, index) {
           var message = provider.conversation.messages[index];
