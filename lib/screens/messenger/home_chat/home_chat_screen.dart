@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/screens/messenger/detail_chat_screen/detail_chat_screen_screen.dart';
+import 'package:reel_t/screens/messenger/detail_chat/detail_chat_screen.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import 'home_chat_provider.dart';
