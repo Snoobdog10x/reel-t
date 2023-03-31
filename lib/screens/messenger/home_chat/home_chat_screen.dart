@@ -79,13 +79,7 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
           avataUrl: user.avatar,
           userName: user.fullName,
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DetailChatScreenScreen(
-                  conversation: conversation,
-                ),
-              ),
-            );
+            pushToScreen(DetailChatScreenScreen(conversation: conversation));
           },
         );
       }),
@@ -158,7 +152,6 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   @override
   void onDispose() {
-    appStore.localMessenger
-        .saveConversations(provider.conversations);
+    appStore.localMessenger.saveConversations(provider.conversations);
   }
 }
