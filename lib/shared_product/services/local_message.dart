@@ -12,6 +12,10 @@ class LocalMessenger {
     localMessage = await Hive.openBox(Message.PATH);
   }
 
+  bool isExistsConversations() {
+    return localConversation.isEmpty;
+  }
+
   Future<void> saveConversation(Conversation conversation) async {
     await localConversation.put(conversation.id, conversation);
   }
