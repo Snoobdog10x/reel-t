@@ -41,6 +41,7 @@ class UserProfile extends AbstractModel  with HiveObjectMixin{
 		bool? isActive,
 		bool? isDeleted,
   }){
+    PATH = (UserProfile).toString();
     if(id != null) this.id = id;
 		if(fullName != null) this.fullName = fullName;
 		if(email != null) this.email = email;
@@ -55,7 +56,9 @@ class UserProfile extends AbstractModel  with HiveObjectMixin{
   }
 
   UserProfile.fromJson(Map<dynamic, dynamic> jsonMap) {
+    PATH = (UserProfile).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["fullName"] != null) fullName = jsonMap["fullName"];
 		if(jsonMap["email"] != null) email = jsonMap["email"];
 		if(jsonMap["userName"] != null) userName = jsonMap["userName"];
@@ -69,8 +72,10 @@ class UserProfile extends AbstractModel  with HiveObjectMixin{
   }
 
   UserProfile.fromStringJson(String stringJson) {
+    PATH = (UserProfile).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["fullName"] != null) fullName = jsonMap["fullName"];
 		if(jsonMap["email"] != null) email = jsonMap["email"];
 		if(jsonMap["userName"] != null) userName = jsonMap["userName"];

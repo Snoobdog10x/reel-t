@@ -8,8 +8,8 @@ class LocalMessenger {
   Future<void> init() async {
     Hive.registerAdapter(ConversationAdapter());
     Hive.registerAdapter(MessageAdapter());
-    localConversation = await Hive.openBox(Conversation.PATH);
-    localMessage = await Hive.openBox(Message.PATH);
+    localConversation = await Hive.openBox(Conversation().PATH);
+    localMessage = await Hive.openBox(Message().PATH);
   }
 
   bool isExistsConversations() {

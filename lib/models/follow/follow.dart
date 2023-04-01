@@ -18,6 +18,7 @@ class Follow extends AbstractModel {
 		bool? isFollow,
 		bool? isDeleted,
   }){
+    PATH = (Follow).toString();
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(followerId != null) this.followerId = followerId;
@@ -26,7 +27,9 @@ class Follow extends AbstractModel {
   }
 
   Follow.fromJson(Map<dynamic, dynamic> jsonMap) {
+    PATH = (Follow).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["followerId"] != null) followerId = jsonMap["followerId"];
 		if(jsonMap["isFollow"] != null) isFollow = jsonMap["isFollow"];
@@ -34,8 +37,10 @@ class Follow extends AbstractModel {
   }
 
   Follow.fromStringJson(String stringJson) {
+    PATH = (Follow).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["followerId"] != null) followerId = jsonMap["followerId"];
 		if(jsonMap["isFollow"] != null) isFollow = jsonMap["isFollow"];

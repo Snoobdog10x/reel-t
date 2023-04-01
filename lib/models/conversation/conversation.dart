@@ -1,8 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/message/message.dart';
 import '../../models/user_profile/user_profile.dart';
+import '../../models/message/message.dart';
 import 'package:hive/hive.dart';
 part 'conversation.g.dart';
 
@@ -31,6 +31,7 @@ class Conversation extends AbstractModel  with HiveObjectMixin{
 		bool? isMute,
 		bool? isDeleted,
   }){
+    PATH = (Conversation).toString();
     if(id != null) this.id = id;
 		if(firstUserId != null) this.firstUserId = firstUserId;
 		if(secondUserId != null) this.secondUserId = secondUserId;
@@ -41,7 +42,9 @@ class Conversation extends AbstractModel  with HiveObjectMixin{
   }
 
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
+    PATH = (Conversation).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
 		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
@@ -49,8 +52,10 @@ class Conversation extends AbstractModel  with HiveObjectMixin{
   }
 
   Conversation.fromStringJson(String stringJson) {
+    PATH = (Conversation).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
+		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
 		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
