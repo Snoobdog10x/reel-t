@@ -8,9 +8,9 @@ abstract class LikeVideoEvent {
     try {
       var like = video.like.first;
       var db = FirebaseFirestore.instance
-          .collection(Video.PATH)
+          .collection(Video().PATH)
           .doc(like.videoId)
-          .collection(Like.PATH)
+          .collection(Like().PATH)
           .doc(like.id != "" ? like.id : null);
       var id = db.id;
       like.id = id;

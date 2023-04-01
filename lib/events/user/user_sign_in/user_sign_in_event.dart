@@ -14,7 +14,7 @@ abstract class UserSignInEvent {
 
       final db = FirebaseFirestore.instance;
       var snapshot =
-          await db.collection(UserProfile.PATH).doc(credential.user!.uid).get();
+          await db.collection(UserProfile().PATH).doc(credential.user!.uid).get();
       var userProfile = UserProfile.fromJson(snapshot.data()!);
       onUserSignInEventDone("", userProfile);
     } on FirebaseAuthException catch (e) {
