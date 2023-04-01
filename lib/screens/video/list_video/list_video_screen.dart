@@ -150,8 +150,8 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
           provider.likeVideo(video);
         },
         onTapComment: () {
-          showWrappingBottomSheet(CommentScreen(),
-              height: screenHeight() * 0.5);
+          // showWrappingBottomSheet(CommentScreen(),
+          //     height: screenHeight() * 0.5);
         },
       ),
     );
