@@ -1,5 +1,6 @@
 isStoreLocal: True
 arguments:
+  - id: String
   - firstUserId: String
   - secondUserId: String
   - messages: Message

@@ -145,6 +145,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         userPic: creator.avatar,
         onTapLike: () {
           if (provider.currentUser.id.isEmpty) {
+            print("not found");
             return;
           }
           provider.likeVideo(video);
