@@ -68,7 +68,7 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
   Widget buildBottomBar() {
     return Container(
       width: screenWidth(),
-      height: screenHeight() * 0.1,
+      height: 70,
       child: Row(
         children: [
           Expanded(

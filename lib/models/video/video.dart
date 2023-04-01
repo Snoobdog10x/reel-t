@@ -1,16 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/comment/comment.dart';
+import '../../models/follow/follow.dart';
 import '../../models/like/like.dart';
 import '../../models/user_profile/user_profile.dart';
-import '../../models/follow/follow.dart';
+import '../../models/comment/comment.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 
-class Video{
-  String id = "";
-	String videoUrl = "";
+class Video extends AbstractModel {
+  String videoUrl = "";
 	String songName = "";
 	String creatorId = "";
 	String title = "";
@@ -23,7 +22,6 @@ class Video{
 	List<Follow> followCreator = [];
 	List<Comment> comment = [];
 	List<UserProfile> creator = [];
-	static String PATH = "Videos";
 
   Video({
     String? id,

@@ -1,6 +1,5 @@
 isStoreLocal: True
 arguments:
-  - id: String
   - fullName: String
   - email: String
   - userName: String

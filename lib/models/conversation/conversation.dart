@@ -8,22 +8,19 @@ part 'conversation.g.dart';
 
 
 @HiveType(typeId: 0)
-class Conversation extends HiveObject{
+class Conversation extends AbstractModel  with HiveObjectMixin{
   @HiveField(0) 
-	String id = "";
-	@HiveField(1) 
 	String firstUserId = "";
-	@HiveField(2) 
+	@HiveField(1) 
 	String secondUserId = "";
-	@HiveField(3) 
+	@HiveField(2) 
 	List<Message> messages = [];
-	@HiveField(4) 
+	@HiveField(3) 
 	List<UserProfile> secondUser = [];
-	@HiveField(5) 
+	@HiveField(4) 
 	bool isMute = false;
-	@HiveField(6) 
+	@HiveField(5) 
 	bool isDeleted = false;
-	static String PATH = "Conversations";
 
   Conversation({
     String? id,

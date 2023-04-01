@@ -17,45 +17,42 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserProfile(
-      id: fields[0] as String?,
-      fullName: fields[1] as String?,
-      email: fields[2] as String?,
-      userName: fields[3] as String?,
-      bio: fields[4] as String?,
-      avatar: fields[5] as String?,
-      numFollower: fields[6] as int?,
-      numFollowing: fields[7] as int?,
-      isOnline: fields[8] as bool?,
-      isActive: fields[9] as bool?,
-      isDeleted: fields[10] as bool?,
+      fullName: fields[0] as String?,
+      email: fields[1] as String?,
+      userName: fields[2] as String?,
+      bio: fields[3] as String?,
+      avatar: fields[4] as String?,
+      numFollower: fields[5] as int?,
+      numFollowing: fields[6] as int?,
+      isOnline: fields[7] as bool?,
+      isActive: fields[8] as bool?,
+      isDeleted: fields[9] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserProfile obj) {
     writer
-      ..writeByte(11)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.fullName)
-      ..writeByte(2)
-      ..write(obj.email)
-      ..writeByte(3)
-      ..write(obj.userName)
-      ..writeByte(4)
-      ..write(obj.bio)
-      ..writeByte(5)
-      ..write(obj.avatar)
-      ..writeByte(6)
-      ..write(obj.numFollower)
-      ..writeByte(7)
-      ..write(obj.numFollowing)
-      ..writeByte(8)
-      ..write(obj.isOnline)
-      ..writeByte(9)
-      ..write(obj.isActive)
       ..writeByte(10)
+      ..writeByte(0)
+      ..write(obj.fullName)
+      ..writeByte(1)
+      ..write(obj.email)
+      ..writeByte(2)
+      ..write(obj.userName)
+      ..writeByte(3)
+      ..write(obj.bio)
+      ..writeByte(4)
+      ..write(obj.avatar)
+      ..writeByte(5)
+      ..write(obj.numFollower)
+      ..writeByte(6)
+      ..write(obj.numFollowing)
+      ..writeByte(7)
+      ..write(obj.isOnline)
+      ..writeByte(8)
+      ..write(obj.isActive)
+      ..writeByte(9)
       ..write(obj.isDeleted);
   }
 

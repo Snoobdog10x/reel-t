@@ -6,30 +6,27 @@ part 'user_profile.g.dart';
 
 
 @HiveType(typeId: 1)
-class UserProfile extends HiveObject{
+class UserProfile extends AbstractModel  with HiveObjectMixin{
   @HiveField(0) 
-	String id = "";
-	@HiveField(1) 
 	String fullName = "";
-	@HiveField(2) 
+	@HiveField(1) 
 	String email = "";
-	@HiveField(3) 
+	@HiveField(2) 
 	String userName = "";
-	@HiveField(4) 
+	@HiveField(3) 
 	String bio = "";
-	@HiveField(5) 
+	@HiveField(4) 
 	String avatar = "";
-	@HiveField(6) 
+	@HiveField(5) 
 	int numFollower = 0;
-	@HiveField(7) 
+	@HiveField(6) 
 	int numFollowing = 0;
-	@HiveField(8) 
+	@HiveField(7) 
 	bool isOnline = false;
-	@HiveField(9) 
+	@HiveField(8) 
 	bool isActive = false;
-	@HiveField(10) 
+	@HiveField(9) 
 	bool isDeleted = false;
-	static String PATH = "UserProfiles";
 
   UserProfile({
     String? id,

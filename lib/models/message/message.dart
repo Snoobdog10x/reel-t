@@ -6,16 +6,13 @@ part 'message.g.dart';
 
 
 @HiveType(typeId: 2)
-class Message extends HiveObject{
+class Message extends AbstractModel  with HiveObjectMixin{
   @HiveField(0) 
-	String id = "";
-	@HiveField(1) 
 	String userId = "";
-	@HiveField(2) 
+	@HiveField(1) 
 	String content = "";
-	@HiveField(3) 
+	@HiveField(2) 
 	bool isDeleted = false;
-	static String PATH = "Messages";
 
   Message({
     String? id,

@@ -1,6 +1,5 @@
 isStoreLocal: True
 arguments:
-  - id: String
   - userId: String
   - content: String
   - isDeleted: bool

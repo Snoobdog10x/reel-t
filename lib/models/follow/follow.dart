@@ -5,13 +5,11 @@ import '../../generated/abstract_model.dart';
 
 
 
-class Follow{
-  String id = "";
-	String userId = "";
+class Follow extends AbstractModel {
+  String userId = "";
 	String followerId = "";
 	bool isFollow = false;
 	bool isDeleted = false;
-	static String PATH = "Follows";
 
   Follow({
     String? id,

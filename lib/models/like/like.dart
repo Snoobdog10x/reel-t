@@ -5,13 +5,11 @@ import '../../generated/abstract_model.dart';
 
 
 
-class Like{
-  String id = "";
-	String userId = "";
+class Like extends AbstractModel {
+  String userId = "";
 	String videoId = "";
 	bool isLike = false;
 	bool isDeleted = false;
-	static String PATH = "Likes";
 
   Like({
     String? id,
