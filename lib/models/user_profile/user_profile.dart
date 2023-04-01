@@ -6,27 +6,30 @@ part 'user_profile.g.dart';
 
 
 @HiveType(typeId: 1)
-class UserProfile extends AbstractModel  with HiveObjectMixin{
+class UserProfile extends HiveObject{
   @HiveField(0) 
-	String fullName = "";
+	String id = "";
 	@HiveField(1) 
-	String email = "";
+	String fullName = "";
 	@HiveField(2) 
-	String userName = "";
+	String email = "";
 	@HiveField(3) 
-	String bio = "";
+	String userName = "";
 	@HiveField(4) 
-	String avatar = "";
+	String bio = "";
 	@HiveField(5) 
-	int numFollower = 0;
+	String avatar = "";
 	@HiveField(6) 
-	int numFollowing = 0;
+	int numFollower = 0;
 	@HiveField(7) 
-	bool isOnline = false;
+	int numFollowing = 0;
 	@HiveField(8) 
-	bool isActive = false;
+	bool isOnline = false;
 	@HiveField(9) 
+	bool isActive = false;
+	@HiveField(10) 
 	bool isDeleted = false;
+	static String PATH = "UserProfiles";
 
   UserProfile({
     String? id,
@@ -41,7 +44,6 @@ class UserProfile extends AbstractModel  with HiveObjectMixin{
 		bool? isActive,
 		bool? isDeleted,
   }){
-    PATH = (UserProfile).toString();
     if(id != null) this.id = id;
 		if(fullName != null) this.fullName = fullName;
 		if(email != null) this.email = email;
@@ -56,9 +58,7 @@ class UserProfile extends AbstractModel  with HiveObjectMixin{
   }
 
   UserProfile.fromJson(Map<dynamic, dynamic> jsonMap) {
-    PATH = (UserProfile).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["fullName"] != null) fullName = jsonMap["fullName"];
 		if(jsonMap["email"] != null) email = jsonMap["email"];
 		if(jsonMap["userName"] != null) userName = jsonMap["userName"];
@@ -72,10 +72,8 @@ class UserProfile extends AbstractModel  with HiveObjectMixin{
   }
 
   UserProfile.fromStringJson(String stringJson) {
-    PATH = (UserProfile).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["fullName"] != null) fullName = jsonMap["fullName"];
 		if(jsonMap["email"] != null) email = jsonMap["email"];
 		if(jsonMap["userName"] != null) userName = jsonMap["userName"];

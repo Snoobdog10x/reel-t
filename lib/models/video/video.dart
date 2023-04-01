@@ -1,15 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../models/follow/follow.dart';
 import '../../models/comment/comment.dart';
 import '../../models/like/like.dart';
+import '../../models/user_profile/user_profile.dart';
+import '../../models/follow/follow.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 
-class Video extends AbstractModel {
-  String videoUrl = "";
+class Video{
+  String id = "";
+	String videoUrl = "";
 	String songName = "";
 	String creatorId = "";
 	String title = "";
@@ -22,6 +23,7 @@ class Video extends AbstractModel {
 	List<Follow> followCreator = [];
 	List<Comment> comment = [];
 	List<UserProfile> creator = [];
+	static String PATH = "Videos";
 
   Video({
     String? id,
@@ -39,7 +41,6 @@ class Video extends AbstractModel {
 		List<Comment>? comment,
 		List<UserProfile>? creator,
   }){
-    PATH = (Video).toString();
     if(id != null) this.id = id;
 		if(videoUrl != null) this.videoUrl = videoUrl;
 		if(songName != null) this.songName = songName;
@@ -57,9 +58,7 @@ class Video extends AbstractModel {
   }
 
   Video.fromJson(Map<dynamic, dynamic> jsonMap) {
-    PATH = (Video).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["videoUrl"] != null) videoUrl = jsonMap["videoUrl"];
 		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
 		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];
@@ -72,10 +71,8 @@ class Video extends AbstractModel {
   }
 
   Video.fromStringJson(String stringJson) {
-    PATH = (Video).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["videoUrl"] != null) videoUrl = jsonMap["videoUrl"];
 		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
 		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];

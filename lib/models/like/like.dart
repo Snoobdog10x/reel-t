@@ -5,11 +5,13 @@ import '../../generated/abstract_model.dart';
 
 
 
-class Like extends AbstractModel {
-  String userId = "";
+class Like{
+  String id = "";
+	String userId = "";
 	String videoId = "";
 	bool isLike = false;
 	bool isDeleted = false;
+	static String PATH = "Likes";
 
   Like({
     String? id,
@@ -18,7 +20,6 @@ class Like extends AbstractModel {
 		bool? isLike,
 		bool? isDeleted,
   }){
-    PATH = (Like).toString();
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(videoId != null) this.videoId = videoId;
@@ -27,9 +28,7 @@ class Like extends AbstractModel {
   }
 
   Like.fromJson(Map<dynamic, dynamic> jsonMap) {
-    PATH = (Like).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
 		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];
@@ -37,10 +36,8 @@ class Like extends AbstractModel {
   }
 
   Like.fromStringJson(String stringJson) {
-    PATH = (Like).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
 		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];

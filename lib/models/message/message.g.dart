@@ -17,21 +17,24 @@ class MessageAdapter extends TypeAdapter<Message> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Message(
-      userId: fields[0] as String?,
-      content: fields[1] as String?,
-      isDeleted: fields[2] as bool?,
+      id: fields[0] as String?,
+      userId: fields[1] as String?,
+      content: fields[2] as String?,
+      isDeleted: fields[3] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Message obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.userId)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.content)
+      ..write(obj.userId)
       ..writeByte(2)
+      ..write(obj.content)
+      ..writeByte(3)
       ..write(obj.isDeleted);
   }
 

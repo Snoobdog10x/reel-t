@@ -83,7 +83,6 @@ class ListVideoProvider extends AbstractProvider
     _lockLike(video);
     sendLikeVideoEventEvent(video);
     notifyDataChanged();
-    print("like");
   }
 
   bool isLikeVideo(Video video) {

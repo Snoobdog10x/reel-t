@@ -1,11 +1,8 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/models/user_profile/user_profile_firebase_repository.dart';
 
 class UserProfileData {
-  final UserProfileFirebaseRepository userProfileFirebaseRepository =
-      UserProfileFirebaseRepository();
   Future<void> initUserProfileData() async {
     List<String> emails = [
       "wiley.boyle@brekke.com",
@@ -59,7 +56,11 @@ class UserProfileData {
         numFollower: _random.nextInt(200000),
         numFollowing: _random.nextInt(200000),
       );
-      userProfileFirebaseRepository.save([userProfile]);
+      final db = FirebaseFirestore.instance;
+      db
+          .collection(UserProfile.PATH)
+          .doc(index.toString())
+          .set(userProfile.toJson());
     }
   }
 }

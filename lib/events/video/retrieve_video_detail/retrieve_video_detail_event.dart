@@ -30,7 +30,7 @@ abstract class RetrieveVideoDetailEvent {
 
   Future<UserProfile> _retrieveCreator(String creatorId) async {
     try {
-      var snapshot = await db.collection(UserProfile().PATH).doc(creatorId).get();
+      var snapshot = await db.collection(UserProfile.PATH).doc(creatorId).get();
       var data = snapshot.data();
       return UserProfile.fromJson(data ?? {});
     } catch (e) {
@@ -40,7 +40,7 @@ abstract class RetrieveVideoDetailEvent {
 
   Future<Follow> _retrieveFollow(String currentUserId, String creatorId) async {
     var snapshot = await db
-        .collection(Follow().PATH)
+        .collection(Follow.PATH)
         .where("followerId", isEqualTo: currentUserId)
         .where("userId", isEqualTo: creatorId)
         .get();
@@ -53,9 +53,9 @@ abstract class RetrieveVideoDetailEvent {
 
   Future<Like> _retrieveLike(String videoId, String currentUserId) async {
     var snapshot = await db
-        .collection(Video().PATH)
+        .collection(Video.PATH)
         .doc(videoId)
-        .collection(Like().PATH)
+        .collection(Like.PATH)
         .where("userId", isEqualTo: currentUserId)
         .get();
     var docs = snapshot.docs;

@@ -6,13 +6,16 @@ part 'message.g.dart';
 
 
 @HiveType(typeId: 2)
-class Message extends AbstractModel  with HiveObjectMixin{
+class Message extends HiveObject{
   @HiveField(0) 
-	String userId = "";
+	String id = "";
 	@HiveField(1) 
-	String content = "";
+	String userId = "";
 	@HiveField(2) 
+	String content = "";
+	@HiveField(3) 
 	bool isDeleted = false;
+	static String PATH = "Messages";
 
   Message({
     String? id,
@@ -20,7 +23,6 @@ class Message extends AbstractModel  with HiveObjectMixin{
 		String? content,
 		bool? isDeleted,
   }){
-    PATH = (Message).toString();
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(content != null) this.content = content;
@@ -28,19 +30,15 @@ class Message extends AbstractModel  with HiveObjectMixin{
   }
 
   Message.fromJson(Map<dynamic, dynamic> jsonMap) {
-    PATH = (Message).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
   }
 
   Message.fromStringJson(String stringJson) {
-    PATH = (Message).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];

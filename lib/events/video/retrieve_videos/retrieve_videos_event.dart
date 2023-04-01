@@ -6,7 +6,7 @@ abstract class RetrieveVideosEvent {
   void sendRetrieveVideosEvent(int page, int limit) async {
     try {
       final db = FirebaseFirestore.instance;
-      var snapshot = await db.collection(Video().PATH).limit(limit).get();
+      var snapshot = await db.collection("Videos").limit(limit).get();
       List<Video> videos = [];
       for (var doc in snapshot.docs) {
         videos.add(Video.fromJson(doc.data()));

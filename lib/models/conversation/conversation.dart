@@ -8,19 +8,22 @@ part 'conversation.g.dart';
 
 
 @HiveType(typeId: 0)
-class Conversation extends AbstractModel  with HiveObjectMixin{
+class Conversation extends HiveObject{
   @HiveField(0) 
-	String firstUserId = "";
+	String id = "";
 	@HiveField(1) 
-	String secondUserId = "";
+	String firstUserId = "";
 	@HiveField(2) 
-	List<Message> messages = [];
+	String secondUserId = "";
 	@HiveField(3) 
-	List<UserProfile> secondUser = [];
+	List<Message> messages = [];
 	@HiveField(4) 
-	bool isMute = false;
+	List<UserProfile> secondUser = [];
 	@HiveField(5) 
+	bool isMute = false;
+	@HiveField(6) 
 	bool isDeleted = false;
+	static String PATH = "Conversations";
 
   Conversation({
     String? id,
@@ -31,7 +34,6 @@ class Conversation extends AbstractModel  with HiveObjectMixin{
 		bool? isMute,
 		bool? isDeleted,
   }){
-    PATH = (Conversation).toString();
     if(id != null) this.id = id;
 		if(firstUserId != null) this.firstUserId = firstUserId;
 		if(secondUserId != null) this.secondUserId = secondUserId;
@@ -42,9 +44,7 @@ class Conversation extends AbstractModel  with HiveObjectMixin{
   }
 
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
-    PATH = (Conversation).toString();
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
 		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
@@ -52,10 +52,8 @@ class Conversation extends AbstractModel  with HiveObjectMixin{
   }
 
   Conversation.fromStringJson(String stringJson) {
-    PATH = (Conversation).toString();
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
 		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
