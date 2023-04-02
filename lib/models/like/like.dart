@@ -11,6 +11,7 @@ class Like{
 	String videoId = "";
 	bool isLike = false;
 	bool isDeleted = false;
+	int createAt = 0;
 	static String PATH = "Likes";
 
   Like({
@@ -19,12 +20,14 @@ class Like{
 		String? videoId,
 		bool? isLike,
 		bool? isDeleted,
+		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(videoId != null) this.videoId = videoId;
 		if(isLike != null) this.isLike = isLike;
 		if(isDeleted != null) this.isDeleted = isDeleted;
+		if(createAt != null) this.createAt = createAt;
   }
 
   Like.fromJson(Map<dynamic, dynamic> jsonMap) {
@@ -33,6 +36,7 @@ class Like{
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
 		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   Like.fromStringJson(String stringJson) {
@@ -42,6 +46,7 @@ class Like{
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
 		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   String toStringJson() {
@@ -59,6 +64,7 @@ class Like{
 		jsonMap["videoId"] = videoId;
 		jsonMap["isLike"] = isLike;
 		jsonMap["isDeleted"] = isDeleted;
+		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
 }

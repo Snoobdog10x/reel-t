@@ -4,3 +4,4 @@ arguments:
   - videoId: String
   - isLike: bool
   - isDeleted: bool
+  - createAt: int

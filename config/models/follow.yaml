@@ -4,3 +4,4 @@ arguments:
   - followerId: String
   - isFollow: bool
   - isDeleted: bool
+  - createAt: int

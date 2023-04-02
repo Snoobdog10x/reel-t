@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/video/video.dart';
 
 class VideoData {
-List<Video> _getVideoData() {
+  List<Video> _getVideoData() {
     var videoUrls = [
       "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/videos%2F02062023_video_Beauty_1.mp4?alt=media&token=b0ae926e-5e2b-4d3f-85f1-ea8ee9263293",
       "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/videos%2F02062023_video_Beauty_10.mp4?alt=media&token=f795a2f3-47bc-45a8-bcd1-1aa11cd7ae12",
@@ -48,6 +48,7 @@ List<Video> _getVideoData() {
           title: "xinh ghê nè <3",
           viewsNum: _random.nextInt(2000000),
           isDeleted: false,
+          createAt: Timestamp.now().millisecondsSinceEpoch,
         ),
       );
     }

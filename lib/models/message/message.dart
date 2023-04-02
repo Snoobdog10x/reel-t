@@ -15,6 +15,8 @@ class Message extends HiveObject{
 	String content = "";
 	@HiveField(3) 
 	bool isDeleted = false;
+	@HiveField(4) 
+	int createAt = 0;
 	static String PATH = "Messages";
 
   Message({
@@ -22,11 +24,13 @@ class Message extends HiveObject{
 		String? userId,
 		String? content,
 		bool? isDeleted,
+		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(content != null) this.content = content;
 		if(isDeleted != null) this.isDeleted = isDeleted;
+		if(createAt != null) this.createAt = createAt;
   }
 
   Message.fromJson(Map<dynamic, dynamic> jsonMap) {
@@ -34,6 +38,7 @@ class Message extends HiveObject{
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   Message.fromStringJson(String stringJson) {
@@ -42,6 +47,7 @@ class Message extends HiveObject{
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   String toStringJson() {
@@ -58,6 +64,7 @@ class Message extends HiveObject{
 		jsonMap["userId"] = userId;
 		jsonMap["content"] = content;
 		jsonMap["isDeleted"] = isDeleted;
+		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
 }

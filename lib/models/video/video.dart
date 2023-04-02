@@ -2,9 +2,9 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 import '../../models/follow/follow.dart';
+import '../../models/user_profile/user_profile.dart';
 import '../../models/comment/comment.dart';
 import '../../models/like/like.dart';
-import '../../models/user_profile/user_profile.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 
@@ -23,6 +23,7 @@ class Video{
 	List<Follow> followCreator = [];
 	List<Comment> comment = [];
 	List<UserProfile> creator = [];
+	int createAt = 0;
 	static String PATH = "Videos";
 
   Video({
@@ -40,6 +41,7 @@ class Video{
 		List<Follow>? followCreator,
 		List<Comment>? comment,
 		List<UserProfile>? creator,
+		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(videoUrl != null) this.videoUrl = videoUrl;
@@ -55,6 +57,7 @@ class Video{
 		if(followCreator != null) this.followCreator = followCreator;
 		if(comment != null) this.comment = comment;
 		if(creator != null) this.creator = creator;
+		if(createAt != null) this.createAt = createAt;
   }
 
   Video.fromJson(Map<dynamic, dynamic> jsonMap) {
@@ -68,6 +71,7 @@ class Video{
 		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
 		if(jsonMap["viewsNum"] != null) viewsNum = jsonMap["viewsNum"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   Video.fromStringJson(String stringJson) {
@@ -82,6 +86,7 @@ class Video{
 		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
 		if(jsonMap["viewsNum"] != null) viewsNum = jsonMap["viewsNum"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   String toStringJson() {
@@ -104,6 +109,7 @@ class Video{
 		jsonMap["likesNum"] = likesNum;
 		jsonMap["viewsNum"] = viewsNum;
 		jsonMap["isDeleted"] = isDeleted;
+		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
 }
