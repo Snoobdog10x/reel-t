@@ -22,7 +22,7 @@ dependencies:
   shared_preferences: 2.0.20
   provider: 6.0.5
   firebase_auth: 4.3.0
-  connectivity_plus: 3.0.3
+  internet_connection_checker: 1.0.0+1
   firebase_storage: 11.0.16
   firebase_database: 10.0.16
   crypto: 3.0.2
@@ -33,6 +33,7 @@ dependencies:
   path_provider: 2.0.14
   hive_generator: 2.0.0
   build_runner: 2.3.3
+  connectivity_plus: 3.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
