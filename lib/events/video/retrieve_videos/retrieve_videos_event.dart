@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../models/video/video.dart';
 
 abstract class RetrieveVideosEvent {
-  final _db = FirebaseFirestore.instance.collection(Video.PATH);
+  final _db = FirebaseFirestore.instance
+      .collection(Video.PATH)
+      .orderBy("createAt", descending: true);
   DocumentSnapshot? _lastRecord;
   void sendRetrieveVideosEvent(int limit) async {
     try {
