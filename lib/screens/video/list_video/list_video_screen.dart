@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/video/comment/comment_screen.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/actions_toolbar.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/video_description.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -146,6 +147,9 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
             return;
           }
           provider.likeVideo(video);
+        },
+        onTapComment: () {
+          showScreenBottomSheet(CommentScreen(), height: screenHeight() * 0.6);
         },
       ),
     );
