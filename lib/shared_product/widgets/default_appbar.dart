@@ -14,6 +14,7 @@ class DefaultAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       height: 45,
       child: Row(
         children: [

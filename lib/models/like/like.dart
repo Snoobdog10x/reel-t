@@ -2,37 +2,41 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 
-enum LikeType { UNLIKE,LIKE }
+
 
 
 class Like{
   String id = "";
 	String userId = "";
 	String videoId = "";
-	int likeType = 0;
+	bool isLike = false;
 	bool isDeleted = false;
+	int createAt = 0;
 	static String PATH = "Likes";
 
   Like({
     String? id,
 		String? userId,
 		String? videoId,
-		int? likeType,
+		bool? isLike,
 		bool? isDeleted,
+		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(videoId != null) this.videoId = videoId;
-		if(likeType != null) this.likeType = likeType;
+		if(isLike != null) this.isLike = isLike;
 		if(isDeleted != null) this.isDeleted = isDeleted;
+		if(createAt != null) this.createAt = createAt;
   }
 
   Like.fromJson(Map<dynamic, dynamic> jsonMap) {
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
-		if(jsonMap["likeType"] != null) likeType = jsonMap["likeType"];
+		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   Like.fromStringJson(String stringJson) {
@@ -40,8 +44,9 @@ class Like{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
-		if(jsonMap["likeType"] != null) likeType = jsonMap["likeType"];
+		if(jsonMap["isLike"] != null) isLike = jsonMap["isLike"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   String toStringJson() {
@@ -57,8 +62,9 @@ class Like{
     jsonMap["id"] = id;
 		jsonMap["userId"] = userId;
 		jsonMap["videoId"] = videoId;
-		jsonMap["likeType"] = likeType;
+		jsonMap["isLike"] = isLike;
 		jsonMap["isDeleted"] = isDeleted;
+		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
 }

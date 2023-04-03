@@ -1,2 +1,7 @@
 arguments:
   - id: String
+  - content: String
+  - userId: String
+  - user: UserProfile
+  - subComments: Comment
+  - createAt: int

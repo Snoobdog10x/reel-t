@@ -4,3 +4,4 @@ arguments:
   - userId: String
   - content: String
   - isDeleted: bool
+  - createAt: int

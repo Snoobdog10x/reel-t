@@ -3,18 +3,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../models/video/video.dart';
 
 abstract class RetrieveVideosEvent {
-  void sendRetrieveVideosEvent(int page, int limit) async {
+  final _db = FirebaseFirestore.instance
+      .collection(Video.PATH)
+      .orderBy("createAt", descending: true);
+  DocumentSnapshot? _lastRecord;
+  void sendRetrieveVideosEvent(int limit) async {
     try {
-      final db = FirebaseFirestore.instance;
-      var snapshot = await db.collection("Videos").limit(limit).get();
-      List<Video> videos = [];
-      for (var doc in snapshot.docs) {
-        videos.add(Video.fromJson(doc.data()));
-      }
+      var snapshot = await _buildSnapshot(limit);
+      List<Video> videos = [
+        for (var doc in snapshot.docs) Video.fromJson(doc.data())
+      ];
       onRetrieveVideosEventDone(null, videos);
     } catch (e) {
       onRetrieveVideosEventDone(e, []);
     }
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> _buildSnapshot(int limit) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot;
+    if (_lastRecord == null) {
+      snapshot = await _db.limit(limit).get();
+    } else {
+      snapshot = await _db.startAfterDocument(_lastRecord!).limit(limit).get();
+    }
+
+    _lastRecord = snapshot.docs.last;
+    return snapshot;
   }
 
   void onRetrieveVideosEventDone(dynamic e, List<Video> loadedVideo);

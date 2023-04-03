@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/screens/video/video_detail.dart';
 
 import '../../../models/follow/follow.dart';
 import '../../../models/like/like.dart';
@@ -10,19 +9,22 @@ import '../../../models/video/video.dart';
 abstract class RetrieveVideoDetailEvent {
   var db = FirebaseFirestore.instance;
   Future<void> sendRetrieveVideoDetailEventEvent({
-    required String videoId,
-    required String currentUserId,
-    required String creatorId,
-    required int index,
+    UserProfile? currentUser,
+    required Video video,
   }) async {
     try {
-      Follow follow = await _retrieveFollow(currentUserId, creatorId);
-      Like like = await _retrieveLike(videoId, currentUserId);
-      UserProfile creator = await _retrieveCreator(creatorId);
-      onRetrieveVideoDetailEventDone(like, follow, creator, index);
+      if (currentUser != null) {
+        Follow follow = await _retrieveFollow(currentUser.id, video.creatorId);
+        Like like = await _retrieveLike(video.id, currentUser.id);
+        video.followCreator.add(follow);
+        video.like.add(like);
+      }
+
+      UserProfile creator = await _retrieveCreator(video.creatorId);
+      video.creator.add(creator);
+      onRetrieveVideoDetailEventDone(null);
     } catch (e) {
-      // onRetrieveVideoDetailEventDone(e);
-      print(e);
+      onRetrieveVideoDetailEventDone(e);
     }
   }
 
@@ -44,7 +46,7 @@ abstract class RetrieveVideoDetailEvent {
         .get();
     var docs = snapshot.docs;
     if (docs.isEmpty) {
-      return Follow();
+      return Follow(followerId: currentUserId, userId: creatorId);
     }
     return Follow.fromJson(docs.first.data());
   }
@@ -63,10 +65,5 @@ abstract class RetrieveVideoDetailEvent {
     return Like.fromJson(docs.first.data());
   }
 
-  void onRetrieveVideoDetailEventDone(
-    Like like,
-    Follow follow,
-    UserProfile creator,
-    int index,
-  );
+  void onRetrieveVideoDetailEventDone(e);
 }

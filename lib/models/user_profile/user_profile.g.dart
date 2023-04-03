@@ -28,13 +28,14 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       isOnline: fields[8] as bool?,
       isActive: fields[9] as bool?,
       isDeleted: fields[10] as bool?,
+      createAt: fields[11] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserProfile obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       ..writeByte(9)
       ..write(obj.isActive)
       ..writeByte(10)
-      ..write(obj.isDeleted);
+      ..write(obj.isDeleted)
+      ..writeByte(11)
+      ..write(obj.createAt);
   }
 
   @override

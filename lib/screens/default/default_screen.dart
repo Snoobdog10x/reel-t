@@ -63,60 +63,42 @@ class _DefaultScreenState extends AbstractState<DefaultScreen> {
       children: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => NavigationScreen()),
-              (_) => false,
-            );
+            pushToScreen(NavigationScreen(), isReplace: true);
           },
           child: Text("Navigation"),
         ),
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomeChatScreen()),
-              (_) => false,
-            );
+            pushToScreen(HomeChatScreen(), isReplace: true);
           },
           child: Text("Home chat screen"),
         ),
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-              (_) => false,
-            );
+            pushToScreen(LoginScreen(), isReplace: true);
           },
           child: Text("Login"),
         ),
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => SignupScreen()),
-              (_) => false,
-            );
+            pushToScreen(SignupScreen(), isReplace: true);
           },
           child: Text("Sign up"),
         ),
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => FeedScreen()),
-              (_) => false,
-            );
+            pushToScreen(FeedScreen(), isReplace: true);
           },
           child: Text("Feed"),
         ),
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => WelcomeScreen()),
-              (_) => false,
-            );
+            pushToScreen(WelcomeScreen(), isReplace: true);
           },
           child: Text("Welcome - init sample data"),
         ),

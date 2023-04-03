@@ -1,8 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/message/message.dart';
 import '../../models/user_profile/user_profile.dart';
+import '../../models/message/message.dart';
 import 'package:hive/hive.dart';
 part 'conversation.g.dart';
 
@@ -23,6 +23,8 @@ class Conversation extends HiveObject{
 	bool isMute = false;
 	@HiveField(6) 
 	bool isDeleted = false;
+	@HiveField(7) 
+	int createAt = 0;
 	static String PATH = "Conversations";
 
   Conversation({
@@ -33,6 +35,7 @@ class Conversation extends HiveObject{
 		List<UserProfile>? secondUser,
 		bool? isMute,
 		bool? isDeleted,
+		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(firstUserId != null) this.firstUserId = firstUserId;
@@ -41,6 +44,7 @@ class Conversation extends HiveObject{
 		if(secondUser != null) this.secondUser = secondUser;
 		if(isMute != null) this.isMute = isMute;
 		if(isDeleted != null) this.isDeleted = isDeleted;
+		if(createAt != null) this.createAt = createAt;
   }
 
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
@@ -49,6 +53,7 @@ class Conversation extends HiveObject{
 		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   Conversation.fromStringJson(String stringJson) {
@@ -58,6 +63,7 @@ class Conversation extends HiveObject{
 		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   String toStringJson() {
@@ -75,6 +81,7 @@ class Conversation extends HiveObject{
 		jsonMap["secondUserId"] = secondUserId;
 		jsonMap["isMute"] = isMute;
 		jsonMap["isDeleted"] = isDeleted;
+		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
 }

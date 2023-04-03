@@ -1,8 +1,9 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/user_profile/user_profile.dart';
 import '../../models/comment/comment.dart';
+import '../../models/user_profile/user_profile.dart';
+import '../../models/follow/follow.dart';
 import '../../models/like/like.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
@@ -18,9 +19,11 @@ class Video{
 	int likesNum = 0;
 	int viewsNum = 0;
 	bool isDeleted = false;
-	List<Like> likes = [];
+	List<Like> like = [];
+	List<Follow> followCreator = [];
 	List<Comment> comment = [];
 	List<UserProfile> creator = [];
+	int createAt = 0;
 	static String PATH = "Videos";
 
   Video({
@@ -34,9 +37,11 @@ class Video{
 		int? likesNum,
 		int? viewsNum,
 		bool? isDeleted,
-		List<Like>? likes,
+		List<Like>? like,
+		List<Follow>? followCreator,
 		List<Comment>? comment,
 		List<UserProfile>? creator,
+		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(videoUrl != null) this.videoUrl = videoUrl;
@@ -48,9 +53,11 @@ class Video{
 		if(likesNum != null) this.likesNum = likesNum;
 		if(viewsNum != null) this.viewsNum = viewsNum;
 		if(isDeleted != null) this.isDeleted = isDeleted;
-		if(likes != null) this.likes = likes;
+		if(like != null) this.like = like;
+		if(followCreator != null) this.followCreator = followCreator;
 		if(comment != null) this.comment = comment;
 		if(creator != null) this.creator = creator;
+		if(createAt != null) this.createAt = createAt;
   }
 
   Video.fromJson(Map<dynamic, dynamic> jsonMap) {
@@ -64,6 +71,7 @@ class Video{
 		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
 		if(jsonMap["viewsNum"] != null) viewsNum = jsonMap["viewsNum"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   Video.fromStringJson(String stringJson) {
@@ -78,6 +86,7 @@ class Video{
 		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
 		if(jsonMap["viewsNum"] != null) viewsNum = jsonMap["viewsNum"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   String toStringJson() {
@@ -100,6 +109,7 @@ class Video{
 		jsonMap["likesNum"] = likesNum;
 		jsonMap["viewsNum"] = viewsNum;
 		jsonMap["isDeleted"] = isDeleted;
+		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
 }

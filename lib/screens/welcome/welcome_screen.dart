@@ -85,12 +85,8 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   Future<void> onReady() async {
-    // VideoData().initVideoData();
-    // UserProfileData().initUserProfileData();
-    // ConversationData().initConversationData();
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => NavigationScreen()),
-      (_) => false,
-    );
+    VideoData().initVideoData();
+    UserProfileData().initUserProfileData();
+    pushToScreen(NavigationScreen(), isReplace: true);
   }
 }

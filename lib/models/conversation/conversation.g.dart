@@ -24,13 +24,14 @@ class ConversationAdapter extends TypeAdapter<Conversation> {
       secondUser: (fields[4] as List?)?.cast<UserProfile>(),
       isMute: fields[5] as bool?,
       isDeleted: fields[6] as bool?,
+      createAt: fields[7] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Conversation obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class ConversationAdapter extends TypeAdapter<Conversation> {
       ..writeByte(5)
       ..write(obj.isMute)
       ..writeByte(6)
-      ..write(obj.isDeleted);
+      ..write(obj.isDeleted)
+      ..writeByte(7)
+      ..write(obj.createAt);
   }
 
   @override

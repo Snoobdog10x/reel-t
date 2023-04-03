@@ -2,9 +2,6 @@ arguments:
   - id: String
   - userId: String
   - followerId: String
-  - followType: int
+  - isFollow: bool
   - isDeleted: bool
-enums:
-  - follow_type:
-    - unfollow
-    - follow
+  - createAt: int

@@ -7,8 +7,8 @@ import 'feed_provider.dart';
 import '../list_video/list_video_screen.dart';
 
 class FeedScreen extends StatefulWidget {
-  final List<Video>? videos;
-  const FeedScreen({super.key, this.videos});
+  
+  const FeedScreen({super.key});
 
   @override
   State<FeedScreen> createState() => _FeedScreenState();

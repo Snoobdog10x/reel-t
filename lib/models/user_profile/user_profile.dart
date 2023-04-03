@@ -29,6 +29,8 @@ class UserProfile extends HiveObject{
 	bool isActive = false;
 	@HiveField(10) 
 	bool isDeleted = false;
+	@HiveField(11) 
+	int createAt = 0;
 	static String PATH = "UserProfiles";
 
   UserProfile({
@@ -43,6 +45,7 @@ class UserProfile extends HiveObject{
 		bool? isOnline,
 		bool? isActive,
 		bool? isDeleted,
+		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(fullName != null) this.fullName = fullName;
@@ -55,6 +58,7 @@ class UserProfile extends HiveObject{
 		if(isOnline != null) this.isOnline = isOnline;
 		if(isActive != null) this.isActive = isActive;
 		if(isDeleted != null) this.isDeleted = isDeleted;
+		if(createAt != null) this.createAt = createAt;
   }
 
   UserProfile.fromJson(Map<dynamic, dynamic> jsonMap) {
@@ -69,6 +73,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
 		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   UserProfile.fromStringJson(String stringJson) {
@@ -84,6 +89,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
 		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
+		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
   String toStringJson() {
@@ -107,6 +113,7 @@ class UserProfile extends HiveObject{
 		jsonMap["isOnline"] = isOnline;
 		jsonMap["isActive"] = isActive;
 		jsonMap["isDeleted"] = isDeleted;
+		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
 }

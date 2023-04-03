@@ -2,9 +2,6 @@ arguments:
   - id: String
   - userId: String
   - videoId: String
-  - likeType: int
+  - isLike: bool
   - isDeleted: bool
-enums:
-  - like_type:
-    - unlike
-    - like
+  - createAt: int
