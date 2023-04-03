@@ -22,10 +22,6 @@ class ListVideoProvider extends AbstractProvider
     notifyDataChanged();
   }
 
-  String formatNumber(int number) {
-    return NumberFormat.compact().format(number);
-  }
-
   @override
   void onRetrieveVideoDetailEventDone(e) {
     if (e != null) {

@@ -91,6 +91,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     if (isPlay) {
       _controller!.play();
     }
+    notifyDataChanged();
   }
 
   void _disposeController() {
