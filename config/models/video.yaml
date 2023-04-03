@@ -1,0 +1,20 @@
+arguments:
+  - id: String
+  - videoUrl: String
+  - songName: String
+  - creatorId: String
+  - title: String
+  - publicMode: int
+  - commentsNum: int
+  - likesNum: int
+  - viewsNum: int
+  - isDeleted: bool
+  - like: Like
+  - followCreator: Follow
+  - comment: Comment
+  - creator: UserProfile
+  - createAt: int
+enums:
+  - public_mode:
+      - public
+      - private

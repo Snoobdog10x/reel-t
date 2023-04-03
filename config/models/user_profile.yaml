@@ -1,0 +1,14 @@
+isStoreLocal: True
+arguments:
+  - id: String
+  - fullName: String
+  - email: String
+  - userName: String
+  - bio: String
+  - avatar: String
+  - numFollower: int
+  - numFollowing: int
+  - isOnline: bool
+  - isActive: bool
+  - isDeleted: bool
+  - createAt: int

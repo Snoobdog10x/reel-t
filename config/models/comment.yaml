@@ -1,0 +1,8 @@
+arguments:
+  - id: String
+  - content: String
+  - userId: String
+  - user: UserProfile
+  - subCommentsNum: int
+  - subComments: Comment
+  - createAt: int
