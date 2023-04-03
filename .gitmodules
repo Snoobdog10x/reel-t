@@ -1,0 +1,3 @@
+[submodule "lib/generated"]
+	path = lib/generated
+	url = https://github.com/Snoobdog10x/generated.git
