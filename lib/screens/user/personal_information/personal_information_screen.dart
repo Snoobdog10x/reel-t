@@ -6,7 +6,6 @@ import '../../../generated/abstract_state.dart';
 import '../../../shared_product/widgets/text_field/custom_text_field.dart';
 import 'personal_information_provider.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
-import 'package:flutter_datetime_picker_pro/flutter_datetime_picker_pro.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
   const PersonalInformationScreen({super.key});
