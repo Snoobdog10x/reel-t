@@ -139,8 +139,11 @@ class _DetailChatScreenScreenState
   Widget buildBody() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8),
-      child: ListView.builder(
+      child: ListView.separated(
         reverse: true,
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 16);
+        },
         itemCount: provider.conversation.messages.length,
         itemBuilder: (context, index) {
           var message = provider.conversation.messages[index];
@@ -151,7 +154,6 @@ class _DetailChatScreenScreenState
   }
 
   Widget buildMessage(Message message) {
-    List<Widget> messageLayout = [];
     return Container(
       alignment: provider.isCurrentUserMessage(message)
           ? Alignment.centerRight
@@ -161,37 +163,87 @@ class _DetailChatScreenScreenState
   }
 
   Widget buildTextMessage(Message message) {
-    return Container(
-      decoration: BoxDecoration(
-        color: provider.isCurrentUserMessage(message)
-            ? Colors.blueAccent
-            : Color.fromARGB(255, 230, 230, 230),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      margin: EdgeInsets.only(top: 16),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      width: screenWidth() * 0.7,
-      child: Row(
-        children: <Widget>[
-          Flexible(
-            child: new Text(
-              message.content,
-              style: TextStyle(
-                color: provider.isCurrentUserMessage(message)
-                    ? Colors.white
-                    : Colors.black,
-              ),
+    final mWidth = screenWidth();
+    final width = message.content.length > mWidth / 7 ? mWidth / 1.3 : null;
+    final isCurrentUser = provider.isCurrentUserMessage(message);
+    String avataUrl = provider.contactUser.avatar;
+    List<Widget> layout = [];
+    if (isCurrentUser) {
+      layout.addAll(
+        [
+          Container(
+            decoration: BoxDecoration(
+              color: isCurrentUser
+                  ? Colors.blueAccent
+                  : Color.fromARGB(255, 230, 230, 230),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            width: width,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Flexible(
+                  child: new Text(
+                    message.content,
+                    style: TextStyle(
+                      color: isCurrentUser ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+          SizedBox(width: 8),
+          CircleAvatar(
+            radius: 12,
+            backgroundImage: NetworkImage(avataUrl),
+          ),
         ],
-      ),
+      );
+    } else {
+      layout.addAll([
+        CircleAvatar(
+          radius: 12,
+          backgroundImage: NetworkImage(avataUrl),
+        ),
+        SizedBox(width: 8),
+        Container(
+          decoration: BoxDecoration(
+            color: isCurrentUser
+                ? Colors.blueAccent
+                : Color.fromARGB(255, 230, 230, 230),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          width: width,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Flexible(
+                child: new Text(
+                  message.content,
+                  style: TextStyle(
+                    color: isCurrentUser ? Colors.white : Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]);
+    }
+    return Row(
+      mainAxisAlignment:
+          isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: layout,
     );
   }
 
   Widget buidBottom() {
     return Row(
       children: <Widget>[
-        SizedBox(width: 10),
+        SizedBox(width: 18),
         GestureDetector(
           onTap: () {},
           child: Container(
@@ -204,7 +256,7 @@ class _DetailChatScreenScreenState
             child: Icon(
               Icons.add,
               color: Colors.white,
-              size: 20,
+              size: 24,
             ),
           ),
         ),
@@ -234,7 +286,7 @@ class _DetailChatScreenScreenState
             ),
           ),
         ),
-        SizedBox(width: 10),
+        SizedBox(width: 18),
       ],
     );
   }
