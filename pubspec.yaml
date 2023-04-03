@@ -36,6 +36,9 @@ dependencies:
   connectivity_plus: 3.0.3
   comment_tree: 0.3.0
   flutter_keyboard_visibility: 5.4.0
+  time_picker_spinner_pop_up: ^1.0.3
+  flutter_cupertino_datetime_picker: ^3.0.0
+  flutter_datetime_picker_pro: ^3.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
