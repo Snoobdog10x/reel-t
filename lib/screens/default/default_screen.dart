@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
 import '../navigation/navigation_screen.dart';
 import '../user/login/login_screen.dart';
@@ -101,6 +102,13 @@ class _DefaultScreenState extends AbstractState<DefaultScreen> {
             pushToScreen(WelcomeScreen(), isReplace: true);
           },
           child: Text("Welcome - init sample data"),
+        ),
+        SizedBox(height: 16),
+        TextButton(
+          onPressed: () {
+            pushToScreen(PersonalInformationScreen(), isReplace: true);
+          },
+          child: Text("Personal information"),
         ),
         SizedBox(height: 16),
       ],
