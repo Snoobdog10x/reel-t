@@ -1,6 +1,0 @@
-[submodule "lib/generated"]
-	path = lib/generated
-	url = https://github.com/Snoobdog10x/generated.git
-[submodule "lib/shared_product"]
-	path = lib/shared_product
-	url = https://github.com/Snoobdog10x/shared_product.git
