@@ -6,11 +6,17 @@ import '../../generated/abstract_model.dart';
 
 
 class Follow{
-  String id = "";
+  static String id_PATH = "id";
+	String id = "";
+	static String userId_PATH = "userId";
 	String userId = "";
+	static String followerId_PATH = "followerId";
 	String followerId = "";
+	static String isFollow_PATH = "isFollow";
 	bool isFollow = false;
+	static String isDeleted_PATH = "isDeleted";
 	bool isDeleted = false;
+	static String createAt_PATH = "createAt";
 	int createAt = 0;
 	static String PATH = "Follows";
 

@@ -9,8 +9,7 @@ class ConversationData {
     for (int i = 0; i < 10; i++) {
       var conversation = Conversation(
         id: i.toString(),
-        firstUserId: "LhL5EUNo7NdTQzaIhM9kgQkdIAh2",
-        secondUserId: i.toString(),
+        userIds: ["LhL5EUNo7NdTQzaIhM9kgQkdIAh2",i.toString()],
         createAt: DateTime.now().millisecondsSinceEpoch,
         updateAt: DateTime.now().millisecondsSinceEpoch,
       );
@@ -34,10 +33,6 @@ class ConversationData {
 
   void addMessageToConversation(Conversation conversation) {
     Random random = Random();
-    List<String> userIds = [
-      conversation.firstUserId,
-      conversation.secondUserId
-    ];
     List<String> contents = [
       "hihi",
       "Chao em",
@@ -51,7 +46,7 @@ class ConversationData {
     List<Message> messages = [];
     for (int i = 0; i < 15; i++) {
       var content = contents[random.nextInt(contents.length)];
-      var userId = userIds[random.nextInt(userIds.length)];
+      var userId = conversation.userIds[random.nextInt(conversation.userIds.length)];
       messages.add(
         Message(
           id: i.toString(),

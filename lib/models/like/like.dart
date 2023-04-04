@@ -6,11 +6,17 @@ import '../../generated/abstract_model.dart';
 
 
 class Like{
-  String id = "";
+  static String id_PATH = "id";
+	String id = "";
+	static String userId_PATH = "userId";
 	String userId = "";
+	static String videoId_PATH = "videoId";
 	String videoId = "";
+	static String isLike_PATH = "isLike";
 	bool isLike = false;
+	static String isDeleted_PATH = "isDeleted";
 	bool isDeleted = false;
+	static String createAt_PATH = "createAt";
 	int createAt = 0;
 	static String PATH = "Likes";
 

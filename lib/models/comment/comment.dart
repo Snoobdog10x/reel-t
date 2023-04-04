@@ -6,12 +6,19 @@ import '../../models/user_profile/user_profile.dart';
 
 
 class Comment{
-  String id = "";
+  static String id_PATH = "id";
+	String id = "";
+	static String content_PATH = "content";
 	String content = "";
+	static String userId_PATH = "userId";
 	String userId = "";
+	static String user_PATH = "user";
 	List<UserProfile> user = [];
+	static String subCommentsNum_PATH = "subCommentsNum";
 	int subCommentsNum = 0;
+	static String subComments_PATH = "subComments";
 	List<Comment> subComments = [];
+	static String createAt_PATH = "createAt";
 	int createAt = 0;
 	static String PATH = "Comments";
 
