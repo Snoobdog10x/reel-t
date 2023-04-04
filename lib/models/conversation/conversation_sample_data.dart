@@ -12,6 +12,7 @@ class ConversationData {
         firstUserId: "LhL5EUNo7NdTQzaIhM9kgQkdIAh2",
         secondUserId: i.toString(),
         createAt: DateTime.now().millisecondsSinceEpoch,
+        updateAt: DateTime.now().millisecondsSinceEpoch,
       );
       addMessageToConversation(conversation);
       final db = await FirebaseFirestore.instance;

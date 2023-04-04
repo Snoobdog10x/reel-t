@@ -25,13 +25,14 @@ class ConversationAdapter extends TypeAdapter<Conversation> {
       isMute: fields[5] as bool?,
       isDeleted: fields[6] as bool?,
       createAt: fields[7] as int?,
+      updateAt: fields[8] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Conversation obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ConversationAdapter extends TypeAdapter<Conversation> {
       ..writeByte(6)
       ..write(obj.isDeleted)
       ..writeByte(7)
-      ..write(obj.createAt);
+      ..write(obj.createAt)
+      ..writeByte(8)
+      ..write(obj.updateAt);
   }
 
   @override

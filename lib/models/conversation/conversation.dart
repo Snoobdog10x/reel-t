@@ -25,6 +25,8 @@ class Conversation extends HiveObject{
 	bool isDeleted = false;
 	@HiveField(7) 
 	int createAt = 0;
+	@HiveField(8) 
+	int updateAt = 0;
 	static String PATH = "Conversations";
 
   Conversation({
@@ -36,6 +38,7 @@ class Conversation extends HiveObject{
 		bool? isMute,
 		bool? isDeleted,
 		int? createAt,
+		int? updateAt,
   }){
     if(id != null) this.id = id;
 		if(firstUserId != null) this.firstUserId = firstUserId;
@@ -45,6 +48,7 @@ class Conversation extends HiveObject{
 		if(isMute != null) this.isMute = isMute;
 		if(isDeleted != null) this.isDeleted = isDeleted;
 		if(createAt != null) this.createAt = createAt;
+		if(updateAt != null) this.updateAt = updateAt;
   }
 
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
@@ -54,6 +58,7 @@ class Conversation extends HiveObject{
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
+		if(jsonMap["updateAt"] != null) updateAt = jsonMap["updateAt"];
   }
 
   Conversation.fromStringJson(String stringJson) {
@@ -64,6 +69,7 @@ class Conversation extends HiveObject{
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
+		if(jsonMap["updateAt"] != null) updateAt = jsonMap["updateAt"];
   }
 
   String toStringJson() {
@@ -82,6 +88,7 @@ class Conversation extends HiveObject{
 		jsonMap["isMute"] = isMute;
 		jsonMap["isDeleted"] = isDeleted;
 		jsonMap["createAt"] = createAt;
+		jsonMap["updateAt"] = updateAt;
     return jsonMap;
   }
 }

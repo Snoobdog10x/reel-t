@@ -8,3 +8,4 @@ arguments:
   - isMute: bool
   - isDeleted: bool
   - createAt: int
+  - updateAt: int
