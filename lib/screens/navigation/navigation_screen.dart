@@ -55,6 +55,7 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
             var body = buildBody();
             return buildScreen(
               body: body,
+              isShowConnect: true,
               background: Colors.black,
               isSafe: false,
               bottomNavBar: buildBottomBar(),
