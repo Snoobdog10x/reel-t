@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 part 'message.g.dart';
 
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
 class Message extends HiveObject{
   @HiveField(0) 
 	String id = "";
