@@ -5,12 +5,17 @@ import 'package:provider/provider.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/comment/comment.dart' as ReelComment;
+import '../../../shared_product/utils/format.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import 'comment_provider.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class CommentScreen extends StatefulWidget {
-  const CommentScreen({super.key});
+  final int commentsNum;
+  const CommentScreen({
+    super.key,
+    this.commentsNum = 0,
+  });
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
@@ -48,7 +53,18 @@ class _CommentScreenState extends AbstractState<CommentScreen> {
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
+              appBar: DefaultAppBar(
+                appBarTitle: "${Format.formatNumber(widget.commentsNum)} comments",
+                appBarAction: GestureDetector(
+                  onTap: () {
+                    popTopDisplay();
+                  },
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Icon(Icons.close),
+                  ),
+                ),
+              ),
               body: body,
               isPushLayoutWhenShowKeyboard: true,
               padding: EdgeInsets.symmetric(horizontal: 8),
@@ -156,6 +172,7 @@ class _CommentScreenState extends AbstractState<CommentScreen> {
         ),
         if (isLast) ...[
           Container(
+            padding: EdgeInsets.only(top: 8, left: 8),
             child: Text("Load more"),
           )
         ]

@@ -10,6 +10,7 @@ class Comment{
 	String content = "";
 	String userId = "";
 	List<UserProfile> user = [];
+	int subCommentsNum = 0;
 	List<Comment> subComments = [];
 	int createAt = 0;
 	static String PATH = "Comments";
@@ -19,6 +20,7 @@ class Comment{
 		String? content,
 		String? userId,
 		List<UserProfile>? user,
+		int? subCommentsNum,
 		List<Comment>? subComments,
 		int? createAt,
   }){
@@ -26,6 +28,7 @@ class Comment{
 		if(content != null) this.content = content;
 		if(userId != null) this.userId = userId;
 		if(user != null) this.user = user;
+		if(subCommentsNum != null) this.subCommentsNum = subCommentsNum;
 		if(subComments != null) this.subComments = subComments;
 		if(createAt != null) this.createAt = createAt;
   }
@@ -34,6 +37,7 @@ class Comment{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["subCommentsNum"] != null) subCommentsNum = jsonMap["subCommentsNum"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
@@ -42,6 +46,7 @@ class Comment{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["subCommentsNum"] != null) subCommentsNum = jsonMap["subCommentsNum"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
 
@@ -58,6 +63,7 @@ class Comment{
     jsonMap["id"] = id;
 		jsonMap["content"] = content;
 		jsonMap["userId"] = userId;
+		jsonMap["subCommentsNum"] = subCommentsNum;
 		jsonMap["createAt"] = createAt;
     return jsonMap;
   }

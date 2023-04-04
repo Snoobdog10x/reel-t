@@ -35,7 +35,6 @@ dependencies:
   build_runner: 2.3.3
   connectivity_plus: 3.0.3
   comment_tree: 0.3.0
-  flutter_keyboard_visibility: 5.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
