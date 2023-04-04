@@ -1,10 +1,10 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/follow/follow.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../models/comment/comment.dart';
 import '../../models/like/like.dart';
+import '../../models/comment/comment.dart';
+import '../../models/user_profile/user_profile.dart';
+import '../../models/follow/follow.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 
