@@ -175,7 +175,6 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   void onPopWidget() {
     // TODO: implement onPopWidget
     super.onPopWidget();
-    print("object");
   }
 
   @override

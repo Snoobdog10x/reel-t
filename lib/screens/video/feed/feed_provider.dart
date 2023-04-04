@@ -15,9 +15,7 @@ class FeedProvider extends AbstractProvider with RetrieveVideosEvent {
     if (e == null) {
       forYou.addAll(loadedVideo);
       notifyDataChanged();
-      print([for (var video in forYou) video.id]);
       return;
     }
-    print(e);
   }
 }
