@@ -12,8 +12,6 @@ class DetailChatScreenProvider extends AbstractProvider {
     this.conversation = conversation;
     currentUser = appStore.localUser.getCurrentUser();
     contactUser = conversation.secondUser.first;
-    // print(conversation.messages);
-    print(contactUser);
   }
 
   bool isCurrentUserMessage(Message message) {

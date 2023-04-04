@@ -25,7 +25,6 @@ class ListVideoProvider extends AbstractProvider
   @override
   void onRetrieveVideoDetailEventDone(e) {
     if (e != null) {
-      print(e);
     }
     notifyDataChanged();
   }
