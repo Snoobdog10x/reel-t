@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/conversation/conversation.dart';
+import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
 import '../navigation/navigation_screen.dart';
 import '../user/login/login_screen.dart';
@@ -61,6 +64,21 @@ class _DefaultScreenState extends AbstractState<DefaultScreen> {
   Widget buildBody() {
     return Column(
       children: [
+        TextButton(
+          onPressed: () {
+            pushToScreen(
+                DetailChatSettingScreen(
+                    conversation: Conversation(secondUser: [
+                  UserProfile(
+                      fullName: 'Do Huy Thong',
+                      avatar:
+                          'https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F02062023_image_Beauty_1.jpg?alt=media&token=cec98024-1775-48a5-9740-63d79d441842')
+                ])),
+                isReplace: false);
+          },
+          child: Text("Details Settings Chat"),
+        ),
+        SizedBox(height: 16),
         TextButton(
           onPressed: () {
             pushToScreen(NavigationScreen(), isReplace: true);
