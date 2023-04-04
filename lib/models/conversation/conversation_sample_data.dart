@@ -8,8 +8,10 @@ class ConversationData {
   Future<void> initConversationData() async {
     for (int i = 0; i < 10; i++) {
       var conversation = Conversation(
-        firstUserId: "08JxD3O432TabNPXbfda1LNDJy92",
+        id: i.toString(),
+        firstUserId: "LhL5EUNo7NdTQzaIhM9kgQkdIAh2",
         secondUserId: i.toString(),
+        createAt: DateTime.now().millisecondsSinceEpoch,
       );
       addMessageToConversation(conversation);
       final db = await FirebaseFirestore.instance;
@@ -54,6 +56,7 @@ class ConversationData {
           id: i.toString(),
           userId: userId,
           content: content,
+          createAt: DateTime.now().millisecondsSinceEpoch,
         ),
       );
     }

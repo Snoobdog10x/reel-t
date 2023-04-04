@@ -36,7 +36,9 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   }
 
   @override
-  void onReady() {}
+  void onReady() {
+    startLoading();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +73,10 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
       separatorBuilder: (context, index) {
         return SizedBox(height: 8);
       },
-      itemCount: provider.conversations.length,
+      itemCount: provider.conversations.values.length,
       itemBuilder: ((context, index) {
-        var conversation = provider.conversations[index];
+        var conversations = provider.conversations.values.toList();
+        var conversation = conversations[index];
         var user = conversation.secondUser.first;
         return buildConversation(
           avataUrl: user.avatar,
@@ -159,6 +162,6 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   @override
   void onDispose() {
-    appStore.localMessenger.saveConversations(provider.conversations);
+    // appStore.localMessenger.saveConversations(provider.conversations);
   }
 }

@@ -1,7 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:reel_t/models/conversation/conversation.dart';
+import 'package:reel_t/models/user_profile/user_profile.dart';
+
 abstract class RetrieveConversationsEvent {
-  void sendRetrieveConversationsEventEvent() {
+  final db = FirebaseFirestore.instance;
+  void sendRetrieveConversationsEventEvent(UserProfile currentUser) {
     try {
-      onRetrieveConversationsEventDone(null);
+      db
+          .collection(Conversation.PATH)
+          .where('firstUserId', isEqualTo: currentUser.id)
+          .orderBy('createAt', descending: true)
+          .limitToLast(15)
+          .snapshots()
+          .listen((event) {
+        var docs = event.docs;
+        print([for (var doc in docs) Conversation.fromJson(doc.data())]);
+        onRetrieveConversationsEventDone(null);
+      });
     } catch (e) {
       onRetrieveConversationsEventDone(e);
     }
@@ -23,4 +38,3 @@ abstract class RetrieveConversationsEvent {
   //   return Like.fromJson(docs.first.data());
   // }
 }
-
