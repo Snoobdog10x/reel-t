@@ -3,24 +3,26 @@ import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 
 abstract class RetrieveConversationsEvent {
-  final db = FirebaseFirestore.instance;
   void sendRetrieveConversationsEventEvent(UserProfile currentUser) {
     try {
+      final db = FirebaseFirestore.instance.collection(Conversation.PATH);
       db
-          .collection(Conversation.PATH)
-          .where('userIds', arrayContains: currentUser.id)
-          .orderBy('updateAt', descending: true)
+          .where(Conversation.userIds_PATH, arrayContains: currentUser.id)
+          .orderBy(Conversation.updateAt_PATH, descending: true)
           .limit(15)
           .snapshots()
           .listen((event) {
         var docs = event.docChanges;
-        print([for (var doc in docs) Conversation.fromJson(doc.doc.data()!)]);
-        onRetrieveConversationsEventDone(null);
+        List<Conversation> conversations = [
+          for (var doc in docs) Conversation.fromJson(doc.doc.data()!)
+        ];
+        onRetrieveConversationsEventDone(null, conversations);
       });
     } catch (e) {
-      onRetrieveConversationsEventDone(e);
+      onRetrieveConversationsEventDone(e, []);
     }
   }
 
-  void onRetrieveConversationsEventDone(dynamic e);
+  void onRetrieveConversationsEventDone(
+      dynamic e, List<Conversation> conversation);
 }
