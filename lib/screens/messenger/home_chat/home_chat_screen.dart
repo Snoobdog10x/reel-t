@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat/detail_chat_screen.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import 'home_chat_provider.dart';
@@ -36,9 +37,7 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   }
 
   @override
-  void onReady() {
-    startLoading();
-  }
+  void onReady() {}
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,23 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
       itemBuilder: ((context, index) {
         var conversations = provider.conversations.values.toList();
         var conversation = conversations[index];
-        var user = conversation.secondUser.first;
+        var isDataLoaded = conversation.secondUser.isNotEmpty;
+        var user = isDataLoaded ? conversation.secondUser.first : UserProfile();
+        if (!isDataLoaded) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            enabled: true,
+            child: buildConversation(
+              avataUrl: user.avatar,
+              userName: user.fullName,
+              onTap: () {
+                pushToScreen(
+                    DetailChatScreenScreen(conversation: conversation));
+              },
+            ),
+          );
+        }
         return buildConversation(
           avataUrl: user.avatar,
           userName: user.fullName,
@@ -123,6 +138,9 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
                         ),
                       ),
                     ),
+                    errorWidget: (context, url, error) {
+                      return Container();
+                    },
                   )
                 : Container(),
             SizedBox(width: 8),

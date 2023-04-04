@@ -243,7 +243,6 @@ class _DetailChatScreenScreenState
 
   Widget buidBottom() {
     return Container(
-      padding: EdgeInsets.only(bottom: 20),
       child: Row(
         children: <Widget>[
           SizedBox(width: 10),
