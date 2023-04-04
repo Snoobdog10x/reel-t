@@ -85,6 +85,8 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   Future<void> onReady() async {
+    // appStore.localUser.clearUser();
+    // appStore.localMessenger.clearMessage();
     // VideoData().initVideoData();
     // UserProfileData().initUserProfileData();
     // ConversationData().initConversationData();

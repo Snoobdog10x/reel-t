@@ -8,13 +8,13 @@ abstract class RetrieveConversationsEvent {
     try {
       db
           .collection(Conversation.PATH)
-          .where('firstUserId', isEqualTo: currentUser.id)
-          .orderBy('createAt', descending: true)
-          .limitToLast(15)
+          .where('userIds', arrayContains: currentUser.id)
+          .orderBy('updateAt', descending: true)
+          .limit(15)
           .snapshots()
           .listen((event) {
-        var docs = event.docs;
-        print([for (var doc in docs) Conversation.fromJson(doc.data())]);
+        var docs = event.docChanges;
+        print([for (var doc in docs) Conversation.fromJson(doc.doc.data()!)]);
         onRetrieveConversationsEventDone(null);
       });
     } catch (e) {
@@ -23,18 +23,4 @@ abstract class RetrieveConversationsEvent {
   }
 
   void onRetrieveConversationsEventDone(dynamic e);
-
-  // Future<Like> _retrieveLike(String videoId, String currentUserId) async {
-  //   var snapshot = await db
-  //       .collection(Video.PATH)
-  //       .doc(videoId)
-  //       .collection(Like.PATH)
-  //       .where("userId", isEqualTo: currentUserId)
-  //       .get();
-  //   var docs = snapshot.docs;
-  //   if (docs.isEmpty) {
-  //     return Like(videoId: videoId, userId: currentUserId);
-  //   }
-  //   return Like.fromJson(docs.first.data());
-  // }
 }

@@ -2,27 +2,42 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 import '../../models/follow/follow.dart';
+import '../../models/user_profile/user_profile.dart';
 import '../../models/comment/comment.dart';
 import '../../models/like/like.dart';
-import '../../models/user_profile/user_profile.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 
 class Video{
-  String id = "";
+  static String id_PATH = "id";
+	String id = "";
+	static String videoUrl_PATH = "videoUrl";
 	String videoUrl = "";
+	static String songName_PATH = "songName";
 	String songName = "";
+	static String creatorId_PATH = "creatorId";
 	String creatorId = "";
+	static String title_PATH = "title";
 	String title = "";
+	static String publicMode_PATH = "publicMode";
 	int publicMode = 0;
+	static String commentsNum_PATH = "commentsNum";
 	int commentsNum = 0;
+	static String likesNum_PATH = "likesNum";
 	int likesNum = 0;
+	static String viewsNum_PATH = "viewsNum";
 	int viewsNum = 0;
+	static String isDeleted_PATH = "isDeleted";
 	bool isDeleted = false;
+	static String like_PATH = "like";
 	List<Like> like = [];
+	static String followCreator_PATH = "followCreator";
 	List<Follow> followCreator = [];
+	static String comment_PATH = "comment";
 	List<Comment> comment = [];
+	static String creator_PATH = "creator";
 	List<UserProfile> creator = [];
+	static String createAt_PATH = "createAt";
 	int createAt = 0;
 	static String PATH = "Videos";
 

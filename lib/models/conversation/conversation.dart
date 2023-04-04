@@ -9,61 +9,69 @@ part 'conversation.g.dart';
 
 @HiveType(typeId: 0)
 class Conversation extends HiveObject{
-  @HiveField(0) 
+  static String id_PATH = "id";
+	@HiveField(0) 
 	String id = "";
+	static String userIds_PATH = "userIds";
 	@HiveField(1) 
-	String firstUserId = "";
+	List<String> userIds = [];
+	static String messages_PATH = "messages";
 	@HiveField(2) 
-	String secondUserId = "";
-	@HiveField(3) 
 	List<Message> messages = [];
-	@HiveField(4) 
+	static String secondUser_PATH = "secondUser";
+	@HiveField(3) 
 	List<UserProfile> secondUser = [];
-	@HiveField(5) 
+	static String isMute_PATH = "isMute";
+	@HiveField(4) 
 	bool isMute = false;
-	@HiveField(6) 
+	static String isDeleted_PATH = "isDeleted";
+	@HiveField(5) 
 	bool isDeleted = false;
-	@HiveField(7) 
+	static String createAt_PATH = "createAt";
+	@HiveField(6) 
 	int createAt = 0;
+	static String updateAt_PATH = "updateAt";
+	@HiveField(7) 
+	int updateAt = 0;
 	static String PATH = "Conversations";
 
   Conversation({
     String? id,
-		String? firstUserId,
-		String? secondUserId,
+		List<String>? userIds,
 		List<Message>? messages,
 		List<UserProfile>? secondUser,
 		bool? isMute,
 		bool? isDeleted,
 		int? createAt,
+		int? updateAt,
   }){
     if(id != null) this.id = id;
-		if(firstUserId != null) this.firstUserId = firstUserId;
-		if(secondUserId != null) this.secondUserId = secondUserId;
+		if(userIds != null) this.userIds = userIds;
 		if(messages != null) this.messages = messages;
 		if(secondUser != null) this.secondUser = secondUser;
 		if(isMute != null) this.isMute = isMute;
 		if(isDeleted != null) this.isDeleted = isDeleted;
 		if(createAt != null) this.createAt = createAt;
+		if(updateAt != null) this.updateAt = updateAt;
   }
 
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
-		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
+		if(jsonMap["userIds"] != null) userIds = jsonMap["userIds"].cast<String>();
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
+		if(jsonMap["updateAt"] != null) updateAt = jsonMap["updateAt"];
   }
 
   Conversation.fromStringJson(String stringJson) {
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
-		if(jsonMap["firstUserId"] != null) firstUserId = jsonMap["firstUserId"];
-		if(jsonMap["secondUserId"] != null) secondUserId = jsonMap["secondUserId"];
+		if(jsonMap["userIds"] != null) userIds = jsonMap["userIds"].cast<String>();
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
+		if(jsonMap["updateAt"] != null) updateAt = jsonMap["updateAt"];
   }
 
   String toStringJson() {
@@ -77,11 +85,11 @@ class Conversation extends HiveObject{
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
     jsonMap["id"] = id;
-		jsonMap["firstUserId"] = firstUserId;
-		jsonMap["secondUserId"] = secondUserId;
+		jsonMap["userIds"] = userIds;
 		jsonMap["isMute"] = isMute;
 		jsonMap["isDeleted"] = isDeleted;
 		jsonMap["createAt"] = createAt;
+		jsonMap["updateAt"] = updateAt;
     return jsonMap;
   }
 }

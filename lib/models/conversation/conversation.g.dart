@@ -18,13 +18,13 @@ class ConversationAdapter extends TypeAdapter<Conversation> {
     };
     return Conversation(
       id: fields[0] as String?,
-      firstUserId: fields[1] as String?,
-      secondUserId: fields[2] as String?,
-      messages: (fields[3] as List?)?.cast<Message>(),
-      secondUser: (fields[4] as List?)?.cast<UserProfile>(),
-      isMute: fields[5] as bool?,
-      isDeleted: fields[6] as bool?,
-      createAt: fields[7] as int?,
+      userIds: (fields[1] as List?)?.cast<String>(),
+      messages: (fields[2] as List?)?.cast<Message>(),
+      secondUser: (fields[3] as List?)?.cast<UserProfile>(),
+      isMute: fields[4] as bool?,
+      isDeleted: fields[5] as bool?,
+      createAt: fields[6] as int?,
+      updateAt: fields[7] as int?,
     );
   }
 
@@ -35,19 +35,19 @@ class ConversationAdapter extends TypeAdapter<Conversation> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.firstUserId)
+      ..write(obj.userIds)
       ..writeByte(2)
-      ..write(obj.secondUserId)
-      ..writeByte(3)
       ..write(obj.messages)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.secondUser)
-      ..writeByte(5)
+      ..writeByte(4)
       ..write(obj.isMute)
-      ..writeByte(6)
+      ..writeByte(5)
       ..write(obj.isDeleted)
+      ..writeByte(6)
+      ..write(obj.createAt)
       ..writeByte(7)
-      ..write(obj.createAt);
+      ..write(obj.updateAt);
   }
 
   @override
