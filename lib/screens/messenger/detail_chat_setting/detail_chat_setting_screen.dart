@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../screens/commingsoon/commingsoon_screen.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
@@ -90,6 +91,8 @@ class _DetailChatSettingScreenState
           buildCustomization(),
           SizedBox(height: 20),
           buildMoreActions(),
+          SizedBox(height: 20),
+          buildPrivacyAndSupport(),
         ],
       ),
     );
@@ -134,10 +137,13 @@ class _DetailChatSettingScreenState
                     Expanded(
                         child: buildOptionItem(
                             CupertinoIcons.smallcircle_fill_circle_fill,
-                            'Theme',
-                            () {},
-                            true,
-                            Colors.lightBlueAccent)),
+                            'Theme', () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CommingsoonScreen(),
+                        ),
+                      );
+                    }, true, Colors.lightBlueAccent)),
                     Expanded(
                         child: buildOptionItem(
                             CupertinoIcons.hand_thumbsup_fill,
@@ -231,6 +237,54 @@ class _DetailChatSettingScreenState
                     Expanded(
                         child: buildOptionItem(CupertinoIcons.share,
                             'Share contact', () {}, false, Colors.black)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildPrivacyAndSupport() {
+    return Container(
+      height: screenHeight() * 0.165,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              'Privacy & Support',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                color: Color.fromARGB(255, 248, 249, 249),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                        child: buildOptionItem(CupertinoIcons.slash_circle_fill,
+                            'Restrict', () {}, true, Colors.black)),
+                    Expanded(
+                        child: buildOptionItem(CupertinoIcons.minus_circle_fill,
+                            'Block', () {}, true, Colors.blueGrey)),
+                    Expanded(
+                        child: buildOptionItem(
+                            CupertinoIcons.exclamationmark_triangle_fill,
+                            'Report',
+                            () {},
+                            false,
+                            Colors.black)),
                   ],
                 ),
               ),
