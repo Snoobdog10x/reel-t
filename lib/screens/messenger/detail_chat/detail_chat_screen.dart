@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/message/message.dart';
@@ -8,7 +9,6 @@ import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../shared_product/widgets/three_row_appbar.dart';
 import 'detail_chat_provider.dart';
-import '../../../shared_product/widgets/default_appbar.dart';
 
 class DetailChatScreenScreen extends StatefulWidget {
   final Conversation conversation;
@@ -112,7 +112,7 @@ class _DetailChatScreenScreenState
           children: <Widget>[
             Container(
               child: Icon(
-                Icons.phone,
+                CupertinoIcons.phone_fill,
               ),
             ),
             SizedBox(width: 10),
@@ -121,7 +121,8 @@ class _DetailChatScreenScreenState
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => DetailChatSettingScreen(),
+                      builder: (context) => DetailChatSettingScreen(
+                          conversation: widget.conversation),
                     ),
                   );
                 },
@@ -241,53 +242,91 @@ class _DetailChatScreenScreenState
   }
 
   Widget buidBottom() {
-    return Row(
-      children: <Widget>[
-        SizedBox(width: 18),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            height: 25,
-            width: 25,
-            decoration: BoxDecoration(
-              color: Colors.lightBlue,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 24,
+    return Container(
+      padding: EdgeInsets.only(bottom: 20),
+      child: Row(
+        children: <Widget>[
+          SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 25,
+              width: 25,
+              child: Icon(
+                CupertinoIcons.location_fill,
+                color: Colors.blueAccent,
+                size: 30,
+              ),
             ),
           ),
-        ),
-        SizedBox(width: 15),
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-                hintText: "Write message...",
+          SizedBox(width: 15),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 25,
+              width: 25,
+              child: Icon(
+                CupertinoIcons.photo_camera_solid,
+                color: Colors.blueAccent,
+                size: 30,
+              ),
+            ),
+          ),
+          SizedBox(width: 15),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 25,
+              width: 25,
+              child: Icon(
+                CupertinoIcons.photo_fill,
+                color: Colors.blueAccent,
+                size: 30,
+              ),
+            ),
+          ),
+          SizedBox(width: 15),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 25,
+              width: 25,
+              child: Icon(
+                CupertinoIcons.mic_fill,
+                color: Colors.blueAccent,
+                size: 30,
+              ),
+            ),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Aa",
                 hintStyle: TextStyle(color: Colors.black54),
-                border: InputBorder.none),
-          ),
-        ),
-        SizedBox(width: 15),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-              color: Colors.lightBlue,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Icon(
-              Icons.send,
-              color: Colors.white,
-              size: 20,
+                border: InputBorder.none,
+              ),
+              style: TextStyle(
+                fontSize: 16,
+              ),
             ),
           ),
-        ),
-        SizedBox(width: 18),
-      ],
+          SizedBox(width: 15),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 35,
+              width: 35,
+              child: Icon(
+                Icons.send,
+                color: Colors.blueAccent,
+                size: 30,
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+        ],
+      ),
     );
   }
 
