@@ -44,17 +44,7 @@ class EmailAuthenticateScreenState
   @override
   void onReady() {
     controller.setFocus(0);
-    resendTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (resendSecond > 0) {
-        resendSecond--;
-        notifyDataChanged();
-        return;
-      }
-
-      if (resendSecond == 0) {
-        timer.cancel();
-      }
-    });
+    startCountDown();
   }
 
   @override
@@ -96,7 +86,8 @@ class EmailAuthenticateScreenState
           textFieldAlignment: MainAxisAlignment.spaceAround,
           fieldStyle: FieldStyle.box,
           otpFieldStyle: OtpFieldStyle(focusBorderColor: Colors.green),
-          onCompleted: (pin) {},
+          onCompleted: (value) {},
+          onChanged: (value) {},
         ),
         SizedBox(height: 8),
         buildResend()
@@ -162,6 +153,20 @@ class EmailAuthenticateScreenState
         ],
       ),
     );
+  }
+
+  void startCountDown() {
+    resendTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (resendSecond > 0) {
+        resendSecond--;
+        notifyDataChanged();
+        return;
+      }
+
+      if (resendSecond == 0) {
+        timer.cancel();
+      }
+    });
   }
 
   @override

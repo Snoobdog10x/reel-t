@@ -10,6 +10,7 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
 
   void init() {}
 
+
   @override
   void onVerifyUserEmailEventDone(String e) {
     // TODO: implement onVerifyUserEmailEventDone
