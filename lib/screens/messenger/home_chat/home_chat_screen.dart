@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/models/conversation/conversation.dart';
-import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/screens/messenger/detail_chat/detail_chat_screen.dart';
+import '../../../models/conversation/conversation.dart';
+import '../../../models/user_profile/user_profile.dart';
+import '../../../screens/messenger/detail_chat/detail_chat_screen.dart';
+import '../../../shared_product/utils/shared_text_style.dart';
+import '../../../shared_product/widgets/image/circle_image.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
@@ -118,51 +120,37 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
         height: 80,
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
         ),
         // height: 70,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            avataUrl != null
-                ? CachedNetworkImage(
-                    height: 60,
-                    width: 60,
-                    imageUrl: avataUrl,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) {
-                      return Container();
-                    },
-                  )
-                : Container(),
+            avataUrl != null ? CircleImage(avataUrl, radius: 60) : Container(),
             SizedBox(width: 8),
             Expanded(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userName ?? "",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      lastedMessage ?? "You have a new message",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    userName ?? "",
+                    style: TextStyle(
+                      fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                      fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                      fontFamily: SharedTextStyle.DEFAULT_FONT_TITLE,
+                    )
+                  ),
+                  SizedBox(height: 3),
+                  Text(
+                    lastedMessage ?? "You have a new message",
+                    style: TextStyle(
+                      fontSize: SharedTextStyle.NORMAL_SIZE,
+                      fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+                      fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
+                    )
+                  ),
+                ],
               ),
             ),
           ],
