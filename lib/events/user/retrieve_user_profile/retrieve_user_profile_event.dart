@@ -3,7 +3,7 @@ import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 
 abstract class RetrieveUserProfileEvent {
-  Future<void> sendRetrieveUserProfileEventEvent(String userID,
+  Future<void> sendRetrieveUserProfileEvent(String userID,
       [String? conversationId]) async {
     try {
       final db = FirebaseFirestore.instance.collection(UserProfile.PATH);

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
-import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
 import '../video/feed/feed_screen.dart';
-import '../navigation/navigation_provider.dart';
+import '../navigation/navigation_bloc.dart';
 import '../notification/notification_screen.dart';
 import '../user/profile/profile_screen.dart';
 import '../search/search_screen.dart';
@@ -22,7 +22,7 @@ class NavigationScreen extends StatefulWidget {
 enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
 class _NavigationScreenState extends AbstractState<NavigationScreen> {
-  late NavigationProvider provider;
+  late NavigationBloc bloc;
   PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;
   Map<int, Widget> pages = {
@@ -32,8 +32,8 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
     NavigationPage.PROFILE.index: ProfileScreen(),
   };
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -43,15 +43,15 @@ class _NavigationScreenState extends AbstractState<NavigationScreen> {
 
   @override
   void onCreate() {
-    provider = NavigationProvider();
+    bloc = NavigationBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<NavigationProvider>(
+        return Consumer<NavigationBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(

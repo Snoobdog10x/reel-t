@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../screens/commingsoon/commingsoon_screen.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
-import 'detail_chat_setting_provider.dart';
+import 'detail_chat_setting_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class DetailChatSettingScreen extends StatefulWidget {
@@ -23,10 +23,10 @@ class DetailChatSettingScreen extends StatefulWidget {
 
 class _DetailChatSettingScreenState
     extends AbstractState<DetailChatSettingScreen> {
-  late DetailChatSettingProvider provider;
+  late DetailChatSettingBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -36,8 +36,8 @@ class _DetailChatSettingScreenState
 
   @override
   void onCreate() {
-    provider = DetailChatSettingProvider();
-    provider.init(widget.conversation);
+    bloc = DetailChatSettingBloc();
+    bloc.init(widget.conversation);
   }
 
   @override
@@ -48,9 +48,9 @@ class _DetailChatSettingScreenState
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<DetailChatSettingProvider>(
+        return Consumer<DetailChatSettingBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -74,12 +74,12 @@ class _DetailChatSettingScreenState
       child: Column(
         children: <Widget>[
           CircleImage(
-            provider.conversation.secondUser.first.avatar,
+            bloc.conversation.secondUser.first.avatar,
             radius: 100,
           ),
           SizedBox(height: 10),
           Text(
-            provider.conversation.secondUser.first.fullName,
+            bloc.conversation.secondUser.first.fullName,
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,

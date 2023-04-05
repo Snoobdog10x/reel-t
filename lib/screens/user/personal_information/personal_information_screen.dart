@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/widgets/text_field/custom_text_field.dart';
-import 'personal_information_provider.dart';
+import 'personal_information_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class PersonalInformationScreen extends StatefulWidget {
@@ -17,11 +17,11 @@ class PersonalInformationScreen extends StatefulWidget {
 
 class _PersonalInformationScreenState
     extends AbstractState<PersonalInformationScreen> {
-  late PersonalInformationProvider provider;
+  late PersonalInformationBloc bloc;
   bool isDisplayBirtday = false;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -31,7 +31,7 @@ class _PersonalInformationScreenState
 
   @override
   void onCreate() {
-    provider = PersonalInformationProvider();
+    bloc = PersonalInformationBloc();
   }
 
   @override
@@ -42,9 +42,9 @@ class _PersonalInformationScreenState
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<PersonalInformationProvider>(
+        return Consumer<PersonalInformationBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(

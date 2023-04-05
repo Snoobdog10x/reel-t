@@ -8,9 +8,9 @@ import '../../../screens/messenger/detail_chat/detail_chat_screen.dart';
 import '../../../shared_product/utils/shared_text_style.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import 'home_chat_provider.dart';
+import 'home_chat_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class HomeChatScreen extends StatefulWidget {
@@ -21,10 +21,10 @@ class HomeChatScreen extends StatefulWidget {
 }
 
 class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
-  late HomeChatProvider provider;
+  late HomeChatBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -34,8 +34,8 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   @override
   void onCreate() {
-    provider = HomeChatProvider();
-    provider.init();
+    bloc = HomeChatBloc();
+    bloc.init();
   }
 
   @override
@@ -44,9 +44,9 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<HomeChatProvider>(
+        return Consumer<HomeChatBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -74,9 +74,9 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
       separatorBuilder: (context, index) {
         return SizedBox(height: 8);
       },
-      itemCount: provider.conversations.values.length,
+      itemCount: bloc.conversations.values.length,
       itemBuilder: ((context, index) {
-        var conversations = provider.conversations.values.toList();
+        var conversations = bloc.conversations.values.toList();
         var conversation = conversations[index];
         var isDataLoaded = conversation.secondUser.isNotEmpty;
         var user = isDataLoaded ? conversation.secondUser.first : UserProfile();
@@ -133,23 +133,19 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    userName ?? "",
-                    style: TextStyle(
-                      fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-                      fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
-                      fontFamily: SharedTextStyle.DEFAULT_FONT_TITLE,
-                    )
-                  ),
+                  Text(userName ?? "",
+                      style: TextStyle(
+                        fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                        fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                        fontFamily: SharedTextStyle.DEFAULT_FONT_TITLE,
+                      )),
                   SizedBox(height: 3),
-                  Text(
-                    lastedMessage ?? "You have a new message",
-                    style: TextStyle(
-                      fontSize: SharedTextStyle.NORMAL_SIZE,
-                      fontWeight: SharedTextStyle.NORMAL_WEIGHT,
-                      fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
-                    )
-                  ),
+                  Text(lastedMessage ?? "You have a new message",
+                      style: TextStyle(
+                        fontSize: SharedTextStyle.NORMAL_SIZE,
+                        fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+                        fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
+                      )),
                 ],
               ),
             ),
@@ -167,6 +163,6 @@ class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   @override
   void onDispose() {
-    // appStore.localMessenger.saveConversations(provider.conversations);
+    // appStore.localMessenger.saveConversations(bloc.conversations);
   }
 }

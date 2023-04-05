@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
+import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
 import '../navigation/navigation_screen.dart';
@@ -10,9 +11,9 @@ import '../user/login/login_screen.dart';
 import '../user/signup/signup_screen.dart';
 import '../video/feed/feed_screen.dart';
 import '../welcome/welcome_screen.dart';
-import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
-import 'default_provider.dart';
+import 'default_bloc.dart';
 import '../../shared_product/widgets/default_appbar.dart';
 
 class DefaultScreen extends StatefulWidget {
@@ -23,10 +24,10 @@ class DefaultScreen extends StatefulWidget {
 }
 
 class _DefaultScreenState extends AbstractState<DefaultScreen> {
-  late DefaultProvider provider;
+  late DefaultBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -36,7 +37,7 @@ class _DefaultScreenState extends AbstractState<DefaultScreen> {
 
   @override
   void onCreate() {
-    provider = DefaultProvider();
+    bloc = DefaultBloc();
   }
 
   @override
@@ -47,9 +48,9 @@ class _DefaultScreenState extends AbstractState<DefaultScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<DefaultProvider>(
+        return Consumer<DefaultBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -127,6 +128,13 @@ class _DefaultScreenState extends AbstractState<DefaultScreen> {
             pushToScreen(PersonalInformationScreen(), isReplace: true);
           },
           child: Text("Personal information"),
+        ),
+        SizedBox(height: 16),
+        TextButton(
+          onPressed: () {
+            pushToScreen(EmailAuthenticateScreen(), isReplace: true);
+          },
+          child: Text("Email Authentication"),
         ),
         SizedBox(height: 16),
       ],

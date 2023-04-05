@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../models/video/video.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import 'feed_provider.dart';
+import 'feed_bloc.dart';
 import '../list_video/list_video_screen.dart';
 
 class FeedScreen extends StatefulWidget {
-  
   const FeedScreen({super.key});
 
   @override
@@ -16,11 +15,11 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends AbstractState<FeedScreen>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  late FeedProvider provider;
+  late FeedBloc bloc;
   late TabController tabController;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -30,10 +29,10 @@ class _FeedScreenState extends AbstractState<FeedScreen>
 
   @override
   void onCreate() {
-    provider = FeedProvider();
+    bloc = FeedBloc();
     tabController = TabController(length: 2, vsync: this);
     if (appStore.isConnected()) {
-      provider.sendRetrieveVideos();
+      bloc.sendRetrieveVideos();
     }
   }
 
@@ -41,9 +40,9 @@ class _FeedScreenState extends AbstractState<FeedScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<FeedProvider>(
+        return Consumer<FeedBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -118,13 +117,13 @@ class _FeedScreenState extends AbstractState<FeedScreen>
           controller: tabController,
           children: [
             ListVideoScreen(
-              videos: provider.forYou,
+              videos: bloc.forYou,
               loadMoreVideos: () {
-                provider.sendRetrieveVideos();
+                bloc.sendRetrieveVideos();
               },
             ),
             ListVideoScreen(
-              videos: provider.following,
+              videos: bloc.following,
               loadMoreVideos: () {},
             ),
           ],
@@ -135,9 +134,7 @@ class _FeedScreenState extends AbstractState<FeedScreen>
   }
 
   @override
-  void onDispose() {
-    
-  }
+  void onDispose() {}
 
   @override
   void onReady() {

@@ -4,11 +4,11 @@ import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/conversation/conversation_sample_data.dart';
 import '../../models/user_profile/user_profile_sample_data.dart';
 import '../../models/video/video_sample_data.dart';
-import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../../generated/app_init.dart';
 import '../navigation/navigation_screen.dart';
-import '../welcome/welcome_provider.dart';
+import 'welcome_bloc.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -18,10 +18,10 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
-  late WelcomeProvider provider;
+  late WelcomeBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -31,15 +31,15 @@ class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   void onCreate() {
-    provider = WelcomeProvider();
+    bloc = WelcomeBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<WelcomeProvider>(
+        return Consumer<WelcomeBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(

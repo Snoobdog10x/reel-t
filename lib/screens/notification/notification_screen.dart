@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
-import '../notification/notification_provider.dart';
+import '../notification/notification_bloc.dart';
 import '../../shared_product/widgets/default_appbar.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -13,10 +13,10 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends AbstractState<NotificationScreen> {
-  late NotificationProvider provider;
+  late NotificationBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -26,15 +26,15 @@ class _NotificationScreenState extends AbstractState<NotificationScreen> {
 
   @override
   void onCreate() {
-    provider = NotificationProvider();
+    bloc = NotificationBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<NotificationProvider>(
+        return Consumer<NotificationBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(

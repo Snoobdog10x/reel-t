@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
-import 'commingsoon_provider.dart';
+import 'commingsoon_bloc.dart';
 import '../../shared_product/widgets/default_appbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,10 +15,10 @@ class CommingsoonScreen extends StatefulWidget {
 }
 
 class _CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
-  late CommingsoonProvider provider;
+  late CommingsoonBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -28,7 +28,7 @@ class _CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
 
   @override
   void onCreate() {
-    provider = CommingsoonProvider();
+    bloc = CommingsoonBloc();
   }
 
   @override
@@ -39,9 +39,9 @@ class _CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<CommingsoonProvider>(
+        return Consumer<CommingsoonBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(

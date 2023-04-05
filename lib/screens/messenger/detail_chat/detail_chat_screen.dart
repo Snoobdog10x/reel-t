@@ -5,11 +5,11 @@ import 'package:reel_t/models/message/message.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../shared_product/widgets/three_row_appbar.dart';
-import 'detail_chat_provider.dart';
+import 'detail_chat_bloc.dart';
 
 class DetailChatScreenScreen extends StatefulWidget {
   final Conversation conversation;
@@ -24,10 +24,10 @@ class DetailChatScreenScreen extends StatefulWidget {
 
 class _DetailChatScreenScreenState
     extends AbstractState<DetailChatScreenScreen> {
-  late DetailChatScreenProvider provider;
+  late DetailChatScreenBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -37,8 +37,8 @@ class _DetailChatScreenScreenState
 
   @override
   void onCreate() {
-    provider = DetailChatScreenProvider();
-    provider.init(widget.conversation);
+    bloc = DetailChatScreenBloc();
+    bloc.init(widget.conversation);
   }
 
   @override
@@ -49,9 +49,9 @@ class _DetailChatScreenScreenState
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<DetailChatScreenProvider>(
+        return Consumer<DetailChatScreenBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             var bottom = buidBottom();
@@ -144,9 +144,9 @@ class _DetailChatScreenScreenState
         separatorBuilder: (context, index) {
           return SizedBox(height: 16);
         },
-        itemCount: provider.conversation.messages.length,
+        itemCount: bloc.conversation.messages.length,
         itemBuilder: (context, index) {
-          var message = provider.conversation.messages[index];
+          var message = bloc.conversation.messages[index];
           return buildMessage(message);
         },
       ),
@@ -155,7 +155,7 @@ class _DetailChatScreenScreenState
 
   Widget buildMessage(Message message) {
     return Container(
-      alignment: provider.isCurrentUserMessage(message)
+      alignment: bloc.isCurrentUserMessage(message)
           ? Alignment.centerRight
           : Alignment.centerLeft,
       child: buildTextMessage(message),
@@ -165,8 +165,8 @@ class _DetailChatScreenScreenState
   Widget buildTextMessage(Message message) {
     final mWidth = screenWidth();
     final width = message.content.length > mWidth / 7 ? mWidth / 1.3 : null;
-    final isCurrentUser = provider.isCurrentUserMessage(message);
-    String avataUrl = provider.contactUser.avatar;
+    final isCurrentUser = bloc.isCurrentUserMessage(message);
+    String avataUrl = bloc.contactUser.avatar;
     List<Widget> layout = [];
     if (isCurrentUser) {
       layout.addAll(

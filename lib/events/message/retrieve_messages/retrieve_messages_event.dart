@@ -6,7 +6,7 @@ import '../../../models/conversation/conversation.dart';
 
 abstract class RetrieveMessagesEvent {
   final db = FirebaseFirestore.instance.collection(Conversation.PATH);
-  void sendRetrieveMessagesEventEvent(Conversation conversation) {
+  void sendRetrieveMessagesEvent(Conversation conversation) {
     try {
       db
           .doc(conversation.id)

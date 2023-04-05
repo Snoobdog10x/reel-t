@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../generated/abstract_provider.dart';
+import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
-import 'package:reel_t/screens/search/search_provider.dart';
+import 'package:reel_t/screens/search/search_bloc.dart';
 import 'package:reel_t/shared_product/widgets/default_appbar.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -13,10 +13,10 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends AbstractState<SearchScreen> {
-  late SearchProvider provider;
+  late SearchBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -26,15 +26,15 @@ class _SearchScreenState extends AbstractState<SearchScreen> {
 
   @override
   void onCreate() {
-    provider = SearchProvider();
+    bloc = SearchBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<SearchProvider>(
+        return Consumer<SearchBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(

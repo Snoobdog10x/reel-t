@@ -8,7 +8,7 @@ import '../../../models/video/video.dart';
 
 abstract class RetrieveVideoDetailEvent {
   var db = FirebaseFirestore.instance;
-  Future<void> sendRetrieveVideoDetailEventEvent({
+  Future<void> sendRetrieveVideoDetailEvent({
     UserProfile? currentUser,
     required Video video,
   }) async {

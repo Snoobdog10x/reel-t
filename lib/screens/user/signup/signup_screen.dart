@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import '../signup/signup_provider.dart';
+import '../signup/signup_bloc.dart';
 import '../../../shared_product/widgets/button/three_row_button.dart';
 import '../../../shared_product/widgets/text_field/custom_text_field.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
@@ -15,10 +15,10 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends AbstractState<SignupScreen> {
-  late SignupProvider provider;
+  late SignupBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -28,15 +28,15 @@ class _SignupScreenState extends AbstractState<SignupScreen> {
 
   @override
   void onCreate() {
-    provider = SignupProvider();
+    bloc = SignupBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<SignupProvider>(
+        return Consumer<SignupBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -115,14 +115,14 @@ class _SignupScreenState extends AbstractState<SignupScreen> {
           CustomTextField(
             hintText: "Name",
             onTextChanged: (value) {
-              provider.name = value;
+              bloc.name = value;
             },
           ),
           SizedBox(height: 8),
           CustomTextField(
             hintText: "Email",
             onTextChanged: (value) {
-              provider.email = value;
+              bloc.email = value;
             },
           ),
           SizedBox(height: 8),
@@ -130,7 +130,7 @@ class _SignupScreenState extends AbstractState<SignupScreen> {
             hintText: "Password",
             isPasswordField: true,
             onTextChanged: (value) {
-              provider.password = value;
+              bloc.password = value;
             },
           ),
         ],
@@ -146,7 +146,7 @@ class _SignupScreenState extends AbstractState<SignupScreen> {
           ThreeRowButton(
             onTap: () {
               startLoading();
-              provider.signIn();
+              bloc.signIn();
             },
             title: Text(
               "SIGN IN",

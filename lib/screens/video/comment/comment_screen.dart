@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/comment/comment.dart' as ReelComment;
 import '../../../shared_product/utils/format_utlity.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
-import 'comment_provider.dart';
+import 'comment_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class CommentScreen extends StatefulWidget {
@@ -22,10 +22,10 @@ class CommentScreen extends StatefulWidget {
 }
 
 class _CommentScreenState extends AbstractState<CommentScreen> {
-  late CommentProvider provider;
+  late CommentBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -35,8 +35,8 @@ class _CommentScreenState extends AbstractState<CommentScreen> {
 
   @override
   void onCreate() {
-    provider = CommentProvider();
-    provider.init();
+    bloc = CommentBloc();
+    bloc.init();
   }
 
   @override
@@ -47,14 +47,15 @@ class _CommentScreenState extends AbstractState<CommentScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<CommentProvider>(
+        return Consumer<CommentBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
               appBar: DefaultAppBar(
-                appBarTitle: "${FormatUtility.formatNumber(widget.commentsNum)} comments",
+                appBarTitle:
+                    "${FormatUtility.formatNumber(widget.commentsNum)} comments",
                 appBarAction: GestureDetector(
                   onTap: () {
                     popTopDisplay();
@@ -85,7 +86,7 @@ class _CommentScreenState extends AbstractState<CommentScreen> {
   }
 
   List<Widget> buildCommentsTree() {
-    List<Widget> commentTrees = provider.comments.map((comment) {
+    List<Widget> commentTrees = bloc.comments.map((comment) {
       bool hasSub = comment.subComments.isNotEmpty;
       return StatefulBuilder(builder: (context, setState) {
         return CommentTreeWidget<ReelComment.Comment, ReelComment.Comment>(
@@ -98,14 +99,14 @@ class _CommentScreenState extends AbstractState<CommentScreen> {
           avatarRoot: (context, data) => PreferredSize(
             preferredSize: Size.fromRadius(20),
             child: CircleImage(
-              provider.mockAvatar,
+              bloc.mockAvatar,
               radius: 40,
             ),
           ),
           avatarChild: (context, data) => PreferredSize(
             preferredSize: Size.fromRadius(20),
             child: CircleImage(
-              provider.mockAvatar,
+              bloc.mockAvatar,
               radius: 30,
             ),
           ),

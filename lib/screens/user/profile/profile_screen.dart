@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../shared_product/widgets/three_row_appbar.dart';
-import 'profile_provider.dart';
+import 'profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,11 +16,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends AbstractState<ProfileScreen> {
-  late ProfileProvider provider;
+  late ProfileBloc bloc;
 
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -30,15 +30,15 @@ class _ProfileScreenState extends AbstractState<ProfileScreen> {
 
   @override
   void onCreate() {
-    provider = ProfileProvider();
+    bloc = ProfileBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<ProfileProvider>(
+        return Consumer<ProfileBloc>(
           builder: (context, value, child) {
             var appBar = buildAppbar();
             var body = buildBody();

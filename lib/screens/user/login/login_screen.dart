@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import 'login_provider.dart';
+import 'login_bloc.dart';
 import '../signup/signup_screen.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
@@ -18,10 +18,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends AbstractState<LoginScreen> {
-  late LoginProvider provider;
+  late LoginBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -31,15 +31,15 @@ class _LoginScreenState extends AbstractState<LoginScreen> {
 
   @override
   void onCreate() {
-    provider = LoginProvider();
+    bloc = LoginBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<LoginProvider>(
+        return Consumer<LoginBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -104,7 +104,7 @@ class _LoginScreenState extends AbstractState<LoginScreen> {
           CustomTextField(
             hintText: "Email",
             onTextChanged: (value) {
-              provider.email = value;
+              bloc.email = value;
             },
           ),
           SizedBox(height: 8),
@@ -112,7 +112,7 @@ class _LoginScreenState extends AbstractState<LoginScreen> {
             hintText: "Password",
             isPasswordField: true,
             onTextChanged: (value) {
-              provider.password = value;
+              bloc.password = value;
             },
           ),
         ],
@@ -128,7 +128,7 @@ class _LoginScreenState extends AbstractState<LoginScreen> {
           ThreeRowButton(
             onTap: () {
               startLoading();
-              provider.login();
+              bloc.login();
             },
             title: Text(
               "LOGIN",

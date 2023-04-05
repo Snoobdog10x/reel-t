@@ -10,10 +10,10 @@ import '../../../models/follow/follow.dart';
 import '../../../models/like/like.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
-import '../../../generated/abstract_provider.dart';
+import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/utils/format_utlity.dart';
-import 'list_video_provider.dart';
+import 'list_video_bloc.dart';
 
 import '../../../shared_product/widgets/video_player_item.dart';
 
@@ -32,10 +32,10 @@ class ListVideoScreen extends StatefulWidget {
 
 class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
-  late ListVideoProvider provider;
+  late ListVideoBloc bloc;
   @override
-  AbstractProvider initProvider() {
-    return provider;
+  AbstractBloc initBloc() {
+    return bloc;
   }
 
   @override
@@ -45,8 +45,8 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   @override
   void onCreate() {
-    provider = ListVideoProvider();
-    provider.init(widget.videos);
+    bloc = ListVideoBloc();
+    bloc.init(widget.videos);
   }
 
   @override
@@ -58,9 +58,9 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return ChangeNotifierProvider(
-      create: (context) => provider,
+      create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<ListVideoProvider>(
+        return Consumer<ListVideoBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
@@ -85,9 +85,9 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
         }
       },
       itemBuilder: (context, index) {
-        var video = provider.videos[index];
-        if (!provider.isLoadVideoDetail(video)) {
-          provider.loadVideoDetail(video);
+        var video = bloc.videos[index];
+        if (!bloc.isLoadVideoDetail(video)) {
+          bloc.loadVideoDetail(video);
           return buildLoadWidget();
         }
         return Stack(
@@ -117,7 +117,7 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       width: screenWidth(),
       child: VideoPlayerItem(
         videoUrl: video.videoUrl,
-        isPlay: index == provider.currentPage,
+        isPlay: index == bloc.currentPage,
       ),
     );
   }
@@ -141,16 +141,20 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
       child: ActionsToolbar(
         numLikes: FormatUtility.formatNumber(video.likesNum),
         numComments: FormatUtility.formatNumber(video.commentsNum),
-        isLiked: provider.isLikeVideo(video),
+        isLiked: bloc.isLikeVideo(video),
         userPic: creator.avatar,
         onTapLike: () {
-          if (provider.currentUser.id.isEmpty) {
+          if (bloc.currentUser.id.isEmpty) {
             return;
           }
-          provider.likeVideo(video);
+          bloc.likeVideo(video);
         },
         onTapComment: () {
-          showScreenBottomSheet(CommentScreen(commentsNum: video.commentsNum,), height: screenHeight() * 0.6);
+          showScreenBottomSheet(
+              CommentScreen(
+                commentsNum: video.commentsNum,
+              ),
+              height: screenHeight() * 0.6);
         },
       ),
     );
