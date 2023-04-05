@@ -6,6 +6,7 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/shared_product/utils/shared_text_style.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -13,7 +14,8 @@ import 'email_authenticate_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class EmailAuthenticateScreen extends StatefulWidget {
-  const EmailAuthenticateScreen({super.key});
+  final UserProfile signInUserProfile;
+  const EmailAuthenticateScreen({super.key, required this.signInUserProfile});
 
   @override
   State<EmailAuthenticateScreen> createState() =>
@@ -86,7 +88,9 @@ class EmailAuthenticateScreenState
           textFieldAlignment: MainAxisAlignment.spaceAround,
           fieldStyle: FieldStyle.box,
           otpFieldStyle: OtpFieldStyle(focusBorderColor: Colors.green),
-          onCompleted: (value) {},
+          onCompleted: (value) {
+            bloc.verifyOTP(value);
+          },
           onChanged: (value) {},
         ),
         SizedBox(height: 8),

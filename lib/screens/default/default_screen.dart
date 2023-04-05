@@ -132,7 +132,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            pushToScreen(EmailAuthenticateScreen(), isReplace: true);
+            pushToScreen(EmailAuthenticateScreen(signInUserProfile: UserProfile(),), isReplace: true);
           },
           child: Text("Email Authentication"),
         ),

@@ -205,6 +205,12 @@ class LoginScreenState extends AbstractState<LoginScreen> {
 
   @override
   void onDispose() {}
+  @override
+  void onPopWidget() {
+    // TODO: implement onPopWidget
+    super.onPopWidget();
+    popTopDisplay();
+  }
 
   @override
   void onReady() {

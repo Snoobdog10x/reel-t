@@ -1,4 +1,4 @@
-import 'package:reel_t/events/user/verify_user_email/verify_user_email_event.dart';
+import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 
 import '../../../events/user/user_sign_in/user_sign_in_event.dart';
@@ -7,7 +7,7 @@ import '../../../generated/abstract_bloc.dart';
 import 'login_screen.dart';
 
 class LoginBloc extends AbstractBloc<LoginScreenState>
-    with UserSignInEvent, VerifyUserEmailEvent {
+    with UserSignInEvent, SendEmailOtpEvent {
   String email = "";
   String password = "";
   late UserProfile signedInUserProfile;
@@ -19,20 +19,27 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   @override
   void onUserSignInEventDone(String e, UserProfile? signedInUserProfile) {
     if (e.isEmpty) {
-      sendVerifyUserEmailEvent(email);
+      sendSendEmailOtpEvent(email);
       this.signedInUserProfile = signedInUserProfile!;
       return;
     }
-    state.showAlertDialog(title: "Login fail", content: e, confirm: () {});
+    state.showAlertDialog(
+      title: "Login",
+      content: e,
+      confirm: () {
+        state.popTopDisplay();
+      },
+    );
     print(e);
   }
 
   @override
-  void onVerifyUserEmailEventDone(e) {
-    if (e.isEmpty) {
+  void onSendEmailOtpEventDone(bool isSent) {
+    if (isSent) {
       state.stopLoading();
-      state.pushToScreen(EmailAuthenticateScreen());
+      state.pushToScreen(
+          EmailAuthenticateScreen(signInUserProfile: signedInUserProfile));
     }
-    print(e);
+    print(isSent);
   }
 }

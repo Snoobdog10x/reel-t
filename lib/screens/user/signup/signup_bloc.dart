@@ -35,7 +35,9 @@ class SignupBloc extends AbstractBloc<SignupScreenState> with UserSignUpEvent {
     state.showAlertDialog(
       title: "Sign-up",
       content: errorMessage,
-      confirm: () {},
+      confirm: () {
+        state.popTopDisplay();
+      },
     );
   }
 }
