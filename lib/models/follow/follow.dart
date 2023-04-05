@@ -6,19 +6,19 @@ import '../../generated/abstract_model.dart';
 
 
 class Follow{
-  static String id_PATH = "id";
+  static const String id_PATH = "id";
 	String id = "";
-	static String userId_PATH = "userId";
+	static const String userId_PATH = "userId";
 	String userId = "";
-	static String followerId_PATH = "followerId";
+	static const String followerId_PATH = "followerId";
 	String followerId = "";
-	static String isFollow_PATH = "isFollow";
+	static const String isFollow_PATH = "isFollow";
 	bool isFollow = false;
-	static String isDeleted_PATH = "isDeleted";
+	static const String isDeleted_PATH = "isDeleted";
 	bool isDeleted = false;
-	static String createAt_PATH = "createAt";
+	static const String createAt_PATH = "createAt";
 	int createAt = 0;
-	static String PATH = "Follows";
+	static const String PATH = "Follows";
 
   Follow({
     String? id,

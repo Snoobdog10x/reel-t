@@ -7,43 +7,43 @@ part 'user_profile.g.dart';
 
 @HiveType(typeId: 1)
 class UserProfile extends HiveObject{
-  static String id_PATH = "id";
+  static const String id_PATH = "id";
 	@HiveField(0) 
 	String id = "";
-	static String fullName_PATH = "fullName";
+	static const String fullName_PATH = "fullName";
 	@HiveField(1) 
 	String fullName = "";
-	static String email_PATH = "email";
+	static const String email_PATH = "email";
 	@HiveField(2) 
 	String email = "";
-	static String userName_PATH = "userName";
+	static const String userName_PATH = "userName";
 	@HiveField(3) 
 	String userName = "";
-	static String bio_PATH = "bio";
+	static const String bio_PATH = "bio";
 	@HiveField(4) 
 	String bio = "";
-	static String avatar_PATH = "avatar";
+	static const String avatar_PATH = "avatar";
 	@HiveField(5) 
 	String avatar = "";
-	static String numFollower_PATH = "numFollower";
+	static const String numFollower_PATH = "numFollower";
 	@HiveField(6) 
 	int numFollower = 0;
-	static String numFollowing_PATH = "numFollowing";
+	static const String numFollowing_PATH = "numFollowing";
 	@HiveField(7) 
 	int numFollowing = 0;
-	static String isOnline_PATH = "isOnline";
+	static const String isOnline_PATH = "isOnline";
 	@HiveField(8) 
 	bool isOnline = false;
-	static String isActive_PATH = "isActive";
+	static const String isActive_PATH = "isActive";
 	@HiveField(9) 
 	bool isActive = false;
-	static String isDeleted_PATH = "isDeleted";
+	static const String isDeleted_PATH = "isDeleted";
 	@HiveField(10) 
 	bool isDeleted = false;
-	static String createAt_PATH = "createAt";
+	static const String createAt_PATH = "createAt";
 	@HiveField(11) 
 	int createAt = 0;
-	static String PATH = "UserProfiles";
+	static const String PATH = "UserProfiles";
 
   UserProfile({
     String? id,

@@ -7,22 +7,22 @@ part 'message.g.dart';
 
 @HiveType(typeId: 2)
 class Message extends HiveObject{
-  static String id_PATH = "id";
+  static const String id_PATH = "id";
 	@HiveField(0) 
 	String id = "";
-	static String userId_PATH = "userId";
+	static const String userId_PATH = "userId";
 	@HiveField(1) 
 	String userId = "";
-	static String content_PATH = "content";
+	static const String content_PATH = "content";
 	@HiveField(2) 
 	String content = "";
-	static String isDeleted_PATH = "isDeleted";
+	static const String isDeleted_PATH = "isDeleted";
 	@HiveField(3) 
 	bool isDeleted = false;
-	static String createAt_PATH = "createAt";
+	static const String createAt_PATH = "createAt";
 	@HiveField(4) 
 	int createAt = 0;
-	static String PATH = "Messages";
+	static const String PATH = "Messages";
 
   Message({
     String? id,

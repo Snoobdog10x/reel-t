@@ -1,39 +1,39 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/user_profile/user_profile.dart';
 import '../../models/message/message.dart';
+import '../../models/user_profile/user_profile.dart';
 import 'package:hive/hive.dart';
 part 'conversation.g.dart';
 
 
 @HiveType(typeId: 0)
 class Conversation extends HiveObject{
-  static String id_PATH = "id";
+  static const String id_PATH = "id";
 	@HiveField(0) 
 	String id = "";
-	static String userIds_PATH = "userIds";
+	static const String userIds_PATH = "userIds";
 	@HiveField(1) 
 	List<String> userIds = [];
-	static String messages_PATH = "messages";
+	static const String messages_PATH = "messages";
 	@HiveField(2) 
 	List<Message> messages = [];
-	static String secondUser_PATH = "secondUser";
+	static const String secondUser_PATH = "secondUser";
 	@HiveField(3) 
 	List<UserProfile> secondUser = [];
-	static String isMute_PATH = "isMute";
+	static const String isMute_PATH = "isMute";
 	@HiveField(4) 
 	bool isMute = false;
-	static String isDeleted_PATH = "isDeleted";
+	static const String isDeleted_PATH = "isDeleted";
 	@HiveField(5) 
 	bool isDeleted = false;
-	static String createAt_PATH = "createAt";
+	static const String createAt_PATH = "createAt";
 	@HiveField(6) 
 	int createAt = 0;
-	static String updateAt_PATH = "updateAt";
+	static const String updateAt_PATH = "updateAt";
 	@HiveField(7) 
 	int updateAt = 0;
-	static String PATH = "Conversations";
+	static const String PATH = "Conversations";
 
   Conversation({
     String? id,

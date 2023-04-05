@@ -1,45 +1,45 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/like/like.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../models/follow/follow.dart';
 import '../../models/comment/comment.dart';
+import '../../models/like/like.dart';
+import '../../models/follow/follow.dart';
+import '../../models/user_profile/user_profile.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 
 class Video{
-  static String id_PATH = "id";
+  static const String id_PATH = "id";
 	String id = "";
-	static String videoUrl_PATH = "videoUrl";
+	static const String videoUrl_PATH = "videoUrl";
 	String videoUrl = "";
-	static String songName_PATH = "songName";
+	static const String songName_PATH = "songName";
 	String songName = "";
-	static String creatorId_PATH = "creatorId";
+	static const String creatorId_PATH = "creatorId";
 	String creatorId = "";
-	static String title_PATH = "title";
+	static const String title_PATH = "title";
 	String title = "";
-	static String publicMode_PATH = "publicMode";
+	static const String publicMode_PATH = "publicMode";
 	int publicMode = 0;
-	static String commentsNum_PATH = "commentsNum";
+	static const String commentsNum_PATH = "commentsNum";
 	int commentsNum = 0;
-	static String likesNum_PATH = "likesNum";
+	static const String likesNum_PATH = "likesNum";
 	int likesNum = 0;
-	static String viewsNum_PATH = "viewsNum";
+	static const String viewsNum_PATH = "viewsNum";
 	int viewsNum = 0;
-	static String isDeleted_PATH = "isDeleted";
+	static const String isDeleted_PATH = "isDeleted";
 	bool isDeleted = false;
-	static String like_PATH = "like";
+	static const String like_PATH = "like";
 	List<Like> like = [];
-	static String followCreator_PATH = "followCreator";
+	static const String followCreator_PATH = "followCreator";
 	List<Follow> followCreator = [];
-	static String comment_PATH = "comment";
+	static const String comment_PATH = "comment";
 	List<Comment> comment = [];
-	static String creator_PATH = "creator";
+	static const String creator_PATH = "creator";
 	List<UserProfile> creator = [];
-	static String createAt_PATH = "createAt";
+	static const String createAt_PATH = "createAt";
 	int createAt = 0;
-	static String PATH = "Videos";
+	static const String PATH = "Videos";
 
   Video({
     String? id,
