@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/comment/comment.dart' as ReelComment;
-import '../../../shared_product/utils/format.dart';
+import '../../../shared_product/utils/format_utlity.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import 'comment_provider.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
@@ -54,7 +54,7 @@ class _CommentScreenState extends AbstractState<CommentScreen> {
             var body = buildBody();
             return buildScreen(
               appBar: DefaultAppBar(
-                appBarTitle: "${Format.formatNumber(widget.commentsNum)} comments",
+                appBarTitle: "${FormatUtility.formatNumber(widget.commentsNum)} comments",
                 appBarAction: GestureDetector(
                   onTap: () {
                     popTopDisplay();

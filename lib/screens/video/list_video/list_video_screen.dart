@@ -12,7 +12,7 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
-import '../../../shared_product/utils/format.dart';
+import '../../../shared_product/utils/format_utlity.dart';
 import 'list_video_provider.dart';
 
 import '../../../shared_product/widgets/video_player_item.dart';
@@ -139,8 +139,8 @@ class _ListVideoScreenState extends AbstractState<ListVideoScreen>
     return Container(
       alignment: Alignment.bottomRight,
       child: ActionsToolbar(
-        numLikes: Format.formatNumber(video.likesNum),
-        numComments: Format.formatNumber(video.commentsNum),
+        numLikes: FormatUtility.formatNumber(video.likesNum),
+        numComments: FormatUtility.formatNumber(video.commentsNum),
         isLiked: provider.isLikeVideo(video),
         userPic: creator.avatar,
         onTapLike: () {
