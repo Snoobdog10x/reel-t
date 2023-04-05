@@ -12,10 +12,10 @@ class PersonalInformationScreen extends StatefulWidget {
 
   @override
   State<PersonalInformationScreen> createState() =>
-      _PersonalInformationScreenState();
+      PersonalInformationScreenState();
 }
 
-class _PersonalInformationScreenState
+class PersonalInformationScreenState
     extends AbstractState<PersonalInformationScreen> {
   late PersonalInformationBloc bloc;
   bool isDisplayBirtday = false;

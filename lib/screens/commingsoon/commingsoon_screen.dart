@@ -11,10 +11,10 @@ class CommingsoonScreen extends StatefulWidget {
   const CommingsoonScreen({super.key});
 
   @override
-  State<CommingsoonScreen> createState() => _CommingsoonScreenState();
+  State<CommingsoonScreen> createState() => CommingsoonScreenState();
 }
 
-class _CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
+class CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
   late CommingsoonBloc bloc;
   @override
   AbstractBloc initBloc() {

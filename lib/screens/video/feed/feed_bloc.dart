@@ -1,8 +1,9 @@
 import '../../../events/video/retrieve_videos/retrieve_videos_event.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/video/video.dart';
+import 'feed_screen.dart';
 
-class FeedBloc extends AbstractBloc with RetrieveVideosEvent {
+class FeedBloc extends AbstractBloc<FeedScreenState> with RetrieveVideosEvent {
   List<Video> forYou = [];
   List<Video> following = [];
   int limit = 5;

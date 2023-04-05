@@ -10,10 +10,10 @@ class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  State<FeedScreen> createState() => FeedScreenState();
 }
 
-class _FeedScreenState extends AbstractState<FeedScreen>
+class FeedScreenState extends AbstractState<FeedScreen>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late FeedBloc bloc;
   late TabController tabController;

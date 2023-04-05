@@ -14,10 +14,10 @@ class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  State<WelcomeScreen> createState() => WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends AbstractState<WelcomeScreen> {
+class WelcomeScreenState extends AbstractState<WelcomeScreen> {
   late WelcomeBloc bloc;
   @override
   AbstractBloc initBloc() {

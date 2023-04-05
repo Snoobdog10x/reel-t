@@ -18,10 +18,10 @@ class CommentScreen extends StatefulWidget {
   });
 
   @override
-  State<CommentScreen> createState() => _CommentScreenState();
+  State<CommentScreen> createState() => CommentScreenState();
 }
 
-class _CommentScreenState extends AbstractState<CommentScreen> {
+class CommentScreenState extends AbstractState<CommentScreen> {
   late CommentBloc bloc;
   @override
   AbstractBloc initBloc() {

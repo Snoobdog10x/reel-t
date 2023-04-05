@@ -11,10 +11,10 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SignupScreen> createState() => SignupScreenState();
 }
 
-class _SignupScreenState extends AbstractState<SignupScreen> {
+class SignupScreenState extends AbstractState<SignupScreen> {
   late SignupBloc bloc;
   @override
   AbstractBloc initBloc() {

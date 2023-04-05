@@ -9,10 +9,10 @@ class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  State<NotificationScreen> createState() => NotificationScreenState();
 }
 
-class _NotificationScreenState extends AbstractState<NotificationScreen> {
+class NotificationScreenState extends AbstractState<NotificationScreen> {
   late NotificationBloc bloc;
   @override
   AbstractBloc initBloc() {

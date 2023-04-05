@@ -17,10 +17,10 @@ class HomeChatScreen extends StatefulWidget {
   const HomeChatScreen({super.key});
 
   @override
-  State<HomeChatScreen> createState() => _HomeChatScreenState();
+  State<HomeChatScreen> createState() => HomeChatScreenState();
 }
 
-class _HomeChatScreenState extends AbstractState<HomeChatScreen> {
+class HomeChatScreenState extends AbstractState<HomeChatScreen> {
   late HomeChatBloc bloc;
   @override
   AbstractBloc initBloc() {

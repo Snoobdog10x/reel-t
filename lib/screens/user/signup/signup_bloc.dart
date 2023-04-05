@@ -1,8 +1,10 @@
+import 'package:reel_t/screens/user/signup/signup_screen.dart';
+
 import '../../../events/user/user_sign_up/user_sign_up_event.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_bloc.dart';
 
-class SignupBloc extends AbstractBloc with UserSignUpEvent {
+class SignupBloc extends AbstractBloc<SignupScreenState> with UserSignUpEvent {
   String name = "";
   String email = "";
   String password = "";

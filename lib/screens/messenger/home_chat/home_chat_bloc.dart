@@ -10,8 +10,9 @@ import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/shared_product/services/local_storage.dart';
 
 import '../../../generated/abstract_bloc.dart';
+import 'home_chat_screen.dart';
 
-class HomeChatBloc extends AbstractBloc
+class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
     with
         RetrieveConversationsEvent,
         RetrieveUserProfileEvent,

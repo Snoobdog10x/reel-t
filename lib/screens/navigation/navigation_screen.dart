@@ -16,12 +16,12 @@ class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
 
   @override
-  State<NavigationScreen> createState() => _NavigationScreenState();
+  State<NavigationScreen> createState() => NavigationScreenState();
 }
 
 enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
-class _NavigationScreenState extends AbstractState<NavigationScreen> {
+class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
   PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;

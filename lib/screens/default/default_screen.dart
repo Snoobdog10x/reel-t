@@ -20,10 +20,10 @@ class DefaultScreen extends StatefulWidget {
   const DefaultScreen({super.key});
 
   @override
-  State<DefaultScreen> createState() => _DefaultScreenState();
+  State<DefaultScreen> createState() => DefaultScreenState();
 }
 
-class _DefaultScreenState extends AbstractState<DefaultScreen> {
+class DefaultScreenState extends AbstractState<DefaultScreen> {
   late DefaultBloc bloc;
   @override
   AbstractBloc initBloc() {

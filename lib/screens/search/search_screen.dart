@@ -9,10 +9,10 @@ class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchScreen> createState() => SearchScreenState();
 }
 
-class _SearchScreenState extends AbstractState<SearchScreen> {
+class SearchScreenState extends AbstractState<SearchScreen> {
   late SearchBloc bloc;
   @override
   AbstractBloc initBloc() {

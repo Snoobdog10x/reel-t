@@ -18,10 +18,10 @@ class DetailChatSettingScreen extends StatefulWidget {
 
   @override
   State<DetailChatSettingScreen> createState() =>
-      _DetailChatSettingScreenState();
+      DetailChatSettingScreenState();
 }
 
-class _DetailChatSettingScreenState
+class DetailChatSettingScreenState
     extends AbstractState<DetailChatSettingScreen> {
   late DetailChatSettingBloc bloc;
   @override

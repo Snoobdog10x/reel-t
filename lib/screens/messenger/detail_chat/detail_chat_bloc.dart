@@ -3,8 +3,9 @@ import 'package:reel_t/models/user_profile/user_profile.dart';
 
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/conversation/conversation.dart';
+import 'detail_chat_screen.dart';
 
-class DetailChatScreenBloc extends AbstractBloc {
+class DetailChatScreenBloc extends AbstractBloc<DetailChatScreenScreenState> {
   late Conversation conversation;
   late UserProfile currentUser;
   late UserProfile contactUser;

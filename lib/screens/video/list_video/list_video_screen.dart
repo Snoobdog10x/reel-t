@@ -27,10 +27,10 @@ class ListVideoScreen extends StatefulWidget {
   });
 
   @override
-  State<ListVideoScreen> createState() => _ListVideoScreenState();
+  State<ListVideoScreen> createState() => ListVideoScreenState();
 }
 
-class _ListVideoScreenState extends AbstractState<ListVideoScreen>
+class ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoBloc bloc;
   @override

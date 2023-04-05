@@ -4,8 +4,9 @@ import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen
 import '../../../events/user/user_sign_in/user_sign_in_event.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_bloc.dart';
+import 'login_screen.dart';
 
-class LoginBloc extends AbstractBloc
+class LoginBloc extends AbstractBloc<LoginScreenState>
     with UserSignInEvent, VerifyUserEmailEvent {
   String email = "";
   String password = "";

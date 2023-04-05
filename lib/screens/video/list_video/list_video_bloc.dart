@@ -7,8 +7,9 @@ import 'package:reel_t/models/follow/follow.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
+import 'list_video_screen.dart';
 
-class ListVideoBloc extends AbstractBloc
+class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
     with RetrieveVideoDetailEvent, LikeVideoEvent {
   List<Video> videos = [];
   Map<Video, bool> _isLockLike = {};
