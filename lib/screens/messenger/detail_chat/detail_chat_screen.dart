@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/models/message/message.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
+import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
 import '../../../generated/abstract_provider.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
@@ -90,11 +91,9 @@ class _DetailChatScreenScreenState
         child: Row(
           children: <Widget>[
             avataUrl != null
-                ? CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      avataUrl,
-                    ),
-                    radius: 20,
+                ? CircleImage(
+                    avataUrl,
+                    radius: 40,
                   )
                 : Container(),
             SizedBox(width: 15),
@@ -196,18 +195,12 @@ class _DetailChatScreenScreenState
             ),
           ),
           SizedBox(width: 8),
-          CircleAvatar(
-            radius: 12,
-            backgroundImage: NetworkImage(avataUrl),
-          ),
+          CircleImage(avataUrl, radius: 25)
         ],
       );
     } else {
       layout.addAll([
-        CircleAvatar(
-          radius: 12,
-          backgroundImage: NetworkImage(avataUrl),
-        ),
+        CircleImage(avataUrl, radius: 25),
         SizedBox(width: 8),
         Container(
           decoration: BoxDecoration(
