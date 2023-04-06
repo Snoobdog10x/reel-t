@@ -1,32 +1,21 @@
 import 'dart:async';
 
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
+import 'package:reel_t/events/user/verify_email_otp/verify_email_otp_event.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
 import 'email_authenticate_screen.dart';
 
 class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
-    with SendEmailOtpEvent {
+    with SendEmailOtpEvent, VerifyEmailOtpEvent {
   late UserProfile signInUserProfile;
   void resendOTP() {
     sendSendEmailOtpEvent(signInUserProfile.email);
   }
 
   void verifyOTP(String otp) {
-    var isValid = appStore.emailAuth.verifyOTP(otp);
-    if (isValid) {
-      appStore.emailAuth.removeOTP();
-      appStore.localUser.login(signInUserProfile);
-      state.popTopDisplay();
-      return;
-    }
-    state.showAlertDialog(
-      title: "OTP Verification",
-      content: "Wrong OTP, please try again",
-      confirm: () {
-        state.popTopDisplay();
-      },
-    );
+    state.startLoading();
+    sendVerifyEmailOtpEvent(signInUserProfile.email, otp);
   }
 
   String convertSecondToMinute(int second) {
@@ -45,6 +34,24 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
     state.showAlertDialog(
       title: "OTP Verification",
       content: "Server error, please try after 15 minute",
+      confirm: () {
+        state.popTopDisplay();
+      },
+    );
+  }
+
+  @override
+  void onVerifyEmailOtpEventDone(bool isVerified, String verifyStatus) {
+    state.stopLoading();
+    if (isVerified) {
+      appStore.localUser.login(signInUserProfile);
+      state.popTopDisplay();
+      return;
+    }
+
+    state.showAlertDialog(
+      title: "OTP Verification",
+      content: verifyStatus,
       confirm: () {
         state.popTopDisplay();
       },
