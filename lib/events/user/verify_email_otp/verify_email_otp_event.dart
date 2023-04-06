@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/email_otp/email_otp.dart';
 
+import '../../../shared_product/utils/format_utlity.dart';
+
 abstract class VerifyEmailOtpEvent {
   final _db = FirebaseFirestore.instance.collection(EmailOtp.PATH);
   Future<void> sendVerifyEmailOtpEvent(String email, String otp) async {
@@ -16,7 +18,7 @@ abstract class VerifyEmailOtpEvent {
         return;
       }
       var emailOtp = EmailOtp.fromJson(snapshot.docs.last.data());
-      if (emailOtp.expireAt < DateTime.now().millisecondsSinceEpoch) {
+      if (emailOtp.expireAt < FormatUtility.getMillisecondsSinceEpoch()) {
         onVerifyEmailOtpEventDone(
             false, "OTP code is expired, please resend its");
         return;
