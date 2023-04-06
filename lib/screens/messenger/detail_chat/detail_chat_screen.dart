@@ -25,6 +25,7 @@ class DetailChatScreenScreen extends StatefulWidget {
 class DetailChatScreenScreenState
     extends AbstractState<DetailChatScreenScreen> {
   late DetailChatScreenBloc bloc;
+  TextEditingController chatController = TextEditingController();
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -38,7 +39,9 @@ class DetailChatScreenScreenState
   @override
   void onCreate() {
     bloc = DetailChatScreenBloc();
-    bloc.init(widget.conversation);
+    bloc.conversation = widget.conversation;
+    bloc.currentUser = appStore.localUser.getCurrentUser();
+    bloc.contactUser = widget.conversation.secondUser.first;
   }
 
   @override
@@ -167,65 +170,41 @@ class DetailChatScreenScreenState
     final width = message.content.length > mWidth / 7 ? mWidth / 1.3 : null;
     final isCurrentUser = bloc.isCurrentUserMessage(message);
     String avataUrl = bloc.contactUser.avatar;
-    List<Widget> layout = [];
-    if (isCurrentUser) {
-      layout.addAll(
-        [
-          Container(
-            decoration: BoxDecoration(
-              color: isCurrentUser
-                  ? Colors.blueAccent
-                  : Color.fromARGB(255, 230, 230, 230),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            width: width,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  child: new Text(
-                    message.content,
-                    style: TextStyle(
-                      color: isCurrentUser ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(width: 8),
-          CircleImage(avataUrl, radius: 25)
-        ],
-      );
-    } else {
-      layout.addAll([
-        CircleImage(avataUrl, radius: 25),
-        SizedBox(width: 8),
-        Container(
-          decoration: BoxDecoration(
-            color: isCurrentUser
-                ? Colors.blueAccent
-                : Color.fromARGB(255, 230, 230, 230),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          width: width,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Flexible(
-                child: new Text(
-                  message.content,
-                  style: TextStyle(
-                    color: isCurrentUser ? Colors.white : Colors.black,
-                  ),
+    List<Widget> layout = [
+      Container(
+        decoration: BoxDecoration(
+          color: isCurrentUser
+              ? Colors.blueAccent
+              : Color.fromARGB(255, 230, 230, 230),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        width: width,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Flexible(
+              child: new Text(
+                message.content,
+                style: TextStyle(
+                  color: isCurrentUser ? Colors.white : Colors.black,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+    ];
+    if (isCurrentUser) {
+      layout.addAll([
+        SizedBox(width: 8),
+        CircleImage(bloc.currentUser.avatar, radius: 25),
       ]);
+    } else {
+      layout.insertAll(
+        0,
+        [CircleImage(avataUrl, radius: 25), SizedBox(width: 8)],
+      );
     }
     return Row(
       mainAxisAlignment:
@@ -293,6 +272,10 @@ class DetailChatScreenScreenState
           SizedBox(width: 20),
           Expanded(
             child: TextField(
+              controller: chatController,
+              onSubmitted: (value) {
+                bloc.sendMessage(value);
+              },
               decoration: InputDecoration(
                 hintText: "Aa",
                 hintStyle: TextStyle(color: Colors.black54),

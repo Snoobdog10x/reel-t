@@ -65,103 +65,114 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
   }
 
   Widget buildBody() {
-    return Column(
-      children: [
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            startLoading();
-            bloc.sendUserSignInEvent("duythanh1565@gmail.com",
-                "0d2d6cde70d7a53d5d2350029526a54c0047a48d54d75b2de713e7c3dc46bd4e");
-          },
-          child: Text("Fast login"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(
-                DetailChatSettingScreen(
-                    conversation: Conversation(secondUser: [
-                  UserProfile(
-                      fullName: 'Do Huy Thong',
-                      avatar:
-                          'https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F02062023_image_Beauty_1.jpg?alt=media&token=cec98024-1775-48a5-9740-63d79d441842')
-                ])),
-                isReplace: false);
-          },
-          child: Text("Details Settings Chat"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(NavigationScreen(), isReplace: true);
-          },
-          child: Text("Navigation"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(HomeChatScreen(), isReplace: true);
-          },
-          child: Text("Home chat screen"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(LoginScreen(), isReplace: true);
-          },
-          child: Text("Login"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(SignupScreen(), isReplace: true);
-          },
-          child: Text("Sign up"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(FeedScreen(), isReplace: true);
-          },
-          child: Text("Feed"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(
-                ProfileScreen(user: appStore.localUser.getCurrentUser()),
-                isReplace: true);
-          },
-          child: Text("Profile"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(WelcomeScreen(), isReplace: true);
-          },
-          child: Text("Welcome - init sample data"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(PersonalInformationScreen(), isReplace: true);
-          },
-          child: Text("Personal information"),
-        ),
-        SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            pushToScreen(
-                EmailAuthenticateScreen(
-                  signInUserProfile: UserProfile(),
-                ),
-                isReplace: true);
-          },
-          child: Text("Email Authentication"),
-        ),
-        SizedBox(height: 16),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              startLoading();
+              bloc.sendUserSignInEvent("duythanh1565@gmail.com",
+                  "0d2d6cde70d7a53d5d2350029526a54c0047a48d54d75b2de713e7c3dc46bd4e");
+            },
+            child: Text("Fast login"),
+          ),
+          SizedBox(height: 16),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              appStore.localMessenger.clearMessage();
+              appStore.localUser.clearUser();
+            },
+            child: Text("clear cache"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(
+                  DetailChatSettingScreen(
+                      conversation: Conversation(secondUser: [
+                    UserProfile(
+                        fullName: 'Do Huy Thong',
+                        avatar:
+                            'https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F02062023_image_Beauty_1.jpg?alt=media&token=cec98024-1775-48a5-9740-63d79d441842')
+                  ])),
+                  isReplace: false);
+            },
+            child: Text("Details Settings Chat"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(NavigationScreen(), isReplace: true);
+            },
+            child: Text("Navigation"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(HomeChatScreen(), isReplace: true);
+            },
+            child: Text("Home chat screen"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(LoginScreen(), isReplace: true);
+            },
+            child: Text("Login"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(SignupScreen(), isReplace: true);
+            },
+            child: Text("Sign up"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(FeedScreen(), isReplace: true);
+            },
+            child: Text("Feed"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(
+                  ProfileScreen(user: appStore.localUser.getCurrentUser()),
+                  isReplace: true);
+            },
+            child: Text("Profile"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(WelcomeScreen(), isReplace: true);
+            },
+            child: Text("Welcome - init sample data"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(PersonalInformationScreen(), isReplace: true);
+            },
+            child: Text("Personal information"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(
+                  EmailAuthenticateScreen(
+                    signInUserProfile: UserProfile(),
+                  ),
+                  isReplace: true);
+            },
+            child: Text("Email Authentication"),
+          ),
+          SizedBox(height: 16),
+        ],
+      ),
     );
   }
 

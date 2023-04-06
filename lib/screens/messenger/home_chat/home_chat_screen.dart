@@ -126,7 +126,9 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            avataUrl != null ? CircleImage(avataUrl, radius: 60) : Container(),
+            avataUrl != null && avataUrl.isNotEmpty
+                ? CircleImage(avataUrl, radius: 60)
+                : Container(),
             SizedBox(width: 8),
             Expanded(
               child: Column(

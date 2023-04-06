@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../shared_product/utils/format_utlity.dart';
 import 'conversation.dart';
 
 import '../message/message.dart';
@@ -9,9 +10,9 @@ class ConversationData {
     for (int i = 0; i < 10; i++) {
       var conversation = Conversation(
         id: i.toString(),
-        userIds: ["LhL5EUNo7NdTQzaIhM9kgQkdIAh2",i.toString()],
-        createAt: DateTime.now().millisecondsSinceEpoch,
-        updateAt: DateTime.now().millisecondsSinceEpoch,
+        userIds: ["LhL5EUNo7NdTQzaIhM9kgQkdIAh2", i.toString()],
+        createAt: FormatUtility.getMillisecondsSinceEpoch(),
+        updateAt: FormatUtility.getMillisecondsSinceEpoch(),
       );
       addMessageToConversation(conversation);
       final db = await FirebaseFirestore.instance;
@@ -46,13 +47,14 @@ class ConversationData {
     List<Message> messages = [];
     for (int i = 0; i < 15; i++) {
       var content = contents[random.nextInt(contents.length)];
-      var userId = conversation.userIds[random.nextInt(conversation.userIds.length)];
+      var userId =
+          conversation.userIds[random.nextInt(conversation.userIds.length)];
       messages.add(
         Message(
           id: i.toString(),
           userId: userId,
           content: content,
-          createAt: DateTime.now().millisecondsSinceEpoch,
+          createAt: FormatUtility.getMillisecondsSinceEpoch(),
         ),
       );
     }

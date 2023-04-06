@@ -43,9 +43,23 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
               .firstWhere((element) => element != currentUser.id);
           sendRetrieveUserProfileEvent(secondUserId, conversation.id);
           sendRetrieveMessagesEvent(conversation);
+          sortConversationByUpdateAt();
         }
       }
     }
+  }
+
+  void sortConversationByUpdateAt() {
+    var mapEntries = conversations.entries.toList()
+      ..sort((a, b) {
+        if (a.value.updateAt > b.value.updateAt) return 1;
+        if (a.value.updateAt == b.value.updateAt) return 0;
+        return -1;
+      });
+
+    conversations
+      ..clear()
+      ..addEntries(mapEntries);
   }
 
   bool _isContainConversation(Conversation conversation) {

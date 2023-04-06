@@ -56,10 +56,13 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         return Consumer<NavigationBloc>(
           builder: (context, value, child) {
             var body = buildBody();
+            var isBlackBackground = currentScreen == 0;
             return buildScreen(
               body: body,
               isShowConnect: true,
-              background: Colors.black,
+              background: isBlackBackground
+                  ? Colors.black
+                  : Color.fromARGB(255, 240, 240, 240),
               isSafe: false,
               bottomNavBar: buildBottomBar(),
             );
@@ -132,26 +135,28 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   Widget buildAddVideoButton({Function? onTap}) {
+    var isBlackBackground = currentScreen == 0;
     return GestureDetector(
       onTap: () {
         onTap?.call();
       },
       child: Column(
         children: [
-          SizedBox(height: 8),
+          SizedBox(height: 16),
           Container(
-            height: 40,
-            width: 60,
+            height: 35,
+            width: 55,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
+              color: isBlackBackground ? Colors.white : Colors.black,
             ),
             child: Text(
               "+",
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w800,
+                color: isBlackBackground ? Colors.black : Colors.white,
               ),
             ),
           ),
@@ -166,6 +171,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
     bool isSelect, {
     Function? onTap,
   }) {
+    var isBlackBackground = currentScreen == 0;
     return GestureDetector(
       onTap: () {
         onTap?.call();
@@ -175,13 +181,25 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
           Expanded(
               child: Icon(
             icon,
-            color: isSelect ? Colors.white : Colors.white70,
+            color: isSelect
+                ? isBlackBackground
+                    ? Colors.white
+                    : Colors.black
+                : isBlackBackground
+                    ? Colors.white70
+                    : Colors.black45,
           )),
           Expanded(
               child: Text(
             title ?? "",
             style: TextStyle(
-              color: isSelect ? Colors.white : Colors.white70,
+              color: isSelect
+                  ? isBlackBackground
+                      ? Colors.white
+                      : Colors.black
+                  : isBlackBackground
+                      ? Colors.white70
+                      : Colors.black45,
             ),
           ))
         ],
