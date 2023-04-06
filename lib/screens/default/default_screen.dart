@@ -66,6 +66,16 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
   Widget buildBody() {
     return Column(
       children: [
+        SizedBox(height: 16),
+        TextButton(
+          onPressed: () {
+            startLoading();
+            bloc.sendUserSignInEvent("duythanh1565@gmail.com",
+                "0d2d6cde70d7a53d5d2350029526a54c0047a48d54d75b2de713e7c3dc46bd4e");
+          },
+          child: Text("Fast login"),
+        ),
+        SizedBox(height: 16),
         TextButton(
           onPressed: () {
             pushToScreen(
@@ -132,7 +142,11 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            pushToScreen(EmailAuthenticateScreen(signInUserProfile: UserProfile(),), isReplace: true);
+            pushToScreen(
+                EmailAuthenticateScreen(
+                  signInUserProfile: UserProfile(),
+                ),
+                isReplace: true);
           },
           child: Text("Email Authentication"),
         ),
