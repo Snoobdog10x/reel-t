@@ -5,7 +5,9 @@ import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
+import '../../../shared_product/utils/shared_text_style.dart';
 import '../../../shared_product/widgets/three_row_appbar.dart';
+import '../../commingsoon/commingsoon_screen.dart';
 import 'profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -31,6 +33,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
   @override
   void onCreate() {
     bloc = ProfileBloc();
+    bloc.init();
   }
 
   @override
@@ -40,7 +43,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
       builder: (context, child) {
         return Consumer<ProfileBloc>(
           builder: (context, value, child) {
-            var appBar = buildAppbar();
+            var appBar = buildAppbar(bloc.currentUser.fullName);
             var body = buildBody();
             return buildScreen(
               appBar: appBar,
@@ -52,69 +55,113 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
     );
   }
 
-  Widget buildAppbar({
-    String? avataUrl,
+  Widget buildAppbar(
     String? userName,
-  }) {
-    return ThreeRowAppBar(
-      firstWidget: GestureDetector(
-        onTap: () {
-          popTopDisplay();
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Icon(
-            Icons.arrow_back_ios,
+  ) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CommingsoonScreen(),
+                ),
+              );
+            },
+            icon: Icon(
+              CupertinoIcons.gift_fill,
+              color: Colors.greenAccent,
+            ),
           ),
         ),
-      ),
-      secondWidget: Container(
-        child: Row(
-          children: <Widget>[
-            avataUrl != null
-                ? CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      avataUrl,
-                    ),
-                    radius: 20,
-                  )
-                : Container(),
-            SizedBox(width: 15),
-            Expanded(
-              child: Container(
-                child: Text(userName.toString()),
-              ),
-            )
-          ],
-        ),
-      ),
-      lastWidget: Padding(
-        padding: EdgeInsets.only(left: 60),
-        child: Row(
-          children: <Widget>[
-            Container(
-              child: Icon(
-                CupertinoIcons.phone_fill,
-              ),
+        Expanded(
+          flex: 5,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  userName!,
+                  style: TextStyle(
+                      fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                      fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT),
+                ),
+                IconButton(
+                  onPressed: () {}, //Switch Accounts
+                  icon: Icon(
+                    CupertinoIcons.chevron_down,
+                    size: 12,
+                  ),
+                )
+              ],
             ),
-            SizedBox(width: 10),
-            Container(
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.more_vert,
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Row(
+            children: <Widget>[
+              Container(
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CommingsoonScreen(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    CupertinoIcons.paw,
+                    // Profile view history will appear here
+                  ),
                 ),
               ),
-            ),
-          ],
+              Container(
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    CupertinoIcons.line_horizontal_3,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
-  Widget buildBody() {
+  Widget buildBody(
+    // String? currentUserName,
+    // String? currentUserAvatar,
+  ) {
     return Column(
-      children: [],
+      children: <Widget>[
+        Container(
+          height: screenHeight() * 0.03,
+          color: Color.fromARGB(255, 235, 235, 235),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(CupertinoIcons.person, size: 16),
+              Text('Private account',
+                  style: TextStyle(
+                    fontSize: SharedTextStyle.NORMAL_SIZE,
+                    fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+                  )),
+            ],
+          ),
+        ),
+        SizedBox(height: 8),
+        Container(
+          height: screenHeight() * 0.4,
+          child: Row(
+            children: <Widget>[],
+          ),
+        ),
+      ],
     );
   }
 

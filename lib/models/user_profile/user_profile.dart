@@ -31,17 +31,20 @@ class UserProfile extends HiveObject{
 	static const String numFollowing_PATH = "numFollowing";
 	@HiveField(7) 
 	int numFollowing = 0;
-	static const String isOnline_PATH = "isOnline";
+	static const String numLikes_PATH = "numLikes";
 	@HiveField(8) 
+	int numLikes = 0;
+	static const String isOnline_PATH = "isOnline";
+	@HiveField(9) 
 	bool isOnline = false;
 	static const String isActive_PATH = "isActive";
-	@HiveField(9) 
+	@HiveField(10) 
 	bool isActive = false;
 	static const String isDeleted_PATH = "isDeleted";
-	@HiveField(10) 
+	@HiveField(11) 
 	bool isDeleted = false;
 	static const String createAt_PATH = "createAt";
-	@HiveField(11) 
+	@HiveField(12) 
 	int createAt = 0;
 	static const String PATH = "UserProfiles";
 
@@ -54,6 +57,7 @@ class UserProfile extends HiveObject{
 		String? avatar,
 		int? numFollower,
 		int? numFollowing,
+		int? numLikes,
 		bool? isOnline,
 		bool? isActive,
 		bool? isDeleted,
@@ -67,6 +71,7 @@ class UserProfile extends HiveObject{
 		if(avatar != null) this.avatar = avatar;
 		if(numFollower != null) this.numFollower = numFollower;
 		if(numFollowing != null) this.numFollowing = numFollowing;
+		if(numLikes != null) this.numLikes = numLikes;
 		if(isOnline != null) this.isOnline = isOnline;
 		if(isActive != null) this.isActive = isActive;
 		if(isDeleted != null) this.isDeleted = isDeleted;
@@ -82,6 +87,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["avatar"] != null) avatar = jsonMap["avatar"];
 		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
 		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
+		if(jsonMap["numLikes"] != null) numLikes = jsonMap["numLikes"];
 		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
 		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
@@ -98,6 +104,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["avatar"] != null) avatar = jsonMap["avatar"];
 		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
 		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
+		if(jsonMap["numLikes"] != null) numLikes = jsonMap["numLikes"];
 		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
 		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
@@ -122,6 +129,7 @@ class UserProfile extends HiveObject{
 		jsonMap["avatar"] = avatar;
 		jsonMap["numFollower"] = numFollower;
 		jsonMap["numFollowing"] = numFollowing;
+		jsonMap["numLikes"] = numLikes;
 		jsonMap["isOnline"] = isOnline;
 		jsonMap["isActive"] = isActive;
 		jsonMap["isDeleted"] = isDeleted;

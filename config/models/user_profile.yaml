@@ -8,6 +8,7 @@ arguments:
   - avatar: String
   - numFollower: int
   - numFollowing: int
+  - numLikes: int
   - isOnline: bool
   - isActive: bool
   - isDeleted: bool

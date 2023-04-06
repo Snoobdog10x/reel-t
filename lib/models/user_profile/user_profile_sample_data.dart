@@ -56,6 +56,7 @@ class UserProfileData {
         bio: bio,
         numFollower: _random.nextInt(200000),
         numFollowing: _random.nextInt(200000),
+        numLikes: _random.nextInt(200000),
       );
       final db = FirebaseFirestore.instance;
       db

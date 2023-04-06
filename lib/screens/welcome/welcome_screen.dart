@@ -87,7 +87,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen> {
   Future<void> onReady() async {
     // appStore.localUser.clearUser();
     // appStore.localMessenger.clearMessage();
-    // VideoData().initVideoData();
+    // VideoData().initSampleData();
     // UserProfileData().initUserProfileData();
     // ConversationData().initConversationData();
     pushToScreen(NavigationScreen(), isReplace: true);

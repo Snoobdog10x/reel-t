@@ -56,6 +56,23 @@ class VideoData {
         ),
       );
     }
+    for (int i = 0; i < videoUrls.length; i++) {
+      var url = videoUrls[i];
+      videoData.add(
+        Video(
+          id: i.toString(),
+          videoUrl: url,
+          songName: "",
+          creatorId: "LhL5EUNo7NdTQzaIhM9kgQkdIAh2",
+          publicMode: PublicMode.PUBLIC.index,
+          likesNum: _random.nextInt(2000000),
+          commentsNum: _random.nextInt(2000000),
+          title: "Khong biet ghi gi?",
+          viewsNum: _random.nextInt(2000000),
+          isDeleted: false,
+        ),
+      );
+    }
     return videoData;
   }
 
