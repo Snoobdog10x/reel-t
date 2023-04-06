@@ -5,10 +5,12 @@ import '../../../events/user/retrieve_user_profile/retrieve_user_profile_event.d
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
+import '../../../models/video/video.dart';
 
 class ProfileBloc extends AbstractBloc<ProfileScreenState>
     with RetrieveConversationsEvent, RetrieveUserProfileEvent {
   Map<String, Conversation> conversations = new Map<String, Conversation>();
+  List<Video> userVideos = [];
   late UserProfile currentUser;
   void init() {
     currentUser = appStore.localUser.getCurrentUser();
@@ -45,4 +47,5 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
     }
     notifyDataChanged();
   }
+
 }

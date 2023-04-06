@@ -129,7 +129,9 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
         SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            pushToScreen(ProfileScreen(), isReplace: true);
+            pushToScreen(
+                ProfileScreen(user: appStore.localUser.getCurrentUser()),
+                isReplace: true);
           },
           child: Text("Profile"),
         ),

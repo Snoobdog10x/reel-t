@@ -12,6 +12,7 @@ class DefaultBloc extends AbstractBloc<DefaultScreenState>
   @override
   void onUserSignInEventDone(String e, UserProfile? signedInUserProfile) {
     if (e.isEmpty) {
+      appStore.localUser.logout();
       appStore.localUser.login(signedInUserProfile!);
     }
     print(e);

@@ -25,12 +25,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
   PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;
-  Map<int, Widget> pages = {
-    NavigationPage.FEED.index: FeedScreen(),
-    NavigationPage.CHAT.index: HomeChatScreen(),
-    NavigationPage.NOTIFICATION.index: NotificationScreen(),
-    NavigationPage.PROFILE.index: ProfileScreen(),
-  };
+  late Map<int, Widget> pages;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -44,6 +39,13 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   @override
   void onCreate() {
     bloc = NavigationBloc();
+    bloc.currentUser = appStore.localUser.getCurrentUser();
+    pages = {
+      NavigationPage.FEED.index: FeedScreen(),
+      NavigationPage.CHAT.index: HomeChatScreen(),
+      NavigationPage.NOTIFICATION.index: NotificationScreen(),
+      NavigationPage.PROFILE.index: ProfileScreen(user: bloc.currentUser),
+    };
   }
 
   @override
