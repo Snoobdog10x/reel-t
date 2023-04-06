@@ -4,6 +4,7 @@ arguments:
   - userIds: List<String>
   - messages: Message
   - secondUser: UserProfile
+  - latestMessage: String
   - isMute: bool
   - isDeleted: bool
   - createAt: int
