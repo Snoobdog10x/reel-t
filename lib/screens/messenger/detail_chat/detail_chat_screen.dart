@@ -25,6 +25,7 @@ class DetailChatScreenScreen extends StatefulWidget {
 class DetailChatScreenScreenState
     extends AbstractState<DetailChatScreenScreen> {
   late DetailChatScreenBloc bloc;
+  TextEditingController chatController = TextEditingController();
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -38,7 +39,9 @@ class DetailChatScreenScreenState
   @override
   void onCreate() {
     bloc = DetailChatScreenBloc();
-    bloc.init(widget.conversation);
+    bloc.conversation = widget.conversation;
+    bloc.currentUser = appStore.localUser.getCurrentUser();
+    bloc.contactUser = widget.conversation.secondUser.first;
   }
 
   @override
@@ -269,6 +272,10 @@ class DetailChatScreenScreenState
           SizedBox(width: 20),
           Expanded(
             child: TextField(
+              controller: chatController,
+              onSubmitted: (value) {
+                bloc.sendMessage(value);
+              },
               decoration: InputDecoration(
                 hintText: "Aa",
                 hintStyle: TextStyle(color: Colors.black54),

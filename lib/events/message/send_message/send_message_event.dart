@@ -13,16 +13,17 @@ abstract class SendMessageEvent {
       var messageRef = conversationRef.collection(Message.PATH).doc();
       var id = messageRef.id;
       final batch = FirebaseFirestore.instance.batch();
-      batch.set(conversationRef, conversation);
+      batch.set(conversationRef, conversation.toJson());
       conversation.updateAt = FormatUtility.getMillisecondsSinceEpoch();
       message.id = id;
-      batch.set(messageRef, message);
+      batch.set(messageRef, message.toJson());
       await batch.commit();
-      onSendMessageEventDone(null);
+      conversation.messages.add(message);
+      onSendMessageEventDone(null, conversation);
     } catch (e) {
       onSendMessageEventDone(e);
     }
   }
 
-  void onSendMessageEventDone(dynamic e);
+  void onSendMessageEventDone(dynamic e, [Conversation? conversation]);
 }

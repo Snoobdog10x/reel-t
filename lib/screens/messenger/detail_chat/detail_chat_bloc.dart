@@ -12,18 +12,13 @@ class DetailChatScreenBloc extends AbstractBloc<DetailChatScreenScreenState>
   late Conversation conversation;
   late UserProfile currentUser;
   late UserProfile contactUser;
-  void init(Conversation conversation) {
-    this.conversation = conversation;
-    currentUser = appStore.localUser.getCurrentUser();
-    contactUser = conversation.secondUser.first;
-  }
 
   void sendMessage(String content) {
     Message message = Message(
-      userId: currentUser.id,
-      content: content,
-      createAt: FormatUtility.getMillisecondsSinceEpoch()
-    );
+        userId: currentUser.id,
+        content: content,
+        createAt: FormatUtility.getMillisecondsSinceEpoch());
+    sendSendMessageEvent(conversation, message);
   }
 
   bool isCurrentUserMessage(Message message) {
@@ -32,7 +27,10 @@ class DetailChatScreenBloc extends AbstractBloc<DetailChatScreenScreenState>
   }
 
   @override
-  void onSendMessageEventDone(e) {
-    // TODO: implement onSendMessageEventDone
+  void onSendMessageEventDone(e, [Conversation? conversation]) {
+    if (e != null) {
+      this.conversation = conversation!;
+    }
+    notifyDataChanged();
   }
 }
