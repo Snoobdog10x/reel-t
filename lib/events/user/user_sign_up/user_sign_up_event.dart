@@ -15,6 +15,7 @@ abstract class UserSignUpEvent {
         email: email,
         password: password,
       );
+      
       String id = credential.user!.uid;
       var userProfile = UserProfile(
         id: id,

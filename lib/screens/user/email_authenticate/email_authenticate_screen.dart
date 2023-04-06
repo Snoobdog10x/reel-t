@@ -26,8 +26,8 @@ class EmailAuthenticateScreenState
     extends AbstractState<EmailAuthenticateScreen> {
   late EmailAuthenticateBloc bloc;
   OtpFieldController controller = OtpFieldController();
-  late Timer resendTimer;
-  int resendSecond = 1 * 60 + 30;
+  Timer? resendTimer;
+  int resendSecond = 30;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -41,6 +41,7 @@ class EmailAuthenticateScreenState
   @override
   void onCreate() {
     bloc = EmailAuthenticateBloc();
+    bloc.signInUserProfile = widget.signInUserProfile;
   }
 
   @override
@@ -125,7 +126,7 @@ class EmailAuthenticateScreenState
     return RichText(
       text: TextSpan(
         style: TextStyle(color: Colors.black),
-        text: '${bloc.email} ',
+        text: '${bloc.signInUserProfile.email} ',
         children: <TextSpan>[
           TextSpan(
             text: 'Change email?',
@@ -141,17 +142,25 @@ class EmailAuthenticateScreenState
   }
 
   Widget buildResend() {
+    bool isResendCode = resendSecond == 0;
     return RichText(
       text: TextSpan(
         style: TextStyle(color: Colors.black),
         text: 'Resend code after ',
         children: <TextSpan>[
           TextSpan(
-            text: bloc.convertSecondToMinute(resendSecond),
+            text: isResendCode
+                ? "Resend"
+                : bloc.convertSecondToMinute(resendSecond),
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                popTopDisplay();
+                if (isResendCode) {
+                  bloc.resendOTP();
+                  resendSecond = 30;
+                  notifyDataChanged();
+                  startCountDown();
+                }
               },
           ),
         ],
@@ -160,6 +169,7 @@ class EmailAuthenticateScreenState
   }
 
   void startCountDown() {
+    resendTimer?.cancel();
     resendTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (resendSecond > 0) {
         resendSecond--;
@@ -175,6 +185,6 @@ class EmailAuthenticateScreenState
 
   @override
   void onDispose() {
-    resendTimer.cancel();
+    resendTimer?.cancel();
   }
 }

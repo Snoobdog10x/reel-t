@@ -2,16 +2,21 @@ import 'dart:async';
 
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import '../../../generated/abstract_bloc.dart';
+import '../../../models/user_profile/user_profile.dart';
 import 'email_authenticate_screen.dart';
 
 class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
     with SendEmailOtpEvent {
-  String email = "Duythanh1565@gmail.com";
+  late UserProfile signInUserProfile;
+  void resendOTP() {
+    sendSendEmailOtpEvent(signInUserProfile.email);
+  }
 
-  void init() {}
   void verifyOTP(String otp) {
     var isValid = appStore.emailAuth.verifyOTP(otp);
     if (isValid) {
+      appStore.emailAuth.removeOTP();
+      appStore.localUser.login(signInUserProfile);
       state.popTopDisplay();
       return;
     }
@@ -33,6 +38,16 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
 
   @override
   void onSendEmailOtpEventDone(bool isSent) {
-    // TODO: implement onSendEmailOtpEventDone
+    if (isSent) {
+      notifyDataChanged();
+      return;
+    }
+    state.showAlertDialog(
+      title: "OTP Verification",
+      content: "Server error, please try after 15 minute",
+      confirm: () {
+        state.popTopDisplay();
+      },
+    );
   }
 }
