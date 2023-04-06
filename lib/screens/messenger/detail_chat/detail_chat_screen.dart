@@ -41,12 +41,12 @@ class DetailChatScreenScreenState
     bloc = DetailChatScreenBloc();
     bloc.conversation = widget.conversation;
     bloc.currentUser = appStore.localUser.getCurrentUser();
-    bloc.contactUser = widget.conversation.secondUser.first;
+    bloc.contactUser = widget.conversation.contactUser.first;
   }
 
   @override
   void onReady() {
-    // TODO: implement onReady
+    bloc.sendRetrieveMessagesEvent(bloc.conversation);
   }
 
   @override
@@ -58,7 +58,7 @@ class DetailChatScreenScreenState
           builder: (context, value, child) {
             var body = buildBody();
             var bottom = buidBottom();
-            UserProfile user = widget.conversation.secondUser.first;
+            UserProfile user = bloc.contactUser;
             return buildScreen(
               isPushLayoutWhenShowKeyboard: true,
               appBar: buildAppbar(
@@ -124,7 +124,8 @@ class DetailChatScreenScreenState
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => DetailChatSettingScreen(
-                          conversation: widget.conversation),
+                        userProfile: bloc.contactUser,
+                      ),
                     ),
                   );
                 },
@@ -147,9 +148,9 @@ class DetailChatScreenScreenState
         separatorBuilder: (context, index) {
           return SizedBox(height: 16);
         },
-        itemCount: bloc.conversation.messages.length,
+        itemCount: bloc.messages.length,
         itemBuilder: (context, index) {
-          var message = bloc.conversation.messages[index];
+          var message = bloc.messages[index];
           return buildMessage(message);
         },
       ),

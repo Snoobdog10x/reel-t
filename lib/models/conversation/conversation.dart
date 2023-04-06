@@ -1,8 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/message/message.dart';
 import '../../models/user_profile/user_profile.dart';
+import '../../models/message/message.dart';
 import 'package:hive/hive.dart';
 part 'conversation.g.dart';
 
@@ -15,35 +15,31 @@ class Conversation extends HiveObject{
 	static const String userIds_PATH = "userIds";
 	@HiveField(1) 
 	List<String> userIds = [];
-	static const String messages_PATH = "messages";
+	static const String contactUser_PATH = "contactUser";
 	@HiveField(2) 
-	List<Message> messages = [];
-	static const String secondUser_PATH = "secondUser";
-	@HiveField(3) 
-	List<UserProfile> secondUser = [];
+	List<UserProfile> contactUser = [];
 	static const String latestMessage_PATH = "latestMessage";
-	@HiveField(4) 
-	String latestMessage = "";
+	@HiveField(3) 
+	List<Message> latestMessage = [];
 	static const String isMute_PATH = "isMute";
-	@HiveField(5) 
+	@HiveField(4) 
 	bool isMute = false;
 	static const String isDeleted_PATH = "isDeleted";
-	@HiveField(6) 
+	@HiveField(5) 
 	bool isDeleted = false;
 	static const String createAt_PATH = "createAt";
-	@HiveField(7) 
+	@HiveField(6) 
 	int createAt = 0;
 	static const String updateAt_PATH = "updateAt";
-	@HiveField(8) 
+	@HiveField(7) 
 	int updateAt = 0;
 	static const String PATH = "Conversations";
 
   Conversation({
     String? id,
 		List<String>? userIds,
-		List<Message>? messages,
-		List<UserProfile>? secondUser,
-		String? latestMessage,
+		List<UserProfile>? contactUser,
+		List<Message>? latestMessage,
 		bool? isMute,
 		bool? isDeleted,
 		int? createAt,
@@ -51,8 +47,7 @@ class Conversation extends HiveObject{
   }){
     if(id != null) this.id = id;
 		if(userIds != null) this.userIds = userIds;
-		if(messages != null) this.messages = messages;
-		if(secondUser != null) this.secondUser = secondUser;
+		if(contactUser != null) this.contactUser = contactUser;
 		if(latestMessage != null) this.latestMessage = latestMessage;
 		if(isMute != null) this.isMute = isMute;
 		if(isDeleted != null) this.isDeleted = isDeleted;
@@ -63,7 +58,6 @@ class Conversation extends HiveObject{
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userIds"] != null) userIds = jsonMap["userIds"].cast<String>();
-		if(jsonMap["latestMessage"] != null) latestMessage = jsonMap["latestMessage"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
@@ -74,7 +68,6 @@ class Conversation extends HiveObject{
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userIds"] != null) userIds = jsonMap["userIds"].cast<String>();
-		if(jsonMap["latestMessage"] != null) latestMessage = jsonMap["latestMessage"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
@@ -93,7 +86,6 @@ class Conversation extends HiveObject{
     final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
     jsonMap["id"] = id;
 		jsonMap["userIds"] = userIds;
-		jsonMap["latestMessage"] = latestMessage;
 		jsonMap["isMute"] = isMute;
 		jsonMap["isDeleted"] = isDeleted;
 		jsonMap["createAt"] = createAt;

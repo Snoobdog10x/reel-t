@@ -8,44 +8,18 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 
 class ProfileBloc extends AbstractBloc<ProfileScreenState>
-    with RetrieveConversationsEvent, RetrieveUserProfileEvent {
-  Map<String, Conversation> conversations = new Map<String, Conversation>();
+    with RetrieveUserProfileEvent {
   List<Video> userVideos = [];
   late UserProfile currentUser;
   void init() {
     currentUser = appStore.localUser.getCurrentUser();
     if (currentUser.id.isEmpty) return;
-
-    sendRetrieveConversationsEvent(currentUser);
     notifyDataChanged();
   }
-
+  
   @override
-  void onRetrieveConversationsEventDone(
-      e, List<Conversation> updatedConversations) {
-    if (e == null) {
-      for (var conversation in updatedConversations) {
-        if (!_isContainConversation(conversation)) {
-          this.conversations[conversation.id] = conversation;
-          var secondUserId = conversation.userIds
-              .firstWhere((element) => element != currentUser.id);
-          sendRetrieveUserProfileEvent(secondUserId, conversation.id);
-        }
-      }
-    }
-  }
-
-  bool _isContainConversation(Conversation conversation) {
-    return conversations[conversation.id] != null;
-  }
-
-  @override
-  void onRetrieveUserProfileEventDone(e, UserProfile? userProfile,
-      [String? conversationId]) {
-    if (e == null) {
-      conversations[conversationId]!.secondUser.add(userProfile!);
-    }
-    notifyDataChanged();
+  void onRetrieveUserProfileEventDone(e, UserProfile? userProfile, [String? ConversationId]) {
+    // TODO: implement onRetrieveUserProfileEventDone
   }
 
 }

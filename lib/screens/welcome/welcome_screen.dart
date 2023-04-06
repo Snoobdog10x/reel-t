@@ -89,7 +89,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen> {
     // appStore.localMessenger.clearMessage();
     // VideoData().initSampleData();
     // UserProfileData().initSampleData();
-    // ConversationData().initConversationData();
+    ConversationData().initConversationData();
     pushToScreen(NavigationScreen(), isReplace: true);
   }
 }

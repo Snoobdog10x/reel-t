@@ -3,5 +3,6 @@ arguments:
   - id: String
   - userId: String
   - content: String
+  - hasSeen: bool
   - isDeleted: bool
   - createAt: int

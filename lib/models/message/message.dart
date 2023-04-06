@@ -16,11 +16,14 @@ class Message extends HiveObject{
 	static const String content_PATH = "content";
 	@HiveField(2) 
 	String content = "";
-	static const String isDeleted_PATH = "isDeleted";
+	static const String hasSeen_PATH = "hasSeen";
 	@HiveField(3) 
+	bool hasSeen = false;
+	static const String isDeleted_PATH = "isDeleted";
+	@HiveField(4) 
 	bool isDeleted = false;
 	static const String createAt_PATH = "createAt";
-	@HiveField(4) 
+	@HiveField(5) 
 	int createAt = 0;
 	static const String PATH = "Messages";
 
@@ -28,12 +31,14 @@ class Message extends HiveObject{
     String? id,
 		String? userId,
 		String? content,
+		bool? hasSeen,
 		bool? isDeleted,
 		int? createAt,
   }){
     if(id != null) this.id = id;
 		if(userId != null) this.userId = userId;
 		if(content != null) this.content = content;
+		if(hasSeen != null) this.hasSeen = hasSeen;
 		if(isDeleted != null) this.isDeleted = isDeleted;
 		if(createAt != null) this.createAt = createAt;
   }
@@ -42,6 +47,7 @@ class Message extends HiveObject{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
+		if(jsonMap["hasSeen"] != null) hasSeen = jsonMap["hasSeen"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
@@ -51,6 +57,7 @@ class Message extends HiveObject{
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
+		if(jsonMap["hasSeen"] != null) hasSeen = jsonMap["hasSeen"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
   }
@@ -68,6 +75,7 @@ class Message extends HiveObject{
     jsonMap["id"] = id;
 		jsonMap["userId"] = userId;
 		jsonMap["content"] = content;
+		jsonMap["hasSeen"] = hasSeen;
 		jsonMap["isDeleted"] = isDeleted;
 		jsonMap["createAt"] = createAt;
     return jsonMap;

@@ -2,9 +2,8 @@ isStoreLocal: True
 arguments:
   - id: String
   - userIds: List<String>
-  - messages: Message
-  - secondUser: UserProfile
-  - latestMessage: String
+  - contactUser: UserProfile
+  - latestMessage: Message
   - isMute: bool
   - isDeleted: bool
   - createAt: int

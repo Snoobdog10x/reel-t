@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/user_profile/user_profile.dart';
 import '../../../screens/commingsoon/commingsoon_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -10,10 +11,10 @@ import 'detail_chat_setting_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class DetailChatSettingScreen extends StatefulWidget {
-  final Conversation conversation;
+  final UserProfile userProfile;
   const DetailChatSettingScreen({
     super.key,
-    required this.conversation,
+    required this.userProfile,
   });
 
   @override
@@ -37,7 +38,6 @@ class DetailChatSettingScreenState
   @override
   void onCreate() {
     bloc = DetailChatSettingBloc();
-    bloc.init(widget.conversation);
   }
 
   @override
@@ -74,12 +74,12 @@ class DetailChatSettingScreenState
       child: Column(
         children: <Widget>[
           CircleImage(
-            bloc.conversation.secondUser.first.avatar,
+            widget.userProfile.avatar,
             radius: 100,
           ),
           SizedBox(height: 10),
           Text(
-            bloc.conversation.secondUser.first.fullName,
+            widget.userProfile.fullName,
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,

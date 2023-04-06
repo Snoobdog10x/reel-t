@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/message/message.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../screens/messenger/detail_chat/detail_chat_screen.dart';
@@ -74,30 +75,31 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
       separatorBuilder: (context, index) {
         return SizedBox(height: 8);
       },
-      itemCount: bloc.conversations.values.length,
+      itemCount: bloc.conversations.length,
       itemBuilder: ((context, index) {
-        var conversations = bloc.conversations.values.toList();
+        var conversations = bloc.conversations;
         var conversation = conversations[index];
-        var isDataLoaded = conversation.secondUser.isNotEmpty;
-        var user = isDataLoaded ? conversation.secondUser.first : UserProfile();
+        var isDataLoaded = conversation.contactUser.isNotEmpty &&
+            conversation.latestMessage.isNotEmpty;
         if (!isDataLoaded) {
           return Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
             enabled: true,
             child: buildConversation(
-              avataUrl: user.avatar,
-              userName: user.fullName,
-              onTap: () {
-                pushToScreen(
-                    DetailChatScreenScreen(conversation: conversation));
-              },
+              onTap: () {},
             ),
           );
         }
+        var hasSeen = conversation.latestMessage.isNotEmpty &&
+            conversation.latestMessage.first.hasSeen;
+        var user = conversation.contactUser.first;
         return buildConversation(
           avataUrl: user.avatar,
           userName: user.fullName,
+          lastedMessage: conversation.latestMessage.isEmpty
+              ? null
+              : conversation.latestMessage.first,
           onTap: () {
             pushToScreen(DetailChatScreenScreen(conversation: conversation));
           },
@@ -106,12 +108,19 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
     );
   }
 
+  bool hasSeenMessage(Message? message) {
+    if (message == null) return true;
+    if (bloc.isCurrentUserMessage(message)) return true;
+    return message.hasSeen;
+  }
+
   Widget buildConversation({
     String? avataUrl,
     String? userName,
-    String? lastedMessage,
+    Message? lastedMessage,
     required Function onTap,
   }) {
+    var hasSeen = hasSeenMessage(lastedMessage);
     return GestureDetector(
       onTap: () {
         onTap();
@@ -142,29 +151,45 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
                         fontFamily: SharedTextStyle.DEFAULT_FONT_TITLE,
                       )),
                   SizedBox(height: 3),
-                  Text(lastedMessage ?? "You have a new message",
-                      style: TextStyle(
-                        fontSize: SharedTextStyle.NORMAL_SIZE,
-                        fontWeight: SharedTextStyle.NORMAL_WEIGHT,
-                        fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
-                      )),
+                  Text(
+                    getContentMessage(lastedMessage),
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: SharedTextStyle.NORMAL_SIZE,
+                      fontWeight: hasSeen
+                          ? SharedTextStyle.NORMAL_WEIGHT
+                          : SharedTextStyle.TITLE_WEIGHT,
+                      fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
+                    ),
+                  ),
                 ],
               ),
             ),
+            if (!hasSeen) ...[
+              Container(
+                height: 10,
+                width: 10,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
+              )
+            ]
           ],
         ),
       ),
     );
   }
 
+  String getContentMessage(Message? message) {
+    if (message == null) return "";
+    if (bloc.isCurrentUserMessage(message)) return "You: ${message.content}";
+    return message.content;
+  }
+
   @override
   void onPopWidget() {
-    // TODO: implement onPopWidget
     super.onPopWidget();
   }
 
   @override
-  void onDispose() {
-    // appStore.localMessenger.saveConversations(bloc.conversations);
-  }
+  void onDispose() {}
 }
