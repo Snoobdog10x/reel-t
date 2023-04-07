@@ -1,6 +1,5 @@
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
 
-import '../../../events/message/retrieve_conversations/retrieve_conversations_event.dart';
 import '../../../events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/conversation/conversation.dart';
