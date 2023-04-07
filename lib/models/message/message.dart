@@ -1,29 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import 'package:hive/hive.dart';
-part 'message.g.dart';
 
 
-@HiveType(typeId: 2)
-class Message extends HiveObject{
+
+
+class Message{
   static const String id_PATH = "id";
-	@HiveField(0) 
 	String id = "";
 	static const String userId_PATH = "userId";
-	@HiveField(1) 
 	String userId = "";
 	static const String content_PATH = "content";
-	@HiveField(2) 
 	String content = "";
 	static const String hasSeen_PATH = "hasSeen";
-	@HiveField(3) 
 	bool hasSeen = false;
 	static const String isDeleted_PATH = "isDeleted";
-	@HiveField(4) 
 	bool isDeleted = false;
 	static const String createAt_PATH = "createAt";
-	@HiveField(5) 
 	int createAt = 0;
 	static const String PATH = "Messages";
 

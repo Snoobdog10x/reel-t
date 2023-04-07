@@ -80,7 +80,6 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              appStore.localMessenger.clearMessage();
               appStore.localUser.clearUser();
             },
             child: Text("clear cache"),

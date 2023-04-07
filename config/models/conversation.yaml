@@ -1,4 +1,3 @@
-isStoreLocal: True
 arguments:
   - id: String
   - userIds: List<String>

@@ -2,35 +2,25 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 import '../../models/user_profile/user_profile.dart';
-import 'package:hive/hive.dart';
-part 'conversation.g.dart';
 
 
-@HiveType(typeId: 0)
-class Conversation extends HiveObject{
+
+class Conversation{
   static const String id_PATH = "id";
-	@HiveField(0) 
 	String id = "";
 	static const String userIds_PATH = "userIds";
-	@HiveField(1) 
 	List<String> userIds = [];
 	static const String contactUser_PATH = "contactUser";
-	@HiveField(2) 
 	List<UserProfile> contactUser = [];
 	static const String latestMessage_PATH = "latestMessage";
-	@HiveField(3) 
 	String latestMessage = "";
 	static const String isMute_PATH = "isMute";
-	@HiveField(4) 
 	bool isMute = false;
 	static const String isDeleted_PATH = "isDeleted";
-	@HiveField(5) 
 	bool isDeleted = false;
 	static const String createAt_PATH = "createAt";
-	@HiveField(6) 
 	int createAt = 0;
 	static const String updateAt_PATH = "updateAt";
-	@HiveField(7) 
 	int updateAt = 0;
 	static const String PATH = "Conversations";
 

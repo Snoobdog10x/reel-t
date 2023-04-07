@@ -18,10 +18,6 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   void init() {
     if (!appStore.localUser.isLogin()) return;
     currentUser = appStore.localUser.getCurrentUser();
-    if (appStore.localMessenger.isExistsConversations()) {
-      conversations = appStore.localMessenger.getConversations();
-      print(appStore.localMessenger.getConversations());
-    }
     sendStreamConversationsEvent(currentUser.id);
     notifyDataChanged();
   }
@@ -100,16 +96,6 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
       conversations.sort((a, b) => _compareConversation(a, b));
       notifyDataChanged();
     }
-    syncConversations();
-  }
-
-  void syncConversations() {
-    if (conversations.length >= 15) {
-      appStore.localMessenger
-          .saveConversations(conversations.getRange(0, 14).toList());
-      return;
-    }
-    appStore.localMessenger.saveConversations(conversations);
   }
 
   int _compareConversation(Conversation a, Conversation b) {
