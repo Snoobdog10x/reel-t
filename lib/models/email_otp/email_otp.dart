@@ -73,4 +73,11 @@ class EmailOtp{
 		jsonMap["expireAt"] = expireAt;
     return jsonMap;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is EmailOtp && other.runtimeType == runtimeType && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

@@ -73,4 +73,11 @@ class Message{
 		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is Message && other.runtimeType == runtimeType && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

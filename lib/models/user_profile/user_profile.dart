@@ -136,4 +136,11 @@ class UserProfile extends HiveObject{
 		jsonMap["createAt"] = createAt;
     return jsonMap;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is UserProfile && other.runtimeType == runtimeType && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

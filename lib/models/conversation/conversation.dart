@@ -84,4 +84,11 @@ class Conversation{
 		jsonMap["updateAt"] = updateAt;
     return jsonMap;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is Conversation && other.runtimeType == runtimeType && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
