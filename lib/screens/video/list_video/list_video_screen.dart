@@ -139,17 +139,14 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
     return Container(
       alignment: Alignment.bottomRight,
       child: ActionsToolbar(
-        numLikes: FormatUtility.formatNumber(video.likesNum),
-        numComments: FormatUtility.formatNumber(video.commentsNum),
+        numLikes: video.likesNum,
+        numComments: video.commentsNum,
         isLiked: bloc.isLikeVideo(video),
         userPic: creator.avatar,
-        onTapLike: () {
-          if (bloc.currentUser.id.isEmpty) {
-            return;
-          }
-          bloc.likeVideo(video);
+        onTapLike: (isActive) async {
+          return await bloc.likeVideo(video);
         },
-        onTapComment: () {
+        onTapComment: (isActive) async {
           showScreenBottomSheet(
             Container(
               height: screenHeight() * 0.6,

@@ -12,8 +12,6 @@ import 'list_video_screen.dart';
 class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
     with RetrieveVideoDetailEvent, LikeVideoEvent {
   List<Video> videos = [];
-  Map<Video, bool> _isLockLike = {};
-  Map<Follow, bool> _isLockFollow = {};
   Map<Video, bool> _isLockSendDetail = {};
   late UserProfile currentUser;
   int currentPage = 0;
@@ -54,16 +52,6 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
     _isLockSendDetail[video] = true;
   }
 
-  void _lockLike(Video video) {
-    if (_isLockLike[video] != null) return;
-    _isLockLike[video] = true;
-  }
-
-  void _unlockLike(Video video) {
-    if (_isLockLike[video] == null) return;
-    _isLockLike.remove(video);
-  }
-
   void _changeLikeState(Video video) {
     video.like.first.isLike = !video.like.first.isLike;
   }
@@ -72,12 +60,11 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
     return video.followCreator.isNotEmpty;
   }
 
-  void likeVideo(Video video) {
-    if (_isLockLike[video] != null) return;
+  Future<bool> likeVideo(Video video) async {
+    if (!appStore.localUser.isLogin()) return false;
     _changeLikeState(video);
-    _lockLike(video);
-    sendLikeVideoEventEvent(video);
-    notifyDataChanged();
+    bool isLike = await sendLikeVideoEventEvent(video);
+    return isLike;
   }
 
   bool isLikeVideo(Video video) {
@@ -85,14 +72,7 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   }
 
   @override
-  void onLikeVideoEventDone(e, Video video) {
-    if (e == null) {
-      _unlockLike(video);
-      notifyDataChanged();
-      return;
-    }
-    _unlockLike(video);
-    _changeLikeState(video);
-    notifyDataChanged();
+  void onLikeVideoEventDone() {
+    // TODO: implement onLikeVideoEventDone
   }
 }

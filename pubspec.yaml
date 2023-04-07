@@ -42,6 +42,7 @@ dependencies:
   mailer: 6.0.0
   modal_bottom_sheet: 3.0.0-pre
   photo_manager: 2.6.0
+  like_button: 2.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
