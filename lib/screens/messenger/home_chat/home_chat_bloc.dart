@@ -1,28 +1,28 @@
 import 'dart:convert';
 import 'dart:math';
-
-import 'package:reel_t/events/message/retrieve_conversations/retrieve_conversations_event.dart';
-import 'package:reel_t/events/message/retrieve_messages/retrieve_messages_event.dart';
-import 'package:reel_t/events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
-import 'package:reel_t/models/conversation/conversation.dart';
-import 'package:reel_t/models/message/message.dart';
-import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/shared_product/services/local_storage.dart';
+import '../../../events/message/retrieve_messages/retrieve_messages_event.dart';
+import '../../../events/message/stream_conversations/stream_conversations_event.dart';
+import '../../../events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
+import '../../../models/conversation/conversation.dart';
+import '../../../models/message/message.dart';
+import '../../../models/user_profile/user_profile.dart';
+import '../../../shared_product/services/local_storage.dart';
 
 import '../../../generated/abstract_bloc.dart';
 import 'home_chat_screen.dart';
 
 class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
-    with RetrieveConversationsEvent, RetrieveUserProfileEvent {
+    with StreamConversationsEvent, RetrieveUserProfileEvent {
   List<Conversation> conversations = [];
   late UserProfile currentUser;
   void init() {
+    if (!appStore.localUser.isLogin()) return;
+
     currentUser = appStore.localUser.getCurrentUser();
-    if (currentUser.id.isEmpty) return;
     if (appStore.localMessenger.isExistsConversations()) {
       conversations = appStore.localMessenger.getConversations();
     }
-    sendRetrieveConversationsEvent(currentUser);
+    sendStreamConversationsEvent(currentUser.id);
     notifyDataChanged();
   }
 
@@ -74,11 +74,6 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
     notifyDataChanged();
   }
 
-  @override
-  void onRetrieveMessagesEventDone(e) {
-    notifyDataChanged();
-  }
-
   bool isCurrentUserMessage(Message message) {
     if (message.userId == currentUser.id) return true;
     return false;
@@ -88,6 +83,29 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    disposeRetrieveConversationsEvent();
+    disposeStreamConversationsEvent();
+  }
+
+  @override
+  void onStreamConversationsEventDone(List<Conversation> updatedConversations) {
+    // print(updatedConversations);
+    for (var conversation in updatedConversations) {
+      if (!_isConversationExists(conversation)) {
+        conversations.add(conversation);
+        var secondUserId = conversation.userIds
+            .firstWhere((element) => element != currentUser.id);
+        sendRetrieveUserProfileEvent(secondUserId, conversation.id);
+      } else {
+        mergeConversation(conversation);
+      }
+      conversations.sort((a, b) => _compareConversation(a, b));
+      notifyDataChanged();
+    }
+  }
+
+  int _compareConversation(Conversation a, Conversation b) {
+    if (a.updateAt < b.updateAt) return 1;
+    if (a.updateAt == b.updateAt) return 0;
+    return -1;
   }
 }

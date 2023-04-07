@@ -20,7 +20,7 @@ class ConversationAdapter extends TypeAdapter<Conversation> {
       id: fields[0] as String?,
       userIds: (fields[1] as List?)?.cast<String>(),
       contactUser: (fields[2] as List?)?.cast<UserProfile>(),
-      latestMessage: (fields[3] as List?)?.cast<Message>(),
+      latestMessage: fields[3] as String?,
       isMute: fields[4] as bool?,
       isDeleted: fields[5] as bool?,
       createAt: fields[6] as int?,

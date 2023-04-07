@@ -7,7 +7,7 @@ import 'message.dart';
 
 class MessageData {
   final db = FirebaseFirestore.instance;
-  void initMessageData(Conversation conversation) {
+  Message initMessageData(Conversation conversation) {
     Random random = Random();
     List<String> contents = [
       "hihi",
@@ -19,14 +19,16 @@ class MessageData {
       "sdasdasdasdaasfaf12312312ksakmdkaskdmas",
       "11111111 hihihi ",
     ];
+    var message;
     for (int i = 0; i < 15; i++) {
       var content = contents[random.nextInt(contents.length)];
       var userId =
           conversation.userIds[random.nextInt(conversation.userIds.length)];
-      var message = Message(
+      message = Message(
         id: i.toString(),
         userId: userId,
         content: content,
+        hasSeen: true,
         createAt: FormatUtility.getMillisecondsSinceEpoch(),
       );
       db
@@ -36,5 +38,6 @@ class MessageData {
           .doc(i.toString())
           .set(message.toJson());
     }
+    return message;
   }
 }

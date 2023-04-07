@@ -91,15 +91,15 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
             ),
           );
         }
-        var hasSeen = conversation.latestMessage.isNotEmpty &&
-            conversation.latestMessage.first.hasSeen;
+        ;
+        var latestMessage = conversation.latestMessage;
         var user = conversation.contactUser.first;
         return buildConversation(
           avataUrl: user.avatar,
           userName: user.fullName,
-          lastedMessage: conversation.latestMessage.isEmpty
+          lastedMessage: latestMessage.isEmpty
               ? null
-              : conversation.latestMessage.first,
+              : Message.fromStringJson(latestMessage),
           onTap: () {
             pushToScreen(DetailChatScreenScreen(conversation: conversation));
           },

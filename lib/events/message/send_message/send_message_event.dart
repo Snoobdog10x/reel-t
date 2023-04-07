@@ -14,6 +14,7 @@ abstract class SendMessageEvent {
       var id = messageRef.id;
       final batch = FirebaseFirestore.instance.batch();
       conversation.updateAt = FormatUtility.getMillisecondsSinceEpoch();
+      conversation.latestMessage = message.toStringJson();
       batch.set(conversationRef, conversation.toJson());
       message.id = id;
       batch.set(messageRef, message.toJson());

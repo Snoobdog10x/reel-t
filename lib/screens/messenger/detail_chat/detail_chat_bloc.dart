@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:reel_t/events/message/retrieve_messages/retrieve_messages_event.dart';
 import 'package:reel_t/events/message/send_message/send_message_event.dart';
+import 'package:reel_t/events/message/stream_messages/stream_messages_event.dart';
 import 'package:reel_t/models/message/message.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/shared_product/utils/format_utlity.dart';
@@ -9,7 +12,7 @@ import '../../../models/conversation/conversation.dart';
 import 'detail_chat_screen.dart';
 
 class DetailChatScreenBloc extends AbstractBloc<DetailChatScreenScreenState>
-    with SendMessageEvent, RetrieveMessagesEvent {
+    with SendMessageEvent, StreamMessagesEvent {
   late Conversation conversation;
   late UserProfile currentUser;
   late UserProfile contactUser;
@@ -38,13 +41,15 @@ class DetailChatScreenBloc extends AbstractBloc<DetailChatScreenScreenState>
   @override
   void dispose() {
     super.dispose();
-    disposeRetrieveMessagesEvent();
-    disposeSendMessageEvent();
+    disposeStreamMessagesEvent();
   }
 
   @override
-  void onRetrieveMessagesEventDone(List<Message> newMessages) {
-    messages.insertAll(0, newMessages);
+  void onStreamMessagesEventDone(List<Message> newMessages) {
+    newMessages.forEach((element) {
+      messages.insert(0, element);
+    });
+
     notifyDataChanged();
   }
 }

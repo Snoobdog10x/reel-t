@@ -20,7 +20,12 @@ class ConversationData {
           .collection(Conversation.PATH)
           .doc(i.toString())
           .set(conversation.toJson());
-      MessageData().initMessageData(conversation);
+      var latestMessage = MessageData().initMessageData(conversation);
+      conversation.latestMessage = latestMessage.toStringJson();
+      db
+          .collection(Conversation.PATH)
+          .doc(i.toString())
+          .set(conversation.toJson());
     }
   }
 }

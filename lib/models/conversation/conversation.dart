@@ -2,7 +2,6 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 import '../../models/user_profile/user_profile.dart';
-import '../../models/message/message.dart';
 import 'package:hive/hive.dart';
 part 'conversation.g.dart';
 
@@ -20,7 +19,7 @@ class Conversation extends HiveObject{
 	List<UserProfile> contactUser = [];
 	static const String latestMessage_PATH = "latestMessage";
 	@HiveField(3) 
-	List<Message> latestMessage = [];
+	String latestMessage = "";
 	static const String isMute_PATH = "isMute";
 	@HiveField(4) 
 	bool isMute = false;
@@ -39,7 +38,7 @@ class Conversation extends HiveObject{
     String? id,
 		List<String>? userIds,
 		List<UserProfile>? contactUser,
-		List<Message>? latestMessage,
+		String? latestMessage,
 		bool? isMute,
 		bool? isDeleted,
 		int? createAt,
@@ -58,6 +57,7 @@ class Conversation extends HiveObject{
   Conversation.fromJson(Map<dynamic, dynamic> jsonMap) {
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userIds"] != null) userIds = jsonMap["userIds"].cast<String>();
+		if(jsonMap["latestMessage"] != null) latestMessage = jsonMap["latestMessage"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
@@ -68,6 +68,7 @@ class Conversation extends HiveObject{
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["userIds"] != null) userIds = jsonMap["userIds"].cast<String>();
+		if(jsonMap["latestMessage"] != null) latestMessage = jsonMap["latestMessage"];
 		if(jsonMap["isMute"] != null) isMute = jsonMap["isMute"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
@@ -86,6 +87,7 @@ class Conversation extends HiveObject{
     final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
     jsonMap["id"] = id;
 		jsonMap["userIds"] = userIds;
+		jsonMap["latestMessage"] = latestMessage;
 		jsonMap["isMute"] = isMute;
 		jsonMap["isDeleted"] = isDeleted;
 		jsonMap["createAt"] = createAt;

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/message/message.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
+import 'package:reel_t/shared_product/widgets/image/image_gallery_picker/image_gallery_picker_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
@@ -13,9 +15,11 @@ import 'detail_chat_bloc.dart';
 
 class DetailChatScreenScreen extends StatefulWidget {
   final Conversation conversation;
+  final List<Message> messages;
   const DetailChatScreenScreen({
     super.key,
     required this.conversation,
+    this.messages = const [],
   });
 
   @override
@@ -26,6 +30,7 @@ class DetailChatScreenScreenState
     extends AbstractState<DetailChatScreenScreen> {
   late DetailChatScreenBloc bloc;
   TextEditingController chatController = TextEditingController();
+  late FocusNode chatFocus;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -40,13 +45,18 @@ class DetailChatScreenScreenState
   void onCreate() {
     bloc = DetailChatScreenBloc();
     bloc.conversation = widget.conversation;
+    bloc.messages.addAll(widget.messages);
     bloc.currentUser = appStore.localUser.getCurrentUser();
     bloc.contactUser = widget.conversation.contactUser.first;
+    chatFocus = FocusNode();
+    chatFocus.addListener(() {
+      notifyDataChanged();
+    });
   }
 
   @override
   void onReady() {
-    bloc.sendRetrieveMessagesEvent(bloc.conversation);
+    bloc.sendStreamMessagesEvent(bloc.conversation.id);
   }
 
   @override
@@ -108,34 +118,33 @@ class DetailChatScreenScreenState
           ],
         ),
       ),
-      lastWidget: Padding(
-        padding: EdgeInsets.only(left: 60),
-        child: Row(
-          children: <Widget>[
-            Container(
-              child: Icon(
-                CupertinoIcons.phone_fill,
-              ),
+      lastWidget: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            child: Icon(
+              CupertinoIcons.phone_fill,
             ),
-            SizedBox(width: 10),
-            Container(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => DetailChatSettingScreen(
-                        userProfile: bloc.contactUser,
-                      ),
+          ),
+          SizedBox(width: 10),
+          Container(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DetailChatSettingScreen(
+                      userProfile: bloc.contactUser,
                     ),
-                  );
-                },
-                child: Icon(
-                  Icons.more_vert,
-                ),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.more_vert,
               ),
             ),
-          ],
-        ),
+          ),
+          SizedBox(width: 8)
+        ],
       ),
     );
   }
@@ -216,96 +225,99 @@ class DetailChatScreenScreenState
 
   Widget buidBottom() {
     return Container(
+      margin: chatFocus.hasFocus
+          ? EdgeInsets.only(bottom: 5, top: 5)
+          : EdgeInsets.zero,
       child: Row(
         children: <Widget>[
-          SizedBox(width: 10),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 25,
-              width: 25,
-              child: Icon(
-                CupertinoIcons.location_fill,
-                color: Colors.blueAccent,
-                size: 30,
-              ),
-            ),
-          ),
+          if (!chatFocus.hasFocus) ...[
+            SizedBox(width: 15),
+            buildBottomBarIcon(() {}, CupertinoIcons.photo_camera_solid),
+            SizedBox(width: 15),
+            buildBottomBarIcon(() {
+              showScreenBottomSheet(
+                Container(
+                  height: screenHeight() * 0.7,
+                  child: ImageGalleryPickerScreen(),
+                ),
+              );
+            }, CupertinoIcons.photo_fill),
+            SizedBox(width: 15),
+            buildBottomBarIcon(() {}, CupertinoIcons.mic_fill),
+          ],
           SizedBox(width: 15),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 25,
-              width: 25,
-              child: Icon(
-                CupertinoIcons.photo_camera_solid,
-                color: Colors.blueAccent,
-                size: 30,
-              ),
-            ),
-          ),
+          Expanded(child: buildMessageField()),
           SizedBox(width: 15),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 25,
-              width: 25,
-              child: Icon(
-                CupertinoIcons.photo_fill,
-                color: Colors.blueAccent,
-                size: 30,
-              ),
-            ),
-          ),
+          buildBottomBarIcon(() {
+            var messageContent = chatController.text;
+            onSubmitMessage(messageContent);
+          }, Icons.send, isActive: chatFocus.hasFocus),
           SizedBox(width: 15),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 25,
-              width: 25,
-              child: Icon(
-                CupertinoIcons.mic_fill,
-                color: Colors.blueAccent,
-                size: 30,
-              ),
-            ),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: TextField(
-              controller: chatController,
-              onSubmitted: (value) {
-                bloc.sendMessage(value);
-              },
-              decoration: InputDecoration(
-                hintText: "Aa",
-                hintStyle: TextStyle(color: Colors.black54),
-                border: InputBorder.none,
-              ),
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-          SizedBox(width: 15),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 35,
-              width: 35,
-              child: Icon(
-                Icons.send,
-                color: Colors.blueAccent,
-                size: 30,
-              ),
-            ),
-          ),
-          SizedBox(width: 10),
         ],
       ),
     );
   }
 
+  Widget buildMessageField() {
+    return TextField(
+      controller: chatController,
+      textAlign: TextAlign.start,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      onTapOutside: (event) {
+        FocusScope.of(context).unfocus();
+      },
+      focusNode: chatFocus,
+      textInputAction: TextInputAction.done,
+      onSubmitted: onSubmitMessage,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          hintText: "Aa",
+          hintStyle: TextStyle(color: Colors.black54),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide.none,
+          ),
+          focusColor: Colors.blueAccent,
+          fillColor: Colors.grey[300]!,
+          filled: true),
+      style: TextStyle(
+        fontSize: 16,
+      ),
+    );
+  }
+
+  Widget buildBottomBarIcon(void Function()? onTap, IconData icon,
+      {bool isActive = true}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 35,
+        width: 35,
+        child: Icon(
+          icon,
+          color: isActive ? Colors.blueAccent : Colors.black,
+          size: 30,
+        ),
+      ),
+    );
+  }
+
+  void onSubmitMessage(String value) {
+    if (chatFocus.hasFocus) chatFocus.unfocus();
+
+    if (value.isEmpty || value.trim().isEmpty) {
+      chatController.clear();
+      return;
+    }
+    bloc.sendMessage(value);
+    chatController.clear();
+  }
+
   @override
-  void onDispose() {}
+  void onDispose() {
+    chatController.clear();
+    chatController.dispose();
+    chatFocus.dispose();
+  }
 }
