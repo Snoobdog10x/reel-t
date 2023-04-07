@@ -151,10 +151,13 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
         },
         onTapComment: () {
           showScreenBottomSheet(
-              CommentScreen(
+            Container(
+              height: screenHeight() * 0.6,
+              child: CommentScreen(
                 commentsNum: video.commentsNum,
               ),
-              height: screenHeight() * 0.6);
+            ),
+          );
         },
       ),
     );

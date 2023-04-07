@@ -67,6 +67,7 @@ class CommentScreenState extends AbstractState<CommentScreen> {
                 ),
               ),
               body: body,
+              isSafeTop: false,
               isPushLayoutWhenShowKeyboard: true,
               padding: EdgeInsets.symmetric(horizontal: 8),
               bottomNavBar: buildBottomNav(),
