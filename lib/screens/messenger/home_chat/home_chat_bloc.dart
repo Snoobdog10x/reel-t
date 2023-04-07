@@ -17,10 +17,10 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   late UserProfile currentUser;
   void init() {
     if (!appStore.localUser.isLogin()) return;
-
     currentUser = appStore.localUser.getCurrentUser();
     if (appStore.localMessenger.isExistsConversations()) {
       conversations = appStore.localMessenger.getConversations();
+      print(appStore.localMessenger.getConversations());
     }
     sendStreamConversationsEvent(currentUser.id);
     notifyDataChanged();
@@ -88,7 +88,6 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
 
   @override
   void onStreamConversationsEventDone(List<Conversation> updatedConversations) {
-    // print(updatedConversations);
     for (var conversation in updatedConversations) {
       if (!_isConversationExists(conversation)) {
         conversations.add(conversation);
@@ -101,6 +100,16 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
       conversations.sort((a, b) => _compareConversation(a, b));
       notifyDataChanged();
     }
+    syncConversations();
+  }
+
+  void syncConversations() {
+    if (conversations.length >= 15) {
+      appStore.localMessenger
+          .saveConversations(conversations.getRange(0, 14).toList());
+      return;
+    }
+    appStore.localMessenger.saveConversations(conversations);
   }
 
   int _compareConversation(Conversation a, Conversation b) {

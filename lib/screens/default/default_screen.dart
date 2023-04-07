@@ -78,7 +78,6 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
             child: Text("Fast login"),
           ),
           SizedBox(height: 16),
-          SizedBox(height: 16),
           TextButton(
             onPressed: () {
               appStore.localMessenger.clearMessage();
