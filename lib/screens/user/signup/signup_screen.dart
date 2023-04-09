@@ -185,6 +185,10 @@ class SignupScreenState extends AbstractState<SignupScreen> {
           ),
           SizedBox(height: 8),
           ThreeRowButton(
+            onTap: () {
+              bloc.sendGoogleSignUpEvent();
+              startLoading();
+            },
             color: Colors.blueAccent,
             prefixIcon: Container(
               height: 30,
