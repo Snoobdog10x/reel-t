@@ -6,10 +6,13 @@ import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
+import '../../../shared_product/assets/icon/tik_tok_icons_icons.dart';
 import '../../../shared_product/utils/format_utlity.dart';
 import '../../../shared_product/utils/shared_text_style.dart';
+import '../../../shared_product/widgets/button/three_row_button.dart';
 import '../../../shared_product/widgets/three_row_appbar.dart';
 import '../../reuseable/commingsoon/commingsoon_screen.dart';
+import '../login/login_screen.dart';
 import 'profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -54,10 +57,51 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
             return buildScreen(
               appBar: appBar,
               body: body,
+              notLoggedBody: buildLoggedBody(),
             );
           },
         );
       },
+    );
+  }
+
+  Widget buildLoggedBody() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          TikTokIcons.profile,
+          size: 150,
+          color: Colors.grey[300],
+        ),
+        SizedBox(height: 8),
+        Text(
+          "Your profile will be shown here",
+          style: TextStyle(
+            fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+            fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 16),
+        Container(
+          width: screenWidth() * 0.6,
+          child: ThreeRowButton(
+            onTap: () {
+              pushToScreen(LoginScreen());
+            },
+            title: Text(
+              "Sign up",
+              style: TextStyle(
+                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                color: Colors.white,
+              ),
+            ),
+            color: Colors.red,
+          ),
+        )
+      ],
     );
   }
 
