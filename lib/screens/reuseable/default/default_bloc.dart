@@ -1,8 +1,6 @@
-import 'package:reel_t/events/user/user_sign_in/user_sign_in_event.dart';
-import 'package:reel_t/events/user/user_sign_up/user_sign_up_event.dart';
-import 'package:reel_t/models/user_profile/user_profile.dart';
-
-import '../../generated/abstract_bloc.dart';
+import '../../../events/user/user_sign_in/user_sign_in_event.dart';
+import '../../../generated/abstract_bloc.dart';
+import '../../../models/user_profile/user_profile.dart';
 import 'default_screen.dart';
 
 class DefaultBloc extends AbstractBloc<DefaultScreenState>

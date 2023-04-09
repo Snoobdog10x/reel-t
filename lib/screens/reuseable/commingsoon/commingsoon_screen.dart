@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../generated/abstract_bloc.dart';
-import '../../generated/abstract_state.dart';
-import 'commingsoon_bloc.dart';
-import '../../shared_product/widgets/default_appbar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../../../generated/abstract_bloc.dart';
+import '../../../generated/abstract_state.dart';
+import 'commingsoon_bloc.dart';
+import '../../../shared_product/widgets/default_appbar.dart';
 
 class CommingsoonScreen extends StatefulWidget {
   const CommingsoonScreen({super.key});
@@ -45,7 +45,7 @@ class CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(),
+              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
               body: body,
             );
           },

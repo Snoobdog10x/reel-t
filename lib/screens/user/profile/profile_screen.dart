@@ -9,7 +9,7 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../shared_product/utils/format_utlity.dart';
 import '../../../shared_product/utils/shared_text_style.dart';
 import '../../../shared_product/widgets/three_row_appbar.dart';
-import '../../commingsoon/commingsoon_screen.dart';
+import '../../reuseable/commingsoon/commingsoon_screen.dart';
 import 'profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -68,11 +68,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
           flex: 2,
           child: IconButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CommingsoonScreen(),
-                ),
-              );
+              pushToScreen(CommingsoonScreen());
             },
             icon: Icon(
               CupertinoIcons.gift_fill,
@@ -347,9 +343,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Container(
-            
-          ),
+          child: Container(),
         ),
       ],
     );

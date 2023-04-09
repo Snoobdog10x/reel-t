@@ -85,7 +85,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   Future<void> onReady() async {
-    await AppInit.init(isDebug: false, isInitSample: true);
+    await AppInit.init(isDebug: false, isInitSample: false);
     pushToScreen(NavigationScreen(), isReplace: true);
   }
 }

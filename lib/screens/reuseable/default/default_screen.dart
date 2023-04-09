@@ -6,16 +6,16 @@ import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
-import '../messenger/home_chat/home_chat_screen.dart';
-import '../navigation/navigation_screen.dart';
-import '../user/login/login_screen.dart';
-import '../user/signup/signup_screen.dart';
-import '../video/feed/feed_screen.dart';
-import '../welcome/welcome_screen.dart';
-import '../../generated/abstract_bloc.dart';
-import '../../generated/abstract_state.dart';
+import '../../messenger/home_chat/home_chat_screen.dart';
+import '../../navigation/navigation_screen.dart';
+import '../../user/login/login_screen.dart';
+import '../../user/signup/signup_screen.dart';
+import '../../video/feed/feed_screen.dart';
+import '../../welcome/welcome_screen.dart';
+import '../../../generated/abstract_bloc.dart';
+import '../../../generated/abstract_state.dart';
 import 'default_bloc.dart';
-import '../../shared_product/widgets/default_appbar.dart';
+import '../../../shared_product/widgets/default_appbar.dart';
 
 class DefaultScreen extends StatefulWidget {
   const DefaultScreen({super.key});
@@ -55,7 +55,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(appBarTitle: "Default Screens"),
+              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
               body: body,
             );
           },

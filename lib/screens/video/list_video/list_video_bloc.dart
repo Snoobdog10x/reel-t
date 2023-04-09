@@ -4,6 +4,7 @@ import 'package:reel_t/events/Like/like_video/like_video_event.dart';
 import 'package:reel_t/events/video/retrieve_video_detail/retrieve_video_detail_event.dart';
 import 'package:reel_t/models/like/like.dart';
 import 'package:reel_t/models/follow/follow.dart';
+import 'package:reel_t/screens/user/login/login_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
@@ -61,7 +62,10 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   }
 
   Future<bool> likeVideo(Video video) async {
-    if (!appStore.localUser.isLogin()) return false;
+    if (!appStore.localUser.isLogin()) {
+      state.pushToScreen(LoginScreen());
+      return false;
+    }
     _changeLikeState(video);
     bool isLike = await sendLikeVideoEventEvent(video);
     return isLike;

@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import '../../../screens/commingsoon/commingsoon_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import '../../../models/conversation/conversation.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
+import '../../reuseable/commingsoon/commingsoon_screen.dart';
 import 'detail_chat_setting_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
@@ -138,11 +137,7 @@ class DetailChatSettingScreenState
                         child: buildOptionItem(
                             CupertinoIcons.smallcircle_fill_circle_fill,
                             'Theme', () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => CommingsoonScreen(),
-                        ),
-                      );
+                      pushToScreen(CommingsoonScreen());
                     }, true, Colors.lightBlueAccent)),
                     Expanded(
                         child: buildOptionItem(
