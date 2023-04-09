@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
@@ -17,7 +19,9 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => WelcomeScreenState();
 }
 
-class WelcomeScreenState extends AbstractState<WelcomeScreen> {
+class WelcomeScreenState extends AbstractState<WelcomeScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
   late WelcomeBloc bloc;
   @override
   AbstractBloc initBloc() {
@@ -32,6 +36,12 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen> {
   @override
   void onCreate() {
     bloc = WelcomeBloc();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1800),
+      vsync: this,
+    );
+    _controller.forward();
+    _controller.repeat();
   }
 
   @override
@@ -56,26 +66,29 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen> {
     return Container(
       width: screenWidth(),
       height: screenHeight(),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "T",
-            style: TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
+      child: RotationTransition(
+        turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "T",
+              style: TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.w900,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Text(
-            "Reel",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
+            Text(
+              "Reel",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -85,7 +98,8 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen> {
 
   @override
   Future<void> onReady() async {
-    await AppInit.init(isDebug: false, isInitSample: false);
-    pushToScreen(NavigationScreen(), isReplace: true);
+    await Future.delayed(Duration(seconds: 1));
+    // await AppInit.init(isDebug: false, isInitSample: false);
+    // pushToScreen(NavigationScreen(), isReplace: true);
   }
 }
