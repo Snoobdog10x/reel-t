@@ -17,10 +17,12 @@ abstract class UserSignUpEvent {
       );
 
       String id = credential.user!.uid;
-      var userProfile = UserProfile(
+      var tempName = credential.user!.email!.split("@")[0];
+      UserProfile userProfile = UserProfile(
         id: id,
-        email: email,
-        fullName: fullName,
+        email: credential.user!.email,
+        fullName: tempName,
+        userName: "@$tempName",
       );
       await db.collection(UserProfile.PATH).doc(id).set(userProfile.toJson());
       onUserSignUpEventDone("", userProfile);
