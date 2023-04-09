@@ -9,8 +9,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  AppInit.init(isDebug: true, isInitSample: true);
-  // AppInit.init(isDebug: false, isInitSample: false);
+  // AppInit.init(isDebug: true, isInitSample: true);
+  AppInit.init(isDebug: false, isInitSample: false);
   runApp(
     MaterialApp(
       home: DefaultScreen(),
