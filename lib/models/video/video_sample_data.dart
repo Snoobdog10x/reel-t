@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:reel_t/shared_product/utils/format_utlity.dart';
 
 import '../../models/video/video.dart';
 
@@ -52,24 +53,27 @@ class VideoData {
           commentsNum: _random.nextInt(2000000),
           title: "xinh ghê nè <3",
           viewsNum: _random.nextInt(2000000),
+          createAt: FormatUtility.getMillisecondsSinceEpoch(),
           isDeleted: false,
         ),
       );
     }
+
     for (int i = 0; i < videoUrls.length; i++) {
       var url = videoUrls[i];
       videoData.add(
         Video(
-          id: i.toString(),
+          id: (videoUrls.length + i).toString(),
           videoUrl: url,
           songName: "",
-          creatorId: "LhL5EUNo7NdTQzaIhM9kgQkdIAh2",
+          creatorId: "Pg8GacuZI2aqJRXLBDmXXZqGVwo1",
           publicMode: PublicMode.PUBLIC.index,
           likesNum: _random.nextInt(2000000),
           commentsNum: _random.nextInt(2000000),
           title: "Khong biet ghi gi?",
           viewsNum: _random.nextInt(2000000),
           isDeleted: false,
+          createAt: FormatUtility.getMillisecondsSinceEpoch(),
         ),
       );
     }
