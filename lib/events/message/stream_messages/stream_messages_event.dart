@@ -6,15 +6,14 @@ import '../../../models/conversation/conversation.dart';
 import '../../../models/message/message.dart';
 
 abstract class StreamMessagesEvent {
-  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
-      _streamMessages;
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _streamMessages;
   void sendStreamMessagesEvent(String conversationId) {
     try {
       final db = FirebaseFirestore.instance.collection(Conversation.PATH);
       _streamMessages = db
           .doc(conversationId)
           .collection(Message.PATH)
-          .orderBy(Message.createAt_PATH,descending: true)
+          .orderBy(Message.createAt_PATH, descending: true)
           .limit(15)
           .snapshots()
           .listen((event) {
@@ -31,8 +30,10 @@ abstract class StreamMessagesEvent {
       onStreamMessagesEventDone([]);
     }
   }
-  void disposeStreamMessagesEvent(){
-    _streamMessages.cancel();
+
+  void disposeStreamMessagesEvent() {
+    _streamMessages?.cancel();
   }
+
   void onStreamMessagesEventDone(List<Message> newMessages);
 }

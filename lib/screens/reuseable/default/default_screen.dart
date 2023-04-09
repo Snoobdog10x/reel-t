@@ -80,9 +80,9 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              appStore.localUser.clearUser();
+              appStore.localUser.logout();
             },
-            child: Text("clear cache"),
+            child: Text("Logout"),
           ),
           SizedBox(height: 16),
           TextButton(
@@ -125,13 +125,6 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
               pushToScreen(SignupScreen(), isReplace: true);
             },
             child: Text("Sign up"),
-          ),
-          SizedBox(height: 16),
-          TextButton(
-            onPressed: () {
-              pushToScreen(FeedScreen(), isReplace: true);
-            },
-            child: Text("Feed"),
           ),
           SizedBox(height: 16),
           TextButton(

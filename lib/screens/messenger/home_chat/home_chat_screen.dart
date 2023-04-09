@@ -3,6 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/message/message.dart';
+import 'package:reel_t/screens/user/login/login_screen.dart';
+import 'package:reel_t/shared_product/assets/icon/tik_tok_icons_icons.dart';
+import 'package:reel_t/shared_product/widgets/button/three_row_button.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../screens/messenger/detail_chat/detail_chat_screen.dart';
@@ -50,6 +53,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
         return Consumer<HomeChatBloc>(
           builder: (context, value, child) {
             var body = buildBody();
+            var notLoggedBody = buildLoggedBody();
             return buildScreen(
               appBar: DefaultAppBar(
                 appBarTitle: "Chat",
@@ -57,6 +61,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
                   child: Icon(Icons.chat_outlined, size: 30),
                 ),
               ),
+              notLoggedBody: notLoggedBody,
               body: body,
               isSafeBottom: false,
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -64,6 +69,46 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
           },
         );
       },
+    );
+  }
+
+  Widget buildLoggedBody() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          TikTokIcons.chat_bubble,
+          size: 150,
+          color: Colors.grey[300],
+        ),
+        SizedBox(height: 8),
+        Text(
+          "Chit chat with your friend",
+          style: TextStyle(
+            fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+            fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 16),
+        Container(
+          width: screenWidth() * 0.6,
+          child: ThreeRowButton(
+            onTap: () {
+              pushToScreen(LoginScreen());
+            },
+            title: Text(
+              "Sign up",
+              style: TextStyle(
+                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                color: Colors.white,
+              ),
+            ),
+            color: Colors.red,
+          ),
+        )
+      ],
     );
   }
 

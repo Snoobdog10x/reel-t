@@ -93,7 +93,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
           Expanded(
             child: buildBottomBarItem(
               "Chat",
-              TikTokIcons.messages,
+              TikTokIcons.chat_bubble,
               currentScreen == NavigationPage.CHAT.index,
               onTap: () {
                 currentScreen = NavigationPage.CHAT.index;

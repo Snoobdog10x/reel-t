@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../models/conversation/conversation.dart';
 
 abstract class StreamConversationsEvent {
-  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
+ StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
       _conversationStream;
   void sendStreamConversationsEvent(String currentUserId) {
     try {
@@ -32,7 +32,7 @@ abstract class StreamConversationsEvent {
   }
 
   void disposeStreamConversationsEvent() {
-    _conversationStream.cancel();
+    _conversationStream?.cancel();
   }
 
   void onStreamConversationsEventDone(List<Conversation> updatedConversations);
