@@ -8,7 +8,6 @@ class SignupBloc extends AbstractBloc<SignupScreenState> with UserSignUpEvent {
   String name = "";
   String email = "";
   String password = "";
-  late UserProfile userProfile;
   void signIn() {
     var hashedPassword = state.appStore.security.hashPassword(password);
     this.sendUserSignUpEvent(
@@ -19,7 +18,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState> with UserSignUpEvent {
   }
 
   @override
-  void onUserSignUpEventDone(String errorMessage) {
+  void onUserSignUpEventDone(String errorMessage, UserProfile? signedUser) {
     state.stopLoading();
     if (errorMessage.isEmpty) {
       state.showAlertDialog(
@@ -29,7 +28,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState> with UserSignUpEvent {
           state.popTopDisplay();
         },
       );
-      appStore.localUser.login(userProfile);
+      appStore.localUser.login(signedUser!);
       return;
     }
     state.showAlertDialog(

@@ -15,22 +15,23 @@ abstract class UserSignUpEvent {
         email: email,
         password: password,
       );
-      
+
       String id = credential.user!.uid;
       var userProfile = UserProfile(
         id: id,
         email: email,
         fullName: fullName,
-      ).toJson();
-      await db.collection(UserProfile.PATH).doc(id).set(userProfile);
-      onUserSignUpEventDone("");
+      );
+      await db.collection(UserProfile.PATH).doc(id).set(userProfile.toJson());
+      onUserSignUpEventDone("", userProfile);
     } on FirebaseAuthException catch (e) {
       var errorMessage = getMessageFromErrorCode(e);
-      onUserSignUpEventDone(errorMessage);
+      onUserSignUpEventDone(errorMessage, null);
     }
   }
 
-  void onUserSignUpEventDone(String errorMessage);
+  void onUserSignUpEventDone(
+      String errorMessage, UserProfile? signedUserProfile);
 
   static String getMessageFromErrorCode(FirebaseAuthException error) {
     switch (error.code) {
