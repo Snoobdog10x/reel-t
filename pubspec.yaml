@@ -44,6 +44,7 @@ dependencies:
   photo_manager: 2.6.0
   like_button: 2.0.5
   cloud_functions: 4.0.13
+  google_sign_in: 6.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
