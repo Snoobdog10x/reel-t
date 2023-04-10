@@ -10,7 +10,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // AppInit.init(isDebug: true, isInitSample: false);
+  await PlatformNotifier.I.init(appName: "Reel T");
   await AppInit.init(isDebug: false, isInitSample: false);
   runApp(
     OverlaySupport.global(

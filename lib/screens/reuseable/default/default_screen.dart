@@ -79,8 +79,10 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
           ),
           SizedBox(height: 16),
           TextButton(
-            onPressed: () {
-              appStore.localUser.logout();
+            onPressed: () async {
+              startLoading();
+              await appStore.localUser.logout();
+              stopLoading();
             },
             child: Text("Logout"),
           ),

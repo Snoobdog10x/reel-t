@@ -8,10 +8,11 @@ class DefaultBloc extends AbstractBloc<DefaultScreenState>
   void init() {}
 
   @override
-  void onUserSignInEventDone(String e, UserProfile? signedInUserProfile) {
+  Future<void> onUserSignInEventDone(
+      String e, UserProfile? signedInUserProfile) async {
     if (e.isEmpty) {
-      appStore.localUser.logout();
-      appStore.localUser.login(signedInUserProfile!);
+      await appStore.localUser.logout();
+      await appStore.localUser.login(signedInUserProfile!);
     }
     print(e);
     state.stopLoading();
