@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_local_notifications/platform_local_notifications.dart';
 import 'package:reel_t/generated/app_init.dart';
 import 'package:reel_t/screens/reuseable/default/default_screen.dart';
 import 'firebase_options.dart';
@@ -12,8 +13,10 @@ Future<void> main() async {
   // AppInit.init(isDebug: true, isInitSample: false);
   await AppInit.init(isDebug: false, isInitSample: false);
   runApp(
-    MaterialApp(
-      home: DefaultScreen(),
+    OverlaySupport.global(
+      child: MaterialApp(
+        home: DefaultScreen(),
+      ),
     ),
   );
 }
