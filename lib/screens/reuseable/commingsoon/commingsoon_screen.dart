@@ -45,7 +45,6 @@ class CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
               body: body,
             );
           },
