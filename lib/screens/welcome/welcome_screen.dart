@@ -13,6 +13,7 @@ import '../../generated/abstract_state.dart';
 import '../../generated/app_init.dart';
 import '../navigation/navigation_screen.dart';
 import 'welcome_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -64,15 +65,12 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            "T",
-            style: TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-            ),
+          SvgPicture.asset(
+            "lib/shared_product/assets/icon/REELT.svg",
+            height: 80,
+            width: 80,
           ),
-          SizedBox(height: 32),
+          SizedBox(height: 8*5),
           DefaultTextStyle(
             style: TextStyle(
               fontSize: 30,
