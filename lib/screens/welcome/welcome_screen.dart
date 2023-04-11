@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/conversation/conversation_sample_data.dart';
+import 'package:reel_t/shared_product/utils/shared_text_style.dart';
 import '../../models/user_profile/user_profile_sample_data.dart';
 import '../../models/video/video_sample_data.dart';
 import '../../generated/abstract_bloc.dart';
@@ -21,7 +23,6 @@ class WelcomeScreen extends StatefulWidget {
 
 class WelcomeScreenState extends AbstractState<WelcomeScreen>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
   late WelcomeBloc bloc;
   @override
   AbstractBloc initBloc() {
@@ -36,12 +37,6 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
   @override
   void onCreate() {
     bloc = WelcomeBloc();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1800),
-      vsync: this,
-    );
-    _controller.forward();
-    _controller.repeat();
   }
 
   @override
@@ -66,29 +61,32 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
     return Container(
       width: screenWidth(),
       height: screenHeight(),
-      child: RotationTransition(
-        turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "T",
-              style: TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "T",
+            style: TextStyle(
+              fontSize: 50,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
             ),
-            Text(
-              "Reel",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
+          ),
+          SizedBox(height: 32),
+          DefaultTextStyle(
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: SharedTextStyle.TITLE_WEIGHT,
             ),
-          ],
-        ),
+            child: AnimatedTextKit(
+              animatedTexts: [
+                WavyAnimatedText('REEL'),
+              ],
+              isRepeatingAnimation: true,
+              repeatForever: true,
+            ),
+          ),
+        ],
       ),
     );
   }
