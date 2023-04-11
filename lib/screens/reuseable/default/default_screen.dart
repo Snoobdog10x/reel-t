@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
+import 'package:reel_t/screens/messenger/new_chat/new_chat_screen.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
@@ -150,6 +151,13 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
               pushToScreen(PersonalInformationScreen(), isReplace: true);
             },
             child: Text("Personal information"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(NewChatScreen(), isReplace: true);
+            },
+            child: Text("New Chat"),
           ),
           SizedBox(height: 16),
           TextButton(

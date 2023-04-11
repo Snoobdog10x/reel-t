@@ -24,7 +24,6 @@ abstract class UserSignUpEvent {
         fullName: tempName,
         userName: "@$tempName",
       );
-      await db.collection(UserProfile.PATH).doc(id).set(userProfile.toJson());
       onUserSignUpEventDone("", userProfile);
     } on FirebaseAuthException catch (e) {
       var errorMessage = getMessageFromErrorCode(e);

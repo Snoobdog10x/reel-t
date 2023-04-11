@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
+import '../../../shared_product/widgets/image/circle_image.dart';
 import '../../../shared_product/widgets/text_field/custom_text_field.dart';
 import 'personal_information_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
@@ -19,6 +22,8 @@ class PersonalInformationScreenState
     extends AbstractState<PersonalInformationScreen> {
   late PersonalInformationBloc bloc;
   bool isDisplayBirtday = false;
+  bool isBirthdayFocus = false;
+  DateTime userBirthday = new DateTime(2001);
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -48,7 +53,15 @@ class PersonalInformationScreenState
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
+              padding: EdgeInsets.symmetric(
+                horizontal: 18,
+              ),
+              appBar: DefaultAppBar(
+                appBarTitle: "Personal Information",
+                onTapBackButton: () {
+                  popTopDisplay();
+                },
+              ),
               body: body,
             );
           },
@@ -60,47 +73,72 @@ class PersonalInformationScreenState
   Widget buildBody() {
     return Column(
       children: [
-        Expanded(flex: 1, child: Container()),
-        Expanded(
-          flex: 9,
-          child: Column(
-            children: [
-              buildTitle(),
-              SizedBox(height: 8),
-              buildText(),
-              SizedBox(
-                height: 8,
-              ),
-            ],
-          ),
+        SizedBox(height: 8 * 4),
+        Column(
+          children: [
+            buildAvarta(),
+            SizedBox(height: 8),
+            buildText(),
+            SizedBox(
+              height: 8,
+            ),
+          ],
         ),
       ],
     );
   }
 
-  Widget buildTitle() {
+  Widget getAvarta() {
+    if (bloc.avarta == null)
+      return Container(
+        height: 130,
+        width: 130,
+        child: Icon(
+          Icons.people,
+          size: 80,
+        ),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.grey[300],
+        ),
+      );
+
     return Container(
-      width: screenWidth(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(),
-          Text("Enter your Name, Email, and Password for sign up."),
-          GestureDetector(
-            onTap: () {
-              popTopDisplay();
-            },
-            child: Text(
-              "Already have account?",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              ),
+      height: 130,
+      width: 130,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.grey[300],
+        image: DecorationImage(
+          image: appStore.isWeb()
+              ? NetworkImage(bloc.avarta!.path)
+              : FileImage(File(bloc.avarta!.path)) as ImageProvider,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget buildAvarta() {
+    return Column(
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            bloc.pickImage();
+          },
+          child: Container(
+            alignment: Alignment.center,
+            child: getAvarta(),
+            height: 140,
+            width: 140,
+            decoration: BoxDecoration(
+              color: Colors.greenAccent,
+              shape: BoxShape.circle,
             ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 8),
+      ],
     );
   }
 
@@ -137,36 +175,40 @@ class PersonalInformationScreenState
   }
 
   Widget buildBirtDay() {
-    return Column(
-      children: [
-        TextField(
-          decoration: InputDecoration(
-            suffixIcon: GestureDetector(
-              onTap: () {
-                isDisplayBirtday = true;
-                notifyDataChanged();
-              },
-              child: Icon(
-                Icons.calendar_month,
-                color: Colors.grey,
-              ),
-            ),
+    return TextField(
+      readOnly: true,
+      decoration: InputDecoration(
+        hintText: bloc.formatDate(userBirthday),
+        hintStyle: TextStyle(fontSize: 16),
+        filled: true,
+        contentPadding: EdgeInsets.all(16),
+        suffixIcon: GestureDetector(
+          onTap: () {
+            showScreenBottomSheet(buildBirtDayPicker());
+            notifyDataChanged();
+          },
+          child: Icon(
+            Icons.calendar_month,
+            color: Colors.grey,
           ),
         ),
-        if (isDisplayBirtday) ...[
-          SizedBox(
-            height: 200,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              initialDateTime: DateTime(1969, 1, 1),
-              onDateTimeChanged: (DateTime newDateTime) {
-                // Do something
-                print(newDateTime);
-              },
-            ),
-          ),
-        ],
-      ],
+      ),
+      onChanged: (value) {},
+    );
+  }
+
+  Widget buildBirtDayPicker() {
+    return Container(
+      color: Colors.white,
+      height: 400,
+      child: CupertinoDatePicker(
+        mode: CupertinoDatePickerMode.date,
+        initialDateTime: userBirthday,
+        onDateTimeChanged: (DateTime newDateTime) {
+          userBirthday = newDateTime;
+          notifyDataChanged();
+        },
+      ),
     );
   }
 

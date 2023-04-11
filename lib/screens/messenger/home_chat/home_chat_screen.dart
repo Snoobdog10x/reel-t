@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ import '../../../shared_product/widgets/image/circle_image.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
+import '../new_chat/new_chat_screen.dart';
 import 'home_chat_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
@@ -56,9 +58,13 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
             var notLoggedBody = buildLoggedBody();
             return buildScreen(
               appBar: DefaultAppBar(
-                appBarTitle: "Chat",
+                appBarTitle: "Chats",
                 appBarAction: GestureDetector(
-                  child: Icon(Icons.chat_outlined, size: 30),
+                  onTap: () {
+                    showScreenBottomSheet(Container(
+                        height: screenHeight() * 0.8, child: NewChatScreen()));
+                  },
+                  child: Icon(CupertinoIcons.add_circled, size: 28),
                 ),
               ),
               notLoggedBody: notLoggedBody,
