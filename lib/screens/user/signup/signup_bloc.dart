@@ -1,4 +1,7 @@
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
+import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
+import 'package:reel_t/screens/user/email_authenticate/email_authenticate_bloc.dart';
+import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/signup/signup_screen.dart';
 
 import '../../../events/user/user_sign_up/user_sign_up_event.dart';
@@ -6,7 +9,7 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_bloc.dart';
 
 class SignupBloc extends AbstractBloc<SignupScreenState>
-    with UserSignUpEvent, GoogleSignUpEvent {
+    with UserSignUpEvent, GoogleSignUpEvent, SendEmailOtpEvent {
   String name = "";
   String email = "";
   String password = "";
@@ -27,8 +30,10 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
         title: "Sign-up",
         content: "Success",
         confirm: () {
-          appStore.localUser.login(signedUser!);
+          sendSendEmailOtpEvent(signedUser!.email);
           state.popTopDisplay();
+          state.pushToScreen(
+              EmailAuthenticateScreen(signInUserProfile: signedUser!));
         },
       );
       return;
@@ -66,5 +71,10 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
         state.popTopDisplay();
       },
     );
+  }
+  
+  @override
+  void onSendEmailOtpEventDone(bool isSent) {
+   
   }
 }
