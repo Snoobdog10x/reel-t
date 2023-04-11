@@ -17,9 +17,11 @@ import 'profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserProfile user;
+  final bool isBack;
   const ProfileScreen({
     super.key,
     required this.user,
+    this.isBack = false,
   });
 
   @override
@@ -43,6 +45,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
   void onCreate() {
     bloc = ProfileBloc();
     bloc.init();
+    bloc.sendRetrieveUserVideoEvent(widget.user.id);
   }
 
   @override
@@ -58,6 +61,8 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
               appBar: appBar,
               body: body,
               notLoggedBody: buildLoggedBody(),
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              isSafeBottom: false,
             );
           },
         );
@@ -106,74 +111,90 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
   }
 
   Widget buildAppbar() {
-    return Row(
-      children: [
-        Expanded(
-          flex: 2,
-          child: IconButton(
-            onPressed: () {
-              pushToScreen(CommingsoonScreen());
-            },
-            icon: Icon(
-              CupertinoIcons.gift_fill,
-              color: Colors.greenAccent,
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 5,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  widget.user.fullName,
-                  style: TextStyle(
-                      fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-                      fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                onTap: () {
+                  if (widget.isBack) {
+                    popTopDisplay();
+                    return;
+                  }
+                  pushToScreen(CommingsoonScreen());
+                },
+                child: Icon(
+                  widget.isBack
+                      ? Icons.arrow_back_ios_new_outlined
+                      : CupertinoIcons.gift_fill,
+                  color: widget.isBack ? Colors.black : Colors.greenAccent,
                 ),
-                IconButton(
-                  onPressed: () {}, //Switch Accounts
-                  icon: Icon(
-                    CupertinoIcons.chevron_down,
-                    size: 12,
-                  ),
-                )
-              ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Row(
-            children: <Widget>[
-              Container(
-                child: IconButton(
-                  onPressed: () {
+          Expanded(
+            flex: 4,
+            child: GestureDetector(
+              onTap: () {
+                print("hihi");
+              },
+              child: Center(
+                child: Container(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        widget.user.fullName,
+                        style: TextStyle(
+                          fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                          fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                        ),
+                      ),
+                      Icon(
+                        CupertinoIcons.chevron_down,
+                        size: 12,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => CommingsoonScreen(),
                       ),
                     );
                   },
-                  icon: Icon(
+                  child: Icon(
                     CupertinoIcons.paw,
                     // Profile view history will appear here
                   ),
                 ),
-              ),
-              Container(
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
+                SizedBox(width: 5),
+                GestureDetector(
+                  onTap: () {},
+                  child: Icon(
                     CupertinoIcons.line_horizontal_3,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -181,31 +202,14 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Container(
-            height: screenHeight() * 0.03,
-            color: Color.fromARGB(255, 235, 235, 235),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(CupertinoIcons.person, size: 16),
-                Text('Private account',
-                    style: TextStyle(
-                      fontSize: SharedTextStyle.NORMAL_SIZE,
-                      fontWeight: SharedTextStyle.NORMAL_WEIGHT,
-                    )),
-              ],
-            ),
-          ),
-          SizedBox(height: 8),
           buildAvatar(),
+          SizedBox(height: 16),
           buildStatistic(),
           SizedBox(height: 8),
           buildButtonMore(),
           SizedBox(height: 8),
           buildBio(),
           SizedBox(height: 10),
-          buildShowOption(),
-          SizedBox(height: 4),
           buildShowVideo(),
         ],
       ),
@@ -219,23 +223,10 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
           widget.user.avatar,
           radius: 100,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '@' + widget.user.userName,
-              style: TextStyle(fontWeight: SharedTextStyle.NORMAL_WEIGHT),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                CupertinoIcons.qrcode,
-                color: Colors.grey,
-                size: 16,
-              ),
-            ),
-          ],
+        SizedBox(height: 8),
+        Text(
+          widget.user.userName,
+          style: TextStyle(fontWeight: SharedTextStyle.NORMAL_WEIGHT),
         ),
       ],
     );
@@ -383,13 +374,40 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
   }
 
   Widget buildShowVideo() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Container(),
+    var videos = bloc.userVideos;
+    var blockHeight = videos.length * screenHeight() * 0.2;
+    return Container(
+      decoration: BoxDecoration(
+        border: blockHeight == 0
+            ? null
+            : Border(
+                top: BorderSide(
+                  width: 1.5,
+                  color: Color.fromARGB(255, 200, 200, 200),
+                ),
+              ),
+      ),
+      padding: EdgeInsets.only(top: 8),
+      height: blockHeight,
+      child: GridView.builder(
+        padding: EdgeInsets.zero,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
+          mainAxisExtent: screenHeight() * 0.2,
         ),
-      ],
+        itemCount: videos.length,
+        itemBuilder: (context, index) {
+          return buildUserVideo();
+        },
+      ),
+    );
+  }
+
+  Widget buildUserVideo() {
+    return Container(
+      color: Colors.blueAccent,
     );
   }
 
