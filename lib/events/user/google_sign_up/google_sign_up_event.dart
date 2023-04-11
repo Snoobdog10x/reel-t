@@ -56,7 +56,6 @@ abstract class GoogleSignUpEvent {
       fullName: tempName,
       userName: "@$tempName",
     );
-    await db.doc().set(userProfile.toJson());
     return userProfile;
   }
 
