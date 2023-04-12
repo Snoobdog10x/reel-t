@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/email_otp/email_otp.dart';
 
-import '../../../shared_product/utils/format_utlity.dart';
+import '../../../shared_product/utils/format/format_utlity.dart';
 
 abstract class VerifyEmailOtpEvent {
   final _db = FirebaseFirestore.instance.collection(EmailOtp.PATH);

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/message/message_sample_data.dart';
-import '../../shared_product/utils/format_utlity.dart';
+import '../../shared_product/utils/format/format_utlity.dart';
 import 'conversation.dart';
 
 import '../message/message.dart';

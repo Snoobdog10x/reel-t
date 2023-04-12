@@ -10,7 +10,7 @@ import 'package:reel_t/shared_product/widgets/button/three_row_button.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../screens/messenger/detail_chat/detail_chat_screen.dart';
-import '../../../shared_product/utils/shared_text_style.dart';
+import '../../../shared_product/utils/text/shared_text_style.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../generated/abstract_bloc.dart';

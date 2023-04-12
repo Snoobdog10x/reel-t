@@ -12,7 +12,7 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import '../../../shared_product/utils/format_utlity.dart';
+import '../../../shared_product/utils/format/format_utlity.dart';
 import 'list_video_bloc.dart';
 
 import '../../../shared_product/widgets/video_player_item.dart';

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/comment/comment.dart' as ReelComment;
-import '../../../shared_product/utils/format_utlity.dart';
+import '../../../shared_product/utils/format/format_utlity.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import 'comment_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';

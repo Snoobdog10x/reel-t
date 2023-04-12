@@ -43,7 +43,8 @@ abstract class GoogleSignUpEvent {
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<UserProfile?> createUserProfile(UserCredential userCredential) async {
+  static Future<UserProfile?> createUserProfile(
+      UserCredential userCredential) async {
     final db = FirebaseFirestore.instance.collection(UserProfile.PATH);
     var user = userCredential.user;
     if (user == null) return null;
@@ -56,6 +57,7 @@ abstract class GoogleSignUpEvent {
       fullName: tempName,
       userName: "@$tempName",
     );
+    await db.doc(id).set(userProfile.toJson());
     return userProfile;
   }
 

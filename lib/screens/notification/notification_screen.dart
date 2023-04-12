@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../../shared_product/assets/icon/tik_tok_icons_icons.dart';
-import '../../shared_product/utils/shared_text_style.dart';
+import '../../shared_product/utils/text/shared_text_style.dart';
 import '../../shared_product/widgets/button/three_row_button.dart';
 import '../notification/notification_bloc.dart';
 import '../../shared_product/widgets/default_appbar.dart';

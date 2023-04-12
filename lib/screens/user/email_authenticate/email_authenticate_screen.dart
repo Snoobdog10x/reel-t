@@ -7,15 +7,20 @@ import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/shared_product/utils/shared_text_style.dart';
+import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import 'email_authenticate_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class EmailAuthenticateScreen extends StatefulWidget {
-  final UserProfile signInUserProfile;
-  const EmailAuthenticateScreen({super.key, required this.signInUserProfile});
+  final String email;
+  final String password;
+  const EmailAuthenticateScreen({
+    super.key,
+    required this.email,
+    this.password = "",
+  });
 
   @override
   State<EmailAuthenticateScreen> createState() =>
@@ -41,7 +46,6 @@ class EmailAuthenticateScreenState
   @override
   void onCreate() {
     bloc = EmailAuthenticateBloc();
-    bloc.signInUserProfile = widget.signInUserProfile;
   }
 
   @override
@@ -126,7 +130,7 @@ class EmailAuthenticateScreenState
     return RichText(
       text: TextSpan(
         style: TextStyle(color: Colors.black),
-        text: '${bloc.signInUserProfile.email} ',
+        text: '${bloc.email} ',
         children: <TextSpan>[
           TextSpan(
             text: 'Change email?',

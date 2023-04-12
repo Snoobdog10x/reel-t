@@ -1,21 +1,22 @@
 import 'dart:async';
 
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
+import 'package:reel_t/events/user/user_sign_up/user_sign_up_event.dart';
 import 'package:reel_t/events/user/verify_email_otp/verify_email_otp_event.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
 import 'email_authenticate_screen.dart';
 
 class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
-    with SendEmailOtpEvent, VerifyEmailOtpEvent {
-  late UserProfile signInUserProfile;
+    with SendEmailOtpEvent, VerifyEmailOtpEvent, UserSignUpEvent {
+  String email = "";
   void resendOTP() {
-    sendSendEmailOtpEvent(signInUserProfile.email);
+    sendSendEmailOtpEvent(email);
   }
 
   void verifyOTP(String otp) {
     state.startLoading();
-    sendVerifyEmailOtpEvent(signInUserProfile.email, otp);
+    sendVerifyEmailOtpEvent(email, otp);
   }
 
   String convertSecondToMinute(int second) {
@@ -44,7 +45,7 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
   void onVerifyEmailOtpEventDone(bool isVerified, String verifyStatus) {
     state.stopLoading();
     if (isVerified) {
-      appStore.localUser.login(signInUserProfile);
+      // appStore.localUser.login(signInUserProfile);
       state.popTopDisplay();
       return;
     }
@@ -52,6 +53,22 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
     state.showAlertDialog(
       title: "OTP Verification",
       content: verifyStatus,
+      confirm: () {
+        state.popTopDisplay();
+      },
+    );
+  }
+
+  @override
+  void onUserSignUpEventDone(String errorMessage, UserProfile? signedUser) {
+    state.stopLoading();
+    if (errorMessage.isEmpty) {
+      return;
+    }
+
+    state.showAlertDialog(
+      title: "Sign-up",
+      content: errorMessage,
       confirm: () {
         state.popTopDisplay();
       },

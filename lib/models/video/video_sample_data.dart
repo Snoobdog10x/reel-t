@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:reel_t/shared_product/utils/format_utlity.dart';
+import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 
 import '../../models/video/video.dart';
 

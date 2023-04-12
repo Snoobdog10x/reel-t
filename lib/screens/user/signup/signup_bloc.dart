@@ -3,48 +3,47 @@ import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_bloc.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/signup/signup_screen.dart';
+import 'package:reel_t/shared_product/utils/validator/email_validator.dart';
 
 import '../../../events/user/user_sign_up/user_sign_up_event.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_bloc.dart';
 
 class SignupBloc extends AbstractBloc<SignupScreenState>
-    with UserSignUpEvent, GoogleSignUpEvent, SendEmailOtpEvent {
-  String name = "";
+    with GoogleSignUpEvent, SendEmailOtpEvent {
   String email = "";
   String password = "";
-  void signIn() {
-    var hashedPassword = state.appStore.security.hashPassword(password);
-    this.sendUserSignUpEvent(
-      fullName: name,
-      email: email,
-      password: hashedPassword,
-    );
-  }
-
-  @override
-  void onUserSignUpEventDone(String errorMessage, UserProfile? signedUser) {
-    state.stopLoading();
-    if (errorMessage.isEmpty) {
+  Future<void> signIn() async {
+    state.startLoading();
+    if (!EmailValidator().isValid(email)) {
       state.showAlertDialog(
         title: "Sign-up",
-        content: "Success",
+        content: "Email is not valid",
         confirm: () {
-          sendSendEmailOtpEvent(signedUser!.email);
           state.popTopDisplay();
-          state.pushToScreen(
-              EmailAuthenticateScreen(signInUserProfile: signedUser!));
         },
       );
       return;
     }
-    state.showAlertDialog(
-      title: "Sign-up",
-      content: errorMessage,
-      confirm: () {
-        state.popTopDisplay();
-      },
+
+    if (await isUserExists(email)) {
+      state.showAlertDialog(
+        title: "Sign-up",
+        content: "User already exists",
+        confirm: () {
+          state.popTopDisplay();
+        },
+      );
+      return;
+    }
+
+    state.pushToScreen(
+      EmailAuthenticateScreen(
+        email: email,
+        password: password,
+      ),
     );
+    state.stopLoading();
   }
 
   @override
@@ -72,9 +71,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
       },
     );
   }
-  
+
   @override
-  void onSendEmailOtpEventDone(bool isSent) {
-   
-  }
+  void onSendEmailOtpEventDone(bool isSent) {}
 }

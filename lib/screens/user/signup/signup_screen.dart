@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -16,6 +17,8 @@ class SignupScreen extends StatefulWidget {
 
 class SignupScreenState extends AbstractState<SignupScreen> {
   late SignupBloc bloc;
+  TextEditingController passwordController = TextEditingController();
+  bool isValidPassword = false;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -65,7 +68,7 @@ class SignupScreenState extends AbstractState<SignupScreen> {
               buildTitle(),
               SizedBox(height: 8),
               buildSignInFields(),
-              SizedBox(height: 8 * 6),
+              SizedBox(height: 8 * 4),
               buildButtons(),
             ],
           ),
@@ -112,12 +115,6 @@ class SignupScreenState extends AbstractState<SignupScreen> {
       width: screenWidth(),
       child: Column(
         children: [
-          CustomTextField(
-            hintText: "Name",
-            onTextChanged: (value) {
-              bloc.name = value;
-            },
-          ),
           SizedBox(height: 8),
           CustomTextField(
             hintText: "Email",
@@ -127,12 +124,30 @@ class SignupScreenState extends AbstractState<SignupScreen> {
           ),
           SizedBox(height: 8),
           CustomTextField(
+            controller: passwordController,
             hintText: "Password",
             isPasswordField: true,
             onTextChanged: (value) {
               bloc.password = value;
             },
           ),
+          SizedBox(height: 8),
+          FlutterPwValidator(
+            controller: passwordController,
+            minLength: 8,
+            uppercaseCharCount: 1,
+            numericCharCount: 3,
+            width: 400,
+            height: 150,
+            onSuccess: () {
+              isValidPassword = true;
+              notifyDataChanged();
+            },
+            onFail: () {
+              isValidPassword = false;
+              notifyDataChanged();
+            },
+          )
         ],
       ),
     );
@@ -145,9 +160,12 @@ class SignupScreenState extends AbstractState<SignupScreen> {
         children: [
           ThreeRowButton(
             onTap: () {
-              startLoading();
+              if (!isValidPassword) {
+                return;
+              }
               bloc.signIn();
             },
+            color: isValidPassword ? Colors.green : Colors.grey[500]!,
             title: Text(
               "SIGN IN",
               style: TextStyle(

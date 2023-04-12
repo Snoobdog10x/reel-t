@@ -1,34 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import '../../../models/user_profile/user_profile.dart';
 
 abstract class UserSignUpEvent {
   void sendUserSignUpEvent({
-    required String fullName,
     required String email,
     required String password,
   }) async {
     try {
-      final db = FirebaseFirestore.instance;
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      String id = credential.user!.uid;
-      var tempName = credential.user!.email!.split("@")[0];
-      UserProfile userProfile = UserProfile(
-        id: id,
-        email: credential.user!.email,
-        fullName: tempName,
-        userName: "@$tempName",
-      );
+      var credential = await createUserCredential(email, password);
+      var userProfile = await GoogleSignUpEvent.createUserProfile(credential);
       onUserSignUpEventDone("", userProfile);
     } on FirebaseAuthException catch (e) {
       var errorMessage = getMessageFromErrorCode(e);
       onUserSignUpEventDone(errorMessage, null);
     }
+  }
+
+  Future<UserCredential> createUserCredential(
+      String email, String password) async {
+    return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   void onUserSignUpEventDone(

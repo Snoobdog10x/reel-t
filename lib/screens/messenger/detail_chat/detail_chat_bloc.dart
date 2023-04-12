@@ -5,7 +5,7 @@ import 'package:reel_t/events/message/send_message/send_message_event.dart';
 import 'package:reel_t/events/message/stream_messages/stream_messages_event.dart';
 import 'package:reel_t/models/message/message.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/shared_product/utils/format_utlity.dart';
+import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/conversation/conversation.dart';

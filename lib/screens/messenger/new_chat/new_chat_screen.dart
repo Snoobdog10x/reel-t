@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import '../../../shared_product/utils/shared_text_style.dart';
+import '../../../shared_product/utils/text/shared_text_style.dart';
 import 'new_chat_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 

@@ -164,7 +164,8 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
             onPressed: () {
               pushToScreen(
                   EmailAuthenticateScreen(
-                    signInUserProfile: UserProfile(),
+                    email: "duythanh1565@gmail.com",
+                    password: "duythanh2001",
                   ),
                   isReplace: true);
             },

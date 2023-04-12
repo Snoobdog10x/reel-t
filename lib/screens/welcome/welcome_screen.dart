@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/conversation/conversation_sample_data.dart';
-import 'package:reel_t/shared_product/utils/shared_text_style.dart';
+import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import '../../models/user_profile/user_profile_sample_data.dart';
 import '../../models/video/video_sample_data.dart';
 import '../../generated/abstract_bloc.dart';

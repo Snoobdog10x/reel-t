@@ -38,7 +38,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
     if (isSent) {
       state.stopLoading();
       state.pushToScreen(
-          EmailAuthenticateScreen(signInUserProfile: signedInUserProfile));
+          EmailAuthenticateScreen(email: signedInUserProfile.email));
     }
   }
 }
