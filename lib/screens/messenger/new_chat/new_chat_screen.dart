@@ -48,10 +48,10 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
             var appBar = buildAppbar();
             var body = buildBody();
             return buildScreen(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              appBar: appBar,
-              body: body,
-            );
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                appBar: appBar,
+                body: body,
+                isSafe: false);
           },
         );
       },
@@ -110,6 +110,7 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
 
   Widget buildBody() {
     return ListView.separated(
+      padding: EdgeInsets.zero,
       itemCount: bloc.user.length,
       itemBuilder: (context, index) {
         var user = bloc.user[index];

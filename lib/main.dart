@@ -11,8 +11,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await PlatformNotifier.I.init(appName: "Reel T");
-  await AppInit.init(isDebug: true, isInitSample: false); // uncomment this if you run local only run by Thanh
-  // await AppInit.init(isDebug: false, isInitSample: false);// if not Thanh please run this
+  // await AppInit.init(isDebug: true, isInitSample: false); // uncomment this if you run local only run by Thanh
+  await AppInit.init(isDebug: false, isInitSample: false);// if not Thanh please run this
   runApp(
     OverlaySupport.global(
       child: MaterialApp(

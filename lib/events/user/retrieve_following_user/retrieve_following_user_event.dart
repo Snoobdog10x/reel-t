@@ -7,7 +7,6 @@ abstract class RetrieveFollowingUserEvent {
   Future<void> sendRetrieveFollowingUserEvent(String userId) async {
     try {
       var followings = await _getUserFollowing(userId);
-      print(followings);
       var userProfiles = await _getUserProfile(followings);
       onRetrieveFollowingUserEventDone(userProfiles);
     } catch (e) {
