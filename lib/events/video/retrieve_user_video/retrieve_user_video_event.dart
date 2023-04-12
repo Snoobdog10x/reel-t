@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/video/video.dart';
 
 abstract class RetrieveUserVideoEvent {
-  late var lastDocument;
+  var _lastDocument;
+  int _LIMIT_VIDEO = 10;
   Future<void> sendRetrieveUserVideoEvent(String userId) async {
     try {
-      print(userId);
       var userVideos = await _retrieveUserVideos(userId);
       onRetrieveUserVideoEventDone(userVideos);
     } catch (e) {
+      print(e);
       onRetrieveUserVideoEventDone([]);
     }
   }
@@ -16,30 +17,30 @@ abstract class RetrieveUserVideoEvent {
   Future<List<Video>> _retrieveUserVideos(String userId) async {
     var snapShot = await _getSnapShot(userId);
     var docs = snapShot.docs;
-    print(snapShot.docs);
     if (docs.isEmpty) {
       return [];
     }
-    lastDocument = snapShot.docs.first;
+    
+    _lastDocument = snapShot.docs.first;
     return [for (var doc in docs) Video.fromJson(doc.data())];
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> _getSnapShot(
       String userId) async {
     final db = FirebaseFirestore.instance.collection(Video.PATH);
-    if (lastDocument == null) {
+    if (_lastDocument == null) {
       return await db
-          .orderBy(Video.createAt_PATH, descending: true)
           .where(Video.creatorId_PATH, isEqualTo: userId)
-          .limit(10)
+          .orderBy(Video.createAt_PATH, descending: true)
+          .limit(_LIMIT_VIDEO)
           .get();
     }
 
     return await db
-        .orderBy(Video.createAt_PATH, descending: true)
         .where(Video.creatorId_PATH, isEqualTo: userId)
-        .startAfterDocument(lastDocument)
-        .limit(10)
+        .orderBy(Video.createAt_PATH, descending: true)
+        .startAfterDocument(_lastDocument)
+        .limit(_LIMIT_VIDEO)
         .get();
   }
 

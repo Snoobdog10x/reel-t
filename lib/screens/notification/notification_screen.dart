@@ -16,7 +16,8 @@ class NotificationScreen extends StatefulWidget {
   State<NotificationScreen> createState() => NotificationScreenState();
 }
 
-class NotificationScreenState extends AbstractState<NotificationScreen> {
+class NotificationScreenState extends AbstractState<NotificationScreen>
+    with AutomaticKeepAliveClientMixin {
   late NotificationBloc bloc;
   @override
   AbstractBloc initBloc() {
@@ -105,4 +106,8 @@ class NotificationScreenState extends AbstractState<NotificationScreen> {
   void onReady() {
     // TODO: implement onReady
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

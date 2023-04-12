@@ -21,6 +21,6 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
   void onRetrieveUserVideoEventDone(List<Video> userVideos) {
     this.userVideos.addAll(userVideos);
     notifyDataChanged();
-    print(userVideos);
+    // print(userVideos.length);
   }
 }

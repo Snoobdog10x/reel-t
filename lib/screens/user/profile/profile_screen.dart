@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
+import 'package:reel_t/shared_product/widgets/video_player_item.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
+import '../../../models/video/video.dart';
 import '../../../shared_product/assets/icon/tik_tok_icons_icons.dart';
 import '../../../shared_product/utils/format/format_utlity.dart';
 import '../../../shared_product/utils/text/shared_text_style.dart';
@@ -28,7 +31,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => ProfileScreenState();
 }
 
-class ProfileScreenState extends AbstractState<ProfileScreen> {
+class ProfileScreenState extends AbstractState<ProfileScreen>
+    with AutomaticKeepAliveClientMixin {
   late ProfileBloc bloc;
 
   @override
@@ -375,39 +379,28 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
 
   Widget buildShowVideo() {
     var videos = bloc.userVideos;
-    var blockHeight = videos.length * screenHeight() * 0.2;
-    return Container(
-      decoration: BoxDecoration(
-        border: blockHeight == 0
-            ? null
-            : Border(
-                top: BorderSide(
-                  width: 1.5,
-                  color: Color.fromARGB(255, 200, 200, 200),
-                ),
-              ),
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisExtent: screenHeight() * 0.2,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
       ),
-      padding: EdgeInsets.only(top: 8),
-      height: blockHeight,
-      child: GridView.builder(
-        padding: EdgeInsets.zero,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 2,
-          mainAxisExtent: screenHeight() * 0.2,
-        ),
-        itemCount: videos.length,
-        itemBuilder: (context, index) {
-          return buildUserVideo();
-        },
-      ),
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: videos.length,
+      itemBuilder: (context, index) {
+        return buildUserVideo(videos[index]);
+      },
     );
   }
 
-  Widget buildUserVideo() {
-    return Container(
-      color: Colors.blueAccent,
+  Widget buildUserVideo(Video video) {
+    return VideoPlayerItem(
+      videoUrl: video.videoUrl,
+      isMute: true,
+      isPlay: false,
+      onTapPause: false,
     );
   }
 
@@ -418,4 +411,8 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
   void onReady() {
     // TODO: implement onReady
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -26,7 +26,8 @@ class HomeChatScreen extends StatefulWidget {
   State<HomeChatScreen> createState() => HomeChatScreenState();
 }
 
-class HomeChatScreenState extends AbstractState<HomeChatScreen> {
+class HomeChatScreenState extends AbstractState<HomeChatScreen>
+    with AutomaticKeepAliveClientMixin {
   late HomeChatBloc bloc;
   @override
   AbstractBloc initBloc() {
@@ -243,4 +244,8 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen> {
 
   @override
   void onDispose() {}
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
