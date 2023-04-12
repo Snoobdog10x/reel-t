@@ -1,3 +1,4 @@
+import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 
@@ -7,7 +8,7 @@ import '../../../generated/abstract_bloc.dart';
 import 'login_screen.dart';
 
 class LoginBloc extends AbstractBloc<LoginScreenState>
-    with UserSignInEvent, SendEmailOtpEvent {
+    with UserSignInEvent, SendEmailOtpEvent, GoogleSignUpEvent {
   String email = "";
   String password = "";
   late UserProfile signedInUserProfile;
@@ -40,5 +41,25 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
       state.pushToScreen(
           EmailAuthenticateScreen(email: signedInUserProfile.email));
     }
+  }
+
+  @override
+  void onGoogleSignUpEventDone(e, signedUser) {
+    state.stopLoading();
+    if (e.isEmpty) {
+      return;
+    }
+    if (e == "success") {
+      appStore.localUser.login(signedUser!);
+      state.popTopDisplay();
+      return;
+    }
+    state.showAlertDialog(
+      title: "Sign-up",
+      content: e,
+      confirm: () {
+        state.popTopDisplay();
+      },
+    );
   }
 }

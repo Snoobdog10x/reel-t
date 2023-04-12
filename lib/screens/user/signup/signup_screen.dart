@@ -62,7 +62,7 @@ class SignupScreenState extends AbstractState<SignupScreen> {
       children: [
         Expanded(flex: 1, child: Container()),
         Expanded(
-          flex: 9,
+          flex: 17,
           child: Column(
             children: [
               buildTitle(),
@@ -231,6 +231,13 @@ class SignupScreenState extends AbstractState<SignupScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void onPopWidget() {
+    // TODO: implement onPopWidget
+    super.onPopWidget();
+    popTopDisplay();
   }
 
   @override

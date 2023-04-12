@@ -36,30 +36,18 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
       );
       return;
     }
-
-    state.pushToScreen(
-      EmailAuthenticateScreen(
-        email: email,
-        password: password,
-      ),
-    );
-    state.stopLoading();
+    sendSendEmailOtpEvent(email);
   }
 
   @override
   void onGoogleSignUpEventDone(e, signedUser) {
+    state.stopLoading();
     if (e.isEmpty) {
       return;
     }
     if (e == "success") {
-      state.showAlertDialog(
-        title: "Sign-up",
-        content: "Success",
-        confirm: () {
-          appStore.localUser.login(signedUser!);
-          state.popTopDisplay();
-        },
-      );
+      appStore.localUser.login(signedUser!);
+      state.popTopDisplay();
       return;
     }
     state.showAlertDialog(
@@ -73,5 +61,25 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
   }
 
   @override
-  void onSendEmailOtpEventDone(bool isSent) {}
+  void onSendEmailOtpEventDone(bool isSent) {
+    if (isSent) {
+      state.stopLoading();
+      state.pushToScreen(
+        EmailAuthenticateScreen(
+          email: email,
+          password: password,
+        ),
+      );
+
+      return;
+    }
+    state.showAlertDialog(
+      title: "Sign-up",
+      content: "Server error, please try later",
+      confirm: () {
+        state.popTopDisplay();
+      },
+    );
+    state.stopLoading();
+  }
 }

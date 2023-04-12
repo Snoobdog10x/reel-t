@@ -46,6 +46,8 @@ class EmailAuthenticateScreenState
   @override
   void onCreate() {
     bloc = EmailAuthenticateBloc();
+    bloc.email = widget.email;
+    bloc.password = widget.password;
   }
 
   @override

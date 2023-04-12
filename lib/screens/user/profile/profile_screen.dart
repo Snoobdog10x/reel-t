@@ -96,7 +96,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen> {
               pushToScreen(LoginScreen());
             },
             title: Text(
-              "Sign up",
+              "Login",
               style: TextStyle(
                 fontSize: SharedTextStyle.SUB_TITLE_SIZE,
                 fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,

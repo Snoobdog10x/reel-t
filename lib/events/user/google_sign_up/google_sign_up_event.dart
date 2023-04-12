@@ -11,14 +11,8 @@ abstract class GoogleSignUpEvent {
         onGoogleSignUpEventDone("", null);
         return;
       }
-      if (await isUserExists(googleUser.email)) {
-        onGoogleSignUpEventDone(
-            "This email has been signed up, please login or use another email",
-            null);
-        return;
-      }
       var userCredential = await signInUser(googleUser);
-      var signedUser = await createUserProfile(userCredential);
+      var signedUser = await _createUserProfile(userCredential);
       onGoogleSignUpEventDone("success", signedUser);
     } catch (e) {
       onGoogleSignUpEventDone(e.toString(), null);
@@ -26,10 +20,17 @@ abstract class GoogleSignUpEvent {
   }
 
   Future<bool> isUserExists(String email) async {
+    var userProfile = await _getUserProfileByEmail(email);
+    return userProfile != null;
+  }
+
+  Future<UserProfile?> _getUserProfileByEmail(String email) async {
     final db = FirebaseFirestore.instance.collection(UserProfile.PATH);
     var snapshot =
         await db.where(UserProfile.email_PATH, isEqualTo: email).get();
-    return snapshot.docs.isNotEmpty;
+    if (snapshot.docs.isEmpty) return null;
+
+    return UserProfile.fromJson(snapshot.docs.first.data());
   }
 
   Future<UserCredential> signInUser(GoogleSignInAccount googleUser) async {
@@ -43,22 +44,23 @@ abstract class GoogleSignUpEvent {
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  static Future<UserProfile?> createUserProfile(
-      UserCredential userCredential) async {
+  Future<UserProfile?> _createUserProfile(UserCredential userCredential) async {
     final db = FirebaseFirestore.instance.collection(UserProfile.PATH);
     var user = userCredential.user;
     if (user == null) return null;
+    var userProfile = await _getUserProfileByEmail(userCredential.user!.email!);
+    if (userProfile != null) return userProfile;
 
     var id = user.uid;
     var tempName = user.email!.split("@")[0];
-    UserProfile userProfile = UserProfile(
+    UserProfile newUserProfile = UserProfile(
       id: id,
       email: user.email,
       fullName: tempName,
       userName: "@$tempName",
     );
-    await db.doc(id).set(userProfile.toJson());
-    return userProfile;
+    await db.doc(id).set(newUserProfile.toJson());
+    return newUserProfile;
   }
 
   void onGoogleSignUpEventDone(String e, UserProfile? signedUser);

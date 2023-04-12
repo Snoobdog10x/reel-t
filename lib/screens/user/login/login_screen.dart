@@ -159,9 +159,7 @@ class LoginScreenState extends AbstractState<LoginScreen> {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SignupScreen()),
-                      );
+                      pushToScreen(SignupScreen());
                     },
                 ),
               ],
@@ -177,6 +175,10 @@ class LoginScreenState extends AbstractState<LoginScreen> {
           ),
           SizedBox(height: 8),
           ThreeRowButton(
+            onTap: () {
+              startLoading();
+              bloc.sendGoogleSignUpEvent();
+            },
             color: Colors.blueAccent,
             prefixIcon: Container(
               height: 30,
@@ -205,6 +207,7 @@ class LoginScreenState extends AbstractState<LoginScreen> {
 
   @override
   void onDispose() {}
+
   @override
   void onPopWidget() {
     // TODO: implement onPopWidget

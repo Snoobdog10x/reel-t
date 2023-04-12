@@ -10,12 +10,28 @@ abstract class UserSignUpEvent {
   }) async {
     try {
       var credential = await createUserCredential(email, password);
-      var userProfile = await GoogleSignUpEvent.createUserProfile(credential);
+      var userProfile = await _createUserProfile(credential);
       onUserSignUpEventDone("", userProfile);
     } on FirebaseAuthException catch (e) {
       var errorMessage = getMessageFromErrorCode(e);
       onUserSignUpEventDone(errorMessage, null);
     }
+  }
+
+  Future<UserProfile?> _createUserProfile(UserCredential userCredential) async {
+    final db = FirebaseFirestore.instance.collection(UserProfile.PATH);
+    var user = userCredential.user;
+    if (user == null) return null;
+    var id = user.uid;
+    var tempName = user.email!.split("@")[0];
+    UserProfile userProfile = UserProfile(
+      id: id,
+      email: user.email,
+      fullName: tempName,
+      userName: "@$tempName",
+    );
+    await db.doc(id).set(userProfile.toJson());
+    return userProfile;
   }
 
   Future<UserCredential> createUserCredential(

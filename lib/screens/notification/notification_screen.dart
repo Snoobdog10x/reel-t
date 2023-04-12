@@ -78,7 +78,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen> {
               pushToScreen(LoginScreen());
             },
             title: Text(
-              "Sign up",
+              "Login",
               style: TextStyle(
                 fontSize: SharedTextStyle.SUB_TITLE_SIZE,
                 fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
