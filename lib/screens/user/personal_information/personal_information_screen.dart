@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/shared_product/widgets/button/three_row_button.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
@@ -82,6 +83,9 @@ class PersonalInformationScreenState
             SizedBox(
               height: 8,
             ),
+            SizedBox(height: 40),
+            submitButton(),
+            SizedBox(height: 8),
           ],
         ),
       ],
@@ -208,6 +212,20 @@ class PersonalInformationScreenState
           userBirthday = newDateTime;
           notifyDataChanged();
         },
+      ),
+    );
+  }
+
+  Widget submitButton() {
+    return ThreeRowButton(
+      color: Colors.green,
+      title: Text(
+        "SUBMIT",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
