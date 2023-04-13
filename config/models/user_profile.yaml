@@ -5,6 +5,7 @@ arguments:
   - email: String
   - userName: String
   - bio: String
+  - birthday: String
   - avatar: String
   - numFollower: int
   - numFollowing: int

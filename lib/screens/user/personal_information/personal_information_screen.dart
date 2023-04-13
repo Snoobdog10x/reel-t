@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/shared_product/widgets/button/three_row_button.dart';
+import 'package:reel_t/shared_product/widgets/image/image_gallery_picker/image_gallery_picker_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
@@ -54,6 +55,7 @@ class PersonalInformationScreenState
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
+              isPushLayoutWhenShowKeyboard: true,
               padding: EdgeInsets.symmetric(
                 horizontal: 18,
               ),
@@ -72,28 +74,25 @@ class PersonalInformationScreenState
   }
 
   Widget buildBody() {
-    return Column(
+    return ListView(
+      padding: EdgeInsets.zero,
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       children: [
-        SizedBox(height: 8 * 4),
-        Column(
-          children: [
-            buildAvarta(),
-            SizedBox(height: 8),
-            buildText(),
-            SizedBox(
-              height: 8,
-            ),
-            SizedBox(height: 40),
-            submitButton(),
-            SizedBox(height: 8),
-          ],
-        ),
+        SizedBox(height: 8 * 6),
+        buildAvatar(),
+        SizedBox(height: 8),
+        buildText(),
+        SizedBox(height: 8),
+        SizedBox(height: 8 * 3),
+        submitButton(),
+        SizedBox(height: 8),
       ],
     );
   }
 
-  Widget getAvarta() {
-    if (bloc.avarta == null)
+  Widget getAvatar() {
+    if (bloc.avatar == null)
       return Container(
         height: 130,
         width: 130,
@@ -114,35 +113,53 @@ class PersonalInformationScreenState
         shape: BoxShape.circle,
         color: Colors.grey[300],
         image: DecorationImage(
-          image: appStore.isWeb()
-              ? NetworkImage(bloc.avarta!.path)
-              : FileImage(File(bloc.avarta!.path)) as ImageProvider,
+          image: MemoryImage(bloc.avatar!),
           fit: BoxFit.cover,
         ),
       ),
     );
   }
 
-  Widget buildAvarta() {
+  Widget buildAvatar() {
     return Column(
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            bloc.pickImage();
+            if (appStore.isWeb()) {
+              bloc.pickImage();
+              return;
+            }
+
+            showMobileImagePicker();
           },
           child: Container(
             alignment: Alignment.center,
-            child: getAvarta(),
+            child: getAvatar(),
             height: 140,
             width: 140,
             decoration: BoxDecoration(
-              color: Colors.greenAccent,
+              color: Colors.green,
               shape: BoxShape.circle,
             ),
           ),
         ),
         SizedBox(height: 8),
       ],
+    );
+  }
+
+  void showMobileImagePicker() {
+    showScreenBottomSheet(
+      Container(
+        height: screenHeight() * 0.7,
+        child: ImageGalleryPickerScreen(
+          isPickMultiple: false,
+          onFileSelected: (files) async {
+            bloc.avatar = await files.first?.readAsBytes();
+            notifyDataChanged();
+          },
+        ),
+      ),
     );
   }
 
@@ -172,19 +189,33 @@ class PersonalInformationScreenState
             onTextChanged: (value) {},
           ),
           SizedBox(height: 8),
-          buildBirtDay(),
+          buildBirthday(),
         ],
       ),
     );
   }
 
-  Widget buildBirtDay() {
+  Widget buildBirthday() {
     return TextField(
       readOnly: true,
       decoration: InputDecoration(
         hintText: bloc.formatDate(userBirthday),
         hintStyle: TextStyle(fontSize: 16),
         filled: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: Colors.green,
+            width: 1,
+          ),
+        ),
         contentPadding: EdgeInsets.all(16),
         suffixIcon: GestureDetector(
           onTap: () {
