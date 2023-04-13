@@ -46,6 +46,7 @@ class CommingsoonScreenState extends AbstractState<CommingsoonScreen> {
             var body = buildBody();
             return buildScreen(
               body: body,
+              isSafe: false,
             );
           },
         );

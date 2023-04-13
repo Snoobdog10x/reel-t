@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/reuseable/commingsoon/commingsoon_screen.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../../shared_product/assets/icon/tik_tok_icons_icons.dart';
@@ -43,7 +44,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
+              appBar: DefaultAppBar(appBarTitle: "Notification"),
               body: body,
               notLoggedBody: buildLoggedBody(),
             );
@@ -94,9 +95,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
   }
 
   Widget buildBody() {
-    return Column(
-      children: [],
-    );
+    return Container();
   }
 
   @override
