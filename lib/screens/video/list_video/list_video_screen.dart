@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/user/profile/profile_screen.dart';
 import 'package:reel_t/screens/video/comment/comment_screen.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/actions_toolbar.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/video_description.dart';
@@ -159,6 +160,12 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
           await bloc.followUser(video);
           return true;
         },
+        onTapAvatar: () {
+          pushToScreen(ProfileScreen(
+            user: creator,
+            isBack: true,
+          ));
+        },
         onTapComment: (isActive) async {
           showScreenBottomSheet(
             Container(
@@ -174,12 +181,16 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildBody() {
-    return Stack(
-      children: [
-        widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo(),
-        if (widget.isShowBack) ...[buildTapBack()]
-      ],
-    );
+    if (widget.isShowBack) {
+      return Stack(
+        children: [
+          widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo(),
+          buildTapBack()
+        ],
+      );
+    }
+
+    return widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo();
   }
 
   Widget buildTapBack() {

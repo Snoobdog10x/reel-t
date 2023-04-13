@@ -214,7 +214,15 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
           buildButtonMore(),
           SizedBox(height: 8),
           buildBio(),
-          SizedBox(height: 10),
+          SizedBox(height: 8),
+          if (bloc.userVideos.isNotEmpty) ...[
+            Divider(
+              color: Color.fromARGB(255, 200, 200, 200),
+              height: 0,
+              thickness: 1,
+            )
+          ],
+          SizedBox(height: 8),
           buildShowVideo(),
         ],
       ),
@@ -381,6 +389,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
   Widget buildShowVideo() {
     var videos = bloc.userVideos;
     return GridView.builder(
+      padding: EdgeInsets.zero,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisExtent: screenHeight() * 0.2,
