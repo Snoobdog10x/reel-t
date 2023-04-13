@@ -10,6 +10,8 @@ class Video{
 	String id = "";
 	static const String videoUrl_PATH = "videoUrl";
 	String videoUrl = "";
+	static const String videoThumbnail_PATH = "videoThumbnail";
+	String videoThumbnail = "";
 	static const String songName_PATH = "songName";
 	String songName = "";
 	static const String creatorId_PATH = "creatorId";
@@ -35,6 +37,7 @@ class Video{
   Video({
     String? id,
 		String? videoUrl,
+		String? videoThumbnail,
 		String? songName,
 		String? creatorId,
 		String? title,
@@ -48,6 +51,7 @@ class Video{
   }){
     if(id != null) this.id = id;
 		if(videoUrl != null) this.videoUrl = videoUrl;
+		if(videoThumbnail != null) this.videoThumbnail = videoThumbnail;
 		if(songName != null) this.songName = songName;
 		if(creatorId != null) this.creatorId = creatorId;
 		if(title != null) this.title = title;
@@ -63,6 +67,7 @@ class Video{
   Video.fromJson(Map<dynamic, dynamic> jsonMap) {
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["videoUrl"] != null) videoUrl = jsonMap["videoUrl"];
+		if(jsonMap["videoThumbnail"] != null) videoThumbnail = jsonMap["videoThumbnail"];
 		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
 		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];
 		if(jsonMap["title"] != null) title = jsonMap["title"];
@@ -78,6 +83,7 @@ class Video{
     Map jsonMap = json.decode(stringJson);
     if(jsonMap["id"] != null) id = jsonMap["id"];
 		if(jsonMap["videoUrl"] != null) videoUrl = jsonMap["videoUrl"];
+		if(jsonMap["videoThumbnail"] != null) videoThumbnail = jsonMap["videoThumbnail"];
 		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
 		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];
 		if(jsonMap["title"] != null) title = jsonMap["title"];
@@ -101,6 +107,7 @@ class Video{
     final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
     jsonMap["id"] = id;
 		jsonMap["videoUrl"] = videoUrl;
+		jsonMap["videoThumbnail"] = videoThumbnail;
 		jsonMap["songName"] = songName;
 		jsonMap["creatorId"] = creatorId;
 		jsonMap["title"] = title;

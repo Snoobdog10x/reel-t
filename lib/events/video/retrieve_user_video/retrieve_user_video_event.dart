@@ -3,7 +3,7 @@ import 'package:reel_t/models/video/video.dart';
 
 abstract class RetrieveUserVideoEvent {
   var _lastDocument;
-  int _LIMIT_VIDEO = 10;
+  int _LIMIT_VIDEO = 9;
   Future<void> sendRetrieveUserVideoEvent(String userId) async {
     try {
       var userVideos = await _retrieveUserVideos(userId);

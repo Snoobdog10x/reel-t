@@ -1,19 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/video/list_video/list_video_screen.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
-import 'package:reel_t/shared_product/widgets/video_player_item.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 import '../../../shared_product/assets/icon/tik_tok_icons_icons.dart';
 import '../../../shared_product/utils/format/format_utlity.dart';
 import '../../../shared_product/utils/text/shared_text_style.dart';
 import '../../../shared_product/widgets/button/three_row_button.dart';
-import '../../../shared_product/widgets/three_row_appbar.dart';
 import '../../reuseable/commingsoon/commingsoon_screen.dart';
 import '../login/login_screen.dart';
 import 'profile_bloc.dart';
@@ -390,17 +391,47 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
       physics: NeverScrollableScrollPhysics(),
       itemCount: videos.length,
       itemBuilder: (context, index) {
-        return buildUserVideo(videos[index]);
+        return buildUserVideoThumbnail(videos[index]);
       },
     );
   }
 
-  Widget buildUserVideo(Video video) {
-    return VideoPlayerItem(
-      videoUrl: video.videoUrl,
-      isMute: true,
-      isPlay: false,
-      onTapPause: false,
+  Widget buildUserVideoThumbnail(Video video) {
+    return Stack(
+      fit: StackFit.passthrough,
+      children: [
+        VideoThumbnailDisplay(thumbnail: video.videoThumbnail),
+        buildVideoMask(bloc.userVideos.indexOf(video)),
+      ],
+    );
+  }
+
+  Widget buildVideoMask(int index) {
+    return GestureDetector(
+      onTap: () {
+        pushToScreen(
+          ListVideoScreen(
+            videos: bloc.userVideos,
+            loadMoreVideos: () {},
+            startAtIndex: index,
+            isShowBack: true,
+          ),
+        );
+      },
+      child: Container(
+        color: Colors.grey.withOpacity(0.6),
+        alignment: Alignment.center,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.play_arrow,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
@@ -410,6 +441,37 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
   @override
   void onReady() {
     // TODO: implement onReady
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+}
+
+class VideoThumbnailDisplay extends StatefulWidget {
+  final String thumbnail;
+  const VideoThumbnailDisplay({super.key, this.thumbnail = ''});
+
+  @override
+  State<VideoThumbnailDisplay> createState() => _VideoThumbnailDisplayState();
+}
+
+class _VideoThumbnailDisplayState extends State<VideoThumbnailDisplay>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.thumbnail.isEmpty) return Container(color: Colors.black);
+
+    var _bytesImage = Base64Decoder().convert(widget.thumbnail);
+    return Container(
+      child: Image.memory(_bytesImage, fit: BoxFit.cover),
+    );
   }
 
   @override

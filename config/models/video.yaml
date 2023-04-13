@@ -1,6 +1,7 @@
 arguments:
   - id: String
   - videoUrl: String
+  - videoThumbnail: String
   - songName: String
   - creatorId: String
   - title: String

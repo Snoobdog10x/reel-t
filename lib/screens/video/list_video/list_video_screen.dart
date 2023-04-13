@@ -20,10 +20,14 @@ import '../../../shared_product/widgets/video_player_item.dart';
 class ListVideoScreen extends StatefulWidget {
   final List<Video> videos;
   final Function loadMoreVideos;
+  final int startAtIndex;
+  final bool isShowBack;
   ListVideoScreen({
     super.key,
     required this.videos,
     required this.loadMoreVideos,
+    this.startAtIndex = 0,
+    this.isShowBack = false,
   });
 
   @override
@@ -33,6 +37,7 @@ class ListVideoScreen extends StatefulWidget {
 class ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoBloc bloc;
+  late PreloadPageController _controller;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -46,6 +51,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   @override
   void onCreate() {
     bloc = ListVideoBloc();
+    _controller = PreloadPageController(initialPage: widget.startAtIndex);
     bloc.init(widget.videos);
   }
 
@@ -76,6 +82,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   Widget buildPreloadPageVideo() {
     return PreloadPageView.builder(
+      controller: _controller,
       scrollDirection: Axis.vertical,
       preloadPagesCount: 4,
       itemCount: widget.videos.length,
@@ -167,10 +174,31 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildBody() {
-    if (widget.videos.isEmpty) {
-      return buildLoadWidget();
-    }
-    return buildPreloadPageVideo();
+    return Stack(
+      children: [
+        widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo(),
+        if (widget.isShowBack) ...[buildTapBack()]
+      ],
+    );
+  }
+
+  Widget buildTapBack() {
+    return Container(
+      margin: EdgeInsets.only(top: paddingTop(), left: 15),
+      width: screenWidth(),
+      alignment: Alignment.centerLeft,
+      height: 50,
+      child: GestureDetector(
+        onTap: () {
+          popTopDisplay();
+        },
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 25,
+        ),
+      ),
+    );
   }
 
   @override
