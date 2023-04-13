@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:reel_t/events/Like/like_video/like_video_event.dart';
+import 'package:reel_t/events/follow/follow_user/follow_user_event.dart';
 import 'package:reel_t/events/video/retrieve_video_detail/retrieve_video_detail_event.dart';
 import 'package:reel_t/models/like/like.dart';
 import 'package:reel_t/models/follow/follow.dart';
@@ -11,9 +12,12 @@ import '../../../models/video/video.dart';
 import 'list_video_screen.dart';
 
 class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
-    with RetrieveVideoDetailEvent, LikeVideoEvent {
+    with RetrieveVideoDetailEvent, LikeVideoEvent, FollowUserEvent {
   List<Video> videos = [];
-  Map<Video, bool> _isLockSendDetail = {};
+  List<Video> sentRetrieveDetail = [];
+  Map<String, UserProfile> creators = {};
+  Map<String, Like?> likeVideos = {};
+  Map<String, Follow?> followCreators = {};
   late UserProfile currentUser;
   int currentPage = 0;
   void init(List<Video> videos) {
@@ -22,61 +26,74 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
     notifyDataChanged();
   }
 
-  @override
-  void onRetrieveVideoDetailEventDone(e) {
-    if (e != null) {}
-    notifyDataChanged();
-  }
-
   void loadVideoDetail(Video video) {
-    if (_isLockSendDetail[video] != null) return;
-    _lockSendVideo(video);
+    if (sentRetrieveDetail.contains(video)) return;
+
+    sentRetrieveDetail.add(video);
     sendRetrieveVideoDetailEvent(
-      currentUser: currentUser,
-      video: video,
+      videoId: video.id,
+      creatorId: video.creatorId,
+      currentUserId: currentUser.id,
     );
   }
 
   bool isLoadVideoDetail(Video video) {
-    if (video.creator.isEmpty) return false;
-    // if (video.comment.isEmpty) return false;
+    if (creators[video.id] == null) return false;
 
-    if (currentUser.id.isNotEmpty) {
-      if (!isFollow(video)) return false;
-      if (video.like.isEmpty) return false;
-    }
     return true;
   }
 
-  void _lockSendVideo(Video video) {
-    if (_isLockSendDetail[video] != null) return;
-    _isLockSendDetail[video] = true;
+  bool isLikeVideo(Video video) {
+    if (likeVideos[video.id] == null) return false;
+
+    return likeVideos[video.id]!.isLike;
   }
 
-  void _changeLikeState(Video video) {
-    video.like.first.isLike = !video.like.first.isLike;
+  bool isFollowCreator(Video video) {
+    if (followCreators[video.creatorId] == null) return false;
+
+    return followCreators[video.creatorId]!.isFollow;
   }
 
-  bool isFollow(Video video) {
-    return video.followCreator.isNotEmpty;
-  }
-
-  Future<bool> likeVideo(Video video) async {
+  Future<void> likeVideo(Video video) async {
     if (!appStore.localUser.isLogin()) {
       state.pushToScreen(LoginScreen());
-      return false;
     }
-    _changeLikeState(video);
-    bool isLike = await sendLikeVideoEventEvent(video);
-    return isLike;
-  }
-
-  bool isLikeVideo(Video video) {
-    return video.like.first.isLike;
+    await sendLikeVideoEventEvent(video.id, currentUser.id);
   }
 
   @override
-  void onLikeVideoEventDone() {
-    // TODO: implement onLikeVideoEventDone
+  void onRetrieveVideoDetailEventDone({
+    String videoId = "",
+    String creatorId = "",
+    UserProfile? creator,
+    Like? like,
+    Follow? follow,
+  }) {
+    likeVideos[videoId] = like;
+    followCreators[creatorId] = follow;
+
+    if (creator != null) creators[videoId] = creator;
+    notifyDataChanged();
+  }
+
+  Future<void> followUser(Video video) async {
+    if (!appStore.localUser.isLogin()) {
+      state.pushToScreen(LoginScreen());
+    }
+    await sendFollowUserEvent(video.creatorId, currentUser.id);
+  }
+
+  @override
+  void onLikeVideoEventDone(
+      {String videoId = "", String currentUserId = "", Like? likeVideo}) {
+    likeVideos[videoId] = likeVideo;
+    notifyDataChanged();
+  }
+
+  @override
+  void onFollowUserEventDone({String userId = "", Follow? follow}) {
+    followCreators[userId] = follow;
+    notifyDataChanged();
   }
 }

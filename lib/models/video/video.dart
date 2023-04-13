@@ -1,9 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/like/like.dart';
-import '../../models/user_profile/user_profile.dart';
-import '../../models/follow/follow.dart';
 import '../../models/comment/comment.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
@@ -29,14 +26,8 @@ class Video{
 	int viewsNum = 0;
 	static const String isDeleted_PATH = "isDeleted";
 	bool isDeleted = false;
-	static const String like_PATH = "like";
-	List<Like> like = [];
-	static const String followCreator_PATH = "followCreator";
-	List<Follow> followCreator = [];
 	static const String comment_PATH = "comment";
 	List<Comment> comment = [];
-	static const String creator_PATH = "creator";
-	List<UserProfile> creator = [];
 	static const String createAt_PATH = "createAt";
 	int createAt = 0;
 	static const String PATH = "Videos";
@@ -52,10 +43,7 @@ class Video{
 		int? likesNum,
 		int? viewsNum,
 		bool? isDeleted,
-		List<Like>? like,
-		List<Follow>? followCreator,
 		List<Comment>? comment,
-		List<UserProfile>? creator,
 		int? createAt,
   }){
     if(id != null) this.id = id;
@@ -68,10 +56,7 @@ class Video{
 		if(likesNum != null) this.likesNum = likesNum;
 		if(viewsNum != null) this.viewsNum = viewsNum;
 		if(isDeleted != null) this.isDeleted = isDeleted;
-		if(like != null) this.like = like;
-		if(followCreator != null) this.followCreator = followCreator;
 		if(comment != null) this.comment = comment;
-		if(creator != null) this.creator = creator;
 		if(createAt != null) this.createAt = createAt;
   }
 

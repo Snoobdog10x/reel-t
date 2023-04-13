@@ -7,63 +7,72 @@ import '../../../models/like/like.dart';
 import '../../../models/video/video.dart';
 
 abstract class RetrieveVideoDetailEvent {
-  var db = FirebaseFirestore.instance;
+  var _db = FirebaseFirestore.instance;
+  List<Future> _awaitVideoDetails = [];
   Future<void> sendRetrieveVideoDetailEvent({
-    UserProfile? currentUser,
-    required Video video,
+    required String videoId,
+    required String creatorId,
+    required String currentUserId,
   }) async {
     try {
-      if (currentUser != null) {
-        Follow follow = await _retrieveFollow(currentUser.id, video.creatorId);
-        Like like = await _retrieveLike(video.id, currentUser.id);
-        video.followCreator.add(follow);
-        video.like.add(like);
-      }
+      _awaitVideoDetails.add(_retrieveCreator(creatorId));
+      _awaitVideoDetails.add(_retrieveFollow(currentUserId, creatorId));
+      _awaitVideoDetails.add(_retrieveLike(videoId, currentUserId));
+      List detailData = await Future.wait(_awaitVideoDetails);
+      var creator = detailData[0] as UserProfile;
+      var follow = detailData[1] as Follow?;
+      var like = detailData[2] as Like?;
 
-      UserProfile creator = await _retrieveCreator(video.creatorId);
-      video.creator.add(creator);
-      onRetrieveVideoDetailEventDone(null);
+      onRetrieveVideoDetailEventDone(
+        videoId: videoId,
+        creatorId: creatorId,
+        creator: creator,
+        follow: follow,
+        like: like,
+      );
     } catch (e) {
-      onRetrieveVideoDetailEventDone(e);
+      print(e);
+      onRetrieveVideoDetailEventDone();
     }
   }
 
   Future<UserProfile> _retrieveCreator(String creatorId) async {
-    try {
-      var snapshot = await db.collection(UserProfile.PATH).doc(creatorId).get();
-      var data = snapshot.data();
-      return UserProfile.fromJson(data ?? {});
-    } catch (e) {
-      return UserProfile();
-    }
+    var snapshot = await _db.collection(UserProfile.PATH).doc(creatorId).get();
+    var data = snapshot.data();
+    return UserProfile.fromJson(data ?? {});
   }
 
-  Future<Follow> _retrieveFollow(String currentUserId, String creatorId) async {
-    var snapshot = await db
+  Future<Follow?> _retrieveFollow(
+      String currentUserId, String creatorId) async {
+    var snapshot = await _db
         .collection(Follow.PATH)
         .where("followerId", isEqualTo: currentUserId)
         .where("userId", isEqualTo: creatorId)
         .get();
     var docs = snapshot.docs;
-    if (docs.isEmpty) {
-      return Follow(followerId: currentUserId, userId: creatorId);
-    }
+    if (docs.isEmpty) return null;
+
     return Follow.fromJson(docs.first.data());
   }
 
-  Future<Like> _retrieveLike(String videoId, String currentUserId) async {
-    var snapshot = await db
+  Future<Like?> _retrieveLike(String videoId, String currentUserId) async {
+    var snapshot = await _db
         .collection(Video.PATH)
         .doc(videoId)
         .collection(Like.PATH)
         .where("userId", isEqualTo: currentUserId)
         .get();
     var docs = snapshot.docs;
-    if (docs.isEmpty) {
-      return Like(videoId: videoId, userId: currentUserId);
-    }
+    if (docs.isEmpty) return null;
+
     return Like.fromJson(docs.first.data());
   }
 
-  void onRetrieveVideoDetailEventDone(e);
+  void onRetrieveVideoDetailEventDone({
+    String videoId,
+    String creatorId,
+    UserProfile? creator,
+    Like? like,
+    Follow? follow,
+  });
 }

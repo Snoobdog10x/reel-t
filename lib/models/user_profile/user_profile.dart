@@ -22,29 +22,32 @@ class UserProfile extends HiveObject{
 	static const String bio_PATH = "bio";
 	@HiveField(4) 
 	String bio = "";
-	static const String avatar_PATH = "avatar";
+	static const String birthday_PATH = "birthday";
 	@HiveField(5) 
+	String birthday = "";
+	static const String avatar_PATH = "avatar";
+	@HiveField(6) 
 	String avatar = "";
 	static const String numFollower_PATH = "numFollower";
-	@HiveField(6) 
+	@HiveField(7) 
 	int numFollower = 0;
 	static const String numFollowing_PATH = "numFollowing";
-	@HiveField(7) 
+	@HiveField(8) 
 	int numFollowing = 0;
 	static const String numLikes_PATH = "numLikes";
-	@HiveField(8) 
+	@HiveField(9) 
 	int numLikes = 0;
 	static const String isOnline_PATH = "isOnline";
-	@HiveField(9) 
+	@HiveField(10) 
 	bool isOnline = false;
 	static const String isActive_PATH = "isActive";
-	@HiveField(10) 
+	@HiveField(11) 
 	bool isActive = false;
 	static const String isDeleted_PATH = "isDeleted";
-	@HiveField(11) 
+	@HiveField(12) 
 	bool isDeleted = false;
 	static const String createAt_PATH = "createAt";
-	@HiveField(12) 
+	@HiveField(13) 
 	int createAt = 0;
 	static const String PATH = "UserProfiles";
 
@@ -54,6 +57,7 @@ class UserProfile extends HiveObject{
 		String? email,
 		String? userName,
 		String? bio,
+		String? birthday,
 		String? avatar,
 		int? numFollower,
 		int? numFollowing,
@@ -68,6 +72,7 @@ class UserProfile extends HiveObject{
 		if(email != null) this.email = email;
 		if(userName != null) this.userName = userName;
 		if(bio != null) this.bio = bio;
+		if(birthday != null) this.birthday = birthday;
 		if(avatar != null) this.avatar = avatar;
 		if(numFollower != null) this.numFollower = numFollower;
 		if(numFollowing != null) this.numFollowing = numFollowing;
@@ -84,6 +89,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["email"] != null) email = jsonMap["email"];
 		if(jsonMap["userName"] != null) userName = jsonMap["userName"];
 		if(jsonMap["bio"] != null) bio = jsonMap["bio"];
+		if(jsonMap["birthday"] != null) birthday = jsonMap["birthday"];
 		if(jsonMap["avatar"] != null) avatar = jsonMap["avatar"];
 		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
 		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
@@ -101,6 +107,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["email"] != null) email = jsonMap["email"];
 		if(jsonMap["userName"] != null) userName = jsonMap["userName"];
 		if(jsonMap["bio"] != null) bio = jsonMap["bio"];
+		if(jsonMap["birthday"] != null) birthday = jsonMap["birthday"];
 		if(jsonMap["avatar"] != null) avatar = jsonMap["avatar"];
 		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
 		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
@@ -126,6 +133,7 @@ class UserProfile extends HiveObject{
 		jsonMap["email"] = email;
 		jsonMap["userName"] = userName;
 		jsonMap["bio"] = bio;
+		jsonMap["birthday"] = birthday;
 		jsonMap["avatar"] = avatar;
 		jsonMap["numFollower"] = numFollower;
 		jsonMap["numFollowing"] = numFollowing;

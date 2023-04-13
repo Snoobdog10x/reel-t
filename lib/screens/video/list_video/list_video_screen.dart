@@ -22,7 +22,7 @@ class ListVideoScreen extends StatefulWidget {
   final Function loadMoreVideos;
   ListVideoScreen({
     super.key,
-    this.videos = const [],
+    required this.videos,
     required this.loadMoreVideos,
   });
 
@@ -123,11 +123,11 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildDescription(Video video) {
-    var creator = video.creator.first;
+    var creator = bloc.creators[video.id];
     return Container(
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
-        username: creator.userName,
+        username: creator!.userName,
         videtoTitle: video.title,
         songInfo: video.songName,
       ),
@@ -135,16 +135,22 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildActionBar(Video video) {
-    var creator = video.creator.first;
+    var creator = bloc.creators[video.id];
     return Container(
       alignment: Alignment.bottomRight,
       child: ActionsToolbar(
         numLikes: video.likesNum,
         numComments: video.commentsNum,
         isLiked: bloc.isLikeVideo(video),
-        userPic: creator.avatar,
+        isFollow: bloc.isFollowCreator(video),
+        userPic: creator!.avatar,
         onTapLike: (isActive) async {
-          return await bloc.likeVideo(video);
+          await bloc.likeVideo(video);
+          return true;
+        },
+        onTapFollow: (isActive) async {
+          await bloc.followUser(video);
+          return true;
         },
         onTapComment: (isActive) async {
           showScreenBottomSheet(

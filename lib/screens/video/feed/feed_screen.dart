@@ -31,9 +31,7 @@ class FeedScreenState extends AbstractState<FeedScreen>
   void onCreate() {
     bloc = FeedBloc();
     tabController = TabController(length: 2, vsync: this);
-    if (appStore.isConnected()) {
-      bloc.sendRetrieveVideos();
-    }
+    bloc.sendRetrieveVideos();
   }
 
   @override
