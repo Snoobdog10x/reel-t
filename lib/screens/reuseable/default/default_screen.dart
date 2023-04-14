@@ -11,7 +11,7 @@ import 'package:reel_t/screens/user/profile/profile_screen.dart';
 import '../../messenger/home_chat/home_chat_screen.dart';
 import '../../navigation/navigation_screen.dart';
 import '../../user/login/login_screen.dart';
-import '../../user/setting_and_privacy_personal/setting_and_privacy_personal_screen.dart';
+import '../../sub_setting_user/setting_and_privacy_personal/setting_and_privacy_personal_screen.dart';
 import '../../user/signup/signup_screen.dart';
 import '../../video/feed/feed_screen.dart';
 import '../../welcome/welcome_screen.dart';
