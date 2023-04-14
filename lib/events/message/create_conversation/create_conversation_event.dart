@@ -27,6 +27,7 @@ abstract class CreateConversationEvent {
       id: id,
       userIds: [currentUserId, userId],
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
+      updateAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
     await db.doc(id).set(newConversation.toJson());
     return newConversation;
@@ -41,8 +42,11 @@ abstract class CreateConversationEvent {
     if (snapshot.docs.isEmpty) return null;
     var conversationSnapshot = snapshot.docs.firstWhereOrNull((element) {
       var conversation = Conversation.fromJson(element.data());
-      return conversation.userIds.contains(userId);
+      var userIds = List.from(conversation.userIds);
+      userIds.remove(currentUserId);
+      return userIds.contains(userId);
     });
+
     if (conversationSnapshot == null) return null;
 
     return Conversation.fromJson(conversationSnapshot.data());

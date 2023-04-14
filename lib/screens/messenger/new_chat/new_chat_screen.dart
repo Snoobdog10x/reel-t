@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -10,10 +11,9 @@ import 'new_chat_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class NewChatScreen extends StatefulWidget {
-  final void Function(
-    Conversation conversation,
-  )? onCreatedConversation;
-  const NewChatScreen({super.key, required this.onCreatedConversation});
+  final void Function(Conversation conversation, UserProfile userProfile)?
+      onCreatedConversation;
+  const NewChatScreen({super.key, this.onCreatedConversation});
 
   @override
   State<NewChatScreen> createState() => NewChatScreenState();

@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
-import '../../models/user_profile/user_profile.dart';
+
 
 
 
@@ -10,8 +10,6 @@ class Conversation{
 	String id = "";
 	static const String userIds_PATH = "userIds";
 	List<String> userIds = [];
-	static const String contactUser_PATH = "contactUser";
-	List<UserProfile> contactUser = [];
 	static const String latestMessage_PATH = "latestMessage";
 	String latestMessage = "";
 	static const String isMute_PATH = "isMute";
@@ -27,7 +25,6 @@ class Conversation{
   Conversation({
     String? id,
 		List<String>? userIds,
-		List<UserProfile>? contactUser,
 		String? latestMessage,
 		bool? isMute,
 		bool? isDeleted,
@@ -36,7 +33,6 @@ class Conversation{
   }){
     if(id != null) this.id = id;
 		if(userIds != null) this.userIds = userIds;
-		if(contactUser != null) this.contactUser = contactUser;
 		if(latestMessage != null) this.latestMessage = latestMessage;
 		if(isMute != null) this.isMute = isMute;
 		if(isDeleted != null) this.isDeleted = isDeleted;

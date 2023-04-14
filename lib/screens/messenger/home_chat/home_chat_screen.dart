@@ -58,27 +58,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
             var body = buildBody();
             var notLoggedBody = buildLoggedBody();
             return buildScreen(
-              appBar: DefaultAppBar(
-                appBarTitle: "Chats",
-                appBarAction: GestureDetector(
-                  onTap: () {
-                    showScreenBottomSheet(
-                      Container(
-                        height: screenHeight() * 0.8,
-                        child: NewChatScreen(
-                          onCreatedConversation: (addedConversation) {
-                            pushToScreen(
-                              DetailChatScreenScreen(
-                                  conversation: addedConversation),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                  child: Icon(CupertinoIcons.add_circled, size: 28),
-                ),
-              ),
+              appBar: buildAppBar(),
               notLoggedBody: notLoggedBody,
               body: body,
               isSafeBottom: false,
@@ -87,6 +67,28 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
           },
         );
       },
+    );
+  }
+
+  Widget buildAppBar() {
+    return DefaultAppBar(
+      appBarTitle: "Chats",
+      appBarAction: GestureDetector(
+        onTap: () {
+          showScreenBottomSheet(
+            Container(
+              height: screenHeight() * 0.8,
+              child: NewChatScreen(
+                onCreatedConversation: (conversation, userProfile) {
+                  bloc.addedConversation = conversation;
+                  bloc.addedUserProfile = userProfile;
+                },
+              ),
+            ),
+          );
+        },
+        child: Icon(CupertinoIcons.add_circled, size: 28),
+      ),
     );
   }
 
@@ -142,9 +144,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
       itemBuilder: ((context, index) {
         var conversations = bloc.conversations;
         var conversation = conversations[index];
-        var isDataLoaded = conversation.contactUser.isNotEmpty &&
-            conversation.latestMessage.isNotEmpty;
-        if (!isDataLoaded) {
+        if (!bloc.isLoadData(conversation)) {
           return Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
@@ -156,7 +156,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
         }
         ;
         var latestMessage = conversation.latestMessage;
-        var user = conversation.contactUser.first;
+        var user = bloc.contactUsers[conversation.id]!;
         return buildConversation(
           avataUrl: user.avatar,
           userName: user.fullName,
@@ -164,7 +164,10 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
               ? null
               : Message.fromStringJson(latestMessage),
           onTap: () {
-            pushToScreen(DetailChatScreenScreen(conversation: conversation));
+            pushToScreen(DetailChatScreenScreen(
+              conversation: conversation,
+              contactUser: user,
+            ));
           },
         );
       }),
@@ -198,9 +201,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            avataUrl != null && avataUrl.isNotEmpty
-                ? CircleImage(avataUrl, radius: 60)
-                : Container(),
+            CircleImage(avataUrl ?? "", radius: 60),
             SizedBox(width: 8),
             Expanded(
               child: Column(
@@ -243,14 +244,22 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
   }
 
   String getContentMessage(Message? message) {
-    if (message == null) return "";
+    if (message == null) return "Send a new message now";
     if (bloc.isCurrentUserMessage(message)) return "You: ${message.content}";
     return message.content;
   }
 
   @override
   void onPopWidget() {
-    super.onPopWidget();
+    // super.onPopWidget();
+    if (bloc.addedConversation != null && bloc.addedUserProfile != null) {
+      pushToScreen(DetailChatScreenScreen(
+        conversation: bloc.addedConversation!,
+        contactUser: bloc.addedUserProfile!,
+      ));
+      bloc.addedConversation = null;
+      bloc.addedUserProfile = null;
+    }
   }
 
   @override

@@ -72,12 +72,52 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
         children: [
           SizedBox(height: 16),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               startLoading();
-              bloc.sendUserSignInEvent("duythanh1565@gmail.com",
-                  "0d2d6cde70d7a53d5d2350029526a54c0047a48d54d75b2de713e7c3dc46bd4e");
+              await bloc.loginUser(UserProfile.fromJson({
+                "id": "Pg8GacuZI2aqJRXLBDmXXZqGVwo1",
+                "fullName": "duythanh1565",
+                "email": "duythanh1565@gmail.com",
+                "userName": "@duythanh1565",
+                "bio": "More in Google Cloud",
+                "birthday": "",
+                "avatar":
+                    "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F82462724_1799877263482769_8107949728500547584_n.jpeg?alt=media&token=674947fc-15d6-458a-a029-4d083b7c2923",
+                "numFollower": 999,
+                "numFollowing": 9999,
+                "numLikes": 99999,
+                "isOnline": false,
+                "isActive": false,
+                "isDeleted": false,
+                "createAt": 0
+              }));
+              stopLoading();
             },
-            child: Text("Fast login"),
+            child: Text("Fast login duy thanh"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () async {
+              startLoading();
+              await bloc.loginUser(UserProfile.fromJson({
+                "id": "lSScQqjmqJVt9pVC8nHknMjsMIE2",
+                "fullName": "heocon1565",
+                "email": "heocon1565@gmail.com",
+                "userName": "@heocon1565",
+                "bio": "",
+                "birthday": "",
+                "avatar": "",
+                "numFollower": 0,
+                "numFollowing": 0,
+                "numLikes": 0,
+                "isOnline": false,
+                "isActive": false,
+                "isDeleted": false,
+                "createAt": 0
+              }));
+              stopLoading();
+            },
+            child: Text("Fast login heo con"),
           ),
           SizedBox(height: 16),
           TextButton(
@@ -156,15 +196,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(NewChatScreen(
-                onCreatedConversation: (value) {
-                  pushToScreen(
-                    DetailChatScreenScreen(
-                      conversation: value,
-                    ),
-                  );
-                },
-              ), isReplace: true);
+              pushToScreen(NewChatScreen(), isReplace: true);
             },
             child: Text("New Chat"),
           ),

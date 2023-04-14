@@ -14,6 +14,9 @@ import 'home_chat_screen.dart';
 class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
     with StreamConversationsEvent, RetrieveUserProfileEvent {
   List<Conversation> conversations = [];
+  Conversation? addedConversation;
+  UserProfile? addedUserProfile;
+  Map<String, UserProfile> contactUsers = {};
   late UserProfile currentUser;
   void init() {
     if (!appStore.localUser.isLogin()) return;
@@ -47,9 +50,6 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   }
 
   void mergeConversation(Conversation conversation) {
-    conversation.contactUser = conversations
-        .firstWhere((element) => element.id == conversation.id)
-        .contactUser;
     conversations.removeWhere(((element) => element.id == conversation.id));
     conversations.add(conversation);
   }
@@ -62,12 +62,13 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   void onRetrieveUserProfileEventDone(e, UserProfile? userProfile,
       [String? conversationId]) {
     if (e == null) {
-      conversations
-          .firstWhere((element) => element.id == conversationId)
-          .contactUser
-          .add(userProfile!);
+      contactUsers[conversationId!] = userProfile!;
+      notifyDataChanged();
     }
-    notifyDataChanged();
+  }
+
+  bool isLoadData(Conversation conversation) {
+    return contactUsers[conversation.id] != null;
   }
 
   bool isCurrentUserMessage(Message message) {
@@ -87,8 +88,9 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
     for (var conversation in updatedConversations) {
       if (!_isConversationExists(conversation)) {
         conversations.add(conversation);
-        var secondUserId = conversation.userIds
-            .firstWhere((element) => element != currentUser.id);
+        var userIds = List.from(conversation.userIds);
+        userIds.remove(currentUser.id);
+        var secondUserId = userIds.first;
         sendRetrieveUserProfileEvent(secondUserId, conversation.id);
       } else {
         mergeConversation(conversation);

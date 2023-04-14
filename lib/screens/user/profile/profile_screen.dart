@@ -144,9 +144,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
           Expanded(
             flex: 4,
             child: GestureDetector(
-              onTap: () {
-                print("hihi");
-              },
+              onTap: () {},
               child: Center(
                 child: Container(
                   height: 50,

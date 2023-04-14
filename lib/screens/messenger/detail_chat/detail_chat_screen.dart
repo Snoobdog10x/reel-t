@@ -15,10 +15,12 @@ import 'detail_chat_bloc.dart';
 
 class DetailChatScreenScreen extends StatefulWidget {
   final Conversation conversation;
+  final UserProfile contactUser;
   final List<Message> messages;
   const DetailChatScreenScreen({
     super.key,
     required this.conversation,
+    required this.contactUser,
     this.messages = const [],
   });
 
@@ -47,7 +49,8 @@ class DetailChatScreenScreenState
     bloc.conversation = widget.conversation;
     bloc.messages.addAll(widget.messages);
     bloc.currentUser = appStore.localUser.getCurrentUser();
-    bloc.contactUser = widget.conversation.contactUser.first;
+    bloc.contactUser = widget.contactUser;
+    print(widget.contactUser);
     chatFocus = FocusNode();
     chatFocus.addListener(() {
       notifyDataChanged();

@@ -2,19 +2,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 
 abstract class GoogleSignUpEvent {
   Future<void> sendGoogleSignUpEvent() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
+      final GoogleSignIn googleUser = GoogleSignIn(
+        scopes: [
+          'email',
+        ],
+      );
+
+      var googleUserSignIn = await googleUser.signIn();
+      if (googleUserSignIn == null) {
         onGoogleSignUpEventDone("", null);
         return;
       }
-      var userCredential = await signInUser(googleUser);
+      var userCredential = await signInUser(googleUserSignIn);
       var signedUser = await _createUserProfile(userCredential);
       onGoogleSignUpEventDone("success", signedUser);
     } catch (e) {
+      print(e);
       onGoogleSignUpEventDone(e.toString(), null);
     }
   }
@@ -58,6 +66,7 @@ abstract class GoogleSignUpEvent {
       email: user.email,
       fullName: tempName,
       userName: "@$tempName",
+      createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
     await db.doc(id).set(newUserProfile.toJson());
     return newUserProfile;
