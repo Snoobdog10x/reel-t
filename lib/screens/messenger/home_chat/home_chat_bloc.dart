@@ -29,7 +29,6 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   void onRetrieveConversationsEventDone(
       e, List<Conversation> updatedConversations) {
     if (e == null) {
-      print(updatedConversations);
       for (var conversation in updatedConversations) {
         if (!_isConversationExists(conversation)) {
           conversations.add(conversation);

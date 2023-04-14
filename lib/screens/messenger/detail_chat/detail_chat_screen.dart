@@ -50,8 +50,8 @@ class DetailChatScreenScreenState
     bloc.messages.addAll(widget.messages);
     bloc.currentUser = appStore.localUser.getCurrentUser();
     bloc.contactUser = widget.contactUser;
-    print(widget.contactUser);
     chatFocus = FocusNode();
+    appStore.receiveNotification.turnOnNotification(widget.conversation.id);
     chatFocus.addListener(() {
       notifyDataChanged();
     });
@@ -322,5 +322,6 @@ class DetailChatScreenScreenState
     chatController.clear();
     chatController.dispose();
     chatFocus.dispose();
+    appStore.receiveNotification.turnOffNotification();
   }
 }

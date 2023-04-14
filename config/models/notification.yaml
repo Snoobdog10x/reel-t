@@ -1,0 +1,13 @@
+arguments:
+  - id: String
+  - userId: String
+  - notificationContent: String
+  - notificationType: String
+  - hasSeen: bool
+  - hasPushed: bool
+  - createAt: int
+enums:
+  - notification_type:
+    - new_message
+    - new_video
+    - mentions_you

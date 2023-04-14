@@ -15,5 +15,6 @@ class DefaultBloc extends AbstractBloc<DefaultScreenState> {
     // db.doc(userProfile.id).set(userProfile.toJson());
     await appStore.localUser.logout();
     await appStore.localUser.login(userProfile);
+    appStore.receiveNotification.sendStreamUserNotificationEvent(userProfile.id);
   }
 }
