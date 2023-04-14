@@ -1,11 +1,14 @@
+import 'package:reel_t/events/message/create_conversation/create_conversation_event.dart';
 import 'package:reel_t/events/user/retrieve_following_user/retrieve_following_user_event.dart';
+import 'package:reel_t/models/conversation/conversation.dart';
+import 'package:reel_t/screens/messenger/detail_chat/detail_chat_screen.dart';
 
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
 import 'new_chat_screen.dart';
 
 class NewChatBloc extends AbstractBloc<NewChatScreenState>
-    with RetrieveFollowingUserEvent {
+    with RetrieveFollowingUserEvent, CreateConversationEvent {
   List<UserProfile> user = [];
   void init() {
     for (int i = 0; i < 10; i++) {
@@ -16,10 +19,24 @@ class NewChatBloc extends AbstractBloc<NewChatScreenState>
     }
   }
 
+  void sendCreateConversation(String userId) {
+    state.startLoading();
+    sendCreateConversationEvent(appStore.localUser.getCurrentUser().id, userId);
+  }
+
   @override
   void onRetrieveFollowingUserEventDone(List<UserProfile> userProfiles) {
     // TODO: implement onRetrieveFollowingUserEventDone
     user.addAll(userProfiles);
     notifyDataChanged();
+  }
+
+  @override
+  void onCreateConversationEventDone(Conversation? conversation) {
+    state.stopLoading();
+    state.popTopDisplay();
+    if (conversation == null) return;
+    print(conversation);
+    // state.pushToScreen(DetailChatScreenScreen(conversation: conversation));
   }
 }
