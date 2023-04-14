@@ -70,7 +70,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
             height: 80,
             width: 80,
           ),
-          SizedBox(height: 8*5),
+          SizedBox(height: 8 * 5),
           DefaultTextStyle(
             style: TextStyle(
               fontSize: 30,
@@ -94,8 +94,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
 
   @override
   Future<void> onReady() async {
-    await Future.delayed(Duration(seconds: 1));
-    // await AppInit.init(isDebug: false, isInitSample: false);
-    // pushToScreen(NavigationScreen(), isReplace: true);
+    await AppInit().init(isInitSample: false); // if not Thanh please run this
+    pushToScreen(NavigationScreen(), isReplace: true);
   }
 }
