@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/screens/messenger/detail_chat/detail_chat_screen.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
 import 'package:reel_t/screens/messenger/new_chat/new_chat_screen.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
@@ -155,7 +156,15 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(NewChatScreen(), isReplace: true);
+              pushToScreen(NewChatScreen(
+                onCreatedConversation: (value) {
+                  pushToScreen(
+                    DetailChatScreenScreen(
+                      conversation: value,
+                    ),
+                  );
+                },
+              ), isReplace: true);
             },
             child: Text("New Chat"),
           ),

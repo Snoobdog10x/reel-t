@@ -2,6 +2,7 @@
 import 'dart:convert';
 import '../../generated/abstract_model.dart';
 import '../../models/comment/comment.dart';
+import '../../models/like/like.dart';
 enum PublicMode { PUBLIC,PRIVATE }
 
 

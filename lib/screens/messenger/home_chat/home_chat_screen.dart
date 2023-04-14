@@ -62,8 +62,19 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
                 appBarTitle: "Chats",
                 appBarAction: GestureDetector(
                   onTap: () {
-                    showScreenBottomSheet(Container(
-                        height: screenHeight() * 0.8, child: NewChatScreen()));
+                    showScreenBottomSheet(
+                      Container(
+                        height: screenHeight() * 0.8,
+                        child: NewChatScreen(
+                          onCreatedConversation: (addedConversation) {
+                            pushToScreen(
+                              DetailChatScreenScreen(
+                                  conversation: addedConversation),
+                            );
+                          },
+                        ),
+                      ),
+                    );
                   },
                   child: Icon(CupertinoIcons.add_circled, size: 28),
                 ),
