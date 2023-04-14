@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/sub_setting_user/account_setting_and_privacy/account_setting_and_privacy_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
+import '../free_up_spaces_setting_and_privacy/free_up_spaces_setting_and_privacy_screen.dart';
+import '../security_setting_and_privacy/security_setting_and_privacy_screen.dart';
+import '../terms_and_policies_setting_and_privacy/terms_and_policies_setting_and_privacy_screen.dart';
 import 'setting_and_privacy_personal_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
@@ -107,7 +111,9 @@ class SettingAndPrivacyPersonalScreenState
                       child: buildOptionItem(
                         CupertinoIcons.person_fill,
                         'Account',
-                        () {},
+                        () {
+                          pushToScreen(AccountSettingAndPrivacyScreen());
+                        },
                         true,
                         Color.fromARGB(255, 160, 160, 160),
                       ),
@@ -123,11 +129,14 @@ class SettingAndPrivacyPersonalScreenState
                     ),
                     Expanded(
                       child: buildOptionItem(
-                          CupertinoIcons.shield_fill,
-                          'Security',
-                          () {},
-                          true,
-                          Color.fromARGB(255, 160, 160, 160)),
+                        CupertinoIcons.shield_fill,
+                        'Security',
+                        () {
+                          pushToScreen(SecuritySettingAndPrivacyScreen());
+                        },
+                        true,
+                        Color.fromARGB(255, 160, 160, 160),
+                      ),
                     ),
                     Expanded(
                       child: buildOptionItem(
@@ -317,7 +326,9 @@ class SettingAndPrivacyPersonalScreenState
                       child: buildOptionItem(
                         CupertinoIcons.trash_fill,
                         'Free up space',
-                        () {},
+                        () {
+                          pushToScreen(FreeUpSpacesSettingAndPrivacyScreen());
+                        },
                         true,
                         Color.fromARGB(255, 160, 160, 160),
                       ),
@@ -387,7 +398,10 @@ class SettingAndPrivacyPersonalScreenState
                       child: buildOptionItem(
                         CupertinoIcons.exclamationmark_circle_fill,
                         'Terms and Policies',
-                        () {},
+                        () {
+                          pushToScreen(
+                              TermsAndPoliciesSettingAndPrivacyScreen());
+                        },
                         false,
                         Color.fromARGB(255, 160, 160, 160),
                       ),
@@ -484,12 +498,42 @@ class SettingAndPrivacyPersonalScreenState
                       ),
                     ),
                     Expanded(
-                      child: buildOptionItem(
-                        CupertinoIcons.decrease_quotelevel,
-                        'Log out',
-                        () {},
-                        false,
-                        Color.fromARGB(255, 160, 160, 160),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          side: BorderSide(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        child: Container(
+                          width: screenWidth(),
+                          height: screenHeight(),
+                          child: Row(
+                            children: [
+                              Icon(
+                                CupertinoIcons.decrease_quotelevel,
+                                size: 20,
+                                color: Color.fromARGB(255, 160, 160, 160),
+                              ),
+                              SizedBox(width: 16),
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  height: screenHeight(),
+                                  child: Text(
+                                    'Log out',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        onPressed: () {},
                       ),
                     ),
                   ],
@@ -545,6 +589,11 @@ class SettingAndPrivacyPersonalScreenState
                       fontWeight: FontWeight.w500),
                 ),
               ),
+            ),
+            Icon(
+              CupertinoIcons.forward,
+              size: 20,
+              color: Color.fromARGB(255, 160, 160, 160),
             ),
           ],
         ),
