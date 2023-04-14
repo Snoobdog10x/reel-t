@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/user/profile/profile_screen.dart';
 import 'package:reel_t/screens/video/comment/comment_screen.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/actions_toolbar.dart';
 import 'package:reel_t/shared_product/widgets/tiktok/video_description.dart';
@@ -20,10 +21,14 @@ import '../../../shared_product/widgets/video_player_item.dart';
 class ListVideoScreen extends StatefulWidget {
   final List<Video> videos;
   final Function loadMoreVideos;
+  final int startAtIndex;
+  final bool isShowBack;
   ListVideoScreen({
     super.key,
-    this.videos = const [],
+    required this.videos,
     required this.loadMoreVideos,
+    this.startAtIndex = 0,
+    this.isShowBack = false,
   });
 
   @override
@@ -33,6 +38,7 @@ class ListVideoScreen extends StatefulWidget {
 class ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoBloc bloc;
+  late PreloadPageController _controller;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -46,6 +52,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   @override
   void onCreate() {
     bloc = ListVideoBloc();
+    _controller = PreloadPageController(initialPage: widget.startAtIndex);
     bloc.init(widget.videos);
   }
 
@@ -76,6 +83,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
 
   Widget buildPreloadPageVideo() {
     return PreloadPageView.builder(
+      controller: _controller,
       scrollDirection: Axis.vertical,
       preloadPagesCount: 4,
       itemCount: widget.videos.length,
@@ -123,11 +131,11 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildDescription(Video video) {
-    var creator = video.creator.first;
+    var creator = bloc.creators[video.id];
     return Container(
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
-        username: creator.userName,
+        username: creator!.userName,
         videtoTitle: video.title,
         songInfo: video.songName,
       ),
@@ -135,16 +143,28 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildActionBar(Video video) {
-    var creator = video.creator.first;
+    var creator = bloc.creators[video.id];
     return Container(
       alignment: Alignment.bottomRight,
       child: ActionsToolbar(
         numLikes: video.likesNum,
         numComments: video.commentsNum,
         isLiked: bloc.isLikeVideo(video),
-        userPic: creator.avatar,
+        isFollow: bloc.isFollowCreator(video),
+        userPic: creator!.avatar,
         onTapLike: (isActive) async {
-          return await bloc.likeVideo(video);
+          await bloc.likeVideo(video);
+          return true;
+        },
+        onTapFollow: (isActive) async {
+          await bloc.followUser(video);
+          return true;
+        },
+        onTapAvatar: () {
+          pushToScreen(ProfileScreen(
+            user: creator,
+            isBack: true,
+          ));
         },
         onTapComment: (isActive) async {
           showScreenBottomSheet(
@@ -161,10 +181,35 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildBody() {
-    if (widget.videos.isEmpty) {
-      return buildLoadWidget();
+    if (widget.isShowBack) {
+      return Stack(
+        children: [
+          widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo(),
+          buildTapBack()
+        ],
+      );
     }
-    return buildPreloadPageVideo();
+
+    return widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo();
+  }
+
+  Widget buildTapBack() {
+    return Container(
+      margin: EdgeInsets.only(top: paddingTop(), left: 15),
+      width: screenWidth(),
+      alignment: Alignment.centerLeft,
+      height: 50,
+      child: GestureDetector(
+        onTap: () {
+          popTopDisplay();
+        },
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 25,
+        ),
+      ),
+    );
   }
 
   @override

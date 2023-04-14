@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 
+import '../../shared_product/utils/format/format_utlity.dart';
+
 class UserProfileData {
   Future<void> initSampleData() async {
     List<String> emails = [
@@ -57,6 +59,7 @@ class UserProfileData {
         numFollower: _random.nextInt(200000),
         numFollowing: _random.nextInt(200000),
         numLikes: _random.nextInt(200000),
+        createAt: FormatUtility.getMillisecondsSinceEpoch(),
       );
       final db = FirebaseFirestore.instance;
       db

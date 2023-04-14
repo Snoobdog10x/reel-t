@@ -1,6 +1,7 @@
 arguments:
   - id: String
   - videoUrl: String
+  - videoThumbnail: String
   - songName: String
   - creatorId: String
   - title: String
@@ -9,10 +10,7 @@ arguments:
   - likesNum: int
   - viewsNum: int
   - isDeleted: bool
-  - like: Like
-  - followCreator: Follow
   - comment: Comment
-  - creator: UserProfile
   - createAt: int
 enums:
   - public_mode:

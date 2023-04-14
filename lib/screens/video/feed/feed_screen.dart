@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/search/search_screen.dart';
 import '../../../models/video/video.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -31,9 +32,7 @@ class FeedScreenState extends AbstractState<FeedScreen>
   void onCreate() {
     bloc = FeedBloc();
     tabController = TabController(length: 2, vsync: this);
-    if (appStore.isConnected()) {
-      bloc.sendRetrieveVideos();
-    }
+    bloc.sendRetrieveVideos();
   }
 
   @override
@@ -62,49 +61,65 @@ class FeedScreenState extends AbstractState<FeedScreen>
       height: 50,
       width: screenWidth(),
       decoration: BoxDecoration(),
-      child: Column(
+      child: Row(
         children: [
-          Expanded(flex: 2, child: Container()),
+          Expanded(flex: 1, child: Container()),
           Expanded(
-            flex: 6,
-            child: TabBar(
-              controller: tabController,
-              isScrollable: true, // here
-              indicator: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(13),
-              ),
-              labelColor: Colors.white,
-              labelStyle: TextStyle(
-                fontFamily: "SF Pro Text",
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-              unselectedLabelColor: Colors.white,
-              unselectedLabelStyle: TextStyle(
-                fontFamily: "SF Pro Text",
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
-              ),
-              tabs: <Widget>[
-                Tab(
-                  child: Text(
-                    "For you",
-                    textAlign: TextAlign.center,
-                  ),
+            flex: 8,
+            child: Container(
+              height: 30,
+              alignment: Alignment.center,
+              child: TabBar(
+                controller: tabController,
+                isScrollable: true, // here
+                indicator: BoxDecoration(
+                  color: Colors.black.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(13),
                 ),
-                Tab(
-                  child: Text(
-                    "Following",
-                    textAlign: TextAlign.center,
-                  ),
+                labelColor: Colors.white,
+                labelStyle: TextStyle(
+                  fontFamily: "SF Pro Text",
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
-              ],
+                unselectedLabelColor: Colors.white,
+                unselectedLabelStyle: TextStyle(
+                  fontFamily: "SF Pro Text",
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+                tabs: <Widget>[
+                  Tab(
+                    child: Text(
+                      "For you",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "Following",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          Expanded(flex: 2, child: Container()),
+          Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () {
+                pushToScreen(SearchScreen());
+              },
+              child: Icon(
+                Icons.search,
+                size: 30,
+                color: Colors.black,
+              ),
+            ),
+          ),
         ],
       ),
     );
