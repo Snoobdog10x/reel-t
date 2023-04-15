@@ -1,0 +1,9 @@
+isStoreLocal: True
+arguments:
+  - id: String
+  - userId: String
+  - isTurnOffNotification: bool
+  - isTurnOffTwoFa: bool
+  - isShowActive: bool
+  - createAt: int
+  - updateAt: int

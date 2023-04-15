@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
+import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 
@@ -18,6 +20,7 @@ abstract class GoogleSignUpEvent {
         onGoogleSignUpEventDone("", null);
         return;
       }
+
       var userCredential = await signInUser(googleUserSignIn);
       var signedUser = await _createUserProfile(userCredential);
       onGoogleSignUpEventDone("success", signedUser);
@@ -73,4 +76,5 @@ abstract class GoogleSignUpEvent {
   }
 
   void onGoogleSignUpEventDone(String e, UserProfile? signedUser);
+
 }

@@ -217,6 +217,12 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
 
   @override
   void onDispose() {}
+  
+  @override
+  void onPopWidget() {
+    // TODO: implement onPopWidget
+    super.onPopWidget();
+  }
 
   @override
   void onReady() {

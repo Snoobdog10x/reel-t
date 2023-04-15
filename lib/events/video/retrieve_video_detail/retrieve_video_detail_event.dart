@@ -7,7 +7,7 @@ import '../../../models/like/like.dart';
 import '../../../models/video/video.dart';
 
 abstract class RetrieveVideoDetailEvent {
-  var _db = FirebaseFirestore.instance;
+  final _db = FirebaseFirestore.instance;
   List<Future> _awaitVideoDetails = [];
   Future<void> sendRetrieveVideoDetailEvent({
     required String videoId,
@@ -15,14 +15,9 @@ abstract class RetrieveVideoDetailEvent {
     required String currentUserId,
   }) async {
     try {
-      _awaitVideoDetails.add(_retrieveCreator(creatorId));
-      _awaitVideoDetails.add(_retrieveFollow(currentUserId, creatorId));
-      _awaitVideoDetails.add(_retrieveLike(videoId, currentUserId));
-      List detailData = await Future.wait(_awaitVideoDetails);
-      var creator = detailData[0] as UserProfile;
-      var follow = detailData[1] as Follow?;
-      var like = detailData[2] as Like?;
-
+      var creator = await _retrieveCreator(creatorId);
+      var follow = await _retrieveFollow(currentUserId, creatorId);
+      var like = await _retrieveLike(videoId, currentUserId);
       onRetrieveVideoDetailEventDone(
         videoId: videoId,
         creatorId: creatorId,
@@ -46,8 +41,8 @@ abstract class RetrieveVideoDetailEvent {
       String currentUserId, String creatorId) async {
     var snapshot = await _db
         .collection(Follow.PATH)
-        .where("followerId", isEqualTo: currentUserId)
-        .where("userId", isEqualTo: creatorId)
+        .where(Follow.followerId_PATH, isEqualTo: currentUserId)
+        .where(Follow.userId_PATH, isEqualTo: creatorId)
         .get();
     var docs = snapshot.docs;
     if (docs.isEmpty) return null;

@@ -1,5 +1,4 @@
 import 'package:reel_t/events/video/retrieve_random_videos/retrieve_random_videos_event.dart';
-
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/video/video.dart';
 import 'feed_screen.dart';

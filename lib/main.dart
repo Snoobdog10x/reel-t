@@ -15,7 +15,10 @@ Future<void> main() async {
   await PlatformNotifier.I.init(appName: "Reel T");
 
   if (kDebugMode) {
-    // await AppInit.init(isDebug: true, isInitSample: false); // uncomment this if you run local only run by Thanh
+    // await AppInit().init(
+    //   isDebug: true,
+    //   isInitSample: false,
+    // ); // uncomment this if you run local only run by Thanh
     await AppInit().init(isInitSample: false); // if not Thanh please run this
     runApp(
       OverlaySupport.global(

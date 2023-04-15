@@ -125,6 +125,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
             onPressed: () async {
               startLoading();
               await appStore.localUser.logout();
+              await appStore.localSetting.clearSetting();
               stopLoading();
             },
             child: Text("Logout"),

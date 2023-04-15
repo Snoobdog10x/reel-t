@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
@@ -57,9 +59,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   @override
-  void onReady() {
-    // TODO: implement onReady
-  }
+  void onReady() {}
 
   @override
   Widget build(BuildContext context) {
@@ -94,15 +94,18 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
       },
       itemBuilder: (context, index) {
         var video = bloc.videos[index];
-        if (!bloc.isLoadVideoDetail(video)) {
+        var isLoadUser = bloc.isLoadVideoDetail(video);
+        if (!isLoadUser) {
           bloc.loadVideoDetail(video);
-          return buildLoadWidget();
         }
         return Stack(
           children: [
             buildVideoPlayer(video, index),
-            buildDescription(video),
-            buildActionBar(video),
+            if (isLoadUser) ...[
+              buildDescription(video),
+              buildActionBar(video),
+            ],
+            if (!isLoadUser) ...[buildLoadWidget()]
           ],
         );
       },
@@ -112,6 +115,8 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   Widget buildLoadWidget() {
     return Container(
       color: Colors.black,
+      height: screenHeight(),
+      width: screenWidth(),
       child: CupertinoActivityIndicator(
         radius: 20,
         color: Colors.white,
@@ -131,11 +136,11 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildDescription(Video video) {
-    var creator = bloc.creators[video.id];
+    var creator = bloc.creators[video.creatorId]!;
     return Container(
       alignment: Alignment.bottomLeft,
       child: VideoDescription(
-        username: creator!.userName,
+        username: creator.userName,
         videtoTitle: video.title,
         songInfo: video.songName,
       ),
@@ -143,7 +148,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildActionBar(Video video) {
-    var creator = bloc.creators[video.id];
+    var creator = bloc.creators[video.creatorId];
     return Container(
       alignment: Alignment.bottomRight,
       child: ActionsToolbar(
@@ -183,14 +188,11 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   Widget buildBody() {
     if (widget.isShowBack) {
       return Stack(
-        children: [
-          widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo(),
-          buildTapBack()
-        ],
+        children: [buildPreloadPageVideo(), buildTapBack()],
       );
     }
 
-    return widget.videos.isEmpty ? buildLoadWidget() : buildPreloadPageVideo();
+    return buildPreloadPageVideo();
   }
 
   Widget buildTapBack() {

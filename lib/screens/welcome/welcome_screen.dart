@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/models/conversation/conversation_sample_data.dart';
+import 'package:reel_t/screens/reuseable/default/default_screen.dart';
 import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import '../../models/user_profile/user_profile_sample_data.dart';
 import '../../models/video/video_sample_data.dart';
@@ -94,7 +96,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
 
   @override
   Future<void> onReady() async {
-    await AppInit().init(isInitSample: false); // if not Thanh please run this
+    await AppInit().init(isInitSample: false);
     pushToScreen(NavigationScreen(), isReplace: true);
   }
 }

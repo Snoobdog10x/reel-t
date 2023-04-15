@@ -17,6 +17,7 @@ class SignupScreen extends StatefulWidget {
 
 class SignupScreenState extends AbstractState<SignupScreen> {
   late SignupBloc bloc;
+  static String SIGN_UP_SCREEN = "sign_up_screen";
   TextEditingController passwordController = TextEditingController();
   bool isValidPassword = false;
   @override

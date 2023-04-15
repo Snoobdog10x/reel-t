@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/search/search_screen.dart';
@@ -126,25 +127,42 @@ class FeedScreenState extends AbstractState<FeedScreen>
   }
 
   Widget buildBody() {
+    bool isLoadVideos = bloc.forYou.isNotEmpty;
     return Stack(
       children: [
         TabBarView(
           controller: tabController,
           children: [
-            ListVideoScreen(
-              videos: bloc.forYou,
-              loadMoreVideos: () {
-                bloc.sendRetrieveVideos();
-              },
-            ),
-            ListVideoScreen(
-              videos: bloc.following,
-              loadMoreVideos: () {},
-            ),
+            isLoadVideos
+                ? ListVideoScreen(
+                    videos: bloc.forYou,
+                    loadMoreVideos: () {
+                      bloc.sendRetrieveVideos();
+                    },
+                  )
+                : buildLoadWidget(),
+            isLoadVideos
+                ? ListVideoScreen(
+                    videos: bloc.following,
+                    loadMoreVideos: () {},
+                  )
+                : buildLoadWidget(),
           ],
         ),
         buildAppBar(),
       ],
+    );
+  }
+
+  Widget buildLoadWidget() {
+    return Container(
+      color: Colors.black,
+      height: screenHeight(),
+      width: screenWidth(),
+      child: CupertinoActivityIndicator(
+        radius: 20,
+        color: Colors.white,
+      ),
     );
   }
 

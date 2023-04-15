@@ -24,11 +24,13 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
     currentUser = appStore.localUser.getCurrentUser();
     this.videos = videos;
     notifyDataChanged();
+    videos.forEach((element) {
+      loadVideoDetail(element);
+    });
   }
 
   void loadVideoDetail(Video video) {
     if (sentRetrieveDetail.contains(video)) return;
-
     sentRetrieveDetail.add(video);
     sendRetrieveVideoDetailEvent(
       videoId: video.id,
@@ -38,7 +40,7 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   }
 
   bool isLoadVideoDetail(Video video) {
-    if (creators[video.id] == null) return false;
+    if (creators[video.creatorId] == null) return false;
 
     return true;
   }
@@ -72,8 +74,7 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   }) {
     likeVideos[videoId] = like;
     followCreators[creatorId] = follow;
-
-    if (creator != null) creators[videoId] = creator;
+    if (creator != null) creators[creatorId] = creator;
     notifyDataChanged();
   }
 

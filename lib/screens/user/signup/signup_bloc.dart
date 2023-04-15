@@ -1,5 +1,7 @@
+import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
+import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_bloc.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/signup/signup_screen.dart';
@@ -10,7 +12,7 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_bloc.dart';
 
 class SignupBloc extends AbstractBloc<SignupScreenState>
-    with GoogleSignUpEvent, SendEmailOtpEvent {
+    with GoogleSignUpEvent, SendEmailOtpEvent, CreateUserSettingEvent {
   String email = "";
   String password = "";
   Future<void> signIn() async {
@@ -47,7 +49,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
     }
     if (e == "success") {
       appStore.localUser.login(signedUser!);
-      state.popTopDisplay();
+      sendCreateUserSettingEvent(signedUser.id);
       return;
     }
     state.showAlertDialog(
@@ -68,6 +70,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
         EmailAuthenticateScreen(
           email: email,
           password: password,
+          previousScreen: SignupScreenState.SIGN_UP_SCREEN,
         ),
       );
 
@@ -81,5 +84,11 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
       },
     );
     state.stopLoading();
+  }
+
+  @override
+  void onCreateUserSettingEventDone(Setting? setting) {
+    if (setting != null) appStore.localSetting.setUserSetting(setting);
+    state.popTopDisplay();
   }
 }

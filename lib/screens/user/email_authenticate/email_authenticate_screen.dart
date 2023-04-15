@@ -16,10 +16,12 @@ import '../../../shared_product/widgets/default_appbar.dart';
 class EmailAuthenticateScreen extends StatefulWidget {
   final String email;
   final String password;
+  final String previousScreen;
   const EmailAuthenticateScreen({
     super.key,
     required this.email,
     this.password = "",
+    this.previousScreen = ""
   });
 
   @override
@@ -88,7 +90,7 @@ class EmailAuthenticateScreenState
         OTPTextField(
           controller: controller,
           length: 5,
-          spaceBetween: 30,
+          spaceBetween: 25,
           width: MediaQuery.of(context).size.width,
           fieldWidth: 50,
           style: TextStyle(fontSize: 17),

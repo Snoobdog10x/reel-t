@@ -19,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends AbstractState<LoginScreen> {
   late LoginBloc bloc;
+  static String LOGIN_SCREEN = "login_screen";
+
   @override
   AbstractBloc initBloc() {
     return bloc;
