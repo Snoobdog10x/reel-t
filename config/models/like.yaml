@@ -1,7 +1,0 @@
-arguments:
-  - id: String
-  - userId: String
-  - videoId: String
-  - isLike: bool
-  - isDeleted: bool
-  - createAt: int

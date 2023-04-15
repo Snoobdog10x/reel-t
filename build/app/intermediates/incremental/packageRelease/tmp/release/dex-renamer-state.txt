@@ -1,4 +1,0 @@
-#Fri Apr 14 23:51:14 ICT 2023
-base.0=/Users/thanhnguyen/study/4th/HKII/QLDA/reel_t/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
