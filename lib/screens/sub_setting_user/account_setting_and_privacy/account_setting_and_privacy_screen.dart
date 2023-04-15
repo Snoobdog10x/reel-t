@@ -52,6 +52,7 @@ class AccountSettingAndPrivacyScreenState
                   popTopDisplay();
                 },
               ),
+              padding: EdgeInsets.only(left: 16, right: 16),
               body: body,
             );
           },
