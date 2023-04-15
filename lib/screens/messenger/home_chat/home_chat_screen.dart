@@ -7,8 +7,6 @@ import 'package:reel_t/models/message/message.dart';
 import 'package:reel_t/screens/user/login/login_screen.dart';
 import 'package:reel_t/shared_product/assets/icon/tik_tok_icons_icons.dart';
 import 'package:reel_t/shared_product/widgets/button/three_row_button.dart';
-import '../../../models/conversation/conversation.dart';
-import '../../../models/user_profile/user_profile.dart';
 import '../../../screens/messenger/detail_chat/detail_chat_screen.dart';
 import '../../../shared_product/utils/text/shared_text_style.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
@@ -41,6 +39,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
 
   @override
   void onCreate() {
+    print("hihi");
     bloc = HomeChatBloc();
     bloc.init();
   }
@@ -50,6 +49,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (context) => bloc,
       builder: (context, child) {

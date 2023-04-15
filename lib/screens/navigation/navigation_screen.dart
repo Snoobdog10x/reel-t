@@ -46,7 +46,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       NavigationPage.NOTIFICATION.index: NotificationScreen(),
       NavigationPage.PROFILE.index: ProfileScreen(user: bloc.currentUser),
     };
-    appStore.setGlobalState(this);
   }
 
   @override
@@ -221,7 +220,8 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   @override
-  void onDispose() {}
+  void onDispose() {
+  }
 
   @override
   void onPopWidget(String previousScreen) {
