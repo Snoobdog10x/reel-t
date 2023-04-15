@@ -235,9 +235,9 @@ class SignupScreenState extends AbstractState<SignupScreen> {
   }
 
   @override
-  void onPopWidget() {
+  void onPopWidget(String previousScreen) {
     // TODO: implement onPopWidget
-    super.onPopWidget();
+    super.onPopWidget(previousScreen);
     popTopDisplay();
   }
 

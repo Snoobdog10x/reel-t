@@ -61,6 +61,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
       appStore.localUser.login(signedUser!);
       appStore.localSetting.syncUserSetting(signedUser.id);
       state.popTopDisplay();
+      appStore.rebuildTree();
       return;
     }
     state.showAlertDialog(

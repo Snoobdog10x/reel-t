@@ -46,6 +46,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       NavigationPage.NOTIFICATION.index: NotificationScreen(),
       NavigationPage.PROFILE.index: ProfileScreen(user: bloc.currentUser),
     };
+    appStore.setGlobalState(this);
   }
 
   @override
@@ -176,23 +177,13 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       onTap: () {
         onTap?.call();
       },
-      child: Column(
-        children: [
-          Expanded(
-              child: Icon(
-            icon,
-            color: isSelect
-                ? isBlackBackground
-                    ? Colors.white
-                    : Colors.black
-                : isBlackBackground
-                    ? Colors.white70
-                    : Colors.black45,
-          )),
-          Expanded(
-              child: Text(
-            title ?? "",
-            style: TextStyle(
+      child: Container(
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            Expanded(
+                child: Icon(
+              icon,
               color: isSelect
                   ? isBlackBackground
                       ? Colors.white
@@ -200,9 +191,23 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
                   : isBlackBackground
                       ? Colors.white70
                       : Colors.black45,
-            ),
-          ))
-        ],
+            )),
+            Expanded(
+              child: Text(
+                title ?? "",
+                style: TextStyle(
+                  color: isSelect
+                      ? isBlackBackground
+                          ? Colors.white
+                          : Colors.black
+                      : isBlackBackground
+                          ? Colors.white70
+                          : Colors.black45,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -217,11 +222,11 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
 
   @override
   void onDispose() {}
-  
+
   @override
-  void onPopWidget() {
+  void onPopWidget(String previousScreen) {
     // TODO: implement onPopWidget
-    super.onPopWidget();
+    super.onPopWidget(previousScreen);
   }
 
   @override

@@ -250,8 +250,8 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
   }
 
   @override
-  void onPopWidget() {
-    // super.onPopWidget();
+  void onPopWidget(String previousScreen) {
+    super.onPopWidget(previousScreen);
     if (bloc.addedConversation != null && bloc.addedUserProfile != null) {
       pushToScreen(DetailChatScreenScreen(
         conversation: bloc.addedConversation!,
