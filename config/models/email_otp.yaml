@@ -1,0 +1,7 @@
+arguments:
+  - id: String
+  - otpCode: String
+  - verifyEmail: String
+  - isVerify: bool
+  - createAt: int
+  - expireAt: int

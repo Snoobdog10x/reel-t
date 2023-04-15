@@ -1,0 +1,7 @@
+arguments:
+  - id: String
+  - userId: String
+  - followerId: String
+  - isFollow: bool
+  - isDeleted: bool
+  - createAt: int

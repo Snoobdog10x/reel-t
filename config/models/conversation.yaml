@@ -1,0 +1,8 @@
+arguments:
+  - id: String
+  - userIds: List<String>
+  - latestMessage: String
+  - isMute: bool
+  - isDeleted: bool
+  - createAt: int
+  - updateAt: int
