@@ -39,7 +39,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
 
   @override
   void onCreate() {
-    print("hihi");
+
     bloc = HomeChatBloc();
     bloc.init();
   }

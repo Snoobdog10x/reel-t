@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import '../../generated/abstract_bloc.dart';
@@ -23,7 +24,7 @@ enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
 class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
-  PageController _pageController = PageController();
+  PreloadPageController _pageController = PreloadPageController();
   int currentScreen = NavigationPage.FEED.index;
   late Map<int, Widget> pages;
   @override
@@ -44,8 +45,11 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       NavigationPage.FEED.index: FeedScreen(),
       NavigationPage.CHAT.index: HomeChatScreen(),
       NavigationPage.NOTIFICATION.index: NotificationScreen(),
-      NavigationPage.PROFILE.index: ProfileScreen(user: bloc.currentUser),
+      NavigationPage.PROFILE.index: ProfileScreen(
+        user: bloc.currentUser,
+      ),
     };
+    appStore.setGlobalNavigationNotifyDataChanged(notifyDataChanged);
   }
 
   @override
@@ -98,7 +102,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
               onTap: () {
                 currentScreen = NavigationPage.CHAT.index;
                 _pageController.jumpToPage(NavigationPage.CHAT.index);
-
                 notifyDataChanged();
               },
             ),
@@ -112,7 +115,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
               onTap: () {
                 currentScreen = NavigationPage.NOTIFICATION.index;
                 _pageController.jumpToPage(NavigationPage.NOTIFICATION.index);
-
                 notifyDataChanged();
               },
             ),
@@ -212,7 +214,8 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   Widget buildBody() {
-    return PageView(
+    return PreloadPageView(
+      preloadPagesCount: 4,
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(),
       children: pages.values.toList(),
@@ -220,8 +223,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   @override
-  void onDispose() {
-  }
+  void onDispose() {}
 
   @override
   void onPopWidget(String previousScreen) {

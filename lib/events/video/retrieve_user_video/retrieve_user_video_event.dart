@@ -20,7 +20,7 @@ abstract class RetrieveUserVideoEvent {
     if (docs.isEmpty) {
       return [];
     }
-    
+
     _lastDocument = snapShot.docs.first;
     return [for (var doc in docs) Video.fromJson(doc.data())];
   }

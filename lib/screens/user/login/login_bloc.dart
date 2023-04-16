@@ -3,6 +3,7 @@ import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
+import 'package:reel_t/screens/welcome/welcome_screen.dart';
 
 import '../../../events/user/user_sign_in/user_sign_in_event.dart';
 import '../../../models/user_profile/user_profile.dart';
@@ -52,16 +53,15 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   }
 
   @override
-  void onGoogleSignUpEventDone(e, signedUser) {
+  Future<void> onGoogleSignUpEventDone(e, signedUser) async {
     state.stopLoading();
     if (e.isEmpty) {
       return;
     }
     if (e == "success") {
-      appStore.localUser.login(signedUser!);
-      appStore.localSetting.syncUserSetting(signedUser.id);
-      state.popTopDisplay();
-      appStore.globalNotifyDataChanged?.call();
+      await appStore.localUser.login(signedUser!);
+      await appStore.localSetting.syncUserSetting(signedUser.id);
+      state.pushToScreen(WelcomeScreen(), isReplace: true);
       return;
     }
     state.showAlertDialog(
