@@ -1,3 +1,4 @@
+import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
 import 'package:reel_t/events/setting/retrieve_user_setting/retrieve_user_setting_event.dart';
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
@@ -15,7 +16,8 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
         UserSignInEvent,
         SendEmailOtpEvent,
         GoogleSignUpEvent,
-        RetrieveUserSettingEvent {
+        RetrieveUserSettingEvent,
+        CreateUserSettingEvent {
   String email = "";
   String password = "";
   late UserProfile signedInUserProfile;
@@ -45,7 +47,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
     if (isSent) {
       state.stopLoading();
       state.pushToScreen(EmailAuthenticateScreen(
-        email: signedInUserProfile.email,
+        email: signedInUserProfile.email.toLowerCase(),
         password: password,
         previousScreen: LoginScreenState.LOGIN_SCREEN,
       ));
@@ -60,8 +62,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
     }
     if (e == "success") {
       await appStore.localUser.login(signedUser!);
-      await appStore.localSetting.syncUserSetting(signedUser.id);
-      state.pushToScreen(WelcomeScreen(), isReplace: true);
+      sendCreateUserSettingEvent(signedUser.id);
       return;
     }
     state.showAlertDialog(
@@ -76,11 +77,12 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   @override
   void onRetrieveUserSettingEventDone(Setting? setting) {
     if (setting != null) {
-      if (setting.isTurnOffNotification) {
+      print(setting.isTurnOffTwoFa);
+      if (setting.isTurnOffTwoFa) {
         state.stopLoading();
         appStore.localSetting.setUserSetting(setting);
         appStore.localUser.login(signedInUserProfile);
-        state.popTopDisplay();
+        state.pushToScreen(WelcomeScreen(), isReplace: true);
         return;
       }
 
@@ -88,5 +90,11 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
       return;
     }
     sendSendEmailOtpEvent(email);
+  }
+
+  @override
+  void onCreateUserSettingEventDone(Setting? setting) {
+    appStore.localSetting.setUserSetting(setting!);
+    state.pushToScreen(WelcomeScreen(), isReplace: true);
   }
 }

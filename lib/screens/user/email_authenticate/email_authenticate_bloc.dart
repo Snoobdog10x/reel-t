@@ -10,6 +10,7 @@ import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/screens/user/signup/signup_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
+import '../../welcome/welcome_screen.dart';
 import 'email_authenticate_screen.dart';
 
 class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
@@ -76,9 +77,10 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
   }
 
   @override
-  void onUserSignUpEventDone(String errorMessage, UserProfile? signedUser) {
+  Future<void> onUserSignUpEventDone(
+      String errorMessage, UserProfile? signedUser) async {
     if (errorMessage.isEmpty) {
-      appStore.localUser.login(signedUser!);
+      await appStore.localUser.login(signedUser!);
       sendCreateUserSettingEvent(signedUser.id);
       return;
     }
@@ -93,17 +95,19 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
   }
 
   @override
-  void onCreateUserSettingEventDone(Setting? setting) {
-    if (setting != null) appStore.localSetting.setUserSetting(setting);
-    state.stopLoading();
-    state.popTopDisplay();
+  Future<void> onCreateUserSettingEventDone(Setting? setting) async {
+    if (setting != null) {
+      await appStore.localSetting.setUserSetting(setting);
+      state.pushToScreen(WelcomeScreen(), isReplace: true);
+    }
   }
 
   @override
-  void onUserSignInEventDone(String e, UserProfile? signedInUserProfile) {
-    appStore.localUser.login(signedInUserProfile!);
-    appStore.localSetting.syncUserSetting(signedInUserProfile!.id);
+  Future<void> onUserSignInEventDone(
+      String e, UserProfile? signedInUserProfile) async {
+    await appStore.localUser.login(signedInUserProfile!);
+    await appStore.localSetting.syncUserSetting(signedInUserProfile.id);
     state.stopLoading();
-    state.popTopDisplay();
+    state.pushToScreen(WelcomeScreen(), isReplace: true);
   }
 }

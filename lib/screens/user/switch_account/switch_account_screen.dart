@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/user/login/login_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/utils/text/shared_text_style.dart';
@@ -17,6 +18,7 @@ class SwitchAccountScreen extends StatefulWidget {
 
 class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
   late SwitchAccountBloc bloc;
+  double ACCOUNT_ITEM_HEIGHT = 50;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -30,6 +32,7 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
   @override
   void onCreate() {
     bloc = SwitchAccountBloc();
+    bloc.init();
   }
 
   @override
@@ -48,7 +51,10 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
             var body = buildBody();
             return buildScreen(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              isSafe: false,
+              background: Colors.white,
+              isSafe: true,
+              isSafeTop: false,
+              isWrapBody: true,
               appBar: appBar,
               body: body,
             );
@@ -109,56 +115,63 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
   }
 
   Widget buildBody() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: ListView.separated(
-            padding: EdgeInsets.zero,
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              var user = appStore.localUser.getCurrentUser();
-              return userAccount(user.avatar, user.fullName, true);
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                height: 16,
-              );
-            },
-          ),
-        ),
-        userAccount('', 'Add account', false),
-        SizedBox(height: 8),
-      ],
+    var layout = bloc.switchAccounts
+        .map(
+          (user) => userAccount(user.avatar, user.fullName, false),
+        )
+        .toList();
+
+    layout.insert(0,
+        userAccount(bloc.currentUser.avatar, bloc.currentUser.userName, true));
+    layout.add(
+      userAccount(
+        "",
+        "add account",
+        false,
+        onTap: () {
+          pushToScreen(LoginScreen());
+        },
+      ),
     );
+
+    return Column(children: layout);
   }
 
-  Widget userAccount(String avatar, String fullName, bool isCheck) {
+  Widget userAccount(String avatar, String fullName, bool isCheck,
+      {Function? onTap}) {
     return GestureDetector(
-      onTap: () {},
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: CircleImage(
-              avatar,
-              radius: 50,
+      onTap: () {
+        onTap?.call();
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 8),
+        height: ACCOUNT_ITEM_HEIGHT,
+        width: screenWidth(),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: CircleImage(
+                avatar,
+                radius: 50,
+                background: Color.fromARGB(255, 240, 240, 240),
+              ),
             ),
-          ),
-          Expanded(
-            flex: 6,
-            child: Text(fullName),
-          ),
-          Expanded(
-            flex: 2,
-            child: isCheck
-                ? Icon(
-                    CupertinoIcons.check_mark,
-                    color: Colors.red,
-                  )
-                : Container(),
-          ),
-        ],
+            Expanded(
+              flex: 6,
+              child: Text(fullName),
+            ),
+            Expanded(
+              flex: 2,
+              child: isCheck
+                  ? Icon(
+                      CupertinoIcons.check_mark,
+                      color: Colors.red,
+                    )
+                  : Container(),
+            ),
+          ],
+        ),
       ),
     );
   }

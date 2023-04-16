@@ -56,7 +56,6 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
       title: "Sign-up",
       content: e,
       confirm: () {
-        // appStore.localUser.login(signedUser!);
         state.popTopDisplay();
       },
     );
@@ -68,7 +67,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
       state.stopLoading();
       state.pushToScreen(
         EmailAuthenticateScreen(
-          email: email,
+          email: email.toLowerCase(),
           password: password,
           previousScreen: SignupScreenState.SIGN_UP_SCREEN,
         ),

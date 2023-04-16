@@ -10,6 +10,7 @@ arguments:
   - numFollower: int
   - numFollowing: int
   - numLikes: int
+  - isSignUpByGoogle: bool
   - isOnline: bool
   - isActive: bool
   - isDeleted: bool

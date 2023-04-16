@@ -27,17 +27,18 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       numFollower: fields[7] as int?,
       numFollowing: fields[8] as int?,
       numLikes: fields[9] as int?,
-      isOnline: fields[10] as bool?,
-      isActive: fields[11] as bool?,
-      isDeleted: fields[12] as bool?,
-      createAt: fields[13] as int?,
+      isSignUpByGoogle: fields[10] as bool?,
+      isOnline: fields[11] as bool?,
+      isActive: fields[12] as bool?,
+      isDeleted: fields[13] as bool?,
+      createAt: fields[14] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserProfile obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -59,12 +60,14 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       ..writeByte(9)
       ..write(obj.numLikes)
       ..writeByte(10)
-      ..write(obj.isOnline)
+      ..write(obj.isSignUpByGoogle)
       ..writeByte(11)
-      ..write(obj.isActive)
+      ..write(obj.isOnline)
       ..writeByte(12)
-      ..write(obj.isDeleted)
+      ..write(obj.isActive)
       ..writeByte(13)
+      ..write(obj.isDeleted)
+      ..writeByte(14)
       ..write(obj.createAt);
   }
 

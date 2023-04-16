@@ -69,6 +69,7 @@ abstract class GoogleSignUpEvent {
       email: user.email,
       fullName: tempName,
       userName: "@$tempName",
+      isSignUpByGoogle: true,
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
     await db.doc(id).set(newUserProfile.toJson());
@@ -76,5 +77,4 @@ abstract class GoogleSignUpEvent {
   }
 
   void onGoogleSignUpEventDone(String e, UserProfile? signedUser);
-
 }

@@ -498,9 +498,7 @@ class SettingAndPrivacyPersonalScreenState
                           ),
                         ),
                         onPressed: () {
-                          showScreenBottomSheet(Container(
-                              height: screenHeight() * 0.2,
-                              child: SwitchAccountScreen()));
+                          showScreenBottomSheet(SwitchAccountScreen());
                         },
                       ),
                     ),
