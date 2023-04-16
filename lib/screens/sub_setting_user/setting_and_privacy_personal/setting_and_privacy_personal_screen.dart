@@ -5,6 +5,8 @@ import 'package:reel_t/screens/sub_setting_user/account_setting_and_privacy/acco
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
+import '../../user/switch_account/switch_account_screen.dart';
+import '../../welcome/welcome_screen.dart';
 import '../free_up_spaces_setting_and_privacy/free_up_spaces_setting_and_privacy_screen.dart';
 import '../security_setting_and_privacy/security_setting_and_privacy_screen.dart';
 import '../terms_and_policies_setting_and_privacy/terms_and_policies_setting_and_privacy_screen.dart';
@@ -57,6 +59,7 @@ class SettingAndPrivacyPersonalScreenState
                   popTopDisplay();
                 },
               ),
+              padding: EdgeInsets.only(left: 16, right: 16),
               body: body,
             );
           },
@@ -494,7 +497,11 @@ class SettingAndPrivacyPersonalScreenState
                             ],
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showScreenBottomSheet(Container(
+                              height: screenHeight() * 0.2,
+                              child: SwitchAccountScreen()));
+                        },
                       ),
                     ),
                     Expanded(
@@ -533,7 +540,11 @@ class SettingAndPrivacyPersonalScreenState
                             ],
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await appStore.localUser.logout();
+                          await appStore.localSetting.clearSetting();
+                          pushToScreen(WelcomeScreen());
+                        },
                       ),
                     ),
                   ],

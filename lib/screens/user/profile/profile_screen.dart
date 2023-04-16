@@ -16,6 +16,7 @@ import '../../../shared_product/utils/format/format_utlity.dart';
 import '../../../shared_product/utils/text/shared_text_style.dart';
 import '../../../shared_product/widgets/button/three_row_button.dart';
 import '../../reuseable/commingsoon/commingsoon_screen.dart';
+import '../../sub_setting_user/setting_and_privacy_personal/setting_and_privacy_personal_screen.dart';
 import '../login/login_screen.dart';
 import 'profile_bloc.dart';
 
@@ -175,11 +176,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CommingsoonScreen(),
-                      ),
-                    );
+                    pushToScreen(CommingsoonScreen());
                   },
                   child: Icon(
                     CupertinoIcons.paw,
@@ -188,7 +185,10 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
                 ),
                 SizedBox(width: 5),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    if (appStore.localUser.isLogin())
+                      pushToScreen(SettingAndPrivacyPersonalScreen());
+                  },
                   child: Icon(
                     CupertinoIcons.line_horizontal_3,
                   ),

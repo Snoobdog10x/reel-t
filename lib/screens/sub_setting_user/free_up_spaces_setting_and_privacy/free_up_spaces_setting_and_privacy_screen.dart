@@ -52,6 +52,7 @@ class FreeUpSpacesSettingAndPrivacyScreenState
                   popTopDisplay();
                 },
               ),
+              padding: EdgeInsets.only(left: 16, right: 16),
               body: body,
             );
           },
@@ -131,7 +132,7 @@ class FreeUpSpacesSettingAndPrivacyScreenState
                   Row(
                     children: [
                       Expanded(
-                        flex: 8,
+                        flex: 7,
                         child: Text(
                           title + ': ' + value,
                           style: TextStyle(
