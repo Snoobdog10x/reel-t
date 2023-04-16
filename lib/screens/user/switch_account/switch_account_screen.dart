@@ -50,7 +50,7 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
             var appBar = buildAppbar();
             var body = buildBody();
             return buildScreen(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 8),
               background: Colors.white,
               isSafe: true,
               isSafeTop: false,
@@ -144,6 +144,7 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
         onTap?.call();
       },
       child: Container(
+        color: Colors.transparent,
         margin: EdgeInsets.symmetric(vertical: 8),
         height: ACCOUNT_ITEM_HEIGHT,
         width: screenWidth(),
