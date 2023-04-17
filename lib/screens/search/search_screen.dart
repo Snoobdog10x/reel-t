@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/search_history/search_history.dart';
+import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import 'package:reel_t/shared_product/widgets/text_field/custom_text_field.dart';
+import 'package:reel_t/shared_product/widgets/three_row_appbar.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import 'package:reel_t/screens/search/search_bloc.dart';
@@ -17,7 +20,7 @@ class SearchScreenState extends AbstractState<SearchScreen>
     with TickerProviderStateMixin {
   late SearchBloc bloc;
   TextEditingController _searchController = TextEditingController();
-  late TabController tabController;
+  bool isVideoTab = true;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -31,7 +34,7 @@ class SearchScreenState extends AbstractState<SearchScreen>
   @override
   void onCreate() {
     bloc = SearchBloc();
-    tabController = TabController(length: 2, vsync: this);
+    bloc.init();
   }
 
   @override
@@ -53,23 +56,18 @@ class SearchScreenState extends AbstractState<SearchScreen>
   }
 
   Widget buildAppBar() {
-    return Column(
+    return Row(
       children: [
-        Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: GestureDetector(
-                onTap: () {
-                  popTopDisplay();
-                },
-                child: Icon(Icons.arrow_back_ios),
-              ),
-            ),
-            Expanded(flex: 11, child: buildSearch()),
-          ],
+        Expanded(
+          flex: 2,
+          child: GestureDetector(
+            onTap: () {
+              popTopDisplay();
+            },
+            child: Icon(Icons.arrow_back_ios),
+          ),
         ),
-        buildTapBar(),
+        Expanded(flex: 11, child: buildSearch()),
       ],
     );
   }
@@ -110,28 +108,75 @@ class SearchScreenState extends AbstractState<SearchScreen>
           FocusScope.of(context).unfocus();
         },
         onSubmitted: (value) {
-          _searchController.text = "";
-          notifyDataChanged();
+          if (value.isEmpty) return;
+          bloc.addSearchHistory(value);
         },
       ),
     );
   }
 
-  Widget buildTapBar() {
-    return Container(
-      height: 30,
-      child: TabBar(controller: tabController, tabs: [
-        Text("Videos"),
-        Text("Users"),
-      ]),
+  Widget buildBody() {
+    List<Widget> layout = [];
+    layout = bloc.searchHistories.map(
+      (e) {
+        return buildSearchHistoryItem(e);
+      },
+    ).toList();
+    if (bloc.searchHistories.isNotEmpty)
+      layout.add(
+        GestureDetector(
+          onTap: () {
+            bloc.clearSearch();
+          },
+          child: Container(
+            child: Text(
+              "Clear all",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
+                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+              ),
+            ),
+          ),
+        ),
+      );
+    return SingleChildScrollView(
+      child: Column(
+        children: layout,
+      ),
     );
   }
 
-  Widget buildBody() {
-    return TabBarView(
-      controller: tabController,
-      children: [Text("vidoer"), Text("user")],
+  Widget buildSearchHistoryItem(SearchHistory searchHistory) {
+    return ThreeRowAppBar(
+      firstWidget: Container(width: 40, child: Icon(Icons.history)),
+      secondWidget: Text(
+        searchHistory.searchText,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+            fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT),
+      ),
+      lastWidget: Container(
+        alignment: Alignment.centerRight,
+        child: GestureDetector(
+          onTap: () {
+            bloc.removeSearchHistory(searchHistory);
+          },
+          child: Container(
+            height: screenHeight(),
+            width: 40,
+            child: Icon(Icons.close),
+          ),
+        ),
+      ),
     );
+  }
+
+  @override
+  void onPopWidget(String previousScreen) {
+    super.onPopWidget(previousScreen);
   }
 
   @override

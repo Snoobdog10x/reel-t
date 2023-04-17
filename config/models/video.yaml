@@ -5,6 +5,7 @@ arguments:
   - songName: String
   - creatorId: String
   - title: String
+  - hashtag: List<String>
   - publicMode: int
   - commentsNum: int
   - likesNum: int

@@ -18,6 +18,8 @@ class Video{
 	String creatorId = "";
 	static const String title_PATH = "title";
 	String title = "";
+	static const String hashtag_PATH = "hashtag";
+	List<String> hashtag = [];
 	static const String publicMode_PATH = "publicMode";
 	int publicMode = 0;
 	static const String commentsNum_PATH = "commentsNum";
@@ -41,6 +43,7 @@ class Video{
 		String? songName,
 		String? creatorId,
 		String? title,
+		List<String>? hashtag,
 		int? publicMode,
 		int? commentsNum,
 		int? likesNum,
@@ -55,6 +58,7 @@ class Video{
 		if(songName != null) this.songName = songName;
 		if(creatorId != null) this.creatorId = creatorId;
 		if(title != null) this.title = title;
+		if(hashtag != null) this.hashtag = hashtag;
 		if(publicMode != null) this.publicMode = publicMode;
 		if(commentsNum != null) this.commentsNum = commentsNum;
 		if(likesNum != null) this.likesNum = likesNum;
@@ -71,6 +75,7 @@ class Video{
 		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
 		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];
 		if(jsonMap["title"] != null) title = jsonMap["title"];
+		if(jsonMap["hashtag"] != null) hashtag = jsonMap["hashtag"].cast<String>();
 		if(jsonMap["publicMode"] != null) publicMode = jsonMap["publicMode"];
 		if(jsonMap["commentsNum"] != null) commentsNum = jsonMap["commentsNum"];
 		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
@@ -87,6 +92,7 @@ class Video{
 		if(jsonMap["songName"] != null) songName = jsonMap["songName"];
 		if(jsonMap["creatorId"] != null) creatorId = jsonMap["creatorId"];
 		if(jsonMap["title"] != null) title = jsonMap["title"];
+		if(jsonMap["hashtag"] != null) hashtag = jsonMap["hashtag"].cast<String>();
 		if(jsonMap["publicMode"] != null) publicMode = jsonMap["publicMode"];
 		if(jsonMap["commentsNum"] != null) commentsNum = jsonMap["commentsNum"];
 		if(jsonMap["likesNum"] != null) likesNum = jsonMap["likesNum"];
@@ -111,6 +117,7 @@ class Video{
 		jsonMap["songName"] = songName;
 		jsonMap["creatorId"] = creatorId;
 		jsonMap["title"] = title;
+		jsonMap["hashtag"] = hashtag;
 		jsonMap["publicMode"] = publicMode;
 		jsonMap["commentsNum"] = commentsNum;
 		jsonMap["likesNum"] = likesNum;

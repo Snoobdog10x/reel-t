@@ -21,6 +21,7 @@ class NewChatScreen extends StatefulWidget {
 
 class NewChatScreenState extends AbstractState<NewChatScreen> {
   late NewChatBloc bloc;
+  bool isFocusTextField = false;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -34,7 +35,9 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
   @override
   void onCreate() {
     bloc = NewChatBloc();
-    bloc.sendRetrieveFollowingUserEvent(appStore.localUser.getCurrentUser().id);
+    var currentUserId = appStore.localUser.getCurrentUser().id;
+    bloc.sendRetrieveFollowingUserEvent(currentUserId);
+    bloc.sendRetrieveConversationUserEvent(currentUserId);
   }
 
   @override
@@ -112,18 +115,49 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
   }
 
   Widget buildBody() {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      itemCount: bloc.user.length,
-      itemBuilder: (context, index) {
-        var user = bloc.user[index];
-        return userAccount(user.avatar, user.fullName, user.id);
-      },
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 16,
-        );
-      },
+    Widget body = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 8),
+        buildHeaderText("Suggest"),
+        SizedBox(height: 16),
+        buildNewChatList(bloc.followingUser),
+        buildHeaderText("Just talk"),
+        SizedBox(height: 16),
+        buildNewChatList(bloc.conversationUsers),
+      ],
+    );
+    if (isFocusTextField) body = buildSearchResult();
+
+    return SingleChildScrollView(
+      child: body,
+    );
+  }
+
+  Widget buildSearchResult() {
+    return buildNewChatList(bloc.searchUsers);
+  }
+
+  Widget buildNewChatList(List<UserProfile> users) {
+    List<Widget> layout = [];
+    users.forEach((user) {
+      layout.addAll([
+        userAccount(user.avatar, user.fullName, user.id),
+        SizedBox(height: 16)
+      ]);
+    });
+    return Column(
+      children: layout,
+    );
+  }
+
+  Widget buildHeaderText(String content) {
+    return Text(
+      content,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+      ),
     );
   }
 
@@ -152,6 +186,20 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
           Flexible(
             flex: 1,
             child: TextField(
+              onTapOutside: (PointerDownEvent) {
+                FocusScope.of(context).unfocus();
+              },
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  isFocusTextField = false;
+                  notifyDataChanged();
+                  return;
+                }
+                bloc.sendSearchUserEvent(value);
+                isFocusTextField = true;
+                notifyDataChanged();
+              },
+              textInputAction: TextInputAction.search,
               cursorColor: Colors.grey,
               decoration: InputDecoration(
                 fillColor: Colors.white,
