@@ -129,7 +129,6 @@ class PersonalInformationScreenState
               bloc.pickImage();
               return;
             }
-
             showMobileImagePicker();
           },
           child: Container(

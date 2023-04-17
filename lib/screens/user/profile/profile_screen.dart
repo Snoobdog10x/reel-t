@@ -18,6 +18,7 @@ import '../../../shared_product/widgets/button/three_row_button.dart';
 import '../../reuseable/commingsoon/commingsoon_screen.dart';
 import '../../sub_setting_user/setting_and_privacy_personal/setting_and_privacy_personal_screen.dart';
 import '../login/login_screen.dart';
+import 'edit_profile/edit_profile_screen.dart';
 import 'profile_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -118,7 +119,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
 
   Widget buildAppbar() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 12),
       child: Row(
         children: [
           Expanded(
@@ -183,7 +184,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
                     // Profile view history will appear here
                   ),
                 ),
-                SizedBox(width: 5),
+                SizedBox(width: 12),
                 GestureDetector(
                   onTap: () {
                     if (appStore.localUser.isLogin())
@@ -294,7 +295,9 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
         SizedBox(
           height: 40,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              pushToScreen(EditProfileScreen());
+            },
             child: Text(
               'Edit Profile',
               style: TextStyle(
