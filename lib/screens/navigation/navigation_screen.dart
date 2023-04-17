@@ -50,6 +50,9 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       ),
     };
     appStore.setGlobalNavigationNotifyDataChanged(notifyDataChanged);
+    if (isLogin())
+      appStore.receiveNotification
+          .setNotificationStream(appStore.localUser.getCurrentUser().id);
   }
 
   @override
