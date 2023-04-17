@@ -241,7 +241,7 @@ class EditProfileScreenState extends AbstractState<EditProfileScreen> {
                       child: buildOptionItem(
                         'Username',
                         () {
-                           pushToScreen(
+                          pushToScreen(
                             EditProfileFieldScreen(
                               fieldName: 'Username',
                             ),
@@ -264,7 +264,13 @@ class EditProfileScreenState extends AbstractState<EditProfileScreen> {
                     Expanded(
                       child: buildOptionItem(
                         'Bio',
-                        () {},
+                        () {
+                          pushToScreen(
+                            EditProfileFieldScreen(
+                              fieldName: 'Bio',
+                            ),
+                          );
+                        },
                         false,
                         Color.fromARGB(255, 160, 160, 160),
                         'Add a bio',

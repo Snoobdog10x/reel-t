@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/shared_product/widgets/text_field/custom_text_field.dart';
 import '../../../../generated/abstract_bloc.dart';
@@ -20,7 +21,18 @@ class EditProfileFieldScreen extends StatefulWidget {
 class EditProfileFieldScreenState
     extends AbstractState<EditProfileFieldScreen> {
   late EditProfileFieldBloc bloc;
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controllerName = TextEditingController();
+  late TextEditingController _controllerUserName = TextEditingController();
+  late TextEditingController _controllerBio = TextEditingController();
+
+  int charLengthName = 0;
+  int charLengthBio = 0;
+  _onChanged(String value) {
+    _controllerUserName.text = value;
+    charLengthName = value.length;
+    charLengthBio = value.length;
+    notifyDataChanged();
+  }
 
   @override
   AbstractBloc initBloc() {
@@ -36,6 +48,12 @@ class EditProfileFieldScreenState
   void onCreate() {
     bloc = EditProfileFieldBloc();
     bloc.init();
+    _controllerName.text = bloc.currentUserProfile.fullName;
+    _controllerUserName.text = bloc.currentUserProfile.userName;
+    _controllerBio.text = bloc.currentUserProfile.bio;
+
+    charLengthName = bloc.currentUserProfile.fullName.length;
+    charLengthBio = bloc.currentUserProfile.bio.length;
   }
 
   @override
@@ -108,7 +126,13 @@ class EditProfileFieldScreenState
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        print(_controller.text.toString());
+                        if (widget.fieldName == "Name") {
+                          print(_controllerName.text.toString());
+                        } else if (widget.fieldName == "Username") {
+                          print(_controllerUserName.text.toString());
+                        } else {
+                          print(_controllerBio.text.toString());
+                        }
                       },
                       child: Text('Save'),
                     ),
@@ -123,36 +147,77 @@ class EditProfileFieldScreenState
   }
 
   Widget buildBody() {
-    var newText = bloc.currentUserProfile.fullName.toString();
-    final updatedText = _controller.text + newText;
-    _controller.value = _controller.value.copyWith(
-      text: updatedText,
-      selection: TextSelection.collapsed(offset: updatedText.length),
-    );
-    return Container(
-      padding: EdgeInsets.only(left: 12, right: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: _controller,
-          ),
-          SizedBox(height: 8),
-          Text(
-            _controller.text.length.toString() + '/' + '30',
-          ),
-          SizedBox(height: 10),
-          Text(
-            'Your nickname can only be changed once every 7 days',
-          ),
-        ],
-      ),
-    );
+    if (widget.fieldName == "Name") {
+      return Container(
+        padding: EdgeInsets.only(left: 12, right: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _controllerName,
+              onChanged: _onChanged,
+              maxLength: 30,
+              decoration: InputDecoration(counterText: ""),
+            ),
+            SizedBox(height: 8),
+            Text('${charLengthName}/30'),
+            SizedBox(height: 10),
+            Text(
+              'Your nickname can only be changed once every 7 days',
+            )
+          ],
+        ),
+      );
+    } else if (widget.fieldName == "Username") {
+      _controllerUserName.selection = TextSelection.fromPosition(
+          TextPosition(offset: _controllerUserName.text.length));
+      return Container(
+        padding: EdgeInsets.only(left: 12, right: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _controllerUserName,
+              onChanged: _onChanged,
+              decoration: InputDecoration(counterText: ""),
+            ),
+            SizedBox(height: 8),
+            Text('www.reelt.com/${_controllerUserName.text}'),
+            SizedBox(height: 10),
+            Text(
+              'Usernames can contain only letters, numbers, underscores, and periods. Changing your username will also change your profile',
+            ),
+            SizedBox(height: 10),
+            Text('You can change your username once every 30 days'),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        padding: EdgeInsets.only(left: 12, right: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _controllerBio,
+              onChanged: _onChanged,
+              maxLength: 80,
+              decoration: InputDecoration(
+                hintText: "Add a bio",
+                counterText: "",
+              ),
+              keyboardType: TextInputType.multiline,
+              minLines: 1,
+              maxLines: 3,
+            ),
+            SizedBox(height: 8),
+            Text('${charLengthBio}/80'),
+          ],
+        ),
+      );
+    }
   }
 
   @override
-  void onDispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  void onDispose() {}
 }

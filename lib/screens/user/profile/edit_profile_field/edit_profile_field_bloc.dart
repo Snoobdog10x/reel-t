@@ -5,6 +5,7 @@ import 'edit_profile_field_screen.dart';
 class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState> {
   void init() {
     currentUserProfile = appStore.localUser.getCurrentUser();
+    notifyDataChanged();
   }
 
   late UserProfile currentUserProfile;
