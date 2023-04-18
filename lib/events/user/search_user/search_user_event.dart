@@ -2,7 +2,9 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../shared_product/services/firestore_search.dart';
 
 abstract class SearchUserEvent {
-  FirestoreSearch _firestoreSearch = FirestoreSearch();
+  FirestoreSearch _searchByEmail = FirestoreSearch();
+  FirestoreSearch _searchByFullName = FirestoreSearch();
+  FirestoreSearch _searchByUserName = FirestoreSearch();
 
   Future<void> sendSearchUserEvent(String searchText) async {
     try {
@@ -20,7 +22,7 @@ abstract class SearchUserEvent {
 
   Future<List<UserProfile>> _searchUserResultsByFullName(
       String searchText) async {
-    var docs = await _firestoreSearch.searchStream(
+    var docs = await _searchByFullName.searchStream(
       collectionPaths: UserProfile.PATH,
       searchByPath: UserProfile.fullName_PATH,
       searchText: searchText,
@@ -31,7 +33,7 @@ abstract class SearchUserEvent {
 
   Future<List<UserProfile>> _searchUserResultsByUserName(
       String searchText) async {
-    var docs = await _firestoreSearch.searchStream(
+    var docs = await _searchByUserName.searchStream(
       collectionPaths: UserProfile.PATH,
       searchByPath: UserProfile.userName_PATH,
       searchText: searchText,
@@ -42,7 +44,7 @@ abstract class SearchUserEvent {
   }
 
   Future<List<UserProfile>> _searchUserResultsByEmail(String searchText) async {
-    var docs = await _firestoreSearch.searchStream(
+    var docs = await _searchByEmail.searchStream(
       collectionPaths: UserProfile.PATH,
       searchByPath: UserProfile.email_PATH,
       searchText: searchText,

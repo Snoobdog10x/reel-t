@@ -1,3 +1,5 @@
+import 'package:reel_t/events/search/create_search_history/create_search_history_event.dart';
+import 'package:reel_t/events/search/search_search_history/search_search_history_event.dart';
 import 'package:reel_t/events/user/search_user/search_user_event.dart';
 import 'package:reel_t/events/video/search_video/search_video_event.dart';
 import 'package:reel_t/models/search_history/search_history.dart';
@@ -8,8 +10,10 @@ import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 
 import '../../generated/abstract_bloc.dart';
 
-class SearchBloc extends AbstractBloc<SearchScreenState> {
+class SearchBloc extends AbstractBloc<SearchScreenState>
+    with CreateSearchHistoryEvent, SearchSearchHistoryEvent {
   List<SearchHistory> searchHistories = [];
+  List<SearchHistory> searchResult = [];
   void init() {
     searchHistories = appStore.localSearchHistory.getSearchHistories();
     notifyDataChanged();
@@ -41,14 +45,35 @@ class SearchBloc extends AbstractBloc<SearchScreenState> {
   }
 
   Future<void> addSearchHistory(String searchText) async {
-    await appStore.localSearchHistory.addSearchHistory(
-      SearchHistory(
-        id: searchText,
-        searchText: searchText,
-        createAt: FormatUtility.getMillisecondsSinceEpoch(),
-      ),
+    var newSearchHistory = SearchHistory(
+      id: searchText.toLowerCase(),
+      searchText: searchText.toLowerCase(),
+      isLocal: true,
+      createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
+    await appStore.localSearchHistory.addSearchHistory(newSearchHistory);
+    var cloneSearch = SearchHistory.fromJson(newSearchHistory.toJson());
+    cloneSearch.isLocal = false;
+    sendCreateSearchHistoryEvent(cloneSearch);
     searchHistories = appStore.localSearchHistory.getSearchHistories();
     notifyDataChanged();
+  }
+
+  @override
+  void onCreateSearchHistoryEventDone(SearchHistory? newSearchHistory) {
+    // TODO: implement onCreateSearchHistoryEventDone
+  }
+
+  @override
+  void onSearchSearchHistoryEventDone(List<SearchHistory> searchResult) {
+    this.searchResult = searchResult;
+    notifyDataChanged();
+  }
+
+  List<SearchHistory> mergeLists() {
+    Set<SearchHistory> searchSet = {};
+    searchSet.addAll(searchHistories);
+    searchSet.addAll(searchResult);
+    return searchSet.toList();
   }
 }

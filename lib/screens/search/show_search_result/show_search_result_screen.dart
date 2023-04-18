@@ -1,12 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/models/video/video.dart';
+import 'package:reel_t/screens/user/profile/profile_screen.dart';
+import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
+import '../../../models/user_profile/user_profile.dart';
+import '../../../shared_product/widgets/image/circle_image.dart';
 import 'show_search_result_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
 class ShowSearchResultScreen extends StatefulWidget {
-  const ShowSearchResultScreen({super.key});
+  final String searchText;
+  const ShowSearchResultScreen({super.key, this.searchText = ""});
 
   @override
   State<ShowSearchResultScreen> createState() => ShowSearchResultScreenState();
@@ -15,7 +22,7 @@ class ShowSearchResultScreen extends StatefulWidget {
 class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
     with TickerProviderStateMixin {
   late ShowSearchResultBloc bloc;
-  TextEditingController _searchController = TextEditingController();
+  late TextEditingController _searchController;
   late TabController tabController;
   bool isVideoTab = true;
   @override
@@ -31,6 +38,10 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
   @override
   void onCreate() {
     bloc = ShowSearchResultBloc();
+    tabController = TabController(length: 2, vsync: this);
+    _searchController = TextEditingController(text: widget.searchText);
+    bloc.sendSearchVideoEvent(widget.searchText);
+    bloc.sendSearchUserEvent(widget.searchText);
   }
 
   @override
@@ -47,8 +58,9 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              appBar: DefaultAppBar(appBarTitle: "sample appbar"),
+              appBar: buildAppBar(),
               body: body,
+              padding: EdgeInsets.symmetric(horizontal: 8),
             );
           },
         );
@@ -113,33 +125,113 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
         onTapOutside: (event) {
           FocusScope.of(context).unfocus();
         },
-        onChanged: (value) {
-          if (value.isEmpty) return;
-
-          bloc.sendSearchUserEvent(value);
-          bloc.sendSearchVideoEvent(value);
+        readOnly: true,
+        onTap: () {
+          popTopDisplay();
         },
       ),
     );
   }
 
   Widget buildTapBar() {
+    var lableStyle = TextStyle(
+      fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+      color: Colors.black,
+      fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+    );
+    var unlableStyle = TextStyle(
+      fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+      color: Colors.black,
+      fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+    );
     return Container(
       height: 30,
-      child: TabBar(controller: tabController, tabs: [
-        Text("Videos"),
-        Text("Users"),
-      ]),
+      child: TabBar(
+        controller: tabController,
+        labelStyle: lableStyle,
+        unselectedLabelStyle: unlableStyle,
+        tabs: [
+          Text(
+            "Videos",
+            style: lableStyle,
+          ),
+          Text(
+            "user",
+            style: lableStyle,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildGridSearchUserResults() {
+    return GridView.builder(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisExtent: screenHeight() * 0.35,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 5,
+      ),
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
+      itemCount: bloc.searchUserResult.length,
+      itemBuilder: (context, index) {
+        var user = bloc.searchUserResult[index];
+        return buildBlockUserItem(user);
+      },
+    );
+  }
+
+  Widget buildBlockUserItem(UserProfile user) {
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(16),
+            image: user.avatar.isEmpty
+                ? null
+                : DecorationImage(
+                    image: CachedNetworkImageProvider(user.avatar),
+                    fit: BoxFit.cover,
+                  ),
+          ),
+          alignment: Alignment.center,
+          child: user.avatar.isEmpty
+              ? Icon(
+                  Icons.people,
+                  size: screenWidth() * 0.4,
+                  color: Colors.white,
+                )
+              : null,
+        ),
+        Container(
+          alignment: Alignment.bottomLeft,
+          margin: EdgeInsets.only(left: 8, bottom: 8),
+          child: Text(
+            user.userName,
+            style: TextStyle(
+              fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+              color: Colors.white,
+              fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+            ),
+          ),
+        )
+      ],
     );
   }
 
   Widget buildBody() {
     return TabBarView(
       controller: tabController,
-      children: [Text("vidoer"), Text("user")],
+      children: [
+        Text("vidoer"),
+        buildGridSearchUserResults(),
+      ],
     );
   }
-  
+
   @override
   void onDispose() {}
 }

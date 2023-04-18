@@ -51,7 +51,7 @@ class UserProfileData {
       var ava = avatars[index];
       var userProfile = UserProfile(
         id: index.toString(),
-        userName: userName,
+        userName: "@$userName",
         email: email,
         fullName: "Clone Account ${index}",
         avatar: ava,

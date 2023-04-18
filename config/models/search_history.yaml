@@ -2,4 +2,5 @@ isStoreLocal: True
 arguments:
   - id: String
   - searchText: String
+  - isLocal: bool
   - createAt: int

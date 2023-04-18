@@ -119,12 +119,16 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 8),
-        buildHeaderText("Suggest"),
-        SizedBox(height: 16),
-        buildNewChatList(bloc.followingUser),
-        buildHeaderText("Just talk"),
-        SizedBox(height: 16),
-        buildNewChatList(bloc.conversationUsers),
+        if (bloc.followingUser.isNotEmpty) ...[
+          buildHeaderText("Suggest"),
+          SizedBox(height: 16),
+          buildNewChatList(bloc.followingUser),
+        ],
+        if (bloc.conversationUsers.isNotEmpty) ...[
+          buildHeaderText("Just talk"),
+          SizedBox(height: 16),
+          buildNewChatList(bloc.conversationUsers),
+        ]
       ],
     );
     if (isFocusTextField) body = buildSearchResult();

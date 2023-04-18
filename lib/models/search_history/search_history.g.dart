@@ -19,19 +19,22 @@ class SearchHistoryAdapter extends TypeAdapter<SearchHistory> {
     return SearchHistory(
       id: fields[0] as String?,
       searchText: fields[1] as String?,
-      createAt: fields[2] as int?,
+      isLocal: fields[2] as bool?,
+      createAt: fields[3] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SearchHistory obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.searchText)
       ..writeByte(2)
+      ..write(obj.isLocal)
+      ..writeByte(3)
       ..write(obj.createAt);
   }
 

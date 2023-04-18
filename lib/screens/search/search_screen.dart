@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/search_history/search_history.dart';
+import 'package:reel_t/screens/search/show_search_result/show_search_result_screen.dart';
 import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import 'package:reel_t/shared_product/widgets/text_field/custom_text_field.dart';
 import 'package:reel_t/shared_product/widgets/three_row_appbar.dart';
@@ -107,6 +108,16 @@ class SearchScreenState extends AbstractState<SearchScreen>
         onTapOutside: (event) {
           FocusScope.of(context).unfocus();
         },
+        onChanged: (value) {
+          if (value != "")
+            bloc.sendSearchSearchHistoryEvent(value);
+          else
+            bloc.searchResult.clear();
+
+          bloc.searchHistories =
+              appStore.localSearchHistory.getSearchHistories(searchText: value);
+          notifyDataChanged();
+        },
         onSubmitted: (value) {
           if (value.isEmpty) return;
           bloc.addSearchHistory(value);
@@ -117,7 +128,7 @@ class SearchScreenState extends AbstractState<SearchScreen>
 
   Widget buildBody() {
     List<Widget> layout = [];
-    layout = bloc.searchHistories.map(
+    layout = bloc.mergeLists().map(
       (e) {
         return buildSearchHistoryItem(e);
       },
@@ -149,25 +160,35 @@ class SearchScreenState extends AbstractState<SearchScreen>
   }
 
   Widget buildSearchHistoryItem(SearchHistory searchHistory) {
-    return ThreeRowAppBar(
-      firstWidget: Container(width: 40, child: Icon(Icons.history)),
-      secondWidget: Text(
-        searchHistory.searchText,
-        style: TextStyle(
-            color: Colors.black,
-            fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-            fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT),
-      ),
-      lastWidget: Container(
-        alignment: Alignment.centerRight,
-        child: GestureDetector(
-          onTap: () {
-            bloc.removeSearchHistory(searchHistory);
-          },
-          child: Container(
-            height: screenHeight(),
+    return GestureDetector(
+      onTap: () {
+        bloc.addSearchHistory(searchHistory.searchText);
+        pushToScreen(ShowSearchResultScreen(
+          searchText: searchHistory.searchText,
+        ));
+      },
+      child: ThreeRowAppBar(
+        firstWidget: Container(
             width: 40,
-            child: Icon(Icons.close),
+            child: Icon(searchHistory.isLocal ? Icons.history : Icons.search)),
+        secondWidget: Text(
+          searchHistory.searchText,
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+              fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT),
+        ),
+        lastWidget: Container(
+          alignment: Alignment.centerRight,
+          child: GestureDetector(
+            onTap: () {
+              bloc.removeSearchHistory(searchHistory);
+            },
+            child: Container(
+              height: screenHeight(),
+              width: 40,
+              child: Icon(Icons.close),
+            ),
           ),
         ),
       ),

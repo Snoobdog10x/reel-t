@@ -5,6 +5,7 @@ import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat/detail_chat_screen.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
 import 'package:reel_t/screens/messenger/new_chat/new_chat_screen.dart';
+import 'package:reel_t/screens/search/search_screen.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
@@ -147,28 +148,28 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(NavigationScreen(), isReplace: true);
+              pushToScreen(NavigationScreen(), isReplace: false);
             },
             child: Text("Navigation"),
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(HomeChatScreen(), isReplace: true);
+              pushToScreen(HomeChatScreen(), isReplace: false);
             },
             child: Text("Home chat screen"),
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(LoginScreen(), isReplace: true);
+              pushToScreen(LoginScreen(), isReplace: false);
             },
             child: Text("Login"),
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(SignupScreen(), isReplace: true);
+              pushToScreen(SignupScreen(), isReplace: false);
             },
             child: Text("Sign up"),
           ),
@@ -177,35 +178,35 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
             onPressed: () {
               pushToScreen(
                   ProfileScreen(user: appStore.localUser.getCurrentUser()),
-                  isReplace: true);
+                  isReplace: false);
             },
             child: Text("Profile"),
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(WelcomeScreen(), isReplace: true);
+              pushToScreen(WelcomeScreen(), isReplace: false);
             },
             child: Text("Welcome - init sample data"),
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(PersonalInformationScreen(), isReplace: true);
+              pushToScreen(PersonalInformationScreen(), isReplace: false);
             },
             child: Text("Personal information"),
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(NewChatScreen(), isReplace: true);
+              pushToScreen(NewChatScreen(), isReplace: false);
             },
             child: Text("New Chat"),
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              pushToScreen(SettingAndPrivacyPersonalScreen(), isReplace: true);
+              pushToScreen(SettingAndPrivacyPersonalScreen(), isReplace: false);
             },
             child: Text("Setting and privacy"),
           ),
@@ -217,11 +218,17 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
                     email: "duythanh1565@gmail.com",
                     password: "duythanh2001",
                   ),
-                  isReplace: true);
+                  isReplace: false);
             },
             child: Text("Email Authentication"),
           ),
           SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(SearchScreen(), isReplace: false);
+            },
+            child: Text("Search"),
+          ),
         ],
       ),
     );

@@ -100,7 +100,7 @@ class VideoData {
           publicMode: PublicMode.PUBLIC.index,
           likesNum: _random.nextInt(2000000),
           commentsNum: _random.nextInt(2000000),
-          title: "Khong biet ghi gi?",
+          title: "khong biet ghi gi?",
           viewsNum: _random.nextInt(2000000),
           isDeleted: false,
           createAt: FormatUtility.getMillisecondsSinceEpoch(),
