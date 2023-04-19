@@ -165,9 +165,11 @@ class EditProfileScreenState extends AbstractState<EditProfileScreen> {
     return Column(
       children: <Widget>[
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             if (appStore.isWeb()) {
-              bloc.pickImage();
+              var image = await bloc.pickImage();
+              if (image == null) return;
+              bloc.updateAvatar(image);
               return;
             }
             showMobileImagePicker();
@@ -194,9 +196,10 @@ class EditProfileScreenState extends AbstractState<EditProfileScreen> {
           isPickMultiple: false,
           onFileSelected: (files) async {
             try {
-              bloc.avatar = await files.first?.readAsBytes();
-
+              var image = files.first;
+              bloc.avatar = await files.first.readAsBytes();
               notifyDataChanged();
+              bloc.updateAvatar(image);
             } catch (e) {
               print(e);
             }

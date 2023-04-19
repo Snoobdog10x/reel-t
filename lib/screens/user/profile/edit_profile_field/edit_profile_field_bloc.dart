@@ -40,7 +40,6 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
   void onUpdateUserProfileEventDone(UserProfile? newUserProfile) {
     state.stopLoading();
     state.popTopDisplay();
-    // TODO: implement onUpdateUserProfileEventDone
     appStore.localUser.login(newUserProfile!);
   }
 }
