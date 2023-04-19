@@ -4,8 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 import '../../../../generated/abstract_bloc.dart';
 import '../../../../generated/abstract_state.dart';
+import '../../../../shared_product/services/cloud_storage.dart';
 import '../../../../shared_product/widgets/image/image_gallery_picker/image_gallery_picker_screen.dart';
 import '../edit_profile_field/edit_profile_field_screen.dart';
 import 'edit_profile_bloc.dart';
@@ -119,10 +121,12 @@ class EditProfileScreenState extends AbstractState<EditProfileScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.grey[300],
-                    image: DecorationImage(
-                      image: NetworkImage(bloc.currentUser.avatar),
-                      fit: BoxFit.cover,
-                    ),
+                    image: bloc.currentUser.avatar.isNotEmpty
+                        ? DecorationImage(
+                            image: NetworkImage(bloc.currentUser.avatar),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -189,8 +193,19 @@ class EditProfileScreenState extends AbstractState<EditProfileScreen> {
         child: ImageGalleryPickerScreen(
           isPickMultiple: false,
           onFileSelected: (files) async {
-            bloc.avatar = await files.first?.readAsBytes();
-            notifyDataChanged();
+            try {
+              bloc.avatar = await files.first?.readAsBytes();
+              var downloadUrl = await appStore.cloudStorage.uploadFile(
+                  File_Type.IMAGE,
+                  files.first!,
+                  bloc.currentUser.id +
+                      FormatUtility.getMillisecondsSinceEpoch().toString());
+              print(downloadUrl);
+              bloc.updateAvatar(downloadUrl);
+              notifyDataChanged();
+            } catch (e) {
+              print(e);
+            }
           },
         ),
       ),

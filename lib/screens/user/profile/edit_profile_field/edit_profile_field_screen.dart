@@ -126,13 +126,7 @@ class EditProfileFieldScreenState
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        if (widget.fieldName == "Name") {
-                          print(_controllerName.text.toString());
-                        } else if (widget.fieldName == "Username") {
-                          print(_controllerUserName.text.toString());
-                        } else {
-                          print(_controllerBio.text.toString());
-                        }
+                        saveData();
                       },
                       child: Text('Save'),
                     ),
@@ -215,6 +209,16 @@ class EditProfileFieldScreenState
           ],
         ),
       );
+    }
+  }
+
+  void saveData() {
+    if (widget.fieldName == "Name") {
+      bloc.updateUserFullName(_controllerName.text);
+    } else if (widget.fieldName == "Username") {
+      bloc.updateUserName(_controllerUserName.text);
+    } else {
+      bloc.updateBio(_controllerBio.text);
     }
   }
 
