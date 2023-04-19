@@ -195,13 +195,7 @@ class EditProfileScreenState extends AbstractState<EditProfileScreen> {
           onFileSelected: (files) async {
             try {
               bloc.avatar = await files.first?.readAsBytes();
-              var downloadUrl = await appStore.cloudStorage.uploadFile(
-                  File_Type.IMAGE,
-                  files.first!,
-                  bloc.currentUser.id +
-                      FormatUtility.getMillisecondsSinceEpoch().toString());
-              print(downloadUrl);
-              bloc.updateAvatar(downloadUrl);
+
               notifyDataChanged();
             } catch (e) {
               print(e);

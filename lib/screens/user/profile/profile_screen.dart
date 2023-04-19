@@ -18,6 +18,7 @@ import '../../../shared_product/widgets/button/three_row_button.dart';
 import '../../reuseable/commingsoon/commingsoon_screen.dart';
 import '../../sub_setting_user/setting_and_privacy_personal/setting_and_privacy_personal_screen.dart';
 import '../login/login_screen.dart';
+import '../switch_account/switch_account_screen.dart';
 import 'edit_profile/edit_profile_screen.dart';
 import 'profile_bloc.dart';
 
@@ -134,11 +135,15 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
                   }
                   pushToScreen(CommingsoonScreen());
                 },
-                child: Icon(
-                  widget.isBack
-                      ? Icons.arrow_back_ios_new_outlined
-                      : CupertinoIcons.gift_fill,
-                  color: widget.isBack ? Colors.black : Colors.greenAccent,
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  child: Icon(
+                    widget.isBack
+                        ? Icons.arrow_back_ios_new_outlined
+                        : CupertinoIcons.gift_fill,
+                    color: widget.isBack ? Colors.black : Colors.greenAccent,
+                  ),
                 ),
               ),
             ),
@@ -146,7 +151,9 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
           Expanded(
             flex: 4,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showScreenBottomSheet(SwitchAccountScreen());
+              },
               child: Center(
                 child: Container(
                   height: 50,
@@ -179,9 +186,13 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
                   onTap: () {
                     pushToScreen(CommingsoonScreen());
                   },
-                  child: Icon(
-                    CupertinoIcons.paw,
-                    // Profile view history will appear here
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    child: Icon(
+                      CupertinoIcons.paw,
+                      // Profile view history will appear here
+                    ),
                   ),
                 ),
                 SizedBox(width: 12),
@@ -190,8 +201,12 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
                     if (appStore.localUser.isLogin())
                       pushToScreen(SettingAndPrivacyPersonalScreen());
                   },
-                  child: Icon(
-                    CupertinoIcons.line_horizontal_3,
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    child: Icon(
+                      CupertinoIcons.line_horizontal_3,
+                    ),
                   ),
                 ),
               ],

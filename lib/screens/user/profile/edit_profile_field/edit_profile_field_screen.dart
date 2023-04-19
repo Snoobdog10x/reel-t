@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -151,7 +152,16 @@ class EditProfileFieldScreenState
               controller: _controllerName,
               onChanged: _onChanged,
               maxLength: 30,
-              decoration: InputDecoration(counterText: ""),
+              decoration: InputDecoration(
+                counterText: "",
+                hintText: "Add your name",
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _controllerName.text = "";
+                  },
+                  icon: Icon(CupertinoIcons.xmark_circle),
+                ),
+              ),
             ),
             SizedBox(height: 8),
             Text('${charLengthName}/30'),
@@ -173,7 +183,19 @@ class EditProfileFieldScreenState
             TextField(
               controller: _controllerUserName,
               onChanged: _onChanged,
-              decoration: InputDecoration(counterText: ""),
+              decoration: InputDecoration(
+                counterText: "",
+                hintText: "Username",
+                suffixIcon: bloc.isCheckUserName()
+                    ? IconButton(
+                        onPressed: () {},
+                        icon: Icon(CupertinoIcons.xmark_circle),
+                      )
+                    : Icon(
+                        CupertinoIcons.check_mark_circled_solid,
+                        color: Colors.green,
+                      ),
+              ),
             ),
             SizedBox(height: 8),
             Text('www.reelt.com/${_controllerUserName.text}'),

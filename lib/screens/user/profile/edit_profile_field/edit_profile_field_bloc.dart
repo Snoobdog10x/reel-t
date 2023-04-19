@@ -14,22 +14,26 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
   void updateUserFullName(String newUserFullName) {
     currentUserProfile.fullName = newUserFullName;
     notifyDataChanged();
-    sendUpdateUserProfileEvent(currentUserProfile);
     state.startLoading();
+    sendUpdateUserProfileEvent(currentUserProfile);
   }
 
   void updateUserName(String newUserName) {
     currentUserProfile.userName = newUserName;
     notifyDataChanged();
-    sendUpdateUserProfileEvent(currentUserProfile);
     state.startLoading();
+    sendUpdateUserProfileEvent(currentUserProfile);
   }
 
   void updateBio(String newBio) {
     currentUserProfile.bio = newBio;
     notifyDataChanged();
-    sendUpdateUserProfileEvent(currentUserProfile);
     state.startLoading();
+    sendUpdateUserProfileEvent(currentUserProfile);
+  }
+
+  bool isCheckUserName() {
+    return true;
   }
 
   @override
