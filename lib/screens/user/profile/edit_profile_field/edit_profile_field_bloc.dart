@@ -14,29 +14,28 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
   void updateUserFullName(String newUserFullName) {
     currentUserProfile.fullName = newUserFullName;
     notifyDataChanged();
-    sendUpdateUserProfileEvent(currentUserProfile);
     state.startLoading();
+    sendUpdateUserProfileEvent(currentUserProfile);
   }
 
   void updateUserName(String newUserName) {
     currentUserProfile.userName = newUserName;
     notifyDataChanged();
-    sendUpdateUserProfileEvent(currentUserProfile);
     state.startLoading();
+    sendUpdateUserProfileEvent(currentUserProfile);
   }
 
   void updateBio(String newBio) {
     currentUserProfile.bio = newBio;
     notifyDataChanged();
-    sendUpdateUserProfileEvent(currentUserProfile);
     state.startLoading();
+    sendUpdateUserProfileEvent(currentUserProfile);
   }
 
   @override
   void onUpdateUserProfileEventDone(UserProfile? newUserProfile) {
     state.stopLoading();
     state.popTopDisplay();
-    // TODO: implement onUpdateUserProfileEventDone
     appStore.localUser.login(newUserProfile!);
   }
 }
