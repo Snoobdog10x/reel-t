@@ -121,6 +121,7 @@ class SearchScreenState extends AbstractState<SearchScreen>
         onSubmitted: (value) {
           if (value.isEmpty) return;
           bloc.addSearchHistory(value);
+          pushToScreen(ShowSearchResultScreen(searchText: value));
         },
       ),
     );
