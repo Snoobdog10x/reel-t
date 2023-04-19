@@ -1,3 +1,4 @@
+import 'package:firebase_auth_platform_interface/src/providers/oauth.dart';
 import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
@@ -89,5 +90,11 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
   void onCreateUserSettingEventDone(Setting? setting) {
     if (setting != null) appStore.localSetting.setUserSetting(setting);
     state.popTopDisplay();
+  }
+
+  @override
+  void onGoogleSignUpEventDoneWithExistsUser(
+      String e, OAuthCredential googleCredential) {
+    // TODO: implement onGoogleSignUpEventDoneWithExistsUser
   }
 }

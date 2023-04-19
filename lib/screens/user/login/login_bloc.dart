@@ -1,3 +1,4 @@
+import 'package:firebase_auth_platform_interface/src/providers/oauth.dart';
 import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
 import 'package:reel_t/events/setting/retrieve_user_setting/retrieve_user_setting_event.dart';
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
@@ -66,7 +67,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
       return;
     }
     state.showAlertDialog(
-      title: "Sign-up",
+      title: "Sign-in",
       content: e,
       confirm: () {
         state.popTopDisplay();
@@ -96,5 +97,14 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   void onCreateUserSettingEventDone(Setting? setting) {
     appStore.localSetting.setUserSetting(setting!);
     state.pushToScreen(WelcomeScreen(), isReplace: true);
+  }
+
+  @override
+  void onGoogleSignUpEventDoneWithExistsUser(
+      String e, OAuthCredential googleCredential) {
+    state.showAlertDialog(
+      title: "Sign-in",
+      content: e,
+    );
   }
 }

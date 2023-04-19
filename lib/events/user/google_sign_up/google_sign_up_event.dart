@@ -21,6 +21,18 @@ abstract class GoogleSignUpEvent {
         return;
       }
 
+      if (await isUserExists(googleUserSignIn.email)) {
+        var authentication = await googleUserSignIn.authentication;
+        final credential = GoogleAuthProvider.credential(
+          idToken: authentication.idToken,
+        );
+        onGoogleSignUpEventDoneWithExistsUser(
+          "This email has been registered, please ",
+          credential,
+        );
+        return;
+      }
+
       var userCredential = await signInUser(googleUserSignIn);
       var signedUser = await _createUserProfile(userCredential);
       onGoogleSignUpEventDone("success", signedUser);
@@ -59,9 +71,7 @@ abstract class GoogleSignUpEvent {
     final db = FirebaseFirestore.instance.collection(UserProfile.PATH);
     var user = userCredential.user;
     if (user == null) return null;
-    var userProfile = await _getUserProfileByEmail(userCredential.user!.email!);
-    if (userProfile != null) return userProfile;
-
+    
     var id = user.uid;
     var tempName = user.email!.split("@")[0];
     UserProfile newUserProfile = UserProfile(
@@ -77,4 +87,8 @@ abstract class GoogleSignUpEvent {
   }
 
   void onGoogleSignUpEventDone(String e, UserProfile? signedUser);
+  void onGoogleSignUpEventDoneWithExistsUser(
+    String e,
+    OAuthCredential googleCredential,
+  );
 }
