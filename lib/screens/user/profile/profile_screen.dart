@@ -9,6 +9,7 @@ import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
+import '../../../models/follow/follow.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 import '../../../shared_product/assets/icon/tik_tok_icons_icons.dart';
@@ -25,10 +26,12 @@ import 'profile_bloc.dart';
 class ProfileScreen extends StatefulWidget {
   final UserProfile user;
   final bool isBack;
+  final Follow? userFollow;
   const ProfileScreen({
     super.key,
     required this.user,
     this.isBack = false,
+    this.userFollow,
   });
 
   @override
@@ -52,8 +55,10 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
   @override
   void onCreate() {
     bloc = ProfileBloc();
-    bloc.init();
+    bloc.init(widget.userFollow);
     bloc.sendRetrieveUserVideoEvent(widget.user.id);
+    bloc.sendGetFollowUserEvent(
+        appStore.localUser.getCurrentUser().id, widget.user.id);
   }
 
   @override
@@ -304,44 +309,84 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
   }
 
   Widget buildButtonMore() {
+    if (appStore.localUser.getCurrentUser() == widget.user)
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 40,
+            child: ElevatedButton(
+              onPressed: () {
+                pushToScreen(EditProfileScreen());
+              },
+              child: Text(
+                'Edit Profile',
+                style: TextStyle(
+                    fontSize: SharedTextStyle.NORMAL_SIZE,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 210, 210, 210),
+                  elevation: 0),
+            ),
+          ),
+          SizedBox(width: 6),
+          SizedBox(
+            height: 40,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 210, 210, 210),
+                  elevation: 0),
+              child: Text(
+                'Add friends',
+                style: TextStyle(
+                    fontSize: SharedTextStyle.NORMAL_SIZE,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      );
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
           height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              pushToScreen(EditProfileScreen());
+          width: 100,
+          child: GestureDetector(
+            onTap: () {
+              bloc.sendUserFollow(widget.user.id);
             },
-            child: Text(
-              'Edit Profile',
-              style: TextStyle(
-                  fontSize: SharedTextStyle.NORMAL_SIZE,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black),
-              textAlign: TextAlign.center,
-            ),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 210, 210, 210),
-                elevation: 0),
-          ),
-        ),
-        SizedBox(width: 6),
-        SizedBox(
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 210, 210, 210),
-                elevation: 0),
-            child: Text(
-              'Add friends',
-              style: TextStyle(
-                  fontSize: SharedTextStyle.NORMAL_SIZE,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black),
-              textAlign: TextAlign.center,
-            ),
+            child: bloc.isFollowUser()
+                ? Container(
+                    alignment: Alignment.center,
+                    color: Colors.white,
+                    child: Text(
+                      'Unfollow',
+                      style: TextStyle(
+                          fontSize: SharedTextStyle.NORMAL_SIZE,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : Container(
+                    alignment: Alignment.center,
+                    color: Colors.red,
+                    child: Text(
+                      'Follow',
+                      style: TextStyle(
+                          fontSize: SharedTextStyle.NORMAL_SIZE,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
           ),
         ),
       ],
@@ -349,11 +394,15 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
   }
 
   Widget buildBio() {
-    return Text(
-      widget.user.bio,
-      style: TextStyle(
-        fontSize: SharedTextStyle.NORMAL_SIZE,
-        fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12),
+      child: Text(
+        widget.user.bio,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: SharedTextStyle.NORMAL_SIZE,
+          fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+        ),
       ),
     );
   }
@@ -459,6 +508,10 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
       ),
     );
   }
+
+  // bool checkFollower(){
+  //   if()
+  // }
 
   @override
   void onDispose() {}

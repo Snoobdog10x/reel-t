@@ -69,7 +69,7 @@ class AccountSettingAndPrivacyScreenState
 
   Widget buildAccount() {
     return Container(
-      height: screenHeight() * 0.42,
+      height: screenHeight() * 0.34,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -81,6 +81,7 @@ class AccountSettingAndPrivacyScreenState
                 child: Column(
                   children: <Widget>[
                     Expanded(
+                      flex: 2,
                       child: buildOptionItem(
                         'User Information',
                         () {
@@ -91,6 +92,7 @@ class AccountSettingAndPrivacyScreenState
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: buildOptionItem(
                         'Password',
                         () {},
@@ -99,10 +101,12 @@ class AccountSettingAndPrivacyScreenState
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: buildOptionItem('Switch to Business Account',
                           () {}, true, Color.fromARGB(255, 160, 160, 160)),
                     ),
                     Expanded(
+                      flex: 3,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -164,6 +168,7 @@ class AccountSettingAndPrivacyScreenState
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: buildOptionItem(
                         'Deactivate or delete account',
                         () {},

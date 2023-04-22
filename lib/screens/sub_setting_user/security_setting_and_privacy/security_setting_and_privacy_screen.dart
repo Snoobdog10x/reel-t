@@ -69,7 +69,7 @@ class SecuritySettingAndPrivacyScreenState
 
   Widget buildSecurity() {
     return Container(
-      height: screenHeight() * 0.3,
+      height: screenHeight() * 0.32,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -81,6 +81,7 @@ class SecuritySettingAndPrivacyScreenState
                 child: Column(
                   children: <Widget>[
                     Expanded(
+                      flex: 2,
                       child: buildOptionItem(
                         'Security alerts',
                         () {
@@ -91,6 +92,7 @@ class SecuritySettingAndPrivacyScreenState
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: buildOptionItem(
                         'Manage devices',
                         () {},
@@ -99,6 +101,7 @@ class SecuritySettingAndPrivacyScreenState
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: buildOptionItem(
                         'Manage app permissions',
                         () {},
@@ -107,6 +110,7 @@ class SecuritySettingAndPrivacyScreenState
                       ),
                     ),
                     Expanded(
+                      flex: 4,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -116,8 +120,6 @@ class SecuritySettingAndPrivacyScreenState
                           ),
                         ),
                         child: Container(
-                          width: screenWidth(),
-                          height: screenHeight(),
                           child: Row(
                             children: [
                               Expanded(

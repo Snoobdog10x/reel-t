@@ -23,6 +23,12 @@ abstract class FollowUserEvent {
     return Follow.fromJson(snapshot.docs.first.data());
   }
 
+  // void updateFollowUser() {}
+
+  // void getFollowUserProfile() {
+  //   final db;
+  // }
+
   Future<Follow> _followUser(String userId, String currentUserId) async {
     final db = FirebaseFirestore.instance.collection(Follow.PATH);
     var follow = await _getFollowUser(userId, currentUserId);

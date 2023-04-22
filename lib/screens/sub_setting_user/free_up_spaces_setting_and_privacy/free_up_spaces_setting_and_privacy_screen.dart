@@ -78,6 +78,7 @@ class FreeUpSpacesSettingAndPrivacyScreenState
                     child: Column(
                       children: <Widget>[
                         Expanded(
+                          flex: 2,
                           child: buildOptionItem(
                               'Cache',
                               '93.7MB',
@@ -87,6 +88,7 @@ class FreeUpSpacesSettingAndPrivacyScreenState
                         ),
                         SizedBox(height: 10),
                         Expanded(
+                          flex: 2,
                           child: buildOptionItem(
                               'Downloads',
                               '27.6MB',

@@ -6,6 +6,7 @@ import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import '../../reuseable/commingsoon/commingsoon_screen.dart';
+import '../../user/profile/profile_screen.dart';
 import 'detail_chat_setting_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
@@ -101,7 +102,12 @@ class DetailChatSettingScreenState
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        buildIconItem(CupertinoIcons.person_crop_circle, 'Profile', () {}),
+        buildIconItem(CupertinoIcons.person_crop_circle, 'Profile', () {
+          pushToScreen(ProfileScreen(
+            user: widget.userProfile,
+            isBack: true,
+          ));
+        }),
         SizedBox(width: 16),
         buildIconItem(CupertinoIcons.bell_fill, 'Mute', () {}),
       ],

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/message/message.dart';
 import 'package:reel_t/screens/user/login/login_screen.dart';
@@ -16,6 +17,7 @@ import '../../../generated/abstract_state.dart';
 import '../new_chat/new_chat_screen.dart';
 import 'home_chat_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
+import '../../../shared_product/utils/format/format_utlity.dart';
 
 class HomeChatScreen extends StatefulWidget {
   const HomeChatScreen({super.key});
@@ -39,7 +41,6 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
 
   @override
   void onCreate() {
-
     bloc = HomeChatBloc();
     bloc.init();
   }
@@ -215,16 +216,36 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
                         fontFamily: SharedTextStyle.DEFAULT_FONT_TITLE,
                       )),
                   SizedBox(height: 3),
-                  Text(
-                    getContentMessage(lastedMessage),
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: SharedTextStyle.NORMAL_SIZE,
-                      fontWeight: hasSeen
-                          ? SharedTextStyle.NORMAL_WEIGHT
-                          : SharedTextStyle.TITLE_WEIGHT,
-                      fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 7,
+                        child: Text(
+                          getContentMessage(lastedMessage),
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: SharedTextStyle.NORMAL_SIZE,
+                            fontWeight: hasSeen
+                                ? SharedTextStyle.NORMAL_WEIGHT
+                                : SharedTextStyle.TITLE_WEIGHT,
+                            fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          " · " + getMessageTime(lastedMessage),
+                          style: TextStyle(
+                            fontSize: SharedTextStyle.NORMAL_SIZE,
+                            fontWeight: hasSeen
+                                ? SharedTextStyle.NORMAL_WEIGHT
+                                : SharedTextStyle.TITLE_WEIGHT,
+                            fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -247,6 +268,37 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
     if (message == null) return "Send a new message now";
     if (bloc.isCurrentUserMessage(message)) return "You: ${message.content}";
     return message.content;
+  }
+
+  String getMessageTime(Message? message) {
+    if (message == null) return '';
+    var currentDate = DateTime.now();
+    var messageCreateAt = DateTime.fromMillisecondsSinceEpoch(message.createAt);
+    List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    List<String> monthAbbreviations = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    if (DateUtils.isSameDay(currentDate, messageCreateAt)) {
+      return DateFormat('hh:mm a').format(messageCreateAt);
+    }
+    if (!FormatUtility.isSameWeek(messageCreateAt, currentDate)) {
+      return weekdays[messageCreateAt.weekday.toInt() - 1].toString();
+    }
+    if (FormatUtility.isSameWeek(messageCreateAt, currentDate)) {
+      return "${monthAbbreviations[messageCreateAt.month.toInt() - 1].toString()} ${messageCreateAt.day}";
+    }
+    return '';
   }
 
   @override

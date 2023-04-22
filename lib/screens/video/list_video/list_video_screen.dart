@@ -1,4 +1,4 @@
- import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
@@ -136,6 +136,13 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
         username: creator.userName,
         videtoTitle: video.title,
         songInfo: video.songName,
+        onTapUserName: () {
+          pushToScreen(ProfileScreen(
+            user: creator,
+            isBack: true,
+            userFollow: bloc.followCreators[video.creatorId],
+          ));
+        },
       ),
     );
   }
@@ -162,6 +169,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
           pushToScreen(ProfileScreen(
             user: creator,
             isBack: true,
+            userFollow: bloc.followCreators[video.creatorId],
           ));
         },
         onTapComment: (isActive) async {

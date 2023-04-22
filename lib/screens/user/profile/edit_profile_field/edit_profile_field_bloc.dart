@@ -1,10 +1,12 @@
+import '../../../../events/user/check_username_exists/check_username_exists_event.dart';
 import '../../../../events/user/update_user_profile/update_user_profile_event.dart';
 import '../../../../generated/abstract_bloc.dart';
 import '../../../../models/user_profile/user_profile.dart';
 import 'edit_profile_field_screen.dart';
 
 class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
-    with UpdateUserProfileEvent {
+    with UpdateUserProfileEvent, CheckUsernameExistsEvent {
+  late bool isUserNameExists = false;
   late UserProfile currentUserProfile;
   void init() {
     currentUserProfile = appStore.localUser.getCurrentUser();
@@ -32,14 +34,18 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
     sendUpdateUserProfileEvent(currentUserProfile);
   }
 
-  bool isCheckUserName() {
-    return true;
-  }
-
   @override
   void onUpdateUserProfileEventDone(UserProfile? newUserProfile) {
     state.stopLoading();
     state.popTopDisplay();
     appStore.localUser.login(newUserProfile!);
+  }
+
+  @override
+  void onCheckUsernameExistsEventDone(bool isExists) {
+    isUserNameExists = isExists;
+    print(isUserNameExists);
+    notifyDataChanged();
+    // TODO: implement onCheckUsernameExistsEventDone
   }
 }

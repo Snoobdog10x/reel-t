@@ -33,6 +33,8 @@ class EditProfileFieldScreenState
     charLengthName = value.length;
     charLengthBio = value.length;
     notifyDataChanged();
+    bloc.sendCheckUsernameExistsEvent(
+        value, appStore.localUser.getCurrentUser().userName);
   }
 
   @override
@@ -127,9 +129,13 @@ class EditProfileFieldScreenState
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
+                        if (!isSaveActive()) return;
                         saveData();
                       },
-                      child: Text('Save'),
+                      child: Text('Save',
+                          style: TextStyle(
+                              color:
+                                  isSaveActive() ? Colors.red : Colors.grey)),
                     ),
                   ),
                 ),
@@ -157,7 +163,9 @@ class EditProfileFieldScreenState
                 hintText: "Add your name",
                 suffixIcon: IconButton(
                   onPressed: () {
-                    _controllerName.text = "";
+                    _controllerName.clear();
+                    charLengthName = 0;
+                    notifyDataChanged();
                   },
                   icon: Icon(CupertinoIcons.xmark_circle),
                 ),
@@ -186,9 +194,11 @@ class EditProfileFieldScreenState
               decoration: InputDecoration(
                 counterText: "",
                 hintText: "Username",
-                suffixIcon: bloc.isCheckUserName()
+                suffixIcon: isIconActive()
                     ? IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _controllerUserName.clear();
+                        },
                         icon: Icon(CupertinoIcons.xmark_circle),
                       )
                     : Icon(
@@ -198,7 +208,8 @@ class EditProfileFieldScreenState
               ),
             ),
             SizedBox(height: 8),
-            Text('www.reelt.com/${_controllerUserName.text}'),
+            Text(
+                'www.reelt.com/${_controllerUserName.text.isEmpty ? "@Username" : _controllerUserName.text}'),
             SizedBox(height: 10),
             Text(
               'Usernames can contain only letters, numbers, underscores, and periods. Changing your username will also change your profile',
@@ -232,6 +243,16 @@ class EditProfileFieldScreenState
         ),
       );
     }
+  }
+
+  bool isSaveActive() {
+    if (_controllerUserName.text.isEmpty || bloc.isUserNameExists) return false;
+    return true;
+  }
+
+  bool isIconActive() {
+    if (bloc.isUserNameExists || !isSaveActive() == true) return true;
+    return false;
   }
 
   void saveData() {
