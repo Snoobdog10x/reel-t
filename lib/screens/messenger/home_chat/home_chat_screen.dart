@@ -76,6 +76,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
       appBarTitle: "Chats",
       appBarAction: GestureDetector(
         onTap: () {
+          if (appStore.localUser.getCurrentUser().id.isEmpty) return;
           showScreenBottomSheet(
             Container(
               height: screenHeight() * 0.8,

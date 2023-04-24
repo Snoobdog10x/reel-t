@@ -63,7 +63,7 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   @override
   void onRetrieveUserProfileEventDone(e, UserProfile? userProfile,
       [String? conversationId]) {
-    if (e == null) {
+    if (e.isEmpty) {
       contactUsers[conversationId!] = userProfile!;
       notifyDataChanged();
     }
