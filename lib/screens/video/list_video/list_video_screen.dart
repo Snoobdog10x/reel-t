@@ -158,11 +158,14 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
         isFollow: bloc.isFollowCreator(video),
         userPic: creator!.avatar,
         onTapLike: (isActive) async {
-          await bloc.likeVideo(video);
+          bloc.likeVideo(video);
+          if (bloc.currentUser.id.isEmpty) return false;
+
           return true;
         },
         onTapFollow: (isActive) async {
-          await bloc.followUser(video);
+          bloc.followUser(video);
+          if (bloc.currentUser.id.isEmpty) return false;
           return true;
         },
         onTapAvatar: () {

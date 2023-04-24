@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/user/login/login_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -117,7 +118,14 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
   Widget buildBody() {
     var layout = bloc.switchAccounts
         .map(
-          (user) => userAccount(user.avatar, user.fullName, false),
+          (user) =>
+              userAccount(user.avatar, user.fullName, false, onTap: () async {
+            startLoading();
+            await appStore.localUser.switchAccount(user);
+            await appStore.localSetting.syncUserSetting(user.id);
+            stopLoading();
+            pushToScreen(NavigationScreen(), isReplace: true);
+          }),
         )
         .toList();
 

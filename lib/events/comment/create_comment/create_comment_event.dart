@@ -14,7 +14,9 @@ abstract class CreateCommentEvent {
       onCreateCommentEventDone(e);
     }
   }
-
+  void updateCommentNum(){
+    
+  }
   Future<void> _createCommnet(
       Comment? parentComment, Comment? subComment) async {
     if (parentComment == null) return;
@@ -36,7 +38,7 @@ abstract class CreateCommentEvent {
     } else {
       subRef = parentRef.collection(Comment.PATH).doc();
     }
-    
+
     await subRef.set(subComment.toJson());
   }
 
