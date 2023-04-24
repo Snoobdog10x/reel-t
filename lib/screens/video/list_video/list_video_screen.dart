@@ -177,6 +177,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
             Container(
               height: screenHeight() * 0.6,
               child: CommentScreen(
+                video: video,
                 commentsNum: video.commentsNum,
               ),
             ),

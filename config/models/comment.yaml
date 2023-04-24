@@ -1,8 +1,9 @@
 arguments:
   - id: String
+  - videoId: String
   - content: String
   - userId: String
-  - user: UserProfile
   - subCommentsNum: int
   - subComments: Comment
+  - numLikes: int
   - createAt: int

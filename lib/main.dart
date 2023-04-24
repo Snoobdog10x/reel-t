@@ -24,7 +24,7 @@ Future<void> main() async {
     //   isInitSample: false,
     // ); // uncomment this if you run local only run by Thanh
     await AppInit().init(
-        isDebug: true, isInitSample: false); // if not Thanh please run this
+        isDebug: false, isInitSample: false); // if not Thanh please run this
     runApp(
       OverlaySupport.global(
         child: MaterialApp(

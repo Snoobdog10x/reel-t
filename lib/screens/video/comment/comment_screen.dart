@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:comment_tree/comment_tree.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/comment/comment.dart' as ReelComment;
+import '../../../models/video/video.dart';
 import '../../../shared_product/utils/format/format_utlity.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import 'comment_bloc.dart';
@@ -12,9 +14,11 @@ import '../../../shared_product/widgets/default_appbar.dart';
 
 class CommentScreen extends StatefulWidget {
   final int commentsNum;
+  final Video video;
   const CommentScreen({
     super.key,
     this.commentsNum = 0,
+    required this.video,
   });
 
   @override
@@ -23,6 +27,8 @@ class CommentScreen extends StatefulWidget {
 
 class CommentScreenState extends AbstractState<CommentScreen> {
   late CommentBloc bloc;
+  ScrollController controller = ScrollController();
+
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -36,7 +42,13 @@ class CommentScreenState extends AbstractState<CommentScreen> {
   @override
   void onCreate() {
     bloc = CommentBloc();
-    bloc.init();
+    bloc.sendRetrieveCommentEvent(widget.video.id);
+    controller.addListener(() {
+      if (controller.position.pixels == controller.position.maxScrollExtent) {
+        bloc.sendRetrieveCommentEvent(widget.video.id);
+        print('check');
+      }
+    });
   }
 
   @override
@@ -80,6 +92,7 @@ class CommentScreenState extends AbstractState<CommentScreen> {
 
   Widget buildBody() {
     return SingleChildScrollView(
+      controller: controller,
       child: Column(
         children: buildCommentsTree(),
       ),
@@ -161,23 +174,29 @@ class CommentScreenState extends AbstractState<CommentScreen> {
             child: Row(
               children: [
                 SizedBox(
-                  width: 8,
-                ),
-                Text('Like'),
-                SizedBox(
-                  width: 24,
+                  width: 14,
                 ),
                 Text('Reply'),
+                SizedBox(
+                  width: 80,
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(CupertinoIcons.heart),
+                  iconSize: 18,
+                ),
+                SizedBox(width: 2),
+                Text('${comment.numLikes}')
               ],
             ),
           ),
         ),
-        if (isLast) ...[
-          Container(
-            padding: EdgeInsets.only(top: 8, left: 8),
-            child: Text("Load more"),
-          )
-        ]
+        // if (isLast) ...[
+        //   Container(
+        //     padding: EdgeInsets.only(top: 8, left: 8),
+        //     child: Text("Load more ${isLast.toString()}"),
+        //   )
+        // ]
       ],
     );
   }
@@ -195,10 +214,9 @@ class CommentScreenState extends AbstractState<CommentScreen> {
               color: Colors.lightBlue,
               borderRadius: BorderRadius.circular(25),
             ),
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
+            child: CircleImage(
+              appStore.localUser.getCurrentUser().avatar,
+              radius: 40,
             ),
           ),
         ),
@@ -206,9 +224,8 @@ class CommentScreenState extends AbstractState<CommentScreen> {
         Expanded(
           child: TextField(
             decoration: InputDecoration(
-              hintText: "Write message...",
+              hintText: "Add comment...",
               hintStyle: TextStyle(color: Colors.black54),
-              border: InputBorder.none,
             ),
             onTapOutside: (event) {
               FocusScope.of(context).unfocus();
@@ -218,18 +235,10 @@ class CommentScreenState extends AbstractState<CommentScreen> {
         SizedBox(width: 15),
         GestureDetector(
           onTap: () {},
-          child: Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-              color: Colors.lightBlue,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Icon(
-              Icons.send,
-              color: Colors.white,
-              size: 20,
-            ),
+          child: Icon(
+            Icons.send,
+            color: Colors.grey,
+            size: 20,
           ),
         ),
         SizedBox(width: 10),

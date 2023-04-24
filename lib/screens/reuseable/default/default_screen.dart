@@ -9,11 +9,13 @@ import 'package:reel_t/screens/search/search_screen.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
+import '../../../models/video/video.dart';
 import '../../messenger/home_chat/home_chat_screen.dart';
 import '../../navigation/navigation_screen.dart';
 import '../../user/login/login_screen.dart';
 import '../../sub_setting_user/setting_and_privacy_personal/setting_and_privacy_personal_screen.dart';
 import '../../user/signup/signup_screen.dart';
+import '../../video/comment/comment_screen.dart';
 import '../../video/feed/feed_screen.dart';
 import '../../welcome/welcome_screen.dart';
 import '../../../generated/abstract_bloc.dart';
@@ -228,6 +230,14 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
               pushToScreen(SearchScreen(), isReplace: false);
             },
             child: Text("Search"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(CommentScreen(video: Video(id: '0')),
+                  isReplace: false);
+            },
+            child: Text("List Video"),
           ),
         ],
       ),
