@@ -63,9 +63,15 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
     if (e.isEmpty) {
       return;
     }
-    if (e == "success") {
+    if (e == "signup") {
       await appStore.localUser.login(signedUser!);
       sendCreateUserSettingEvent(signedUser.id);
+      return;
+    }
+
+    if (e == "login") {
+      await appStore.localUser.login(signedUser!);
+      await appStore.localSetting.syncUserSetting(signedUser.id);
       return;
     }
     state.showAlertDialog(

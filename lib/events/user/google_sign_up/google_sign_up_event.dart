@@ -32,12 +32,12 @@ abstract class GoogleSignUpEvent {
 
       var userCredential = await signInUser(googleUserSignIn);
       if (user != null) {
-        onGoogleSignUpEventDone("success", user);
+        onGoogleSignUpEventDone("login", user);
         return;
       }
 
       var signedUser = await _createUserProfile(userCredential);
-      onGoogleSignUpEventDone("success", signedUser);
+      onGoogleSignUpEventDone("signup", signedUser);
     } catch (e) {
       print(e);
       onGoogleSignUpEventDone(e.toString(), null);
