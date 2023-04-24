@@ -175,7 +175,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
         onTapComment: (isActive) async {
           showScreenBottomSheet(
             Container(
-              height: screenHeight() * 0.6,
+              height: screenHeight() * 0.7,
               child: CommentScreen(
                 video: video,
                 commentsNum: video.commentsNum,
