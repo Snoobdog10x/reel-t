@@ -34,7 +34,10 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
           conversations.add(conversation);
           var secondUserId = conversation.userIds
               .firstWhere((element) => element != currentUser.id);
-          sendRetrieveUserProfileEvent(secondUserId, conversation.id);
+          sendRetrieveUserProfileEvent(
+            userId: secondUserId,
+            conversationId: conversation.id,
+          );
         } else {
           mergeConversation(conversation);
         }
@@ -90,7 +93,10 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
         var userIds = List.from(conversation.userIds);
         userIds.remove(currentUser.id);
         var secondUserId = userIds.first;
-        sendRetrieveUserProfileEvent(secondUserId, conversation.id);
+        sendRetrieveUserProfileEvent(
+          userId: secondUserId,
+          conversationId: conversation.id,
+        );
       } else {
         mergeConversation(conversation);
       }

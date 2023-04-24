@@ -40,7 +40,7 @@ class NewChatBloc extends AbstractBloc<NewChatScreenState>
     this.newConversation = conversation;
     var userIds = List.from(conversation.userIds);
     userIds.remove(appStore.localUser.getCurrentUser().id);
-    sendRetrieveUserProfileEvent(userIds.first);
+    sendRetrieveUserProfileEvent(userId: userIds.first);
   }
 
   @override

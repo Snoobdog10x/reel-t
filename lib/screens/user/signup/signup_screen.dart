@@ -159,24 +159,7 @@ class SignupScreenState extends AbstractState<SignupScreen> {
       width: screenWidth(),
       child: Column(
         children: [
-          ThreeRowButton(
-            onTap: () {
-              if (!isValidPassword) {
-                return;
-              }
-              bloc.signIn();
-            },
-            color: isValidPassword ? Colors.green : Colors.grey[500]!,
-            title: Text(
-              "SIGN IN",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          SizedBox(height: 8),
+           
           Container(
             width: screenWidth() * 0.6,
             child: Row(
@@ -195,33 +178,16 @@ class SignupScreenState extends AbstractState<SignupScreen> {
             ),
           ),
           SizedBox(height: 8),
-          Text(
-            "Or",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w200,
-            ),
-          ),
-          SizedBox(height: 8),
           ThreeRowButton(
             onTap: () {
-              bloc.sendGoogleSignUpEvent();
-              startLoading();
+              if (!isValidPassword) {
+                return;
+              }
+              bloc.signIn();
             },
-            color: Colors.blueAccent,
-            prefixIcon: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-              ),
-              child: Image.asset(
-                "lib/shared_product/assets/icon/google_icon.png",
-              ),
-            ),
+            color: isValidPassword ? Colors.green : Colors.grey[500]!,
             title: Text(
-              "CONNECT WITH GOOGLE",
+              "SIGN IN",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,

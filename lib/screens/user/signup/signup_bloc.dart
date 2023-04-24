@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:firebase_auth_platform_interface/src/providers/oauth.dart';
 import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
+import 'package:reel_t/events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_bloc.dart';
@@ -13,7 +16,7 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_bloc.dart';
 
 class SignupBloc extends AbstractBloc<SignupScreenState>
-    with GoogleSignUpEvent, SendEmailOtpEvent, CreateUserSettingEvent {
+    with SendEmailOtpEvent, CreateUserSettingEvent, RetrieveUserProfileEvent {
   String email = "";
   String password = "";
   Future<void> signIn() async {
@@ -28,38 +31,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
       );
       return;
     }
-
-    if (await isUserExists(email)) {
-      state.showAlertDialog(
-        title: "Sign-up",
-        content: "User already exists",
-        confirm: () {
-          state.popTopDisplay();
-        },
-      );
-      return;
-    }
-    sendSendEmailOtpEvent(email);
-  }
-
-  @override
-  void onGoogleSignUpEventDone(e, signedUser) {
-    state.stopLoading();
-    if (e.isEmpty) {
-      return;
-    }
-    if (e == "success") {
-      appStore.localUser.login(signedUser!);
-      sendCreateUserSettingEvent(signedUser.id);
-      return;
-    }
-    state.showAlertDialog(
-      title: "Sign-up",
-      content: e,
-      confirm: () {
-        state.popTopDisplay();
-      },
-    );
+    sendRetrieveUserProfileEvent(email: email);
   }
 
   @override
@@ -93,8 +65,19 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
   }
 
   @override
-  void onGoogleSignUpEventDoneWithExistsUser(
-      String e, OAuthCredential googleCredential) {
-    // TODO: implement onGoogleSignUpEventDoneWithExistsUser
+  void onRetrieveUserProfileEventDone(e, UserProfile? userProfile,
+      [String? ConversationId]) {
+    if (userProfile != null) {
+      state.showAlertDialog(
+        title: "Sign-up",
+        content: "User already exists",
+        confirm: () {
+          state.popTopDisplay();
+        },
+      );
+      return;
+    }
+    
+    sendSendEmailOtpEvent(email);
   }
 }
