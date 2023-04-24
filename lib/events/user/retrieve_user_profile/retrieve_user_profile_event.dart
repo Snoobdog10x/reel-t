@@ -12,6 +12,7 @@ abstract class RetrieveUserProfileEvent {
       var user = await _retrieveUserProfile(userId: userId, email: email);
       if (user == null) {
         onRetrieveUserProfileEventDone("not found User", user, conversationId);
+        return;
       }
 
       onRetrieveUserProfileEventDone("", user, conversationId);

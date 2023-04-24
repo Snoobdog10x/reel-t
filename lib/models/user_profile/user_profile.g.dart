@@ -27,7 +27,7 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       numFollower: fields[7] as int?,
       numFollowing: fields[8] as int?,
       numLikes: fields[9] as int?,
-      isSignUpByGoogle: fields[10] as bool?,
+      signUpType: fields[10] as int?,
       isOnline: fields[11] as bool?,
       isActive: fields[12] as bool?,
       isDeleted: fields[13] as bool?,
@@ -60,7 +60,7 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       ..writeByte(9)
       ..write(obj.numLikes)
       ..writeByte(10)
-      ..write(obj.isSignUpByGoogle)
+      ..write(obj.signUpType)
       ..writeByte(11)
       ..write(obj.isOnline)
       ..writeByte(12)

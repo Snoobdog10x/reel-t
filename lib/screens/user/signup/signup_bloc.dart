@@ -16,10 +16,10 @@ import '../../../models/user_profile/user_profile.dart';
 import '../../../generated/abstract_bloc.dart';
 
 class SignupBloc extends AbstractBloc<SignupScreenState>
-    with SendEmailOtpEvent, CreateUserSettingEvent, RetrieveUserProfileEvent {
+    with SendEmailOtpEvent, RetrieveUserProfileEvent {
   String email = "";
   String password = "";
-  Future<void> signIn() async {
+  Future<void> signUp() async {
     state.startLoading();
     if (!EmailValidator().isValid(email)) {
       state.showAlertDialog(
@@ -45,9 +45,9 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
           previousScreen: SignupScreenState.SIGN_UP_SCREEN,
         ),
       );
-
       return;
     }
+
     state.showAlertDialog(
       title: "Sign-up",
       content: "Server error, please try later",
@@ -55,13 +55,6 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
         state.popTopDisplay();
       },
     );
-    state.stopLoading();
-  }
-
-  @override
-  void onCreateUserSettingEventDone(Setting? setting) {
-    if (setting != null) appStore.localSetting.setUserSetting(setting);
-    state.popTopDisplay();
   }
 
   @override
@@ -77,7 +70,7 @@ class SignupBloc extends AbstractBloc<SignupScreenState>
       );
       return;
     }
-    
+
     sendSendEmailOtpEvent(email);
   }
 }
