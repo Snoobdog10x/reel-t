@@ -110,25 +110,25 @@ class CommentScreenState extends AbstractState<CommentScreen> {
             lineColor: hasSub ? Colors.grey[200]! : Colors.white,
             lineWidth: 2,
           ),
-          avatarRoot: (context, data) => PreferredSize(
+          avatarRoot: (context, comment) => PreferredSize(
             preferredSize: Size.fromRadius(20),
             child: CircleImage(
-              bloc.mockAvatar,
+              bloc.getUserProfile(comment).avatar,
               radius: 40,
             ),
           ),
-          avatarChild: (context, data) => PreferredSize(
+          avatarChild: (context, comment) => PreferredSize(
             preferredSize: Size.fromRadius(20),
             child: CircleImage(
-              bloc.mockAvatar,
+              bloc.getUserProfile(comment).avatar,
               radius: 30,
             ),
           ),
           contentChild: (context, data) {
-            return buildComment(data, data == comment.subComments.last);
+            return buildComment(data);
           },
           contentRoot: (context, data) {
-            return buildComment(data, comment.subComments.isEmpty);
+            return buildComment(data);
           },
         );
       });
@@ -136,7 +136,7 @@ class CommentScreenState extends AbstractState<CommentScreen> {
     return commentTrees;
   }
 
-  Widget buildComment(ReelComment.Comment comment, bool isLast) {
+  Widget buildComment(ReelComment.Comment comment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -149,7 +149,7 @@ class CommentScreenState extends AbstractState<CommentScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'dangngocduc',
+                bloc.getUserProfile(comment).fullName,
                 style: Theme.of(context).textTheme.caption?.copyWith(
                     fontWeight: FontWeight.w600, color: Colors.black),
               ),
@@ -180,10 +180,11 @@ class CommentScreenState extends AbstractState<CommentScreen> {
                 SizedBox(
                   width: 80,
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(CupertinoIcons.heart),
-                  iconSize: 18,
+                GestureDetector(
+                  onTap: () {
+                    
+                  },
+                  child: Icon(CupertinoIcons.heart, size: 18),
                 ),
                 SizedBox(width: 2),
                 Text('${comment.numLikes}')
@@ -191,12 +192,6 @@ class CommentScreenState extends AbstractState<CommentScreen> {
             ),
           ),
         ),
-        // if (isLast) ...[
-        //   Container(
-        //     padding: EdgeInsets.only(top: 8, left: 8),
-        //     child: Text("Load more ${isLast.toString()}"),
-        //   )
-        // ]
       ],
     );
   }
@@ -237,7 +232,7 @@ class CommentScreenState extends AbstractState<CommentScreen> {
           onTap: () {},
           child: Icon(
             Icons.send,
-            color: Colors.grey,
+            color: Colors.black,
             size: 20,
           ),
         ),
