@@ -10,8 +10,13 @@ arguments:
   - numFollower: int
   - numFollowing: int
   - numLikes: int
-  - isSignUpByGoogle: bool
+  - signUpType: int
   - isOnline: bool
   - isActive: bool
   - isDeleted: bool
   - createAt: int
+enums:
+  - sign_up_type:
+    - google
+    - email
+    - both

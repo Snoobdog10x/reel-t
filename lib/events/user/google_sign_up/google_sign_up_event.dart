@@ -21,30 +21,27 @@ abstract class GoogleSignUpEvent {
         return;
       }
 
-      if (await isUserExists(googleUserSignIn.email)) {
-        var authentication = await googleUserSignIn.authentication;
-        final credential = GoogleAuthProvider.credential(
-          idToken: authentication.idToken,
-        );
+      var user = await _getUserProfileByEmail(googleUserSignIn.email);
+      if (user != null && user.signUpType == SignUpType.EMAIL.index) {
         onGoogleSignUpEventDoneWithExistsUser(
-          "This email has been registered, please ",
-          credential,
+          "This email has been registered, use another account or link its to this google",
+          googleUserSignIn,
         );
         return;
       }
 
       var userCredential = await signInUser(googleUserSignIn);
+      if (user != null) {
+        onGoogleSignUpEventDone("login", user);
+        return;
+      }
+
       var signedUser = await _createUserProfile(userCredential);
-      onGoogleSignUpEventDone("success", signedUser);
+      onGoogleSignUpEventDone("signup", signedUser);
     } catch (e) {
       print(e);
       onGoogleSignUpEventDone(e.toString(), null);
     }
-  }
-
-  Future<bool> isUserExists(String email) async {
-    var userProfile = await _getUserProfileByEmail(email);
-    return userProfile != null;
   }
 
   Future<UserProfile?> _getUserProfileByEmail(String email) async {
@@ -71,7 +68,7 @@ abstract class GoogleSignUpEvent {
     final db = FirebaseFirestore.instance.collection(UserProfile.PATH);
     var user = userCredential.user;
     if (user == null) return null;
-    
+
     var id = user.uid;
     var tempName = user.email!.split("@")[0];
     UserProfile newUserProfile = UserProfile(
@@ -79,7 +76,7 @@ abstract class GoogleSignUpEvent {
       email: user.email,
       fullName: tempName,
       userName: "@$tempName",
-      isSignUpByGoogle: true,
+      signUpType: SignUpType.GOOGLE.index,
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
     await db.doc(id).set(newUserProfile.toJson());
@@ -89,6 +86,6 @@ abstract class GoogleSignUpEvent {
   void onGoogleSignUpEventDone(String e, UserProfile? signedUser);
   void onGoogleSignUpEventDoneWithExistsUser(
     String e,
-    OAuthCredential googleCredential,
+    GoogleSignInAccount googleSignInAccount,
   );
 }

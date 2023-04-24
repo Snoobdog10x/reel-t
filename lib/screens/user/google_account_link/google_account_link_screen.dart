@@ -1,22 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
-import '../signup/signup_bloc.dart';
 import '../../../shared_product/widgets/button/three_row_button.dart';
 import '../../../shared_product/widgets/text_field/custom_text_field.dart';
+import 'google_account_link_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class GoogleAccountLinkScreen extends StatefulWidget {
+  final GoogleSignInAccount googleSignInAccount;
+  const GoogleAccountLinkScreen({super.key, required this.googleSignInAccount});
 
   @override
-  State<SignupScreen> createState() => SignupScreenState();
+  State<GoogleAccountLinkScreen> createState() =>
+      GoogleAccountLinkScreenState();
 }
 
-class SignupScreenState extends AbstractState<SignupScreen> {
-  late SignupBloc bloc;
+class GoogleAccountLinkScreenState
+    extends AbstractState<GoogleAccountLinkScreen> {
+  late GoogleAccountLinkBloc bloc;
   static String SIGN_UP_SCREEN = "sign_up_screen";
   TextEditingController passwordController = TextEditingController();
   bool isValidPassword = false;
@@ -32,7 +37,13 @@ class SignupScreenState extends AbstractState<SignupScreen> {
 
   @override
   void onCreate() {
-    bloc = SignupBloc();
+    bloc = GoogleAccountLinkBloc();
+    bloc.init(widget.googleSignInAccount);
+  }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
   }
 
   @override
@@ -40,12 +51,12 @@ class SignupScreenState extends AbstractState<SignupScreen> {
     return ChangeNotifierProvider(
       create: (context) => bloc,
       builder: (context, child) {
-        return Consumer<SignupBloc>(
+        return Consumer<GoogleAccountLinkBloc>(
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
               appBar: DefaultAppBar(
-                appBarTitle: "Sign-up",
+                appBarTitle: "Linking Google",
                 onTapBackButton: () => popTopDisplay(),
               ),
               body: body,
@@ -85,27 +96,15 @@ class SignupScreenState extends AbstractState<SignupScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Create Account",
+            "Link Google",
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          Text("Enter your Name, Email, and Password for sign up."),
-          GestureDetector(
-            onTap: () {
-              popTopDisplay();
-            },
-            child: Text(
-              "Already have account?",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              ),
-            ),
-          ),
+          Text(
+              "Please Enter your account password to complete link account with google."),
         ],
       ),
     );
@@ -118,37 +117,11 @@ class SignupScreenState extends AbstractState<SignupScreen> {
         children: [
           SizedBox(height: 8),
           CustomTextField(
-            hintText: "Email",
-            onTextChanged: (value) {
-              bloc.email = value;
-            },
-          ),
-          SizedBox(height: 8),
-          CustomTextField(
             controller: passwordController,
             hintText: "Password",
             isPasswordField: true,
-            onTextChanged: (value) {
-              bloc.password = value;
-            },
+            onTextChanged: (value) {},
           ),
-          SizedBox(height: 8),
-          FlutterPwValidator(
-            controller: passwordController,
-            minLength: 8,
-            uppercaseCharCount: 1,
-            numericCharCount: 3,
-            width: 400,
-            height: 150,
-            onSuccess: () {
-              isValidPassword = true;
-              notifyDataChanged();
-            },
-            onFail: () {
-              isValidPassword = false;
-              notifyDataChanged();
-            },
-          )
         ],
       ),
     );
@@ -159,35 +132,15 @@ class SignupScreenState extends AbstractState<SignupScreen> {
       width: screenWidth(),
       child: Column(
         children: [
-           
-          Container(
-            width: screenWidth() * 0.6,
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  child: Text(
-                    "By Signing up you agree to our Terms Conditions & Privacy Policy",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
           SizedBox(height: 8),
           ThreeRowButton(
             onTap: () {
-              if (!isValidPassword) {
-                return;
-              }
-              bloc.signUp();
+              startLoading();
+              bloc.authenticate(passwordController.text);
             },
-            color: isValidPassword ? Colors.green : Colors.grey[500]!,
+            color: Colors.green,
             title: Text(
-              "SIGN IN",
+              "Link Google",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -201,16 +154,5 @@ class SignupScreenState extends AbstractState<SignupScreen> {
   }
 
   @override
-  void onPopWidget(String previousScreen) {
-    // TODO: implement onPopWidget
-    super.onPopWidget(previousScreen);
-  }
-
-  @override
   void onDispose() {}
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-  }
 }

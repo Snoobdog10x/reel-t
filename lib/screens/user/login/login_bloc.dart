@@ -1,10 +1,12 @@
 import 'package:firebase_auth_platform_interface/src/providers/oauth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
 import 'package:reel_t/events/setting/retrieve_user_setting/retrieve_user_setting_event.dart';
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
+import 'package:reel_t/screens/user/google_account_link/google_account_link_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_screen.dart';
 
 import '../../../events/user/user_sign_in/user_sign_in_event.dart';
@@ -61,9 +63,15 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
     if (e.isEmpty) {
       return;
     }
-    if (e == "success") {
+    if (e == "signup") {
       await appStore.localUser.login(signedUser!);
       sendCreateUserSettingEvent(signedUser.id);
+      return;
+    }
+
+    if (e == "login") {
+      await appStore.localUser.login(signedUser!);
+      await appStore.localSetting.syncUserSetting(signedUser.id);
       return;
     }
     state.showAlertDialog(
@@ -101,10 +109,21 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
 
   @override
   void onGoogleSignUpEventDoneWithExistsUser(
-      String e, OAuthCredential googleCredential) {
+      String e, GoogleSignInAccount googleSignInAccount) {
     state.showAlertDialog(
       title: "Sign-in",
       content: e,
+      confirmTitle: "Link",
+      cancelTitle: "Cancel",
+      confirm: () {
+        state.popTopDisplay();
+        state.pushToScreen(
+          GoogleAccountLinkScreen(googleSignInAccount: googleSignInAccount),
+        );
+      },
+      cancel: () {
+        state.popTopDisplay();
+      },
     );
   }
 }

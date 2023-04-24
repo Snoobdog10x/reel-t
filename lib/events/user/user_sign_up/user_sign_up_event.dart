@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 import '../../../models/user_profile/user_profile.dart';
 
@@ -31,7 +30,7 @@ abstract class UserSignUpEvent {
       fullName: tempName,
       userName: "@$tempName",
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
-      isSignUpByGoogle: false,
+      signUpType: SignUpType.EMAIL.index,
     );
     await db.doc(id).set(userProfile.toJson());
     return userProfile;

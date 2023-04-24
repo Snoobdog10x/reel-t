@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../generated/abstract_model.dart';
 import 'package:hive/hive.dart';
 part 'user_profile.g.dart';
-
+enum SignUpType { GOOGLE,EMAIL,BOTH }
 
 @HiveType(typeId: 0)
 class UserProfile extends HiveObject{
@@ -37,9 +37,9 @@ class UserProfile extends HiveObject{
 	static const String numLikes_PATH = "numLikes";
 	@HiveField(9) 
 	int numLikes = 0;
-	static const String isSignUpByGoogle_PATH = "isSignUpByGoogle";
+	static const String signUpType_PATH = "signUpType";
 	@HiveField(10) 
-	bool isSignUpByGoogle = false;
+	int signUpType = 0;
 	static const String isOnline_PATH = "isOnline";
 	@HiveField(11) 
 	bool isOnline = false;
@@ -65,7 +65,7 @@ class UserProfile extends HiveObject{
 		int? numFollower,
 		int? numFollowing,
 		int? numLikes,
-		bool? isSignUpByGoogle,
+		int? signUpType,
 		bool? isOnline,
 		bool? isActive,
 		bool? isDeleted,
@@ -81,7 +81,7 @@ class UserProfile extends HiveObject{
 		if(numFollower != null) this.numFollower = numFollower;
 		if(numFollowing != null) this.numFollowing = numFollowing;
 		if(numLikes != null) this.numLikes = numLikes;
-		if(isSignUpByGoogle != null) this.isSignUpByGoogle = isSignUpByGoogle;
+		if(signUpType != null) this.signUpType = signUpType;
 		if(isOnline != null) this.isOnline = isOnline;
 		if(isActive != null) this.isActive = isActive;
 		if(isDeleted != null) this.isDeleted = isDeleted;
@@ -99,7 +99,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
 		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
 		if(jsonMap["numLikes"] != null) numLikes = jsonMap["numLikes"];
-		if(jsonMap["isSignUpByGoogle"] != null) isSignUpByGoogle = jsonMap["isSignUpByGoogle"];
+		if(jsonMap["signUpType"] != null) signUpType = jsonMap["signUpType"];
 		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
 		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
@@ -118,7 +118,7 @@ class UserProfile extends HiveObject{
 		if(jsonMap["numFollower"] != null) numFollower = jsonMap["numFollower"];
 		if(jsonMap["numFollowing"] != null) numFollowing = jsonMap["numFollowing"];
 		if(jsonMap["numLikes"] != null) numLikes = jsonMap["numLikes"];
-		if(jsonMap["isSignUpByGoogle"] != null) isSignUpByGoogle = jsonMap["isSignUpByGoogle"];
+		if(jsonMap["signUpType"] != null) signUpType = jsonMap["signUpType"];
 		if(jsonMap["isOnline"] != null) isOnline = jsonMap["isOnline"];
 		if(jsonMap["isActive"] != null) isActive = jsonMap["isActive"];
 		if(jsonMap["isDeleted"] != null) isDeleted = jsonMap["isDeleted"];
@@ -145,7 +145,7 @@ class UserProfile extends HiveObject{
 		jsonMap["numFollower"] = numFollower;
 		jsonMap["numFollowing"] = numFollowing;
 		jsonMap["numLikes"] = numLikes;
-		jsonMap["isSignUpByGoogle"] = isSignUpByGoogle;
+		jsonMap["signUpType"] = signUpType;
 		jsonMap["isOnline"] = isOnline;
 		jsonMap["isActive"] = isActive;
 		jsonMap["isDeleted"] = isDeleted;

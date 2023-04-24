@@ -57,8 +57,9 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
     bloc = ProfileBloc();
     bloc.init(widget.userFollow);
     bloc.sendRetrieveUserVideoEvent(widget.user.id);
-    bloc.sendGetFollowUserEvent(
-        appStore.localUser.getCurrentUser().id, widget.user.id);
+    if (widget.user.id != appStore.localUser.getCurrentUser().id)
+      bloc.sendGetFollowUserEvent(
+          appStore.localUser.getCurrentUser().id, widget.user.id);
   }
 
   @override
