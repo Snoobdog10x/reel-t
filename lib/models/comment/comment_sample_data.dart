@@ -11,36 +11,42 @@ class CommentData with CreateCommentEvent {
       "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F02062023_image_Beauty_1.jpg?alt=media&token=cec98024-1775-48a5-9740-63d79d441842";
   List<Comment> comments = [];
 
-  void initCommentData() {
+  Future<void> initCommentData(String videoId) async {
     List<String> contents = [
       "bạn xinh quá!",
       "wow trông thật cute",
       "hihi",
       "mãi keo"
     ];
-    for (int j = 0; j < 52; j++) {
+
+    for (int i = 0; i < 10; i++) {
+      var id = i.toString();
+      var comment = Comment(
+        id: id,
+        userId: id,
+        videoId: videoId,
+        content: contents[Random().nextInt(contents.length)],
+        createAt: FormatUtility.getMillisecondsSinceEpoch(),
+        numLikes: Random().nextInt(30000),
+      );
+      await sendCreateCommentEvent(parentComment: comment);
+      comments.add(comment);
+    }
+    comments.forEach((element) {
       for (int i = 0; i < 10; i++) {
         var id = i.toString();
         var comment = Comment(
           id: id,
           userId: id,
-          videoId: j.toString(),
+          videoId: videoId,
           content: contents[Random().nextInt(contents.length)],
           createAt: FormatUtility.getMillisecondsSinceEpoch(),
           numLikes: Random().nextInt(30000),
         );
-        sendCreateCommentEvent(parentComment: comment);
+        sendCreateCommentEvent(parentComment: element, subComment: comment);
         comments.add(comment);
       }
-      comments[0].subComments.addAll(comments.getRange(0, 3));
-      comments[2].subComments.addAll(comments.getRange(3, 6));
-      comments[0].subComments.forEach((comment) {
-        sendCreateCommentEvent(subComment: comment, parentComment: comments[0]);
-      });
-      comments[2].subComments.forEach((comment) {
-        sendCreateCommentEvent(subComment: comment, parentComment: comments[2]);
-      });
-    }
+    });
   }
 
   @override

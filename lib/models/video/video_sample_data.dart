@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:reel_t/models/comment/comment_sample_data.dart';
 import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -14,7 +15,7 @@ import '../../shared_product/services/cloud_storage.dart';
 import '../like/like.dart';
 
 class VideoData {
-  Future<List<Video>> _getVideoData() async {
+  List<Video> _getVideoData() {
     List<Video> videoData = [];
     Map<String, String> videoThumbnails = {
       "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/videos%2F02062023_video_Beauty_1.mp4?alt=media&token=b0ae926e-5e2b-4d3f-85f1-ea8ee9263293":
@@ -113,13 +114,15 @@ class VideoData {
   }
 
   Future<void> initSampleData() async {
-    var videos = await _getVideoData();
+    List<Future> addVideoData = [];
+    final db = FirebaseFirestore.instance.collection(Video.PATH);
+    var videos = _getVideoData();
     for (var video in videos) {
-      final db = FirebaseFirestore.instance;
-      db
-          .collection(Video.PATH)
-          .doc(video.id)
-          .set(video.toJson());
+      addVideoData.add(db.doc(video.id).set(video.toJson()));
     }
+    await Future.wait(addVideoData);
+    videos.forEach((video) {
+      CommentData().initCommentData(video.id);
+    });
   }
 }

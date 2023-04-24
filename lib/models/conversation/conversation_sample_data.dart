@@ -7,7 +7,7 @@ import 'conversation.dart';
 import '../message/message.dart';
 
 class ConversationData {
-  Future<void> initConversationData() async {
+  void initConversationData() async {
     for (int i = 0; i < 10; i++) {
       var conversation = Conversation(
         id: i.toString(),
