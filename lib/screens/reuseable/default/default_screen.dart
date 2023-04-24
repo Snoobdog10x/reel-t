@@ -79,7 +79,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
             onPressed: () async {
               startLoading();
               await bloc.loginUser(UserProfile.fromJson({
-                "id": "Pg8GacuZI2aqJRXLBDmXXZqGVwo1",
+                "id": "tAiPfyMJaYYe0M50ZadPbiiehdt1",
                 "fullName": "duythanh1565",
                 "email": "duythanh1565@gmail.com",
                 "userName": "@duythanh1565",
@@ -95,6 +95,8 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
                 "isDeleted": false,
                 "createAt": 0
               }));
+              appStore.localSetting
+                  .syncUserSetting("tAiPfyMJaYYe0M50ZadPbiiehdt1");
               stopLoading();
             },
             child: Text("Fast login duy thanh"),
@@ -119,6 +121,8 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
                 "isDeleted": false,
                 "createAt": 0
               }));
+              appStore.localSetting
+                  .syncUserSetting("lSScQqjmqJVt9pVC8nHknMjsMIE2");
               stopLoading();
             },
             child: Text("Fast login heo con"),

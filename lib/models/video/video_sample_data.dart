@@ -93,10 +93,10 @@ class VideoData {
 
       videoData.add(
         Video(
-          id: (videoThumbnails.length + i).toString(),
+          id: (videoThumbnails.keys.length + i).toString(),
           videoUrl: url,
           songName: "",
-          creatorId: "Pg8GacuZI2aqJRXLBDmXXZqGVwo1",
+          creatorId: "tAiPfyMJaYYe0M50ZadPbiiehdt1",
           publicMode: PublicMode.PUBLIC.index,
           likesNum: _random.nextInt(2000000),
           commentsNum: _random.nextInt(2000000),
@@ -118,7 +118,7 @@ class VideoData {
       final db = FirebaseFirestore.instance;
       db
           .collection(Video.PATH)
-          .doc(videos.indexOf(video).toString())
+          .doc(video.id)
           .set(video.toJson());
     }
   }
