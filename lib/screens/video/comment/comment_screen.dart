@@ -3,6 +3,7 @@ import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/video/comment/comment_block/comment_block_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/comment/comment.dart' as ReelComment;
@@ -25,7 +26,8 @@ class CommentScreen extends StatefulWidget {
   State<CommentScreen> createState() => CommentScreenState();
 }
 
-class CommentScreenState extends AbstractState<CommentScreen> {
+class CommentScreenState extends AbstractState<CommentScreen>
+    with AutomaticKeepAliveClientMixin {
   late CommentBloc bloc;
   ScrollController controller = ScrollController();
 
@@ -94,105 +96,15 @@ class CommentScreenState extends AbstractState<CommentScreen> {
     return SingleChildScrollView(
       controller: controller,
       child: Column(
-        children: buildCommentsTree(),
+        children: bloc.comments
+            .map(
+              (comment) => CommentBlockScreen(
+                comment: comment,
+                users: bloc.userCommentMap,
+              ),
+            )
+            .toList(),
       ),
-    );
-  }
-
-  List<Widget> buildCommentsTree() {
-    List<Widget> commentTrees = bloc.comments.map((comment) {
-      bool hasSub = comment.subComments.isNotEmpty;
-      return StatefulBuilder(builder: (context, setState) {
-        return CommentTreeWidget<ReelComment.Comment, ReelComment.Comment>(
-          comment,
-          comment.subComments,
-          treeThemeData: TreeThemeData(
-            lineColor: hasSub ? Colors.grey[200]! : Colors.white,
-            lineWidth: 2,
-          ),
-          avatarRoot: (context, comment) => PreferredSize(
-            preferredSize: Size.fromRadius(20),
-            child: CircleImage(
-              bloc.getUserProfile(comment).avatar,
-              radius: 40,
-            ),
-          ),
-          avatarChild: (context, comment) => PreferredSize(
-            preferredSize: Size.fromRadius(20),
-            child: CircleImage(
-              bloc.getUserProfile(comment).avatar,
-              radius: 30,
-            ),
-          ),
-          contentChild: (context, data) {
-            return buildComment(data);
-          },
-          contentRoot: (context, data) {
-            return buildComment(data);
-          },
-        );
-      });
-    }).toList();
-    return commentTrees;
-  }
-
-  Widget buildComment(ReelComment.Comment comment) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: screenWidth() * 0.6,
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          decoration: BoxDecoration(
-              color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                bloc.getUserProfile(comment).fullName,
-                style: Theme.of(context).textTheme.caption?.copyWith(
-                    fontWeight: FontWeight.w600, color: Colors.black),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                '${comment.content}',
-                style: Theme.of(context).textTheme.caption?.copyWith(
-                    fontWeight: FontWeight.w300, color: Colors.black),
-              ),
-            ],
-          ),
-        ),
-        DefaultTextStyle(
-          style: Theme.of(context)
-              .textTheme
-              .caption!
-              .copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
-          child: Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 14,
-                ),
-                Text('Reply'),
-                SizedBox(
-                  width: 80,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    
-                  },
-                  child: Icon(CupertinoIcons.heart, size: 18),
-                ),
-                SizedBox(width: 2),
-                Text('${comment.numLikes}')
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -243,4 +155,8 @@ class CommentScreenState extends AbstractState<CommentScreen> {
 
   @override
   void onDispose() {}
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

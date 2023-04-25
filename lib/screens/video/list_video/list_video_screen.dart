@@ -34,6 +34,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoBloc bloc;
   late PreloadPageController _controller;
+  Widget? bottomSheet;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -176,15 +177,15 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
           ));
         },
         onTapComment: (isActive) async {
-          showScreenBottomSheet(
-            Container(
+          if (bottomSheet == null)
+            bottomSheet = Container(
               height: screenHeight() * 0.7,
               child: CommentScreen(
                 video: video,
                 commentsNum: video.commentsNum,
               ),
-            ),
-          );
+            );
+          showScreenBottomSheet(bottomSheet!);
         },
       ),
     );

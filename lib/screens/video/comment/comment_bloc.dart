@@ -16,12 +16,6 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
   List<Comment> comments = [];
   void init() {}
 
-  UserProfile getUserProfile(Comment comment) {
-    var userProfile = userCommentMap[comment.userId];
-    if (userProfile == null) return UserProfile();
-    return userProfile;
-  }
-
   void sendLikes(Comment comment){
 
   }
@@ -44,7 +38,6 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
       });
     });
     notifyDataChanged();
-    // TODO: implement onRetrieveCommentEventDone
   }
 
   @override
@@ -53,6 +46,5 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
     if (userProfile == null) return;
     userCommentMap[userProfile.id] = userProfile;
     notifyDataChanged();
-    // TODO: implement onRetrieveUserProfileEventDone
   }
 }
