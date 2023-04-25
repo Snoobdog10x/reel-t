@@ -8,12 +8,7 @@ abstract class RetrieveCommentEvent {
 
   Future<void> sendRetrieveCommentEvent(String videoId) async {
     try {
-      List<Future> waitSubComment = [];
       var parentComments = await _retrieveParentComment(videoId);
-      parentComments.forEach((comment) {
-        waitSubComment.add(_getSubComments(comment));
-      });
-      await Future.wait(waitSubComment);
       onRetrieveCommentEventDone(parentComments);
     } catch (e) {
       print(e);
@@ -39,20 +34,6 @@ abstract class RetrieveCommentEvent {
     if (docs.isEmpty) return [];
     _lastDocument = docs.last;
     return docs.map((doc) => Comment.fromJson(doc.data())).toList();
-  }
-
-  Future<void> _getSubComments(Comment parentComment) async {
-    var db = FirebaseFirestore.instance
-        .collection(Video.PATH)
-        .doc(parentComment.videoId)
-        .collection(Comment.PATH)
-        .doc(parentComment.id)
-        .collection(Comment.PATH);
-    var sortRef = db.orderBy(Comment.numLikes_PATH, descending: true).limit(3);
-    var docs = (await sortRef.get()).docs;
-    if (docs.isEmpty) return;
-    parentComment.subComments =
-        docs.map((doc) => Comment.fromJson(doc.data())).toList();
   }
 
   void onRetrieveCommentEventDone(List<Comment> comments);
