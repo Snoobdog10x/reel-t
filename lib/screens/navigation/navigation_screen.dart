@@ -107,6 +107,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
                 _pageController.jumpToPage(NavigationPage.CHAT.index);
                 notifyDataChanged();
               },
+              numNotification: 10,
             ),
           ),
           Expanded(child: buildAddVideoButton()),
@@ -120,6 +121,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
                 _pageController.jumpToPage(NavigationPage.NOTIFICATION.index);
                 notifyDataChanged();
               },
+              numNotification: 11,
             ),
           ),
           Expanded(
@@ -175,6 +177,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
     IconData? icon,
     bool isSelect, {
     Function? onTap,
+    int? numNotification,
   }) {
     var isBlackBackground = currentScreen == 0;
     return GestureDetector(
@@ -186,16 +189,42 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         child: Column(
           children: [
             Expanded(
-                child: Icon(
-              icon,
-              color: isSelect
-                  ? isBlackBackground
-                      ? Colors.white
-                      : Colors.black
-                  : isBlackBackground
-                      ? Colors.white70
-                      : Colors.black45,
-            )),
+              child: Stack(
+                children: [
+                  Container(
+                    height: 50,
+                    width: 50,
+                    child: Icon(
+                      icon,
+                      color: isSelect
+                          ? isBlackBackground
+                              ? Colors.white
+                              : Colors.black
+                          : isBlackBackground
+                              ? Colors.white70
+                              : Colors.black45,
+                    ),
+                  ),
+                  if (numNotification != null)
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.red),
+                        alignment: Alignment.center,
+                        child: Text(
+                          '${numNotification}',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    )
+                ],
+              ),
+            ),
             Expanded(
               child: Text(
                 title ?? "",

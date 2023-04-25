@@ -17,6 +17,8 @@ class SecuritySettingAndPrivacyScreen extends StatefulWidget {
 class SecuritySettingAndPrivacyScreenState
     extends AbstractState<SecuritySettingAndPrivacyScreen> {
   late SecuritySettingAndPrivacyBloc bloc;
+  bool switchValue = true;
+
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -30,6 +32,7 @@ class SecuritySettingAndPrivacyScreenState
   @override
   void onCreate() {
     bloc = SecuritySettingAndPrivacyBloc();
+    bloc.init();
   }
 
   @override
@@ -111,62 +114,54 @@ class SecuritySettingAndPrivacyScreenState
                     ),
                     Expanded(
                       flex: 4,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          side: BorderSide(
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  height: screenHeight(),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 0.05,
-                                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                height: screenHeight(),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.black,
+                                      width: 0.05,
                                     ),
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '2-step verification',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Two-factor Authentication',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      'Two-factor authentication offers an extra layer of security for your account, even if someone knows your password.',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color:
+                                            Color.fromARGB(255, 160, 160, 160),
                                       ),
-                                      Text(
-                                        '2-step verification offers an extra layer of security for your account, even if someone knows your password.',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color.fromARGB(
-                                              255, 160, 160, 160),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Icon(
-                                CupertinoIcons.forward,
-                                size: 20,
-                                color: Color.fromARGB(255, 160, 160, 160),
-                              ),
-                            ],
-                          ),
+                            ),
+                            CupertinoSwitch(
+                              value: switchValue,
+                              onChanged: (value) {
+                                switchValue = value;
+                                notifyDataChanged();
+                              },
+                            ),
+                          ],
                         ),
-                        onPressed: () {},
                       ),
                     ),
                   ],

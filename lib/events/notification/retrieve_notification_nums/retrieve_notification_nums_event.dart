@@ -4,11 +4,15 @@ import '../../../models/notification/notification.dart';
 import '../../../models/user_profile/user_profile.dart';
 
 abstract class RetrieveNotificationNumsEvent {
-  void sendRetrieveNotificationNumsEvent() {
+  late int countNotification;
+  Future<void> sendRetrieveNotificationNumsEvent(
+      UserProfile currentUser) async {
     try {
-      onRetrieveNotificationNumsEventDone(null);
+      countNotification = await _getCountNotification(currentUser.id);
+      onRetrieveNotificationNumsEventDone(countNotification);
     } catch (e) {
-      onRetrieveNotificationNumsEventDone(e);
+      print(e);
+      onRetrieveNotificationNumsEventDone(0);
     }
   }
 
@@ -21,5 +25,5 @@ abstract class RetrieveNotificationNumsEvent {
     return (await db.count().get()).count;
   }
 
-  void onRetrieveNotificationNumsEventDone(dynamic e);
+  void onRetrieveNotificationNumsEventDone(int countNotification);
 }

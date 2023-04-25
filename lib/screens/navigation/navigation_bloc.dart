@@ -8,4 +8,5 @@ class NavigationBloc extends AbstractBloc<NavigationScreenState> {
   void init() {
     
   }
+  
 }
