@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
+import 'package:reel_t/screens/video/camera_ar/camera_ar_screen.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
@@ -110,7 +111,13 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
               numNotification: 10,
             ),
           ),
-          Expanded(child: buildAddVideoButton()),
+          Expanded(
+            child: buildAddVideoButton(
+              onTap: () {
+                pushToScreen(CameraArScreen());
+              },
+            ),
+          ),
           Expanded(
             child: buildBottomBarItem(
               "Notification",
