@@ -1,0 +1,6 @@
+arguments:
+  - id: String
+  - hashTagName: String
+  - createAt: int
+  - updateAt: int
+  - delete: bool
