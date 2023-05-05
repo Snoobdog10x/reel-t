@@ -10,7 +10,6 @@ import '../video/feed/feed_screen.dart';
 import '../navigation/navigation_bloc.dart';
 import '../notification/notification_screen.dart';
 import '../user/profile/profile_screen.dart';
-import '../search/search_screen.dart';
 
 import '../../shared_product/assets/icon/tik_tok_icons_icons.dart';
 
@@ -42,10 +41,13 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   void onCreate() {
     bloc = NavigationBloc();
     bloc.currentUser = appStore.localUser.getCurrentUser();
+    bloc.init();
+
     pages = {
       NavigationPage.FEED.index: FeedScreen(),
       NavigationPage.CHAT.index: HomeChatScreen(),
-      NavigationPage.NOTIFICATION.index: NotificationScreen(),
+      NavigationPage.NOTIFICATION.index:
+          NotificationScreen(listNotification: bloc.listNotification),
       NavigationPage.PROFILE.index: ProfileScreen(
         user: bloc.currentUser,
       ),
@@ -83,7 +85,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   Widget buildBottomBar() {
     return Container(
       width: screenWidth(),
-      height: screenHeight() * 0.1,
+      height: screenHeight() * 0.105,
       child: Row(
         children: [
           Expanded(
@@ -124,11 +126,14 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
               TikTokIcons.messages,
               currentScreen == NavigationPage.NOTIFICATION.index,
               onTap: () {
+                // print(bloc.countNotifications);
+                // print(bloc.listNotification);
                 currentScreen = NavigationPage.NOTIFICATION.index;
                 _pageController.jumpToPage(NavigationPage.NOTIFICATION.index);
                 notifyDataChanged();
               },
-              numNotification: 11,
+              numNotification:
+                  isCheckCountNotification() ? bloc.countNotifications : null,
             ),
           ),
           Expanded(
@@ -259,6 +264,11 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       physics: NeverScrollableScrollPhysics(),
       children: pages.values.toList(),
     );
+  }
+
+  bool isCheckCountNotification() {
+    if (bloc.countNotifications == 0) return false;
+    return true;
   }
 
   @override

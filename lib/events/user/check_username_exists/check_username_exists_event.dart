@@ -24,7 +24,7 @@ abstract class CheckUsernameExistsEvent {
     var snapshot =
         await db.where(UserProfile.userName_PATH, isEqualTo: userName).get();
     var docs = snapshot.docs;
-    print(userName + " " + currentUserName);
+    // print(userName + " " + currentUserName);
     if (docs.isEmpty) return false;
     var user = UserProfile.fromJson(docs.first.data());
     if (user.userName == currentUserName) return false;

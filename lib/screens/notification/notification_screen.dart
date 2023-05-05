@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/screens/reuseable/commingsoon/commingsoon_screen.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../../shared_product/assets/icon/tik_tok_icons_icons.dart';
@@ -9,16 +8,17 @@ import '../../shared_product/widgets/button/three_row_button.dart';
 import '../notification/notification_bloc.dart';
 import '../../shared_product/widgets/default_appbar.dart';
 import '../user/login/login_screen.dart';
+import 'package:reel_t/models/notification/notification.dart' as reelN;
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+  final List<reelN.Notification> listNotification;
+  const NotificationScreen({super.key, this.listNotification = const []});
 
   @override
   State<NotificationScreen> createState() => NotificationScreenState();
 }
 
-class NotificationScreenState extends AbstractState<NotificationScreen>
-    with AutomaticKeepAliveClientMixin {
+class NotificationScreenState extends AbstractState<NotificationScreen> {
   late NotificationBloc bloc;
   @override
   AbstractBloc initBloc() {
@@ -33,6 +33,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
   @override
   void onCreate() {
     bloc = NotificationBloc();
+    bloc.init();
   }
 
   @override
@@ -42,6 +43,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
       builder: (context, child) {
         return Consumer<NotificationBloc>(
           builder: (context, value, child) {
+            print(widget.listNotification);
             var body = buildBody();
             return buildScreen(
               appBar: DefaultAppBar(appBarTitle: "Notification"),
@@ -95,7 +97,15 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
   }
 
   Widget buildBody() {
-    return Container();
+    return ListView.separated(
+      padding: EdgeInsets.zero,
+      physics: BouncingScrollPhysics(),
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 8);
+      },
+      itemCount: 10,
+      itemBuilder: ((context, index) {}),
+    );
   }
 
   @override
@@ -105,8 +115,4 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
   void onReady() {
     // TODO: implement onReady
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

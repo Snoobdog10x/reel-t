@@ -154,7 +154,7 @@ class PersonalInformationScreenState
         child: ImageGalleryPickerScreen(
           isPickMultiple: false,
           onFileSelected: (files) async {
-            bloc.avatar = await files.first?.readAsBytes();
+            bloc.avatar = await files.first.readAsBytes();
             notifyDataChanged();
           },
         ),
