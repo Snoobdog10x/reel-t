@@ -41,7 +41,7 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends AbstractState<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
   late ProfileBloc bloc;
-
+  bool isCurrentUserProfile = false;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -60,6 +60,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
     if (widget.user.id != appStore.localUser.getCurrentUser().id)
       bloc.sendGetFollowUserEvent(
           appStore.localUser.getCurrentUser().id, widget.user.id);
+    isCurrentUserProfile = widget.user == bloc.currentUser;
   }
 
   @override
@@ -158,6 +159,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
             flex: 4,
             child: GestureDetector(
               onTap: () {
+                if (!isCurrentUserProfile) return;
                 showScreenBottomSheet(SwitchAccountScreen());
               },
               child: Center(
@@ -173,10 +175,11 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
                           fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
                         ),
                       ),
-                      Icon(
-                        CupertinoIcons.chevron_down,
-                        size: 12,
-                      ),
+                      if (isCurrentUserProfile)
+                        Icon(
+                          CupertinoIcons.chevron_down,
+                          size: 12,
+                        ),
                     ],
                   ),
                 ),
@@ -204,16 +207,19 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
                 SizedBox(width: 12),
                 GestureDetector(
                   onTap: () {
+                    if (!isCurrentUserProfile) return;
                     if (appStore.localUser.isLogin())
                       pushToScreen(SettingAndPrivacyPersonalScreen());
                   },
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    child: Icon(
-                      CupertinoIcons.line_horizontal_3,
-                    ),
-                  ),
+                  child: isCurrentUserProfile
+                      ? Container(
+                          height: 30,
+                          width: 30,
+                          child: Icon(
+                            CupertinoIcons.line_horizontal_3,
+                          ),
+                        )
+                      : Container(),
                 ),
               ],
             ),

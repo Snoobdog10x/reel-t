@@ -15,6 +15,7 @@ import '../../navigation/navigation_screen.dart';
 import '../../user/login/login_screen.dart';
 import '../../sub_setting_user/setting_and_privacy_personal/setting_and_privacy_personal_screen.dart';
 import '../../user/signup/signup_screen.dart';
+import '../../video/camera_ar/camera_ar_screen.dart';
 import '../../video/comment/comment_screen.dart';
 import '../../video/feed/feed_screen.dart';
 import '../../welcome/welcome_screen.dart';
@@ -242,6 +243,13 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
                   isReplace: false);
             },
             child: Text("List Video"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(CameraArScreen(), isReplace: false);
+            },
+            child: Text("Camera Video"),
           ),
         ],
       ),
