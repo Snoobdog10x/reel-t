@@ -9,7 +9,8 @@ import 'feed_bloc.dart';
 import '../list_video/list_video_screen.dart';
 
 class FeedScreen extends StatefulWidget {
-  const FeedScreen({super.key});
+  final void Function()? loadDoneCallback;
+  const FeedScreen({super.key, this.loadDoneCallback});
 
   @override
   State<FeedScreen> createState() => FeedScreenState();
@@ -138,6 +139,9 @@ class FeedScreenState extends AbstractState<FeedScreen>
                     videos: bloc.forYou,
                     loadMoreVideos: () {
                       bloc.sendRetrieveVideos();
+                    },
+                    loadDoneCallback: () {
+                      widget.loadDoneCallback?.call();
                     },
                   )
                 : buildLoadWidget(),

@@ -70,24 +70,27 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
   }
 
   Widget buildAppBar() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: GestureDetector(
-                onTap: () {
-                  popTopDisplay();
-                },
-                child: Icon(Icons.arrow_back_ios),
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: GestureDetector(
+                  onTap: () {
+                    popTopDisplay();
+                  },
+                  child: Icon(Icons.arrow_back_ios),
+                ),
               ),
-            ),
-            Expanded(flex: 11, child: buildSearch()),
-          ],
-        ),
-        buildTapBar(),
-      ],
+              Expanded(flex: 11, child: buildSearch()),
+            ],
+          ),
+          buildTapBar(),
+        ],
+      ),
     );
   }
 

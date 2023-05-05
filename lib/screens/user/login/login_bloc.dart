@@ -5,6 +5,7 @@ import 'package:reel_t/events/setting/retrieve_user_setting/retrieve_user_settin
 import 'package:reel_t/events/user/google_sign_up/google_sign_up_event.dart';
 import 'package:reel_t/events/user/send_email_otp/send_email_otp_event.dart';
 import 'package:reel_t/models/setting/setting.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/google_account_link/google_account_link_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_screen.dart';
@@ -72,7 +73,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
     if (e == "login") {
       await appStore.localUser.login(signedUser!);
       await appStore.localSetting.syncUserSetting(signedUser.id);
-      state.pushToScreen(WelcomeScreen(), isReplace: true);
+      state.pushToScreen(NavigationScreen(), isReplace: true);
       return;
     }
     state.showAlertDialog(
@@ -92,7 +93,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
         state.stopLoading();
         appStore.localSetting.setUserSetting(setting);
         appStore.localUser.login(signedInUserProfile);
-        state.pushToScreen(WelcomeScreen(), isReplace: true);
+        state.pushToScreen(NavigationScreen(), isReplace: true);
         return;
       }
 
@@ -105,7 +106,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   @override
   void onCreateUserSettingEventDone(Setting? setting) {
     appStore.localSetting.setUserSetting(setting!);
-    state.pushToScreen(WelcomeScreen(), isReplace: true);
+    state.pushToScreen(NavigationScreen(), isReplace: true);
   }
 
   @override

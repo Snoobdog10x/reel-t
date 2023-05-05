@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/sub_setting_user/account_setting_and_privacy/account_setting_and_privacy_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -541,7 +542,7 @@ class SettingAndPrivacyPersonalScreenState
                         onPressed: () async {
                           await appStore.localUser.logout();
                           await appStore.localSetting.clearSetting();
-                          pushToScreen(WelcomeScreen());
+                          pushToScreen(NavigationScreen());
                         },
                       ),
                     ),

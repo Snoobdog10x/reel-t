@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/screens/video/camera_ar/camera_ar_screen.dart';
+import 'package:reel_t/screens/welcome/welcome_screen.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
@@ -24,9 +27,11 @@ enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
 class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
-  PreloadPageController _pageController = PreloadPageController();
+  PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;
   late Map<int, Widget> pages;
+  bool loadedVideo = false;
+  Timer? _timeoutTimer;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -42,9 +47,18 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
     bloc = NavigationBloc();
     bloc.currentUser = appStore.localUser.getCurrentUser();
     bloc.init();
-
+    _timeoutTimer = Timer(Duration(seconds: 20), () {
+      loadedVideo = true;
+      notifyDataChanged();
+    });
     pages = {
-      NavigationPage.FEED.index: FeedScreen(),
+      NavigationPage.FEED.index: FeedScreen(
+        loadDoneCallback: () {
+          loadedVideo = true;
+          _timeoutTimer?.cancel();
+          notifyDataChanged();
+        },
+      ),
       NavigationPage.CHAT.index: HomeChatScreen(),
       NavigationPage.NOTIFICATION.index:
           NotificationScreen(callBackNewNotification: () {
@@ -76,7 +90,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
                   ? Colors.black
                   : Color.fromARGB(255, 240, 240, 240),
               isSafe: false,
-              bottomNavBar: buildBottomBar(),
+              bottomNavBar: loadedVideo ? buildBottomBar() : null,
             );
           },
         );
@@ -260,11 +274,16 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   Widget buildBody() {
-    return PreloadPageView(
-      preloadPagesCount: 4,
-      controller: _pageController,
-      physics: NeverScrollableScrollPhysics(),
-      children: pages.values.toList(),
+    return Stack(
+      children: [
+        PageView(
+          
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: pages.values.toList(),
+        ),
+        if (loadedVideo == false) ...[WelcomeScreen()],
+      ],
     );
   }
 
@@ -274,7 +293,9 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   @override
-  void onDispose() {}
+  void onDispose() {
+    _timeoutTimer?.cancel();
+  }
 
   @override
   void onPopWidget(String previousScreen) {

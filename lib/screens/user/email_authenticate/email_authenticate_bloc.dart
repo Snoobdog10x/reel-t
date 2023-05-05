@@ -7,6 +7,7 @@ import 'package:reel_t/events/user/user_sign_in/user_sign_in_event.dart';
 import 'package:reel_t/events/user/user_sign_up/user_sign_up_event.dart';
 import 'package:reel_t/events/user/verify_email_otp/verify_email_otp_event.dart';
 import 'package:reel_t/models/setting/setting.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/user/signup/signup_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
@@ -98,7 +99,7 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
   Future<void> onCreateUserSettingEventDone(Setting? setting) async {
     if (setting != null) {
       await appStore.localSetting.setUserSetting(setting);
-      state.pushToScreen(WelcomeScreen(), isReplace: true);
+      state.pushToScreen(NavigationScreen(), isReplace: true);
     }
   }
 
@@ -108,6 +109,6 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
     await appStore.localUser.login(signedInUserProfile!);
     await appStore.localSetting.syncUserSetting(signedInUserProfile.id);
     state.stopLoading();
-    state.pushToScreen(WelcomeScreen(), isReplace: true);
+    state.pushToScreen(NavigationScreen(), isReplace: true);
   }
 }

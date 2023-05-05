@@ -52,7 +52,6 @@ abstract class GoogleSignUpEvent {
 
     return UserProfile.fromJson(snapshot.docs.first.data());
   }
-
   Future<UserCredential> signInUser(GoogleSignInAccount googleUser) async {
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;

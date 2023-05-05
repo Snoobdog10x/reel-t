@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:platform_local_notifications/platform_local_notifications.dart';
 import 'package:reel_t/generated/app_init.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/reuseable/default/default_screen.dart';
-import 'package:reel_t/screens/welcome/welcome_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -18,12 +18,13 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  await AppInit().init(isInitSample: false);
+  
   if (kDebugMode) {
     // await AppInit().init(
     //   isDebug: true,
     //   isInitSample: false,
     // ); // uncomment this if you run local only run by Thanh
-    await AppInit().init(isInitSample: false); // if not Thanh please run this
     runApp(
       OverlaySupport.global(
         child: MaterialApp(
@@ -37,7 +38,7 @@ Future<void> main() async {
   runApp(
     OverlaySupport.global(
       child: MaterialApp(
-        home: WelcomeScreen(),
+        home: NavigationScreen(),
       ),
     ),
   );

@@ -18,12 +18,14 @@ class ListVideoScreen extends StatefulWidget {
   final Function loadMoreVideos;
   final int startAtIndex;
   final bool isShowBack;
+  final void Function()? loadDoneCallback;
   ListVideoScreen({
     super.key,
     required this.videos,
     required this.loadMoreVideos,
     this.startAtIndex = 0,
     this.isShowBack = false,
+    this.loadDoneCallback,
   });
 
   @override
@@ -34,6 +36,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
     with AutomaticKeepAliveClientMixin {
   late ListVideoBloc bloc;
   late PreloadPageController _controller;
+  bool isFirstLoaded = false;
   Widget? bottomSheet;
   @override
   AbstractBloc initBloc() {
@@ -125,6 +128,12 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
       child: VideoPlayerItem(
         videoUrl: video.videoUrl,
         isPlay: index == bloc.currentPage,
+        loadDoneCallBack: () {
+          if (index == 0 && !isFirstLoaded) {
+            isFirstLoaded = true;
+            widget.loadDoneCallback?.call();
+          }
+        },
       ),
     );
   }

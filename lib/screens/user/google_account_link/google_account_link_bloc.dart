@@ -3,6 +3,7 @@ import 'package:reel_t/events/user/google_sign_up/link_credential/link_credentia
 import 'package:reel_t/events/user/update_user_profile/update_user_profile_event.dart';
 import 'package:reel_t/events/user/user_sign_in/user_sign_in_event.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 
 import '../../../generated/abstract_bloc.dart';
 import '../../welcome/welcome_screen.dart';
@@ -46,7 +47,7 @@ class GoogleAccountLinkBloc extends AbstractBloc<GoogleAccountLinkScreenState>
       sendUpdateUserProfileEvent(signedInUserProfile!);
       appStore.localUser.login(signedInUserProfile!);
       appStore.localSetting.syncUserSetting(signedInUserProfile!.id);
-      state.pushToScreen(WelcomeScreen(), isReplace: true);
+      state.pushToScreen(NavigationScreen(), isReplace: true);
       return;
     }
     state.showAlertDialog(
