@@ -21,7 +21,7 @@ abstract class RetrieveUserVideoEvent {
       return [];
     }
 
-    _lastDocument = snapShot.docs.first;
+    _lastDocument = snapShot.docs.last;
     return [for (var doc in docs) Video.fromJson(doc.data())];
   }
 

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/video/video.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
+import 'package:reel_t/screens/video/list_video/list_video_screen.dart';
 import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
+import 'package:reel_t/shared_product/widgets/video_player_item.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/user_profile/user_profile.dart';
@@ -40,7 +42,6 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
     bloc = ShowSearchResultBloc();
     tabController = TabController(length: 2, vsync: this);
     _searchController = TextEditingController(text: widget.searchText);
-    bloc.sendSearchVideoEvent(widget.searchText);
     bloc.sendSearchUserEvent(widget.searchText);
   }
 
@@ -164,6 +165,64 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
     );
   }
 
+  Widget buildGridSearchVideoResults() {
+    return GridView.builder(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisExtent: screenHeight() * 0.35,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 5,
+      ),
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
+      itemCount: bloc.searchVideoResult.length,
+      itemBuilder: (context, index) {
+        var video = bloc.searchVideoResult[index];
+        return buildVideoItem(video);
+      },
+    );
+  }
+
+  Widget buildVideoItem(Video video) {
+    var user = bloc.users[video.id] ?? UserProfile(id: video.creatorId);
+    return GestureDetector(
+      onTap: () {
+        pushToScreen(ListVideoScreen(
+          videos: bloc.searchVideoResult,
+          loadMoreVideos: () {},
+          isShowBack: true,
+        ));
+      },
+      child: Stack(
+        children: [
+          Container(
+            height: screenHeight(),
+            width: screenWidth(),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: VideoThumbnailDisplay(
+                thumbnail: video.videoThumbnail,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.bottomLeft,
+            margin: EdgeInsets.only(left: 8, bottom: 8),
+            child: Text(
+              user.userName,
+              style: TextStyle(
+                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                color: Colors.white,
+                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget buildGridSearchUserResults() {
     return GridView.builder(
       padding: EdgeInsets.symmetric(vertical: 8),
@@ -184,41 +243,49 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
   }
 
   Widget buildBlockUserItem(UserProfile user) {
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(16),
-            image: user.avatar.isEmpty
-                ? null
-                : DecorationImage(
-                    image: CachedNetworkImageProvider(user.avatar),
-                    fit: BoxFit.cover,
-                  ),
-          ),
-          alignment: Alignment.center,
-          child: user.avatar.isEmpty
-              ? Icon(
-                  Icons.people,
-                  size: screenWidth() * 0.4,
-                  color: Colors.white,
-                )
-              : null,
-        ),
-        Container(
-          alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.only(left: 8, bottom: 8),
-          child: Text(
-            user.userName,
-            style: TextStyle(
-              fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-              color: Colors.white,
-              fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+    return GestureDetector(
+      onTap: () {
+        pushToScreen(ProfileScreen(
+          user: user,
+          isBack: true,
+        ));
+      },
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(16),
+              image: user.avatar.isEmpty
+                  ? null
+                  : DecorationImage(
+                      image: CachedNetworkImageProvider(user.avatar),
+                      fit: BoxFit.cover,
+                    ),
             ),
+            alignment: Alignment.center,
+            child: user.avatar.isEmpty
+                ? Icon(
+                    Icons.people,
+                    size: screenWidth() * 0.4,
+                    color: Colors.white,
+                  )
+                : null,
           ),
-        )
-      ],
+          Container(
+            alignment: Alignment.bottomLeft,
+            margin: EdgeInsets.only(left: 8, bottom: 8),
+            child: Text(
+              user.userName,
+              style: TextStyle(
+                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                color: Colors.white,
+                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -226,7 +293,7 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
     return TabBarView(
       controller: tabController,
       children: [
-        Text("vidoer"),
+        buildGridSearchVideoResults(),
         buildGridSearchUserResults(),
       ],
     );

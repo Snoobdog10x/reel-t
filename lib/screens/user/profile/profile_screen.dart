@@ -70,7 +70,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
       if (controller.position.atEdge) {
         bool isTop = controller.position.pixels == 0;
         if (isTop) {
-          if (bloc.userVideos.length < 9) {
+          if (bloc.userVideos.toList().length < 9) {
             bloc.sendRetrieveUserVideoEvent(widget.user.id);
           }
           return;
@@ -260,7 +260,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
           SizedBox(height: 8),
           buildBio(),
           SizedBox(height: 8),
-          if (bloc.userVideos.isNotEmpty) ...[
+          if (bloc.userVideos.toList().isNotEmpty) ...[
             Divider(
               color: Color.fromARGB(255, 200, 200, 200),
               height: 0,
@@ -489,9 +489,9 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
       ),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: videos.length,
+      itemCount: videos.toList().length,
       itemBuilder: (context, index) {
-        return buildUserVideoThumbnail(videos[index]);
+        return buildUserVideoThumbnail(videos.toList()[index]);
       },
     );
   }
@@ -501,7 +501,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
       fit: StackFit.passthrough,
       children: [
         VideoThumbnailDisplay(thumbnail: video.videoThumbnail),
-        buildVideoMask(bloc.userVideos.indexOf(video)),
+        buildVideoMask(bloc.userVideos.toList().indexOf(video)),
       ],
     );
   }
@@ -511,7 +511,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
       onTap: () {
         pushToScreen(
           ListVideoScreen(
-            videos: bloc.userVideos,
+            videos: bloc.userVideos.toList(),
             loadMoreVideos: () {},
             startAtIndex: index,
             isShowBack: true,

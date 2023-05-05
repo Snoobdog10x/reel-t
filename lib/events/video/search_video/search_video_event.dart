@@ -20,8 +20,8 @@ abstract class SearchVideoEvent {
       searchResults.add(_searchVideoByUser(searchText, userProfile));
       searchResults.add(_searchVideoByTitle(searchText));
       searchResults.add(_searchVideoByHashtag(searchText));
-      var result = _mergeVideosList(await Future.wait(searchResults));
-      
+      var searchResultsWait = await Future.wait(searchResults);
+      var result = _mergeVideosList(searchResultsWait);
       onSearchVideoEventDone(result);
     } catch (e) {
       print(e);
@@ -35,24 +35,34 @@ abstract class SearchVideoEvent {
     List<Future<QuerySnapshot<Map<String, dynamic>>>> searchSnapshotResults =
         [];
     userProfile.forEach((element) {
-      searchSnapshotResults.add(db
-          .orderBy(Video.creatorId_PATH)
-          .where(Video.creatorId_PATH, isEqualTo: element.id)
-          .get());
+      searchSnapshotResults.add(
+        db.where(Video.creatorId_PATH, isEqualTo: element.id).limit(5).get(),
+      );
     });
+    
     var snapshots = await Future.wait(searchSnapshotResults);
-
-    return snapshots.map((e) => Video.fromJson(e.docs.first.data())).toList();
+    var videos = <Video>[];
+    snapshots.forEach((element) {
+      element.docs.forEach((videoData) {
+        videos.add(Video.fromJson(videoData.data()));
+      });
+    });
+    return videos;
   }
 
   Future<List<Video>> _searchVideoByTitle(String searchText) async {
-    var searchResult = await _firestoreSearch.searchStream(
-      collectionPaths: Video.PATH,
-      searchByPath: Video.title_PATH,
-      searchText: searchText,
-    );
-    if (searchResult.isEmpty) return [];
-    return searchResult.map((e) => Video.fromJson(e.data())).toList();
+    try {
+      var searchResult = await _firestoreSearch.searchStream(
+        collectionPaths: Video.PATH,
+        searchByPath: Video.title_PATH,
+        searchText: searchText,
+      );
+      if (searchResult.isEmpty) return [];
+      return searchResult.map((e) => Video.fromJson(e.data())).toList();
+    } catch (e) {
+      print("_searchVideoByTitle $e");
+      return [];
+    }
   }
 
   Future<List<Video>> _searchVideoByHashtags(List<HashTag> hashTags) async {
@@ -74,24 +84,34 @@ abstract class SearchVideoEvent {
   }
 
   Future<List<Video>> _searchVideoByHashtag(String searchText) async {
-    var searchResult = await _firestoreSearch.searchStream(
-      collectionPaths: HashTag.PATH,
-      searchByPath: HashTag.id_PATH,
-      searchText: searchText,
-    );
-    if (searchResult.isEmpty) return [];
-    List<HashTag> hashTags =
-        searchResult.map((e) => HashTag.fromJson(e.data())).toList();
+    try {
+      var searchResult = await _firestoreSearch.searchStream(
+        collectionPaths: HashTag.PATH,
+        searchByPath: HashTag.id_PATH,
+        searchText: searchText,
+      );
+      if (searchResult.isEmpty) return [];
+      List<HashTag> hashTags =
+          searchResult.map((e) => HashTag.fromJson(e.data())).toList();
 
-    return await _searchVideoByHashtags(hashTags);
+      return await _searchVideoByHashtags(hashTags);
+    } catch (e) {
+      print("_searchVideoByHashtag $e");
+      return [];
+    }
   }
 
   List<Video> _mergeVideosList(List<List<Video>> videosList) {
-    Set<Video> mergedVideos = {};
-    videosList.forEach((element) {
-      mergedVideos.addAll(element);
-    });
-    return mergedVideos.toList();
+    try {
+      Set<Video> mergedVideos = {};
+      videosList.forEach((element) {
+        mergedVideos.addAll(element);
+      });
+      return mergedVideos.toList();
+    } catch (e) {
+      print("_mergeVideosList $e");
+      return [];
+    }
   }
 
   void onSearchVideoEventDone(List<Video> videos);
