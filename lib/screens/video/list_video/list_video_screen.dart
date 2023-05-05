@@ -170,6 +170,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
           return true;
         },
         onTapAvatar: () {
+          bloc.pushedUserId = video.creatorId;
           pushToScreen(ProfileScreen(
             user: creator,
             isBack: true,
@@ -218,6 +219,14 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
         ),
       ),
     );
+  }
+
+  @override
+  void onPopWidget(String previousScreen) {
+    // TODO: implement onPopWidget
+    super.onPopWidget(previousScreen);
+    if (bloc.pushedUserId.isEmpty) return;
+    bloc.sendGetFollowUserEvent(bloc.currentUser.id, bloc.pushedUserId);
   }
 
   @override

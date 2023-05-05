@@ -83,7 +83,7 @@ class Conversation{
 
   @override
   bool operator ==(Object other) =>
-      other is Conversation && other.runtimeType == runtimeType && other.id == id;
+      other is Conversation && other.id == id;
 
   @override
   int get hashCode => id.hashCode;

@@ -1,6 +1,8 @@
 import 'package:reel_t/events/video/retrieve_user_video/retrieve_user_video_event.dart';
 import 'package:reel_t/models/follow/follow.dart';
+import 'package:reel_t/screens/user/login/login_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
+import 'package:reel_t/shared_product/vendors/priority_set/priority_set.dart';
 
 import '../../../events/follow/follow_user/follow_user_event.dart';
 import '../../../events/follow/get_follow_user/get_follow_user_event.dart';
@@ -12,7 +14,12 @@ import '../../../models/video/video.dart';
 
 class ProfileBloc extends AbstractBloc<ProfileScreenState>
     with RetrieveUserVideoEvent, GetFollowUserEvent, FollowUserEvent {
-  List<Video> userVideos = [];
+  PrioritySet<Video> userVideos = new PrioritySet((p0, p1) {
+    if (p0.createAt < p1.createAt) return 1;
+    if (p0.createAt > p1.createAt) return -1;
+    return 0;
+  });
+  
   late UserProfile currentUser;
   late Follow userFollow;
   void init(Follow? userFollow) {
@@ -27,6 +34,10 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
   }
 
   void sendUserFollow(String creatorId) {
+    if (!appStore.localUser.isLogin()) {
+      state.pushToScreen(LoginScreen());
+      return;
+    }
     userFollow.isFollow = !userFollow.isFollow;
     notifyDataChanged();
     sendFollowUserEvent(creatorId, currentUser.id);
@@ -40,14 +51,13 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
 
   @override
   void onGetFollowUserEventDone({Follow? follow}) {
-    userFollow = follow!;
+    userFollow = follow ?? Follow(userId: state.widget.user.id);
     notifyDataChanged();
-    // TODO: implement onGetFollowUserEventDone
   }
 
   @override
   void onFollowUserEventDone({String userId = "", Follow? follow}) {
+    userFollow = follow ?? Follow(userId: state.widget.user.id);
     notifyDataChanged();
-    // TODO: implement onFollowUserEventDone
   }
 }

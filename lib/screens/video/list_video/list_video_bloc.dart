@@ -6,19 +6,25 @@ import 'package:reel_t/events/video/retrieve_video_detail/retrieve_video_detail_
 import 'package:reel_t/models/like/like.dart';
 import 'package:reel_t/models/follow/follow.dart';
 import 'package:reel_t/screens/user/login/login_screen.dart';
+import '../../../events/follow/get_follow_user/get_follow_user_event.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 import 'list_video_screen.dart';
 
 class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
-    with RetrieveVideoDetailEvent, LikeVideoEvent, FollowUserEvent {
+    with
+        RetrieveVideoDetailEvent,
+        LikeVideoEvent,
+        GetFollowUserEvent,
+        FollowUserEvent {
   List<Video> videos = [];
   List<Video> sentRetrieveDetail = [];
   Map<String, UserProfile> creators = {};
   Map<String, Like?> likeVideos = {};
   Map<String, Follow?> followCreators = {};
   late UserProfile currentUser;
+  String pushedUserId = "";
   int currentPage = 0;
   void init(List<Video> videos) {
     currentUser = appStore.localUser.getCurrentUser();
@@ -60,6 +66,7 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   Future<void> likeVideo(Video video) async {
     if (!appStore.localUser.isLogin()) {
       state.pushToScreen(LoginScreen());
+      return;
     }
     await sendLikeVideoEventEvent(video.id, currentUser.id);
   }
@@ -81,6 +88,7 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   Future<void> followUser(Video video) async {
     if (!appStore.localUser.isLogin()) {
       state.pushToScreen(LoginScreen());
+      return;
     }
     await sendFollowUserEvent(video.creatorId, currentUser.id);
   }
@@ -95,6 +103,12 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   @override
   void onFollowUserEventDone({String userId = "", Follow? follow}) {
     followCreators[userId] = follow;
+    notifyDataChanged();
+  }
+
+  @override
+  void onGetFollowUserEventDone({Follow? follow}) {
+    followCreators[pushedUserId] = follow ?? Follow(userId: pushedUserId);
     notifyDataChanged();
   }
 }
