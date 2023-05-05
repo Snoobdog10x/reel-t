@@ -246,7 +246,9 @@ class EditProfileFieldScreenState
   }
 
   bool isSaveActive() {
-    if (_controllerUserName.text.isEmpty || bloc.isUserNameExists) return false;
+    if (_controllerUserName.text.isEmpty ||
+        bloc.isUserNameExists ||
+        _controllerName.text.isEmpty) return false;
     return true;
   }
 

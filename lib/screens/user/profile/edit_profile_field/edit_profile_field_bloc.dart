@@ -44,7 +44,7 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
   @override
   void onCheckUsernameExistsEventDone(bool isExists) {
     isUserNameExists = isExists;
-    print(isUserNameExists);
+    // print(isUserNameExists);
     notifyDataChanged();
     // TODO: implement onCheckUsernameExistsEventDone
   }

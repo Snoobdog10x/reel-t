@@ -1,9 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/models/notification/notification.dart';
 
-import '../../events/notification/retrieve_notification_nums/retrieve_notification_nums_event.dart';
+import '../../events/notification/stream_user_notification/stream_user_notification_event.dart';
 import '../../generated/abstract_bloc.dart';
+import '../../models/user_profile/user_profile.dart';
 import 'notification_screen.dart';
 
-class NotificationBloc extends AbstractBloc<NotificationScreenState> {}
+class NotificationBloc extends AbstractBloc<NotificationScreenState> {
+  late UserProfile currentUser;
+
+  void init() {
+    currentUser = appStore.localUser.getCurrentUser();
+    notifyDataChanged();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+}

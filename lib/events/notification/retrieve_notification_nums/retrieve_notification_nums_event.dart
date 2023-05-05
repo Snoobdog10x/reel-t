@@ -21,7 +21,7 @@ abstract class RetrieveNotificationNumsEvent {
         .collection(UserProfile.PATH)
         .doc(userId)
         .collection(Notification.PATH)
-        .where(Notification.hasPushed_PATH, isEqualTo: false);
+        .where(Notification.hasSeen_PATH, isEqualTo: false);
     return (await db.count().get()).count;
   }
 
