@@ -88,7 +88,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
               isShowConnect: true,
               background: isBlackBackground
                   ? Colors.black
-                  : Color.fromARGB(255, 240, 240, 240),
+                  : Color.fromARGB(255, 233, 233, 233),
               isSafe: false,
               bottomNavBar: loadedVideo ? buildBottomBar() : null,
             );
@@ -101,7 +101,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   Widget buildBottomBar() {
     return Container(
       width: screenWidth(),
-      height: screenHeight() * 0.105,
+      height: screenHeight() * 0.1,
       child: Row(
         children: [
           Expanded(
