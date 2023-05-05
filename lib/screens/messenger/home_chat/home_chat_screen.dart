@@ -135,6 +135,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
   }
 
   Widget buildBody() {
+    var conversations = bloc.conversations.toList();
     return ListView.separated(
       padding: EdgeInsets.zero,
       // shrinkWrap: true,
@@ -142,9 +143,8 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
       separatorBuilder: (context, index) {
         return SizedBox(height: 8);
       },
-      itemCount: bloc.conversations.length,
+      itemCount: conversations.length,
       itemBuilder: ((context, index) {
-        var conversations = bloc.conversations;
         var conversation = conversations[index];
         if (!bloc.isLoadData(conversation)) {
           return Shimmer.fromColors(

@@ -1,12 +1,11 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/video/list_video/list_video_screen.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../models/follow/follow.dart';
@@ -27,11 +26,13 @@ class ProfileScreen extends StatefulWidget {
   final UserProfile user;
   final bool isBack;
   final Follow? userFollow;
+  final Function(String userId, Follow? userFollow)? callBackFollow;
   const ProfileScreen({
     super.key,
     required this.user,
     this.isBack = false,
     this.userFollow,
+    this.callBackFollow,
   });
 
   @override
@@ -42,6 +43,8 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
   late ProfileBloc bloc;
   bool isCurrentUserProfile = false;
+  var controller = ScrollController();
+
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -57,10 +60,25 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
     bloc = ProfileBloc();
     bloc.init(widget.userFollow);
     bloc.sendRetrieveUserVideoEvent(widget.user.id);
-    if (widget.user.id != appStore.localUser.getCurrentUser().id)
-      bloc.sendGetFollowUserEvent(
-          appStore.localUser.getCurrentUser().id, widget.user.id);
+    if (appStore.localUser.isLogin()) {
+      if (widget.user.id != appStore.localUser.getCurrentUser().id)
+        bloc.sendGetFollowUserEvent(
+            appStore.localUser.getCurrentUser().id, widget.user.id);
+    }
     isCurrentUserProfile = widget.user == bloc.currentUser;
+    controller.addListener(() {
+      if (controller.position.atEdge) {
+        bool isTop = controller.position.pixels == 0;
+        if (isTop) {
+          if (bloc.userVideos.length < 9) {
+            bloc.sendRetrieveUserVideoEvent(widget.user.id);
+          }
+          return;
+        }
+
+        bloc.sendRetrieveUserVideoEvent(widget.user.id);
+      }
+    });
   }
 
   @override
@@ -75,7 +93,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
             return buildScreen(
               appBar: appBar,
               body: body,
-              notLoggedBody: buildLoggedBody(),
+              notLoggedBody: isCurrentUserProfile ? buildLoggedBody() : body,
               padding: EdgeInsets.symmetric(horizontal: 8),
               isSafeBottom: false,
             );
@@ -231,6 +249,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
 
   Widget buildBody() {
     return SingleChildScrollView(
+      controller: controller,
       child: Column(
         children: <Widget>[
           buildAvatar(),
@@ -519,6 +538,16 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
   // bool checkFollower(){
   //   if()
   // }
+  @override
+  void onPopWidget(String previousScreen) {
+    // TODO: implement onPopWidget
+    super.onPopWidget(previousScreen);
+    if (appStore.localUser.isLogin()) {
+      if (widget.user.id != appStore.localUser.getCurrentUser().id)
+        bloc.sendGetFollowUserEvent(
+            appStore.localUser.getCurrentUser().id, widget.user.id);
+    }
+  }
 
   @override
   void onDispose() {}
@@ -543,19 +572,21 @@ class VideoThumbnailDisplay extends StatefulWidget {
 
 class _VideoThumbnailDisplayState extends State<VideoThumbnailDisplay>
     with AutomaticKeepAliveClientMixin {
+  late Uint8List decodedImage;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    decodedImage = Base64Decoder().convert(widget.thumbnail);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (widget.thumbnail.isEmpty) return Container(color: Colors.black);
-
-    var _bytesImage = Base64Decoder().convert(widget.thumbnail);
     return Container(
-      child: Image.memory(_bytesImage, fit: BoxFit.cover),
+      child: Image.memory(decodedImage, fit: BoxFit.cover),
     );
   }
 

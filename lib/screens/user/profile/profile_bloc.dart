@@ -1,5 +1,6 @@
 import 'package:reel_t/events/video/retrieve_user_video/retrieve_user_video_event.dart';
 import 'package:reel_t/models/follow/follow.dart';
+import 'package:reel_t/screens/user/login/login_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
 
 import '../../../events/follow/follow_user/follow_user_event.dart';
@@ -27,6 +28,10 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
   }
 
   void sendUserFollow(String creatorId) {
+    if (!appStore.localUser.isLogin()) {
+      state.pushToScreen(LoginScreen());
+      return;
+    }
     userFollow.isFollow = !userFollow.isFollow;
     notifyDataChanged();
     sendFollowUserEvent(creatorId, currentUser.id);
@@ -40,14 +45,13 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
 
   @override
   void onGetFollowUserEventDone({Follow? follow}) {
-    userFollow = follow!;
+    userFollow = follow ?? Follow(userId: state.widget.user.id);
     notifyDataChanged();
-    // TODO: implement onGetFollowUserEventDone
   }
 
   @override
   void onFollowUserEventDone({String userId = "", Follow? follow}) {
+    userFollow = follow ?? Follow(userId: state.widget.user.id);
     notifyDataChanged();
-    // TODO: implement onFollowUserEventDone
   }
 }

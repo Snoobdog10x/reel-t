@@ -1,19 +1,22 @@
-import 'dart:convert';
-import 'dart:math';
-import '../../../events/message/retrieve_messages/retrieve_messages_event.dart';
+import 'package:reel_t/shared_product/vendors/priority_set/priority_set.dart';
+
 import '../../../events/message/stream_conversations/stream_conversations_event.dart';
 import '../../../events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
 import '../../../models/conversation/conversation.dart';
 import '../../../models/message/message.dart';
 import '../../../models/user_profile/user_profile.dart';
-import '../../../shared_product/services/local_storage.dart';
 
 import '../../../generated/abstract_bloc.dart';
 import 'home_chat_screen.dart';
 
 class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
     with StreamConversationsEvent, RetrieveUserProfileEvent {
-  List<Conversation> conversations = [];
+  PrioritySet<Conversation> conversations = new PrioritySet((p0, p1) {
+    if (p0.updateAt < p1.updateAt) return 1;
+    if (p0.updateAt > p1.updateAt) return -1;
+    return 0;
+  });
+
   Conversation? addedConversation;
   UserProfile? addedUserProfile;
   Map<String, UserProfile> contactUsers = {};
@@ -23,41 +26,6 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
     currentUser = appStore.localUser.getCurrentUser();
     sendStreamConversationsEvent(currentUser.id);
     notifyDataChanged();
-  }
-
-  @override
-  void onRetrieveConversationsEventDone(
-      e, List<Conversation> updatedConversations) {
-    if (e == null) {
-      for (var conversation in updatedConversations) {
-        if (!_isConversationExists(conversation)) {
-          conversations.add(conversation);
-          var secondUserId = conversation.userIds
-              .firstWhere((element) => element != currentUser.id);
-          sendRetrieveUserProfileEvent(
-            userId: secondUserId,
-            conversationId: conversation.id,
-          );
-        } else {
-          mergeConversation(conversation);
-        }
-        conversations.sort(((a, b) {
-          if (a.updateAt < b.updateAt) return 1;
-          if (a.updateAt == b.updateAt) return 0;
-          return -1;
-        }));
-        notifyDataChanged();
-      }
-    }
-  }
-
-  void mergeConversation(Conversation conversation) {
-    conversations.removeWhere(((element) => element.id == conversation.id));
-    conversations.add(conversation);
-  }
-
-  bool _isConversationExists(Conversation conversation) {
-    return conversations.any((element) => element.id == conversation.id);
   }
 
   @override
@@ -88,26 +56,16 @@ class HomeChatBloc extends AbstractBloc<HomeChatScreenState>
   @override
   void onStreamConversationsEventDone(List<Conversation> updatedConversations) {
     for (var conversation in updatedConversations) {
-      if (!_isConversationExists(conversation)) {
-        conversations.add(conversation);
-        var userIds = List.from(conversation.userIds);
-        userIds.remove(currentUser.id);
-        var secondUserId = userIds.first;
+      conversations.add(conversation);
+      var userIds = List.from(conversation.userIds);
+      userIds.remove(currentUser.id);
+      var secondUserId = userIds.first;
+      if (contactUsers[secondUserId] == null)
         sendRetrieveUserProfileEvent(
           userId: secondUserId,
           conversationId: conversation.id,
         );
-      } else {
-        mergeConversation(conversation);
-      }
-      conversations.sort((a, b) => _compareConversation(a, b));
       notifyDataChanged();
     }
-  }
-
-  int _compareConversation(Conversation a, Conversation b) {
-    if (a.updateAt < b.updateAt) return 1;
-    if (a.updateAt == b.updateAt) return 0;
-    return -1;
   }
 }
