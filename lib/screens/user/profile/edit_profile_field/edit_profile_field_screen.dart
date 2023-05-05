@@ -131,6 +131,7 @@ class EditProfileFieldScreenState
                       onTap: () {
                         if (!isSaveActive()) return;
                         saveData();
+                        
                       },
                       child: Text('Save',
                           style: TextStyle(

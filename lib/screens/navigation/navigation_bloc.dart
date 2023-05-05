@@ -7,14 +7,13 @@ import '../../generated/abstract_bloc.dart';
 import 'navigation_screen.dart';
 
 class NavigationBloc extends AbstractBloc<NavigationScreenState>
-    with StreamUserNotificationEvent, RetrieveNotificationNumsEvent {
+    with RetrieveNotificationNumsEvent {
   List<Notification> listNotification = [];
   int? countNotifications = 0;
   late UserProfile currentUser;
   void init() {
     currentUser = appStore.localUser.getCurrentUser();
     sendRetrieveNotificationNumsEvent(currentUser);
-    sendStreamUserNotificationEvent(currentUser.id);
     notifyDataChanged();
   }
 
@@ -22,15 +21,6 @@ class NavigationBloc extends AbstractBloc<NavigationScreenState>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    disposeStreamUserNotificationEvent();
-  }
-
-  @override
-  void onStreamUserNotificationEventDone(List<Notification> userNotifications) {
-    listNotification.addAll(userNotifications);
-    sendRetrieveNotificationNumsEvent(currentUser);
-    notifyDataChanged();
-    // TODO: implement onStreamUserNotificationEventDone
   }
 
   @override

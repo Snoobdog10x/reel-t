@@ -16,6 +16,7 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
   void updateUserFullName(String newUserFullName) {
     currentUserProfile.fullName = newUserFullName;
     notifyDataChanged();
+    appStore.localUser.login(currentUserProfile);
     state.startLoading();
     sendUpdateUserProfileEvent(currentUserProfile);
   }
@@ -23,6 +24,7 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
   void updateUserName(String newUserName) {
     currentUserProfile.userName = newUserName;
     notifyDataChanged();
+    appStore.localUser.login(currentUserProfile);
     state.startLoading();
     sendUpdateUserProfileEvent(currentUserProfile);
   }
@@ -30,6 +32,7 @@ class EditProfileFieldBloc extends AbstractBloc<EditProfileFieldScreenState>
   void updateBio(String newBio) {
     currentUserProfile.bio = newBio;
     notifyDataChanged();
+    appStore.localUser.login(currentUserProfile);
     state.startLoading();
     sendUpdateUserProfileEvent(currentUserProfile);
   }

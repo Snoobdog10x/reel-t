@@ -47,7 +47,9 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       NavigationPage.FEED.index: FeedScreen(),
       NavigationPage.CHAT.index: HomeChatScreen(),
       NavigationPage.NOTIFICATION.index:
-          NotificationScreen(listNotification: bloc.listNotification),
+          NotificationScreen(callBackNewNotification: () {
+        bloc.sendRetrieveNotificationNumsEvent(bloc.currentUser);
+      }),
       NavigationPage.PROFILE.index: ProfileScreen(
         user: bloc.currentUser,
       ),
