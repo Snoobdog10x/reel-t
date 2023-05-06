@@ -25,7 +25,7 @@ class NavigationScreen extends StatefulWidget {
 
 enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
-class NavigationScreenState extends AbstractState<NavigationScreen> {
+class NavigationScreenState extends AbstractState<NavigationScreen>{
   late NavigationBloc bloc;
   PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;
@@ -47,7 +47,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
     bloc = NavigationBloc();
     bloc.currentUser = appStore.localUser.getCurrentUser();
     bloc.init();
-    _timeoutTimer = Timer(Duration(seconds: 20), () {
+    _timeoutTimer = Timer(Duration(seconds: 10), () {
       loadedVideo = true;
       notifyDataChanged();
     });
@@ -277,7 +277,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
     return Stack(
       children: [
         PageView(
-          
           controller: _pageController,
           physics: NeverScrollableScrollPhysics(),
           children: pages.values.toList(),

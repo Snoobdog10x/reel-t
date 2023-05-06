@@ -19,7 +19,6 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
   await AppInit().init(isInitSample: false);
-  
   if (kDebugMode) {
     // await AppInit().init(
     //   isDebug: true,

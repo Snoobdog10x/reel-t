@@ -9,6 +9,7 @@ import 'package:reel_t/screens/search/search_screen.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
+import '../../../generated/app_init.dart';
 import '../../../models/video/video.dart';
 import '../../messenger/home_chat/home_chat_screen.dart';
 import '../../navigation/navigation_screen.dart';
@@ -44,7 +45,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
   }
 
   @override
-  void onCreate() {
+  Future<void> onCreate() async {
     bloc = DefaultBloc();
   }
 
