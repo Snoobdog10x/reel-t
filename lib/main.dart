@@ -18,12 +18,12 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  // await AppInit().init(
+  //   isDebug: true,
+  //   isInitSample: false,
+  // ); // uncomment this if you run local only run by Thanh
   await AppInit().init(isInitSample: false);
   if (kDebugMode) {
-    // await AppInit().init(
-    //   isDebug: true,
-    //   isInitSample: false,
-    // ); // uncomment this if you run local only run by Thanh
     runApp(
       OverlaySupport.global(
         child: MaterialApp(
