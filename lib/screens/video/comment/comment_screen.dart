@@ -1,6 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:comment_tree/comment_tree.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/video/comment/comment_block/comment_block_screen.dart';
@@ -12,6 +9,7 @@ import '../../../shared_product/utils/format/format_utlity.dart';
 import '../../../shared_product/widgets/image/circle_image.dart';
 import 'comment_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class CommentScreen extends StatefulWidget {
   final int commentsNum;
@@ -29,7 +27,14 @@ class CommentScreen extends StatefulWidget {
 class CommentScreenState extends AbstractState<CommentScreen>
     with AutomaticKeepAliveClientMixin {
   late CommentBloc bloc;
+  late TextEditingController _textComment = TextEditingController();
+  final ItemScrollController itemScrollController = ItemScrollController();
   ScrollController controller = ScrollController();
+
+  _onChange(String value) {
+    _textComment.text = value;
+    notifyDataChanged();
+  }
 
   @override
   AbstractBloc initBloc() {
@@ -44,6 +49,7 @@ class CommentScreenState extends AbstractState<CommentScreen>
   @override
   void onCreate() {
     bloc = CommentBloc();
+    bloc.init();
     bloc.sendRetrieveCommentEvent(widget.video.id);
     controller.addListener(() {
       if (controller.position.pixels == controller.position.maxScrollExtent) {
@@ -93,19 +99,44 @@ class CommentScreenState extends AbstractState<CommentScreen>
   }
 
   Widget buildBody() {
-    return SingleChildScrollView(
-      controller: controller,
-      child: Column(
-        children: bloc.comments
-            .map(
-              (comment) => CommentBlockScreen(
-                comment: comment,
-                users: bloc.userCommentMap,
-              ),
-            )
-            .toList(),
-      ),
+    return ScrollablePositionedList.separated(
+      itemScrollController: itemScrollController,
+      itemBuilder: (context, index) {
+        var comment = bloc.comments[index];
+        return CommentBlockScreen(
+          comment: comment,
+          users: bloc.userCommentMap,
+          replyCallback: () {
+            bloc.replyComment = comment;
+            itemScrollController.scrollTo(
+              index: index,
+              duration: Duration(milliseconds: 500),
+            );
+          },
+          controller: _textComment,
+        );
+      },
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 8);
+      },
+      itemCount: bloc.comments.length,
     );
+    // return SingleChildScrollView(
+    //   controller: controller,
+    //   child: Column(
+    //     children: bloc.comments
+    //         .map(
+    //           (comment) => CommentBlockScreen(
+    //             comment: comment,
+    //             users: bloc.userCommentMap,
+    //             replyCallback: () {
+    //               controller.jumpTo();
+    //             },
+    //           ),
+    //         )
+    //         .toList(),
+    //   ),
+    // );
   }
 
   Widget buildBottomNav() {
@@ -130,6 +161,13 @@ class CommentScreenState extends AbstractState<CommentScreen>
         SizedBox(width: 15),
         Expanded(
           child: TextField(
+            controller: _textComment,
+            onChanged: _onChange,
+            textInputAction: TextInputAction.send,
+            onSubmitted: (value) {
+              bloc.sendComment(value);
+              _textComment.clear();
+            },
             decoration: InputDecoration(
               hintText: "Add comment...",
               hintStyle: TextStyle(color: Colors.black54),
@@ -141,7 +179,10 @@ class CommentScreenState extends AbstractState<CommentScreen>
         ),
         SizedBox(width: 15),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            bloc.sendComment(_textComment.text.toString());
+            _textComment.clear();
+          },
           child: Icon(
             Icons.send,
             color: Colors.black,

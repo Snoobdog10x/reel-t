@@ -11,10 +11,17 @@ import '../../../../shared_product/widgets/default_appbar.dart';
 import '../../../../models/comment/comment.dart' as ReelComment;
 
 class CommentBlockScreen extends StatefulWidget {
+  final void Function()? replyCallback;
   final ReelComment.Comment comment;
+  final TextEditingController controller;
   final Map<String, UserProfile> users;
-  const CommentBlockScreen(
-      {super.key, required this.comment, required this.users});
+  const CommentBlockScreen({
+    super.key,
+    required this.comment,
+    this.replyCallback,
+    required this.controller,
+    required this.users,
+  });
 
   @override
   State<CommentBlockScreen> createState() => CommentBlockScreenState();
@@ -136,7 +143,12 @@ class CommentBlockScreenState extends AbstractState<CommentBlockScreen> {
                 SizedBox(
                   width: 14,
                 ),
-                Text('Reply'),
+                GestureDetector(
+                  onTap: () {
+                    widget.replyCallback?.call();
+                  },
+                  child: Text('Reply'),
+                ),
                 SizedBox(
                   width: 80,
                 ),

@@ -4,8 +4,8 @@ import 'package:reel_t/models/video/video.dart';
 import '../../../models/comment/comment.dart';
 
 abstract class CreateCommentEvent {
-  Future<void> sendCreateCommentEvent(
-      {Comment? parentComment, Comment? subComment}) async {
+  Future<void> sendCreateCommentEvent(Comment parentComment,
+      {Comment? subComment}) async {
     try {
       await _createCommnet(parentComment, subComment);
       onCreateCommentEventDone(null);
@@ -14,9 +14,8 @@ abstract class CreateCommentEvent {
       onCreateCommentEventDone(e);
     }
   }
-  void updateCommentNum(){
-    
-  }
+
+  void updateCommentNum() {}
   Future<void> _createCommnet(
       Comment? parentComment, Comment? subComment) async {
     if (parentComment == null) return;
@@ -30,6 +29,7 @@ abstract class CreateCommentEvent {
     } else {
       parentRef = db.doc();
     }
+    parentComment.id = parentRef.id;
     await parentRef.set(parentComment.toJson());
     if (subComment == null) return;
     DocumentReference<Map<String, dynamic>> subRef;
@@ -39,6 +39,8 @@ abstract class CreateCommentEvent {
       subRef = parentRef.collection(Comment.PATH).doc();
     }
 
+    subComment.id = subRef.id;
+    subComment.parentCommentId = parentComment.id;
     await subRef.set(subComment.toJson());
   }
 

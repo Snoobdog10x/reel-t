@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -137,25 +138,37 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
                     Expanded(
                       flex: 8,
                       child: Text(
-                        bloc.contactUser[message.userId]?.fullName ?? '',
+                        (bloc.contactUser[message.userId]?.fullName ?? '') +
+                            ' send you a new message!',
                         style: TextStyle(
                           fontSize: SharedTextStyle.SUB_TITLE_SIZE,
                           fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
                           fontFamily: SharedTextStyle.DEFAULT_FONT_TITLE,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        " · " +
-                            getNotificationTime(
-                                bloc.parseNotificationToMessage(notification)),
-                        style: TextStyle(
-                          fontSize: SharedTextStyle.NORMAL_SIZE,
-                          fontWeight: SharedTextStyle.NORMAL_WEIGHT,
-                          fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
-                        ),
+                      child: Row(
+                        children: [
+                          Text(
+                            " · " +
+                                getNotificationTime(bloc
+                                    .parseNotificationToMessage(notification)),
+                            style: TextStyle(
+                              fontSize: SharedTextStyle.NORMAL_SIZE,
+                              fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+                              fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Icon(
+                            CupertinoIcons.circle_fill,
+                            color: Colors.blue,
+                            size: 10,
+                          ),
+                        ],
                       ),
                     ),
                   ],

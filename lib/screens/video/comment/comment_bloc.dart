@@ -2,27 +2,62 @@ import 'dart:math';
 
 import 'package:reel_t/events/comment/retrieve_comment/retrieve_comment_event.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/screens/user/login/login_screen.dart';
 
+import '../../../events/comment/create_comment/create_comment_event.dart';
 import '../../../events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/comment/comment.dart';
+import '../../../shared_product/utils/format/format_utlity.dart';
 import 'comment_screen.dart';
 
 class CommentBloc extends AbstractBloc<CommentScreenState>
-    with RetrieveCommentEvent, RetrieveUserProfileEvent {
+    with RetrieveCommentEvent, RetrieveUserProfileEvent, CreateCommentEvent {
   Map<String, UserProfile> userCommentMap = {};
-  String mockAvatar =
-      "https://firebasestorage.googleapis.com/v0/b/reel-t-6b2ba.appspot.com/o/images%2F02062023_image_Beauty_1.jpg?alt=media&token=cec98024-1775-48a5-9740-63d79d441842";
+  Comment? replyComment;
+  late UserProfile curentUser;
   List<Comment> comments = [];
-  void init() {}
-
-  void sendLikes(Comment comment){
-
+  void init() {
+    curentUser = appStore.localUser.getCurrentUser();
+    userCommentMap[curentUser.id] = curentUser;
   }
 
-  void isCheckLikes(){
-    
+  void sendComment(String comment) {
+    print(state.widget.video.id);
+    if (!state.isLogin()) {
+      state.pushToScreen(LoginScreen());
+      return;
+    }
+
+    Comment newParentComment = Comment(
+      userId: curentUser.id,
+      videoId: state.widget.video.id,
+      content: comment,
+      createAt: FormatUtility.getMillisecondsSinceEpoch(),
+    );
+
+    Comment? newSubComment;
+
+    if (replyComment != null) {
+      newParentComment = replyComment!;
+      newParentComment.subCommentsNum++;
+      newSubComment = Comment(
+        userId: curentUser.id,
+        videoId: state.widget.video.id,
+        content: comment,
+        createAt: FormatUtility.getMillisecondsSinceEpoch(),
+      );
+    }
+
+    comments.insert(0, newParentComment);
+    sendCreateCommentEvent(newParentComment, subComment: newSubComment);
+    replyComment = null;
+    notifyDataChanged();
   }
+
+  void sendLikes(Comment comment) {}
+
+  void isCheckLikes() {}
 
   @override
   void onRetrieveCommentEventDone(List<Comment> comments) {
@@ -46,5 +81,10 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
     if (userProfile == null) return;
     userCommentMap[userProfile.id] = userProfile;
     notifyDataChanged();
+  }
+
+  @override
+  void onCreateCommentEventDone(e) {
+    // TODO: implement onCreateCommentEventDone
   }
 }

@@ -13,6 +13,8 @@ abstract class StreamSubCommentEvent {
       final db = FirebaseFirestore.instance
           .collection(Video.PATH)
           .doc(parentComment.videoId)
+          .collection(Comment.PATH)
+          .doc(parentComment.id)
           .collection(Comment.PATH);
       _streamSubcomment = db
           .orderBy(Comment.createAt_PATH, descending: true)

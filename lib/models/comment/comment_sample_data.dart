@@ -29,7 +29,7 @@ class CommentData with CreateCommentEvent {
         createAt: FormatUtility.getMillisecondsSinceEpoch(),
         numLikes: Random().nextInt(30000),
       );
-      await sendCreateCommentEvent(parentComment: comment);
+      await sendCreateCommentEvent(comment);
       comments.add(comment);
     }
     comments.forEach((element) {
@@ -43,7 +43,7 @@ class CommentData with CreateCommentEvent {
           createAt: FormatUtility.getMillisecondsSinceEpoch(),
           numLikes: Random().nextInt(30000),
         );
-        sendCreateCommentEvent(parentComment: element, subComment: comment);
+        sendCreateCommentEvent(element, subComment: comment);
         comments.add(comment);
       }
     });
