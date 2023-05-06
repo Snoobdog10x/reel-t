@@ -37,7 +37,6 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   late ListVideoBloc bloc;
   late PreloadPageController _controller;
   bool isFirstLoaded = false;
-  Widget? bottomSheet;
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -187,15 +186,15 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
           ));
         },
         onTapComment: (isActive) async {
-          if (bottomSheet == null)
-            bottomSheet = Container(
+          showScreenBottomSheet(
+            Container(
               height: screenHeight() * 0.7,
               child: CommentScreen(
                 video: video,
                 commentsNum: video.commentsNum,
               ),
-            );
-          showScreenBottomSheet(bottomSheet!);
+            ),
+          );
         },
       ),
     );

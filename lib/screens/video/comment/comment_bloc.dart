@@ -34,7 +34,7 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
       content: comment,
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
-
+    print(state.widget.video.id);
     comments.insert(0, newParentComment);
     sendCreateCommentEvent(newParentComment);
     notifyDataChanged();
@@ -46,16 +46,18 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
 
   @override
   void onRetrieveCommentEventDone(List<Comment> comments) {
-    this.comments.addAll(comments);
     comments.forEach((comment) {
       if (!userCommentMap.containsKey(comment.userId)) {
         sendRetrieveUserProfileEvent(userId: comment.userId);
       }
-      comment.subComments.forEach((comment) {
-        if (!userCommentMap.containsKey(comment.userId)) {
-          sendRetrieveUserProfileEvent(userId: comment.userId);
-        }
-      });
+      if (!this.comments.contains(comment)) {
+        this.comments.add(comment);
+        comment.subComments.forEach((comment) {
+          if (!userCommentMap.containsKey(comment.userId)) {
+            sendRetrieveUserProfileEvent(userId: comment.userId);
+          }
+        });
+      }
     });
     notifyDataChanged();
   }

@@ -26,9 +26,9 @@ abstract class CreateCommentEvent {
     DocumentReference<Map<String, dynamic>> parentRef;
     if (parentComment.id.isNotEmpty) {
       parentRef = db.doc(parentComment.id);
-      parentComment.id = parentRef.id;
     } else {
       parentRef = db.doc();
+      parentComment.id = parentRef.id;
     }
 
     await parentRef.set(parentComment.toJson());

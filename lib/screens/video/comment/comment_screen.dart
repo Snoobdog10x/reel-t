@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/video/comment/comment_block/comment_block_screen.dart';
@@ -10,6 +12,7 @@ import '../../../shared_product/widgets/image/circle_image.dart';
 import 'comment_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:collection/collection.dart';
 
 class CommentScreen extends StatefulWidget {
   final int commentsNum;
@@ -24,12 +27,12 @@ class CommentScreen extends StatefulWidget {
   State<CommentScreen> createState() => CommentScreenState();
 }
 
-class CommentScreenState extends AbstractState<CommentScreen>
-    with AutomaticKeepAliveClientMixin {
+class CommentScreenState extends AbstractState<CommentScreen> {
   late CommentBloc bloc;
   late TextEditingController _textComment = TextEditingController();
   final ItemScrollController itemScrollController = ItemScrollController();
-  ScrollController controller = ScrollController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
   FocusNode focusNode = FocusNode();
 
   @override
@@ -47,17 +50,23 @@ class CommentScreenState extends AbstractState<CommentScreen>
     bloc = CommentBloc();
     bloc.init();
     bloc.sendRetrieveCommentEvent(widget.video.id);
-    controller.addListener(() {
-      if (controller.position.pixels == controller.position.maxScrollExtent) {
+    bool atEdge = false;
+    itemPositionsListener.itemPositions.addListener(() {
+      var positions = itemPositionsListener.itemPositions.value;
+      if (atEdge == false && positions.last.index == bloc.comments.length - 1) {
         bloc.sendRetrieveCommentEvent(widget.video.id);
+        atEdge = true;
+        print("atEdge");
+        return;
       }
+
+      if (positions.last.index != bloc.comments.length - 1) atEdge = false;
     });
+    print(widget.video.id);
   }
 
   @override
-  void onReady() {
-    // TODO: implement onReady
-  }
+  void onReady() {}
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +104,9 @@ class CommentScreenState extends AbstractState<CommentScreen>
 
   Widget buildBody() {
     return ScrollablePositionedList.separated(
+      physics: ClampingScrollPhysics(),
       itemScrollController: itemScrollController,
+      itemPositionsListener: itemPositionsListener,
       itemBuilder: (context, index) {
         var comment = bloc.comments[index];
         var isReplyThisComment = bloc.replyComment == comment;
