@@ -15,10 +15,14 @@ class CommentBlockScreen extends StatefulWidget {
   final ReelComment.Comment comment;
   final TextEditingController controller;
   final Map<String, UserProfile> users;
+  final bool isFocus;
+  final void Function(Comment subComment)? createdSubComment;
   const CommentBlockScreen({
     super.key,
     required this.comment,
     this.replyCallback,
+    this.createdSubComment,
+    this.isFocus = false,
     required this.controller,
     required this.users,
   });
@@ -104,6 +108,7 @@ class CommentBlockScreenState extends AbstractState<CommentBlockScreen> {
   }
 
   Widget buildComment(ReelComment.Comment comment) {
+    bool isParentComment = comment.parentCommentId.isEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -111,7 +116,11 @@ class CommentBlockScreenState extends AbstractState<CommentBlockScreen> {
           width: screenWidth() * 0.6,
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
           decoration: BoxDecoration(
-              color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
+            color: isParentComment && widget.isFocus
+                ? Colors.grey
+                : Colors.grey[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

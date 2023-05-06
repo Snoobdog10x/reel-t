@@ -26,20 +26,21 @@ abstract class CreateCommentEvent {
     DocumentReference<Map<String, dynamic>> parentRef;
     if (parentComment.id.isNotEmpty) {
       parentRef = db.doc(parentComment.id);
+      parentComment.id = parentRef.id;
     } else {
       parentRef = db.doc();
     }
-    parentComment.id = parentRef.id;
+
     await parentRef.set(parentComment.toJson());
     if (subComment == null) return;
     DocumentReference<Map<String, dynamic>> subRef;
     if (subComment.id.isNotEmpty) {
       subRef = parentRef.collection(Comment.PATH).doc(subComment.id);
+      subComment.id = subRef.id;
     } else {
       subRef = parentRef.collection(Comment.PATH).doc();
     }
 
-    subComment.id = subRef.id;
     subComment.parentCommentId = parentComment.id;
     await subRef.set(subComment.toJson());
   }

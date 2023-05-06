@@ -30,11 +30,7 @@ class CommentScreenState extends AbstractState<CommentScreen>
   late TextEditingController _textComment = TextEditingController();
   final ItemScrollController itemScrollController = ItemScrollController();
   ScrollController controller = ScrollController();
-
-  _onChange(String value) {
-    _textComment.text = value;
-    notifyDataChanged();
-  }
+  FocusNode focusNode = FocusNode();
 
   @override
   AbstractBloc initBloc() {
@@ -54,7 +50,6 @@ class CommentScreenState extends AbstractState<CommentScreen>
     controller.addListener(() {
       if (controller.position.pixels == controller.position.maxScrollExtent) {
         bloc.sendRetrieveCommentEvent(widget.video.id);
-        print('check');
       }
     });
   }
@@ -103,15 +98,20 @@ class CommentScreenState extends AbstractState<CommentScreen>
       itemScrollController: itemScrollController,
       itemBuilder: (context, index) {
         var comment = bloc.comments[index];
+        var isReplyThisComment = bloc.replyComment == comment;
         return CommentBlockScreen(
           comment: comment,
           users: bloc.userCommentMap,
+          isFocus: isReplyThisComment,
           replyCallback: () {
             bloc.replyComment = comment;
             itemScrollController.scrollTo(
               index: index,
-              duration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 300),
             );
+
+            if (!focusNode.hasFocus) focusNode.requestFocus();
+            notifyDataChanged();
           },
           controller: _textComment,
         );
@@ -121,76 +121,76 @@ class CommentScreenState extends AbstractState<CommentScreen>
       },
       itemCount: bloc.comments.length,
     );
-    // return SingleChildScrollView(
-    //   controller: controller,
-    //   child: Column(
-    //     children: bloc.comments
-    //         .map(
-    //           (comment) => CommentBlockScreen(
-    //             comment: comment,
-    //             users: bloc.userCommentMap,
-    //             replyCallback: () {
-    //               controller.jumpTo();
-    //             },
-    //           ),
-    //         )
-    //         .toList(),
-    //   ),
-    // );
   }
 
   Widget buildBottomNav() {
-    return Row(
-      children: <Widget>[
-        SizedBox(width: 10),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            height: 25,
-            width: 25,
-            decoration: BoxDecoration(
-              color: Colors.lightBlue,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: CircleImage(
-              appStore.localUser.getCurrentUser().avatar,
-              radius: 40,
+    var isTextFieldEmpty = _textComment.text.isEmpty;
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 240, 240, 240),
+        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5)],
+      ),
+      child: Row(
+        children: <Widget>[
+          SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 25,
+              width: 25,
+              decoration: BoxDecoration(
+                color: Colors.lightBlue,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: CircleImage(
+                appStore.localUser.getCurrentUser().avatar,
+                radius: 40,
+              ),
             ),
           ),
-        ),
-        SizedBox(width: 15),
-        Expanded(
-          child: TextField(
-            controller: _textComment,
-            onChanged: _onChange,
-            textInputAction: TextInputAction.send,
-            onSubmitted: (value) {
+          SizedBox(width: 15),
+          Expanded(
+            child: TextField(
+              focusNode: focusNode,
+              controller: _textComment,
+              onChanged: (value) {
+                notifyDataChanged();
+              },
+              textInputAction: TextInputAction.send,
+              onSubmitted: (value) {
+                if (value.isEmpty) {
+                  focusNode.unfocus();
+                  return;
+                }
+                bloc.sendComment(value);
+                _textComment.clear();
+              },
+              decoration: InputDecoration(
+                hintText: "Add comment...",
+                hintStyle: TextStyle(color: Colors.black54),
+              ),
+            ),
+          ),
+          SizedBox(width: 15),
+          GestureDetector(
+            onTap: () {
+              var value = _textComment.text;
+              if (value.isEmpty) {
+                focusNode.unfocus();
+                return;
+              }
               bloc.sendComment(value);
               _textComment.clear();
             },
-            decoration: InputDecoration(
-              hintText: "Add comment...",
-              hintStyle: TextStyle(color: Colors.black54),
+            child: Icon(
+              isTextFieldEmpty && focusNode.hasFocus ? Icons.close : Icons.send,
+              color: isTextFieldEmpty ? Colors.black : Colors.blue,
+              size: 20,
             ),
-            onTapOutside: (event) {
-              FocusScope.of(context).unfocus();
-            },
           ),
-        ),
-        SizedBox(width: 15),
-        GestureDetector(
-          onTap: () {
-            bloc.sendComment(_textComment.text.toString());
-            _textComment.clear();
-          },
-          child: Icon(
-            Icons.send,
-            color: Colors.black,
-            size: 20,
-          ),
-        ),
-        SizedBox(width: 10),
-      ],
+          SizedBox(width: 10),
+        ],
+      ),
     );
   }
 
