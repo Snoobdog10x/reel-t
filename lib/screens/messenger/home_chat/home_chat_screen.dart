@@ -20,7 +20,8 @@ import '../../../shared_product/widgets/default_appbar.dart';
 import '../../../shared_product/utils/format/format_utlity.dart';
 
 class HomeChatScreen extends StatefulWidget {
-  const HomeChatScreen({super.key});
+  final void Function()? callBackNewMessage;
+  const HomeChatScreen({super.key, this.callBackNewMessage});
 
   @override
   State<HomeChatScreen> createState() => HomeChatScreenState();
@@ -220,7 +221,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
                   Row(
                     children: [
                       Expanded(
-                        flex: 7,
+                        flex: 8,
                         child: Text(
                           getContentMessage(lastedMessage),
                           style: TextStyle(
@@ -234,7 +235,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
                         ),
                       ),
                       Expanded(
-                        flex: 3,
+                        flex: 2,
                         child: Text(
                           " · " + getMessageTime(lastedMessage),
                           style: TextStyle(

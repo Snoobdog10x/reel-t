@@ -65,7 +65,7 @@ class FreeUpSpacesSettingAndPrivacyScreenState
     return Column(
       children: [
         Container(
-          height: screenHeight() * 0.26,
+          height: screenHeight() * 0.3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

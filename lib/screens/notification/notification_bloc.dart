@@ -18,6 +18,7 @@ class NotificationBloc extends AbstractBloc<NotificationScreenState>
   late UserProfile currentUser;
 
   void init() {
+    if (!appStore.localUser.isLogin()) return;
     currentUser = appStore.localUser.getCurrentUser();
     sendStreamUserNotificationEvent(currentUser.id);
     notifyDataChanged();

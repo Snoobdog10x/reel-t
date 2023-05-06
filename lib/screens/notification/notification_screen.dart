@@ -43,6 +43,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (context) => bloc,
       builder: (context, child) {
@@ -50,8 +51,10 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               appBar: DefaultAppBar(appBarTitle: "Notification"),
               body: body,
+              isSafeBottom: false,
               notLoggedBody: buildLoggedBody(),
             );
           },
@@ -105,7 +108,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
       padding: EdgeInsets.zero,
       physics: BouncingScrollPhysics(),
       separatorBuilder: (context, index) {
-        return SizedBox(height: 8);
+        return Divider(color: Colors.grey, thickness: 0.8);
       },
       itemCount: bloc.listNotification.length,
       itemBuilder: ((context, index) {
@@ -132,7 +135,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
                 Row(
                   children: <Widget>[
                     Expanded(
-                      flex: 7,
+                      flex: 8,
                       child: Text(
                         bloc.contactUser[message.userId]?.fullName ?? '',
                         style: TextStyle(
@@ -143,7 +146,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: Text(
                         " · " +
                             getNotificationTime(

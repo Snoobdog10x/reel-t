@@ -25,7 +25,7 @@ class NavigationScreen extends StatefulWidget {
 
 enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
-class NavigationScreenState extends AbstractState<NavigationScreen>{
+class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
   PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;
@@ -59,7 +59,11 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
           notifyDataChanged();
         },
       ),
-      NavigationPage.CHAT.index: HomeChatScreen(),
+      NavigationPage.CHAT.index: HomeChatScreen(
+        callBackNewMessage: () {
+          bloc.sendRetrieveMessageNumsEvent(bloc.currentUser);
+        },
+      ),
       NavigationPage.NOTIFICATION.index:
           NotificationScreen(callBackNewNotification: () {
         bloc.sendRetrieveNotificationNumsEvent(bloc.currentUser);
@@ -69,9 +73,10 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
       ),
     };
     appStore.setGlobalNavigationNotifyDataChanged(notifyDataChanged);
-    if (isLogin())
+    if (isLogin()) {
       appStore.receiveNotification
           .setNotificationStream(appStore.localUser.getCurrentUser().id);
+    }
   }
 
   @override
@@ -122,11 +127,12 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
               TikTokIcons.chat_bubble,
               currentScreen == NavigationPage.CHAT.index,
               onTap: () {
+                // print(bloc.countMessages);
                 currentScreen = NavigationPage.CHAT.index;
                 _pageController.jumpToPage(NavigationPage.CHAT.index);
                 notifyDataChanged();
               },
-              numNotification: 10,
+              num_icon: isCheckCountMessage() ? bloc.countMessages : null,
             ),
           ),
           Expanded(
@@ -148,7 +154,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
                 _pageController.jumpToPage(NavigationPage.NOTIFICATION.index);
                 notifyDataChanged();
               },
-              numNotification:
+              num_icon:
                   isCheckCountNotification() ? bloc.countNotifications : null,
             ),
           ),
@@ -205,7 +211,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
     IconData? icon,
     bool isSelect, {
     Function? onTap,
-    int? numNotification,
+    int? num_icon,
   }) {
     var isBlackBackground = currentScreen == 0;
     return GestureDetector(
@@ -233,7 +239,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
                               : Colors.black45,
                     ),
                   ),
-                  if (numNotification != null)
+                  if (num_icon != null)
                     Positioned(
                       top: 0,
                       right: 0,
@@ -244,7 +250,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
                             shape: BoxShape.circle, color: Colors.red),
                         alignment: Alignment.center,
                         child: Text(
-                          '${numNotification}',
+                          '${num_icon}',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),
@@ -288,6 +294,11 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
 
   bool isCheckCountNotification() {
     if (bloc.countNotifications == 0) return false;
+    return true;
+  }
+
+  bool isCheckCountMessage() {
+    if (bloc.countMessages == 0) return false;
     return true;
   }
 
