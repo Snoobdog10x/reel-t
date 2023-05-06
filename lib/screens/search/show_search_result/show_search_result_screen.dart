@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:reel_t/models/video/video.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
 import 'package:reel_t/screens/video/list_video/list_video_screen.dart';
+import 'package:reel_t/screens/video/list_video/models/creator_detail.dart';
+import 'package:reel_t/screens/video/list_video/models/video_detail.dart';
+import 'package:reel_t/shared_product/assets/icon/tik_tok_icons_icons.dart';
+import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
 import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import 'package:reel_t/shared_product/widgets/video_player_item.dart';
 import '../../../generated/abstract_bloc.dart';
@@ -27,6 +31,14 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
   late TextEditingController _searchController;
   late TabController tabController;
   bool isVideoTab = true;
+  final TextStyle subTitleStyle = TextStyle(
+    fontSize: 11,
+    fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+  );
+  final TextStyle titleStyle = TextStyle(
+    fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+    fontWeight: SharedTextStyle.TITLE_WEIGHT,
+  );
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -145,150 +157,171 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
     );
     var unlableStyle = TextStyle(
       fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-      color: Colors.black,
+      color: Colors.grey,
       fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
     );
     return Container(
       height: 30,
+      margin: EdgeInsets.only(top: 8),
       child: TabBar(
         controller: tabController,
+        labelColor: Colors.black,
+        unselectedLabelColor: Colors.grey,
         labelStyle: lableStyle,
         unselectedLabelStyle: unlableStyle,
         tabs: [
-          Text(
-            "Videos",
-            style: lableStyle,
-          ),
-          Text(
-            "user",
-            style: lableStyle,
-          ),
+          Text("Videos"),
+          Text("Users"),
         ],
       ),
     );
   }
 
   Widget buildGridSearchVideoResults() {
+    var videos = bloc.searchVideoResult.values.toList();
     return GridView.builder(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisExtent: screenHeight() * 0.35,
         crossAxisSpacing: 10,
-        mainAxisSpacing: 5,
+        mainAxisSpacing: 10,
       ),
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
-      itemCount: bloc.searchVideoResult.length,
+      itemCount: videos.length,
       itemBuilder: (context, index) {
-        var video = bloc.searchVideoResult[index];
+        var video = videos[index];
         return buildVideoItem(video);
       },
     );
   }
 
-  Widget buildVideoItem(Video video) {
-    var user = bloc.users[video.id] ?? UserProfile(id: video.creatorId);
+  Widget buildVideoItem(VideoDetail video) {
+    var user = bloc.creatorDetails[video.video.creatorId] ??
+        CreatorDetail(UserProfile());
     return GestureDetector(
       onTap: () {
         pushToScreen(ListVideoScreen(
-          videos: bloc.searchVideoResult,
+          videos: bloc.searchVideoResult.values
+              .map((videoDetail) => videoDetail.video)
+              .toList(),
           loadMoreVideos: () {},
           isShowBack: true,
         ));
       },
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: screenHeight(),
-            width: screenWidth(),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: VideoThumbnailDisplay(
-                thumbnail: video.videoThumbnail,
-              ),
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  height: screenHeight(),
+                  width: screenWidth(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: VideoThumbnailDisplay(
+                      thumbnail: video.video.videoThumbnail,
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  margin: EdgeInsets.only(left: 8, bottom: 8),
+                  child: Text(
+                    user.userProfile.userName,
+                    style: TextStyle(
+                      fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                      color: Colors.white,
+                      fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
-          Container(
-            alignment: Alignment.bottomLeft,
-            margin: EdgeInsets.only(left: 8, bottom: 8),
-            child: Text(
-              user.userName,
-              style: TextStyle(
-                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-                color: Colors.white,
-                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+          SizedBox(height: 6),
+          Text(video.video.title),
+          SizedBox(height: 6),
+          Row(
+            children: [
+              CircleImage(user.userProfile.avatar, radius: 25),
+              SizedBox(width: 5),
+              Expanded(
+                  child: Text(
+                user.userProfile.fullName,
+                style: subTitleStyle,
+              )),
+              Icon(
+                TikTokIcons.heart,
+                size: 12,
+                color: Color.fromARGB(255, 255, 155, 155),
               ),
-            ),
+              SizedBox(width: 2),
+              Text(
+                FormatUtility.formatNumber(video.video.likesNum),
+                style: subTitleStyle,
+              ),
+            ],
           )
         ],
       ),
     );
   }
 
-  Widget buildGridSearchUserResults() {
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(vertical: 8),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisExtent: screenHeight() * 0.35,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 5,
+  Widget buildUserList() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          var user = bloc.creatorDetails.values.toList()[index];
+          return buildUserItem(user);
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 16);
+        },
+        itemCount: bloc.creatorDetails.length,
       ),
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      itemCount: bloc.searchUserResult.length,
-      itemBuilder: (context, index) {
-        var user = bloc.searchUserResult[index];
-        return buildBlockUserItem(user);
-      },
     );
   }
 
-  Widget buildBlockUserItem(UserProfile user) {
-    return GestureDetector(
-      onTap: () {
-        pushToScreen(ProfileScreen(
-          user: user,
-          isBack: true,
-        ));
-      },
-      child: Stack(
-        children: [
-          Container(
+  Widget buildUserItem(CreatorDetail userProfile) {
+    bool isFollow = userProfile.isFollow();
+    return Row(
+      children: [
+        CircleImage(userProfile.userProfile.avatar, radius: 50),
+        SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(userProfile.userProfile.fullName, style: titleStyle),
+              Text("${userProfile.userProfile.userName}", style: subTitleStyle),
+              Text(bloc.formatUserStatistic(userProfile.userProfile)),
+            ],
+          ),
+        ),
+        GestureDetector(
+          onTap: () {},
+          child: Container(
+            height: 30,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(16),
-              image: user.avatar.isEmpty
-                  ? null
-                  : DecorationImage(
-                      image: CachedNetworkImageProvider(user.avatar),
-                      fit: BoxFit.cover,
-                    ),
+              borderRadius: BorderRadius.circular(8),
+              color: isFollow ? Colors.white : Colors.red,
             ),
             alignment: Alignment.center,
-            child: user.avatar.isEmpty
-                ? Icon(
-                    Icons.people,
-                    size: screenWidth() * 0.4,
-                    color: Colors.white,
-                  )
-                : null,
-          ),
-          Container(
-            alignment: Alignment.bottomLeft,
-            margin: EdgeInsets.only(left: 8, bottom: 8),
+            width: screenWidth() * 0.25,
             child: Text(
-              user.userName,
+              isFollow ? "Following" : "Follow",
               style: TextStyle(
-                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-                color: Colors.white,
-                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                color: isFollow ? Colors.black : Colors.white,
+                fontWeight: SharedTextStyle.NORMAL_WEIGHT,
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -297,7 +330,7 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
       controller: tabController,
       children: [
         buildGridSearchVideoResults(),
-        buildGridSearchUserResults(),
+        buildUserList(),
       ],
     );
   }
