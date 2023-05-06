@@ -14,6 +14,8 @@ class Comment{
 	String content = "";
 	static const String userId_PATH = "userId";
 	String userId = "";
+	static const String parentCommentId_PATH = "parentCommentId";
+	String parentCommentId = "";
 	static const String subCommentsNum_PATH = "subCommentsNum";
 	int subCommentsNum = 0;
 	static const String subComments_PATH = "subComments";
@@ -29,6 +31,7 @@ class Comment{
 		String? videoId,
 		String? content,
 		String? userId,
+		String? parentCommentId,
 		int? subCommentsNum,
 		List<Comment>? subComments,
 		int? numLikes,
@@ -38,6 +41,7 @@ class Comment{
 		if(videoId != null) this.videoId = videoId;
 		if(content != null) this.content = content;
 		if(userId != null) this.userId = userId;
+		if(parentCommentId != null) this.parentCommentId = parentCommentId;
 		if(subCommentsNum != null) this.subCommentsNum = subCommentsNum;
 		if(subComments != null) this.subComments = subComments;
 		if(numLikes != null) this.numLikes = numLikes;
@@ -49,6 +53,7 @@ class Comment{
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["parentCommentId"] != null) parentCommentId = jsonMap["parentCommentId"];
 		if(jsonMap["subCommentsNum"] != null) subCommentsNum = jsonMap["subCommentsNum"];
 		if(jsonMap["numLikes"] != null) numLikes = jsonMap["numLikes"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
@@ -60,6 +65,7 @@ class Comment{
 		if(jsonMap["videoId"] != null) videoId = jsonMap["videoId"];
 		if(jsonMap["content"] != null) content = jsonMap["content"];
 		if(jsonMap["userId"] != null) userId = jsonMap["userId"];
+		if(jsonMap["parentCommentId"] != null) parentCommentId = jsonMap["parentCommentId"];
 		if(jsonMap["subCommentsNum"] != null) subCommentsNum = jsonMap["subCommentsNum"];
 		if(jsonMap["numLikes"] != null) numLikes = jsonMap["numLikes"];
 		if(jsonMap["createAt"] != null) createAt = jsonMap["createAt"];
@@ -79,6 +85,7 @@ class Comment{
 		jsonMap["videoId"] = videoId;
 		jsonMap["content"] = content;
 		jsonMap["userId"] = userId;
+		jsonMap["parentCommentId"] = parentCommentId;
 		jsonMap["subCommentsNum"] = subCommentsNum;
 		jsonMap["numLikes"] = numLikes;
 		jsonMap["createAt"] = createAt;

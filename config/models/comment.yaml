@@ -3,6 +3,7 @@ arguments:
   - videoId: String
   - content: String
   - userId: String
+  - parentCommentId: String
   - subCommentsNum: int
   - subComments: Comment
   - numLikes: int

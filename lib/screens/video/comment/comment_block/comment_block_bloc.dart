@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:reel_t/events/comment/stream_sub_comment/stream_sub_comment_event.dart';
 
+import '../../../../events/comment/create_comment/create_comment_event.dart';
 import '../../../../events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
 import '../../../../generated/abstract_bloc.dart';
 import '../../../../models/comment/comment.dart';

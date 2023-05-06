@@ -221,7 +221,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
                   Row(
                     children: [
                       Expanded(
-                        flex: 8,
+                        flex: 7,
                         child: Text(
                           getContentMessage(lastedMessage),
                           style: TextStyle(
@@ -235,7 +235,7 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
                         ),
                       ),
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Text(
                           " · " + getMessageTime(lastedMessage),
                           style: TextStyle(
