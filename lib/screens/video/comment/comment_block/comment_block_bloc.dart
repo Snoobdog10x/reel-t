@@ -24,17 +24,17 @@ class CommentBlockBloc extends AbstractBloc<CommentBlockScreenState>
       state.pushToScreen(LoginScreen());
       return;
     }
-    var parentCommnet = state.widget.comment;
-    parentCommnet.subCommentsNum++;
+    var parentComment = state.widget.comment;
+    parentComment.subCommentsNum++;
 
     var newSubComment = Comment(
-      parentCommentId: parentCommnet.id,
+      parentCommentId: parentComment.id,
       content: comment,
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
-    parentCommnet.subComments.insert(0, newSubComment);
+    parentComment.subComments.insert(0, newSubComment);
     notifyDataChanged();
-    sendCreateCommentEvent(parentCommnet, subComment: newSubComment);
+    sendCreateCommentEvent(parentComment, subComment: newSubComment);
   }
 
   UserProfile getUserProfile(Comment comment) {

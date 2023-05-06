@@ -34,9 +34,28 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
       content: comment,
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
-    print(state.widget.video.id);
     comments.insert(0, newParentComment);
     sendCreateCommentEvent(newParentComment);
+    notifyDataChanged();
+  }
+
+  void sendSubComment(String comment) {
+    if (!state.isLogin()) {
+      state.pushToScreen(LoginScreen());
+      return;
+    }
+    if (replyComment == null) return;
+    Comment newSubComment = Comment(
+      userId: curentUser.id,
+      videoId: state.widget.video.id,
+      content: comment,
+      createAt: FormatUtility.getMillisecondsSinceEpoch(),
+      parentCommentId: replyComment!.id,
+    );
+    replyComment!.subCommentsNum++;
+    sendCreateCommentEvent(replyComment!, subComment: newSubComment);
+
+    replyComment = null;
     notifyDataChanged();
   }
 

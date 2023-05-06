@@ -56,7 +56,6 @@ class CommentScreenState extends AbstractState<CommentScreen> {
       if (atEdge == false && positions.last.index == bloc.comments.length - 1) {
         bloc.sendRetrieveCommentEvent(widget.video.id);
         atEdge = true;
-        print("atEdge");
         return;
       }
 
@@ -173,7 +172,10 @@ class CommentScreenState extends AbstractState<CommentScreen> {
                   focusNode.unfocus();
                   return;
                 }
-                bloc.sendComment(value);
+                if (bloc.replyComment == null)
+                  bloc.sendComment(value);
+                else
+                  bloc.sendSubComment(value);
                 _textComment.clear();
               },
               decoration: InputDecoration(
