@@ -25,7 +25,7 @@ class NavigationScreen extends StatefulWidget {
 
 enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
-class NavigationScreenState extends AbstractState<NavigationScreen>{
+class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
   PageController _pageController = PageController();
   int currentScreen = NavigationPage.FEED.index;
@@ -88,7 +88,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
               isShowConnect: true,
               background: isBlackBackground
                   ? Colors.black
-                  : Color.fromARGB(255, 233, 233, 233),
+                  : Color.fromARGB(255, 240, 240, 240),
               isSafe: false,
               bottomNavBar: loadedVideo ? buildBottomBar() : null,
             );
@@ -99,9 +99,22 @@ class NavigationScreenState extends AbstractState<NavigationScreen>{
   }
 
   Widget buildBottomBar() {
+    var isBlackBackground = currentScreen == 0;
+
     return Container(
       width: screenWidth(),
-      height: screenHeight() * 0.1,
+      height: screenHeight() * 0.08,
+      decoration: BoxDecoration(
+        color: isBlackBackground
+            ? Colors.black
+            : Color.fromARGB(255, 240, 240, 240),
+        boxShadow: isBlackBackground
+            ? null
+            : [
+                BoxShadow(
+                    color: Color.fromARGB(255, 41, 41, 41), blurRadius: 5),
+              ],
+      ),
       child: Row(
         children: [
           Expanded(
