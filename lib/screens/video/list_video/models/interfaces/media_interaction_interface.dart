@@ -3,7 +3,7 @@ import 'dart:async';
 abstract class MediaInteractionInterface {
   Timer? rollBackTimer;
   bool isLockInteractive = false;
-  final int INTERACT_TIME_OUT = 700;
+  final int INTERACT_TIME_OUT = 1000;
   void changeInteractionState();
   
   void interactMedia(void Function() notifyDataChanged);

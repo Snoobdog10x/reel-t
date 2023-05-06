@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/video/video.dart';
@@ -52,6 +53,7 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
   @override
   void onCreate() {
     bloc = ShowSearchResultBloc();
+    bloc.currentUser = appStore.localUser.getCurrentUser();
     tabController = TabController(length: 2, vsync: this);
     _searchController = TextEditingController(text: widget.searchText);
     bloc.sendSearchUserEvent(widget.searchText);
@@ -178,6 +180,8 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
   }
 
   Widget buildGridSearchVideoResults() {
+    if (!bloc.isLoadDataDone) return buildWaitingLoad();
+
     var videos = bloc.searchVideoResult.values.toList();
     return GridView.builder(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
@@ -270,7 +274,18 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
     );
   }
 
+  Widget buildWaitingLoad() {
+    return Container(
+      alignment: Alignment.center,
+      child: CupertinoActivityIndicator(
+        radius: 20,
+        color: Colors.grey,
+      ),
+    );
+  }
+
   Widget buildUserList() {
+    if (!bloc.isLoadDataDone) return buildWaitingLoad();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: ListView.separated(
@@ -303,7 +318,9 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            bloc.followUser(userProfile);
+          },
           child: Container(
             height: 30,
             decoration: BoxDecoration(

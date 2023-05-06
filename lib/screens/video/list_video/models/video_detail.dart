@@ -11,18 +11,24 @@ class VideoDetail with MediaInteractionInterface {
   VideoDetail(this.video);
   bool isLike() {
     if (like == null) return false;
-    
+
     return like!.isLike;
   }
 
   @override
   void changeInteractionState() {
     if (like == null) {
-      like = Like(videoId: video.id);
+      like = Like(videoId: video.id, isLike: true);
       return;
     }
-
-    like!.isLike = !like!.isLike;
+    var isLike = like!.isLike;
+    if (isLike) {
+      video.likesNum--;
+    } else {
+      video.likesNum++;
+    }
+    
+    like!.isLike = isLike;
   }
 
   void interactMedia(void Function() notifyDataChanged) {

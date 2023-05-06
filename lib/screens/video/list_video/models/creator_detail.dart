@@ -10,18 +10,25 @@ class CreatorDetail with MediaInteractionInterface {
   CreatorDetail(this.userProfile);
   bool isFollow() {
     if (follow == null) return false;
-    
+
     return follow!.isFollow;
   }
 
   @override
   void changeInteractionState() {
     if (follow == null) {
-      follow = Follow(userId: userProfile.id);
+      follow = Follow(userId: userProfile.id, isFollow: true);
+      userProfile.numFollower++;
       return;
     }
+    var isFollow = follow!.isFollow;
+    if (isFollow) {
+      userProfile.numFollower--;
+    } else {
+      userProfile.numFollower++;
+    }
 
-    follow!.isFollow = !follow!.isFollow;
+    follow!.isFollow = !isFollow;
   }
 
   @override
