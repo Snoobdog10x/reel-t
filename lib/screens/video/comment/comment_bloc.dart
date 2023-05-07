@@ -14,8 +14,8 @@ import 'comment_screen.dart';
 class CommentBloc extends AbstractBloc<CommentScreenState>
     with RetrieveCommentEvent, RetrieveUserProfileEvent, CreateCommentEvent {
   Map<String, UserProfile> userCommentMap = {};
-  Comment? replyComment;
   late UserProfile curentUser;
+  Comment? replyComment;
   List<Comment> comments = [];
   void init() {
     curentUser = appStore.localUser.getCurrentUser();
@@ -23,7 +23,6 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
   }
 
   void sendComment(String comment) {
-    print(state.widget.video.id);
     if (!state.isLogin()) {
       state.pushToScreen(LoginScreen());
       return;
@@ -35,22 +34,27 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
       content: comment,
       createAt: FormatUtility.getMillisecondsSinceEpoch(),
     );
-
-    Comment? newSubComment;
-
-    if (replyComment != null) {
-      newParentComment = replyComment!;
-      newParentComment.subCommentsNum++;
-      newSubComment = Comment(
-        userId: curentUser.id,
-        videoId: state.widget.video.id,
-        content: comment,
-        createAt: FormatUtility.getMillisecondsSinceEpoch(),
-      );
-    }
-
     comments.insert(0, newParentComment);
-    sendCreateCommentEvent(newParentComment, subComment: newSubComment);
+    sendCreateCommentEvent(newParentComment);
+    notifyDataChanged();
+  }
+
+  void sendSubComment(String comment) {
+    if (!state.isLogin()) {
+      state.pushToScreen(LoginScreen());
+      return;
+    }
+    if (replyComment == null) return;
+    Comment newSubComment = Comment(
+      userId: curentUser.id,
+      videoId: state.widget.video.id,
+      content: comment,
+      createAt: FormatUtility.getMillisecondsSinceEpoch(),
+      parentCommentId: replyComment!.id,
+    );
+    replyComment!.subCommentsNum++;
+    sendCreateCommentEvent(replyComment!, subComment: newSubComment);
+
     replyComment = null;
     notifyDataChanged();
   }
@@ -61,16 +65,18 @@ class CommentBloc extends AbstractBloc<CommentScreenState>
 
   @override
   void onRetrieveCommentEventDone(List<Comment> comments) {
-    this.comments.addAll(comments);
     comments.forEach((comment) {
       if (!userCommentMap.containsKey(comment.userId)) {
         sendRetrieveUserProfileEvent(userId: comment.userId);
       }
-      comment.subComments.forEach((comment) {
-        if (!userCommentMap.containsKey(comment.userId)) {
-          sendRetrieveUserProfileEvent(userId: comment.userId);
-        }
-      });
+      if (!this.comments.contains(comment)) {
+        this.comments.add(comment);
+        comment.subComments.forEach((comment) {
+          if (!userCommentMap.containsKey(comment.userId)) {
+            sendRetrieveUserProfileEvent(userId: comment.userId);
+          }
+        });
+      }
     });
     notifyDataChanged();
   }

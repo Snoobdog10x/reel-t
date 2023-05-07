@@ -57,6 +57,7 @@ dependencies:
   video_compress: 3.1.2
   camerawesome: 1.4.0
   gallery_saver: 2.3.2
+  flutter_keyboard_size: 1.0.1
   scrollable_positioned_list: 0.3.7
 dev_dependencies:
   flutter_test:
