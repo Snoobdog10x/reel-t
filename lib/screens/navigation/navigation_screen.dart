@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/video/camera_ar/camera_ar_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_screen.dart';
@@ -25,7 +26,7 @@ enum NavigationPage { FEED, CHAT, NOTIFICATION, PROFILE }
 
 class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
-  PageController _pageController = PageController();
+  PreloadPageController _pageController = PreloadPageController();
   int currentScreen = NavigationPage.FEED.index;
   late Map<int, Widget> pages;
   bool loadedVideo = false;
@@ -292,7 +293,8 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   Widget buildBody() {
     return Stack(
       children: [
-        PageView(
+        PreloadPageView(
+          preloadPagesCount: 4,
           controller: _pageController,
           physics: NeverScrollableScrollPhysics(),
           children: pages.values.toList(),

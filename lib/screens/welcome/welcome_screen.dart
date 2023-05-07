@@ -77,6 +77,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
             style: TextStyle(
               fontSize: 30,
               fontWeight: SharedTextStyle.TITLE_WEIGHT,
+              color: Colors.white,
             ),
             child: AnimatedTextKit(
               animatedTexts: [
