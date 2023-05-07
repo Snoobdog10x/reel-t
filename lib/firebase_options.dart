@@ -68,13 +68,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAILt5LWcSKB1dIbeH8zJjE6tT7WDRJyyc',
-    appId: '1:505266246761:ios:3d4aa2d9810027047efef8',
+    appId: '1:505266246761:ios:05141d0a7e07601c7efef8',
     messagingSenderId: '505266246761',
     projectId: 'reel-t-6b2ba',
     databaseURL: 'https://reel-t-6b2ba-default-rtdb.firebaseio.com',
     storageBucket: 'reel-t-6b2ba.appspot.com',
     androidClientId: '505266246761-ojrrakhs54dg3e0jg1v8he4cn0fnqp0r.apps.googleusercontent.com',
-    iosClientId: '505266246761-48pukedqbjj14ok5pt3kpk1s80jk4o0j.apps.googleusercontent.com',
-    iosBundleId: 'com.example.reeltt',
+    iosClientId: '505266246761-cjc5m4jtln9b0dd0011nq9d5h3pp1j10.apps.googleusercontent.com',
+    iosBundleId: 'com.example.reelt',
   );
 }
