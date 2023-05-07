@@ -9,6 +9,7 @@ import '../../../models/comment/comment.dart';
 abstract class StreamSubCommentEvent {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _streamSubcomment;
   void sendStreamSubCommentEvent(Comment parentComment) {
+    disposeStreamSubCommentEvent();
     try {
       final db = FirebaseFirestore.instance
           .collection(Video.PATH)

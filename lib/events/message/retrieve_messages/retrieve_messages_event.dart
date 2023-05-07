@@ -11,6 +11,7 @@ abstract class RetrieveMessagesEvent {
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
       streamMessages;
   void sendRetrieveMessagesEvent(Conversation conversation) {
+    disposeRetrieveMessagesEvent();
     try {
       streamMessages = db
           .doc(conversation.id)

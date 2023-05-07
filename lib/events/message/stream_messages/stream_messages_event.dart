@@ -8,6 +8,7 @@ import '../../../models/message/message.dart';
 abstract class StreamMessagesEvent {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _streamMessages;
   void sendStreamMessagesEvent(String conversationId) {
+    disposeStreamMessagesEvent();
     try {
       final db = FirebaseFirestore.instance.collection(Conversation.PATH);
       _streamMessages = db
