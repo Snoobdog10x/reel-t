@@ -56,7 +56,7 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
     );
   }
 
-  Widget buildBody() {
+  Widget buildCamera() {
     return CameraAwesomeBuilder.awesome(
       theme: AwesomeTheme(
         bottomActionsBackgroundColor: Colors.cyan.withOpacity(0.5),
@@ -163,6 +163,31 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
           return bloc.path(CaptureMode.video);
         },
       ),
+    );
+  }
+
+  Widget buildBody() {
+    return Stack(
+      children: [
+        buildCamera(),
+        Positioned(
+            left: 0,
+            top: screenHeight() * 0.05,
+            child: GestureDetector(
+              onTap: () {
+                popTopDisplay();
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ))
+      ],
     );
   }
 

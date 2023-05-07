@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
-import 'package:reel_t/models/conversation/conversation.dart';
 import 'package:reel_t/screens/video/camera_ar/camera_ar_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_screen.dart';
 import '../../generated/abstract_bloc.dart';
@@ -72,7 +70,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         user: bloc.currentUser,
       ),
     };
-    appStore.setGlobalNavigationNotifyDataChanged(notifyDataChanged);
     if (isLogin()) {
       appStore.receiveNotification
           .setNotificationStream(appStore.localUser.getCurrentUser().id);

@@ -1,4 +1,4 @@
-import 'package:reel_t/shared_product/vendors/priority_set/priority_set.dart';
+import 'package:reel_t/shared_product/vendors/collection/priority_set/priority_set.dart';
 
 import '../../../events/message/stream_conversations/stream_conversations_event.dart';
 import '../../../events/user/retrieve_user_profile/retrieve_user_profile_event.dart';

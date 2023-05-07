@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '505266246761',
     projectId: 'reel-t-6b2ba',
     authDomain: 'reel-t-6b2ba.firebaseapp.com',
+    databaseURL: "https://reel-t-6b2ba-default-rtdb.firebaseio.com/",
     storageBucket: 'reel-t-6b2ba.appspot.com',
     measurementId: 'G-KJR7QCE7EN',
   );
@@ -60,6 +61,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyAmZ2jhIsyjYITBUobi6LybaXi2l5recVI',
     appId: '1:505266246761:android:ba4eff3fc60058997efef8',
     messagingSenderId: '505266246761',
+    databaseURL: "https://reel-t-6b2ba-default-rtdb.firebaseio.com/",
     projectId: 'reel-t-6b2ba',
     storageBucket: 'reel-t-6b2ba.appspot.com',
   );
@@ -69,8 +71,10 @@ class DefaultFirebaseOptions {
     appId: '1:505266246761:ios:05141d0a7e07601c7efef8',
     messagingSenderId: '505266246761',
     projectId: 'reel-t-6b2ba',
+    databaseURL: "https://reel-t-6b2ba-default-rtdb.firebaseio.com/",
     storageBucket: 'reel-t-6b2ba.appspot.com',
-    iosClientId: '505266246761-cjc5m4jtln9b0dd0011nq9d5h3pp1j10.apps.googleusercontent.com',
+    iosClientId:
+        '505266246761-cjc5m4jtln9b0dd0011nq9d5h3pp1j10.apps.googleusercontent.com',
     iosBundleId: 'com.example.reelt',
   );
 }
