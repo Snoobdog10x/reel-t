@@ -136,7 +136,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
                 Row(
                   children: <Widget>[
                     Expanded(
-                      flex: 8,
+                      flex: 7,
                       child: Text(
                         (bloc.contactUser[message.userId]?.fullName ?? '') +
                             ' send you a new message!',
@@ -149,7 +149,7 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
                       ),
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Row(
                         children: [
                           Text(

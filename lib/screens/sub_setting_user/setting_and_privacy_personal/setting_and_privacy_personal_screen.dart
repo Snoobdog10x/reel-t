@@ -542,6 +542,7 @@ class SettingAndPrivacyPersonalScreenState
                         onPressed: () async {
                           await appStore.localUser.logout();
                           await appStore.localSetting.clearSetting();
+                          await appStore.localUser.clearUser();
                           pushToScreen(NavigationScreen());
                         },
                       ),
