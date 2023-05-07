@@ -39,7 +39,12 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
   @override
   void onCreate() {
     bloc = NotificationBloc();
+  }
+
+  @override
+  void onReady() {
     bloc.init();
+
   }
 
   @override
@@ -223,12 +228,6 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
 
   @override
   void onDispose() {}
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-  }
-
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;

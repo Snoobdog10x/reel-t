@@ -54,7 +54,6 @@ class EditProfileFieldScreenState
     _controllerName.text = bloc.currentUserProfile.fullName;
     _controllerUserName.text = bloc.currentUserProfile.userName;
     _controllerBio.text = bloc.currentUserProfile.bio;
-
     charLengthName = bloc.currentUserProfile.fullName.length;
     charLengthBio = bloc.currentUserProfile.bio.length;
   }

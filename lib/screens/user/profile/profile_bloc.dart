@@ -6,9 +6,7 @@ import 'package:reel_t/shared_product/vendors/collection/priority_set/priority_s
 
 import '../../../events/follow/follow_user/follow_user_event.dart';
 import '../../../events/follow/get_follow_user/get_follow_user_event.dart';
-import '../../../events/user/retrieve_user_profile/retrieve_user_profile_event.dart';
 import '../../../generated/abstract_bloc.dart';
-import '../../../models/conversation/conversation.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../../models/video/video.dart';
 

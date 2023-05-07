@@ -59,13 +59,6 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
   void onCreate() {
     bloc = ProfileBloc();
     bloc.init(widget.userFollow);
-    bloc.sendRetrieveUserVideoEvent(widget.user.id);
-    if (appStore.localUser.isLogin()) {
-      if (widget.user.id != appStore.localUser.getCurrentUser().id)
-        bloc.sendGetFollowUserEvent(
-            appStore.localUser.getCurrentUser().id, widget.user.id);
-    }
-    isCurrentUserProfile = widget.user == bloc.currentUser;
     controller.addListener(() {
       if (controller.position.atEdge) {
         bool isTop = controller.position.pixels == 0;
@@ -79,6 +72,17 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
         bloc.sendRetrieveUserVideoEvent(widget.user.id);
       }
     });
+  }
+
+  @override
+  void onReady() {
+    bloc.sendRetrieveUserVideoEvent(widget.user.id);
+    if (appStore.localUser.isLogin()) {
+      if (widget.user.id != appStore.localUser.getCurrentUser().id)
+        bloc.sendGetFollowUserEvent(
+            appStore.localUser.getCurrentUser().id, widget.user.id);
+    }
+    isCurrentUserProfile = widget.user == bloc.currentUser;
   }
 
   @override
@@ -552,11 +556,6 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
 
   @override
   void onDispose() {}
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-  }
 
   @override
   // TODO: implement wantKeepAlive

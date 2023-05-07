@@ -34,6 +34,10 @@ class FeedScreenState extends AbstractState<FeedScreen>
   void onCreate() {
     bloc = FeedBloc();
     tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void onReady() {
     bloc.sendRetrieveVideos();
   }
 
@@ -172,11 +176,6 @@ class FeedScreenState extends AbstractState<FeedScreen>
 
   @override
   void onDispose() {}
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-  }
 
   @override
   // TODO: implement wantKeepAlive

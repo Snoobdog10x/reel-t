@@ -56,12 +56,11 @@ class ShowSearchResultScreenState extends AbstractState<ShowSearchResultScreen>
     bloc.currentUser = appStore.localUser.getCurrentUser();
     tabController = TabController(length: 2, vsync: this);
     _searchController = TextEditingController(text: widget.searchText);
-    bloc.sendSearchUserEvent(widget.searchText);
   }
 
   @override
   void onReady() {
-    // TODO: implement onReady
+    bloc.sendSearchUserEvent(widget.searchText);
   }
 
   @override

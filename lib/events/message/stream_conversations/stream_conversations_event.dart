@@ -7,6 +7,7 @@ import '../../../models/conversation/conversation.dart';
 abstract class StreamConversationsEvent {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _conversationStream;
   void sendStreamConversationsEvent(String currentUserId) {
+    disposeStreamConversationsEvent();
     try {
       _createStreamConversations(currentUserId);
     } catch (e) {

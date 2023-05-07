@@ -35,14 +35,13 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
   @override
   void onCreate() {
     bloc = NewChatBloc();
-    var currentUserId = appStore.localUser.getCurrentUser().id;
-    bloc.sendRetrieveFollowingUserEvent(currentUserId);
-    bloc.sendRetrieveConversationUserEvent(currentUserId);
   }
 
   @override
   void onReady() {
-    // TODO: implement onReady
+    var currentUserId = appStore.localUser.getCurrentUser().id;
+    bloc.sendRetrieveFollowingUserEvent(currentUserId);
+    bloc.sendRetrieveConversationUserEvent(currentUserId);
   }
 
   @override

@@ -12,8 +12,4 @@ class SwitchAccountBloc extends AbstractBloc<SwitchAccountScreenState> {
     switchAccounts = appStore.localUser.getSwitchAccounts();
     notifyDataChanged();
   }
-
-  bool isLoggedAccount(UserProfile userProfile) {
-    return appStore.localUser.getCurrentUser().id == userProfile.id;
-  }
 }

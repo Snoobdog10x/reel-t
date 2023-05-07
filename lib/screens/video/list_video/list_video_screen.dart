@@ -51,11 +51,12 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   void onCreate() {
     bloc = ListVideoBloc();
     _controller = PreloadPageController(initialPage: widget.startAtIndex);
-    bloc.init(widget.videos);
   }
 
   @override
-  void onReady() {}
+  void onReady() {
+    bloc.init(widget.videos);
+  }
 
   @override
   Widget build(BuildContext context) {

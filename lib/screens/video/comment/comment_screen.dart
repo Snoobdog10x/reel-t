@@ -48,8 +48,6 @@ class CommentScreenState extends AbstractState<CommentScreen> {
   @override
   void onCreate() {
     bloc = CommentBloc();
-    bloc.init();
-    bloc.sendRetrieveCommentEvent(widget.video.id);
     bool atEdge = false;
     itemPositionsListener.itemPositions.addListener(() {
       var positions = itemPositionsListener.itemPositions.value;
@@ -61,11 +59,13 @@ class CommentScreenState extends AbstractState<CommentScreen> {
 
       if (positions.last.index != bloc.comments.length - 1) atEdge = false;
     });
-    print(widget.video.id);
   }
 
   @override
-  void onReady() {}
+  void onReady() {
+    bloc.init();
+    bloc.sendRetrieveCommentEvent(widget.video.id);
+  }
 
   @override
   Widget build(BuildContext context) {

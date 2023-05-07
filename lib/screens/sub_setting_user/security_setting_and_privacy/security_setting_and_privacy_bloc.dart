@@ -12,9 +12,6 @@ class SecuritySettingAndPrivacyBloc
   late UserProfile currentUser;
   Future<void> init() async {
     currentUser = appStore.localUser.getCurrentUser();
-    // localSetting =
-    //     (await appStore.localSetting.getUserSetting(currentUser.id))!;
-    // state.switchValue = localSetting.isTurnOffTwoFa;
   }
 
   bool getIsTurnOffTwoFa() {

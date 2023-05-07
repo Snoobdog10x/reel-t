@@ -6,6 +6,7 @@ import 'package:reel_t/models/user_profile/user_profile.dart';
 abstract class StreamUserNotificationEvent {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _streamSubscription;
   void sendStreamUserNotificationEvent(String userId) {
+    disposeStreamUserNotificationEvent();
     try {
       _streamSubscription = _getStreamUserNotification(userId);
     } catch (e) {

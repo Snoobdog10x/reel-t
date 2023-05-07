@@ -47,12 +47,11 @@ class CommentBlockScreenState extends AbstractState<CommentBlockScreen> {
   void onCreate() {
     bloc = CommentBlockBloc();
     bloc.init(widget.users);
-    bloc.sendStreamSubCommentEvent(widget.comment);
   }
 
   @override
   void onReady() {
-    // TODO: implement onReady
+    bloc.sendStreamSubCommentEvent(widget.comment);
   }
 
   @override

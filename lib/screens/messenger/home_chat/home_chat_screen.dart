@@ -43,11 +43,12 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
   @override
   void onCreate() {
     bloc = HomeChatBloc();
-    bloc.init();
   }
 
   @override
-  void onReady() {}
+  void onReady() {
+    bloc.init();
+  }
 
   @override
   Widget build(BuildContext context) {

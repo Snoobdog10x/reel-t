@@ -50,6 +50,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
       loadedVideo = true;
       notifyDataChanged();
     });
+
     pages = {
       NavigationPage.FEED.index: FeedScreen(
         loadDoneCallback: () {
@@ -71,6 +72,10 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         user: bloc.currentUser,
       ),
     };
+  }
+
+  @override
+  void onReady() {
     if (isLogin()) {
       appStore.receiveNotification
           .setNotificationStream(appStore.localUser.getCurrentUser().id);
@@ -323,10 +328,5 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   void onPopWidget(String previousScreen) {
     // TODO: implement onPopWidget
     super.onPopWidget(previousScreen);
-  }
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
   }
 }
