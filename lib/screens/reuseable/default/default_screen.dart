@@ -51,7 +51,6 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
 
   @override
   void onReady() {
-    // TODO: implement onReady
   }
 
   @override
