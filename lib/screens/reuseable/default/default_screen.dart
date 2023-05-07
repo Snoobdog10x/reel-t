@@ -65,6 +65,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
             return buildScreen(
               appBar: DefaultAppBar(appBarTitle: "sample appbar"),
               body: body,
+              isShowConnect: true,
             );
           },
         );
