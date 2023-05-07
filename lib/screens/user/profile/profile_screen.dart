@@ -178,7 +178,8 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
             child: GestureDetector(
               onTap: () {
                 if (!isCurrentUserProfile) return;
-                showScreenBottomSheet(SwitchAccountScreen());
+                if (appStore.localUser.isLogin())
+                  showScreenBottomSheet(SwitchAccountScreen());
               },
               child: Center(
                 child: Container(
