@@ -17,6 +17,5 @@ arguments:
   - createAt: int
 enums:
   - sign_up_type:
-    - google
     - email
-    - both
+    - both_email_google

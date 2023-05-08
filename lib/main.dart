@@ -19,7 +19,7 @@ Future<void> main() async {
   ]);
   // await AppInit().init(
   //   isDebug: true,
-  //   isInitSample: false,
+  //   // isInitSample: true,
   // ); // uncomment this if you run local only run by Thanh
   await AppInit().init(isInitSample: false);
   if (kDebugMode) {

@@ -17,12 +17,11 @@ class EmailAuthenticateScreen extends StatefulWidget {
   final String email;
   final String password;
   final String previousScreen;
-  const EmailAuthenticateScreen({
-    super.key,
-    required this.email,
-    this.password = "",
-    this.previousScreen = ""
-  });
+  const EmailAuthenticateScreen(
+      {super.key,
+      required this.email,
+      this.password = "",
+      this.previousScreen = ""});
 
   @override
   State<EmailAuthenticateScreen> createState() =>
@@ -32,9 +31,9 @@ class EmailAuthenticateScreen extends StatefulWidget {
 class EmailAuthenticateScreenState
     extends AbstractState<EmailAuthenticateScreen> {
   late EmailAuthenticateBloc bloc;
-  OtpFieldController controller = OtpFieldController();
   Timer? resendTimer;
   int resendSecond = 30;
+  late OtpFieldController controller = OtpFieldController();
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -50,13 +49,17 @@ class EmailAuthenticateScreenState
     bloc = EmailAuthenticateBloc();
     bloc.email = widget.email;
     bloc.password = widget.password;
+    startCountDown();
   }
 
   @override
-  void onReady() {
+  void onPostFrame() {
+    super.onPostFrame();
     controller.setFocus(0);
-    startCountDown();
   }
+
+  @override
+  void onReady() {}
 
   @override
   Widget build(BuildContext context) {

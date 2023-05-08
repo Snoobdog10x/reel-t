@@ -58,104 +58,74 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
 
   Widget buildCamera() {
     return CameraAwesomeBuilder.awesome(
-      theme: AwesomeTheme(
-        bottomActionsBackgroundColor: Colors.cyan.withOpacity(0.5),
-        buttonTheme: AwesomeButtonTheme(
-          backgroundColor: Colors.cyan.withOpacity(0.5),
-          iconSize: 20,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.all(16),
-          // Tap visual feedback (ripple, bounce...)
-          buttonBuilder: (child, onTap) {
-            return ClipOval(
-              child: Material(
-                color: Colors.transparent,
-                shape: const CircleBorder(),
-                child: InkWell(
-                  splashColor: Colors.cyan,
-                  highlightColor: Colors.cyan.withOpacity(0.5),
-                  onTap: onTap,
-                  child: child,
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-      // Show the filter button on the top part of the screen
-      topActionsBuilder: (state) => AwesomeTopActions(
-        padding: EdgeInsets.zero,
-        state: state,
-        children: [
-          Expanded(
-            child: AwesomeFilterWidget(
-              state: state,
-              filterListPosition: FilterListPosition.aboveButton,
-              filterListPadding: const EdgeInsets.only(top: 8),
-            ),
-          ),
-        ],
-      ),
-      // Show some Text with same background as the bottom part
-      middleContentBuilder: (state) {
-        return Column(
-          children: [
-            const Spacer(),
-            // Use a Builder to get a BuildContext below AwesomeThemeProvider widget
-            Builder(builder: (context) {
-              return Container(
-                // Retrieve your AwesomeTheme's background color
-                color: AwesomeThemeProvider.of(context)
-                    .theme
-                    .bottomActionsBackgroundColor,
-                child: const Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 10, top: 10),
-                    child: Text(
-                      "Take your best shot!",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ],
-        );
+      // theme: AwesomeTheme(
+      //   bottomActionsBackgroundColor: Colors.cyan.withOpacity(0.5),
+      //   buttonTheme: AwesomeButtonTheme(
+      //     backgroundColor: Colors.cyan.withOpacity(0.5),
+      //     iconSize: 20,
+      //     foregroundColor: Colors.white,
+      //     padding: const EdgeInsets.all(16),
+      //     buttonBuilder: (child, onTap) {
+      //       return ClipOval(
+      //         child: Material(
+      //           color: Colors.transparent,
+      //           shape: const CircleBorder(),
+      //           child: InkWell(
+      //             splashColor: Colors.cyan,
+      //             highlightColor: Colors.cyan.withOpacity(0.5),
+      //             onTap: onTap,
+      //             child: child,
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // ),
+      // topActionsBuilder: (state) => Row(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     Padding(
+      //       padding: const EdgeInsets.only(left: 8.0),
+      //       child: buildBackButton(),
+      //     ),
+      //     Expanded(
+      //       child: buildLeftTopActions(state),
+      //     )
+      //   ],
+      // ),
+      // bottomActionsBuilder: (state) => Column(
+      //   children: [
+      //     AwesomeFilterWidget(
+      //       state: state,
+      //       filterListPosition: FilterListPosition.aboveButton,
+      //       filterListPadding: const EdgeInsets.only(top: 8),
+      //     ),
+      //     AwesomeBottomActions(
+      //       captureButton: AwesomeCaptureButton(
+      //         state: state,
+      //       ),
+      //       onMediaTap: (mediaCapture) {
+      //         print("save video");
+      //         bloc.saveVideo(mediaCapture.filePath);
+      //       },
+      //       state: state,
+      //       left: AwesomeCameraSwitchButton(
+      //         state: state,
+      //         scale: 1.0,
+      //         onSwitchTap: (state) {
+      //           state.switchCameraSensor(
+      //             aspectRatio: state.sensorConfig.aspectRatio,
+      //           );
+      //         },
+      //       ),
+      //       right: Container(),
+      //     ),
+      //   ],
+      // ),
+      onMediaTap: (mediaCapture) {
+        print("save video");
+        bloc.saveVideo(mediaCapture.filePath);
       },
-      // Show Flash button on the left and Camera switch button on the right
-      bottomActionsBuilder: (state) => AwesomeBottomActions(
-        onMediaTap: (media) {
-          print("recording");
-          if (media.isRecordingVideo) {
-            print("recording");
-            return;
-          }
-          print("saving");
-          bloc.saveVideo(media.filePath);
-        },
-        captureButton: AwesomeCaptureButton(
-          state: state,
-        ),
-        state: state,
-        left: AwesomeFlashButton(
-          state: state,
-        ),
-        right: AwesomeCameraSwitchButton(
-          state: state,
-          scale: 1.0,
-          onSwitchTap: (state) {
-            state.switchCameraSensor(
-              aspectRatio: state.sensorConfig.aspectRatio,
-            );
-          },
-        ),
-      ),
-
       saveConfig: SaveConfig.video(
         pathBuilder: () async {
           return bloc.path(CaptureMode.video);
@@ -164,29 +134,41 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
     );
   }
 
-  Widget buildBody() {
-    return Stack(
-      children: [
-        buildCamera(),
-        Positioned(
-            left: 0,
-            top: screenHeight() * 0.05,
-            child: GestureDetector(
-              onTap: () {
-                popTopDisplay();
-              },
-              child: Container(
-                height: 40,
-                width: 40,
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ))
-      ],
+  Widget buildLeftTopActions(CameraState cameraState) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          AwesomeFlashButton(
+            state: cameraState,
+          ),
+          SizedBox(height: 15),
+        ],
+      ),
     );
+  }
+
+  Widget buildBackButton() => ClipOval(
+        child: Material(
+          color: Colors.transparent,
+          shape: const CircleBorder(),
+          child: InkWell(
+            splashColor: Colors.cyan,
+            highlightColor: Colors.cyan.withOpacity(0.5),
+            onTap: () {
+              popTopDisplay();
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+  Widget buildBody() {
+    return buildCamera();
   }
 
   @override

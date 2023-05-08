@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:reel_t/events/setting/create_user_setting/create_user_setting_event.dart';
-import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
-import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
+
+import '../../../shared_product/utils/format/format_utlity.dart';
 
 abstract class GoogleSignUpEvent {
   Future<void> sendGoogleSignUpEvent() async {
@@ -17,13 +16,18 @@ abstract class GoogleSignUpEvent {
 
       var googleUserSignIn = await googleUser.signIn();
       if (googleUserSignIn == null) {
-        onGoogleSignUpEventDone("", null);
+        onGoogleSignUpEventDone("");
         return;
       }
 
       var user = await _getUserProfileByEmail(googleUserSignIn.email);
-      if (user != null && user.signUpType == SignUpType.EMAIL.index) {
-        onGoogleSignUpEventDoneWithExistsUser(
+      if (user == null) {
+        onGoogleSignUpEventDoneWithSignUP(googleUserSignIn);
+        return;
+      }
+
+      if (user.signUpType == SignUpType.EMAIL.index) {
+        onGoogleSignUpEventDoneWithExistsUserEmail(
           "This email has been registered, use another account or link its to this google",
           googleUserSignIn,
         );
@@ -31,16 +35,11 @@ abstract class GoogleSignUpEvent {
       }
 
       var userCredential = await signInUser(googleUserSignIn);
-      if (user != null) {
-        onGoogleSignUpEventDone("login", user);
-        return;
-      }
-
-      var signedUser = await _createUserProfile(userCredential);
-      onGoogleSignUpEventDone("signup", signedUser);
-    } catch (e) {
+      onGoogleSignUpEventDoneWithSignIn("login", user);
+    } catch (e, stacktrace) {
       print("GoogleSignUpEvent $e");
-      onGoogleSignUpEventDone(e.toString(), null);
+      print(stacktrace);
+      onGoogleSignUpEventDone(e.toString());
     }
   }
 
@@ -52,6 +51,7 @@ abstract class GoogleSignUpEvent {
 
     return UserProfile.fromJson(snapshot.docs.first.data());
   }
+
   Future<UserCredential> signInUser(GoogleSignInAccount googleUser) async {
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
@@ -60,31 +60,15 @@ abstract class GoogleSignUpEvent {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    return FirebaseAuth.instance.signInWithCredential(credential);
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<UserProfile?> _createUserProfile(UserCredential userCredential) async {
-    final db = FirebaseFirestore.instance.collection(UserProfile.PATH);
-    var user = userCredential.user;
-    if (user == null) return null;
+  void onGoogleSignUpEventDoneWithSignIn(String e, UserProfile userProfile);
+  void onGoogleSignUpEventDone(String e);
+  void onGoogleSignUpEventDoneWithSignUP(
+      GoogleSignInAccount googleSignInAccount);
 
-    var id = user.uid;
-    var tempName = user.email!.split("@")[0];
-    UserProfile newUserProfile = UserProfile(
-      id: id,
-      email: user.email,
-      fullName: tempName,
-      userName: "@$tempName",
-      signUpType: SignUpType.GOOGLE.index,
-      createAt: FormatUtility.getMillisecondsSinceEpoch(),
-    );
-    await db.doc(id).set(newUserProfile.toJson());
-    return newUserProfile;
-  }
-
-  void onGoogleSignUpEventDone(String e, UserProfile? signedUser);
-  void onGoogleSignUpEventDoneWithExistsUser(
-    String e,
-    GoogleSignInAccount googleSignInAccount,
-  );
+  void onGoogleSignUpEventDoneWithExistsUserEmail(
+      String e, GoogleSignInAccount googleSignInAccount);
 }

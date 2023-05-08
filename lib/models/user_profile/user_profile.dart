@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../generated/abstract_model.dart';
 import 'package:hive/hive.dart';
 part 'user_profile.g.dart';
-enum SignUpType { GOOGLE,EMAIL,BOTH }
+enum SignUpType { EMAIL,BOTH_EMAIL_GOOGLE }
 
 @HiveType(typeId: 0)
 class UserProfile extends HiveObject{

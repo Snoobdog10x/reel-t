@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/abstract_bloc.dart';
@@ -12,7 +10,12 @@ import '../../../shared_product/widgets/default_appbar.dart';
 
 class GoogleAccountLinkScreen extends StatefulWidget {
   final GoogleSignInAccount googleSignInAccount;
-  const GoogleAccountLinkScreen({super.key, required this.googleSignInAccount});
+  final bool isLinkAccountWithEmail;
+  const GoogleAccountLinkScreen({
+    super.key,
+    required this.googleSignInAccount,
+    this.isLinkAccountWithEmail = true,
+  });
 
   @override
   State<GoogleAccountLinkScreen> createState() =>

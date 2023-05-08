@@ -8,14 +8,14 @@ abstract class LinkCredentialEvent {
       var authentication = await googleSignInAccount.authentication;
       var credential =
           GoogleAuthProvider.credential(idToken: authentication.idToken);
-      var currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser == null) {
-        onLinkCredentialEventDone("Not found user, please link again");
-        return;
-      }
+    var currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      onLinkCredentialEventDone("Not found user, please link again");
+      return;
+    }
 
       var auth = currentUser.linkWithCredential(credential);
-      onLinkCredentialEventDone("");
+    onLinkCredentialEventDone("");
     } catch (e) {
       print("LinkCredentialEvent $e");
       onLinkCredentialEventDone(e.toString());

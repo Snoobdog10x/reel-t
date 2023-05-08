@@ -59,21 +59,9 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   }
 
   @override
-  Future<void> onGoogleSignUpEventDone(e, signedUser) async {
+  Future<void> onGoogleSignUpEventDone(String e) async {
     state.stopLoading();
     if (e.isEmpty) {
-      return;
-    }
-    if (e == "signup") {
-      await appStore.localUser.login(signedUser!);
-      sendCreateUserSettingEvent(signedUser.id);
-      return;
-    }
-
-    if (e == "login") {
-      await appStore.localUser.login(signedUser!);
-      await appStore.localSetting.syncUserSetting(signedUser.id);
-      state.pushToScreen(NavigationScreen(), isReplace: true);
       return;
     }
 
@@ -110,7 +98,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   }
 
   @override
-  void onGoogleSignUpEventDoneWithExistsUser(
+  void onGoogleSignUpEventDoneWithExistsUserEmail(
       String e, GoogleSignInAccount googleSignInAccount) {
     state.showAlertDialog(
       title: "Sign-in",
@@ -127,5 +115,23 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
         state.popTopDisplay();
       },
     );
+  }
+  
+  @override
+  Future<void> onGoogleSignUpEventDoneWithSignIn(
+      String e, UserProfile userProfile) async {
+    await appStore.localUser.login(userProfile);
+    await appStore.localSetting.syncUserSetting(userProfile.id);
+    state.pushToScreen(NavigationScreen(), isReplace: true);
+  }
+
+  @override
+  void onGoogleSignUpEventDoneWithSignUP(
+      GoogleSignInAccount googleSignInAccount) {
+    state.stopLoading();
+    state.pushToScreen(GoogleAccountLinkScreen(
+      googleSignInAccount: googleSignInAccount,
+      isLinkAccountWithEmail: false,
+    ));
   }
 }
