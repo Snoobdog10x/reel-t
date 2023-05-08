@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
 import 'package:reel_t/events/Like/like_video/like_video_event.dart';
 import 'package:reel_t/events/follow/follow_user/follow_user_event.dart';
 import 'package:reel_t/events/video/retrieve_video_detail/retrieve_video_detail_event.dart';
@@ -18,7 +16,6 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
         LikeVideoEvent,
         GetFollowUserEvent,
         FollowUserEvent {
-  List<Video> videos = [];
   List<Video> sentRetrieveDetail = [];
   Map<String, UserProfile> creators = {};
   Map<String, Like?> likeVideos = {};
@@ -28,7 +25,6 @@ class ListVideoBloc extends AbstractBloc<ListVideoScreenState>
   int currentPage = 0;
   void init(List<Video> videos) {
     currentUser = appStore.localUser.getCurrentUser();
-    this.videos = videos;
     notifyDataChanged();
     videos.forEach((element) {
       loadVideoDetail(element);

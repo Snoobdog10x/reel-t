@@ -79,18 +79,18 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   Widget buildPreloadPageVideo() {
+    var videos = widget.videos;
     return PreloadPageView.builder(
       controller: _controller,
       scrollDirection: Axis.vertical,
       preloadPagesCount: 4,
-      itemCount: widget.videos.length,
+      itemCount: videos.length,
       onPageChanged: (index) {
-        if (index >= widget.videos.length - 4) {
-          widget.loadMoreVideos();
-        }
+        if (index >= videos.length - 4) widget.loadMoreVideos();
+
       },
       itemBuilder: (context, index) {
-        var video = bloc.videos[index];
+        var video = videos[index];
         var isLoadUser = bloc.isLoadVideoDetail(video);
         if (!isLoadUser) {
           bloc.loadVideoDetail(video);

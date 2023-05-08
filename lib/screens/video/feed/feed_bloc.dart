@@ -15,6 +15,7 @@ class FeedBloc extends AbstractBloc<FeedScreenState>
   @override
   void onRetrieveRandomVideosEventDone(List<Video> randomVideos) {
     forYou.addAll(randomVideos);
+    forYou = forYou.toSet().toList();
     notifyDataChanged();
     return;
   }

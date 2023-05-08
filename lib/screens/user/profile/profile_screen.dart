@@ -274,7 +274,20 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
           ],
           SizedBox(height: 8),
           buildShowVideo(),
+          if (bloc.userVideos.length() >= 9) buildLoadMore(),
         ],
+      ),
+    );
+  }
+
+  Widget buildLoadMore() {
+    return Container(
+      height: 50,
+      width: screenWidth(),
+      alignment: Alignment.center,
+      child: CupertinoActivityIndicator(
+        radius: 15,
+        color: Colors.white,
       ),
     );
   }

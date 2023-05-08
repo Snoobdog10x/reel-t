@@ -26,7 +26,6 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
     if (currentUser.id.isEmpty) return;
     notifyDataChanged();
   }
-
   bool isFollowUser() {
     return userFollow.isFollow;
   }
