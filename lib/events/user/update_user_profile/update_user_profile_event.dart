@@ -7,7 +7,7 @@ abstract class UpdateUserProfileEvent {
       _updateUserProfile(newUserProfile);
       onUpdateUserProfileEventDone(newUserProfile);
     } catch (e) {
-      print(e);
+      print("UpdateUserProfileEvent $e");
       onUpdateUserProfileEventDone(null);
     }
   }

@@ -11,7 +11,7 @@ abstract class UploadImageEvent {
           await _appStore.cloudStorage.uploadFile(imageFile, fileName);
       onUploadImageEventDone(downloadUrl);
     } catch (e) {
-      print(e);
+      print("UploadImageEvent $e");
       onUploadImageEventDone("");
     }
   }

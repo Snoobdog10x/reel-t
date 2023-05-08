@@ -11,7 +11,7 @@ abstract class RetrieveNotificationNumsEvent {
       countNotification = await _getCountNotification(currentUser.id);
       onRetrieveNotificationNumsEventDone(countNotification);
     } catch (e) {
-      print(e);
+      print("RetrieveNotificationNumsEvent $e");
       onRetrieveNotificationNumsEventDone(0);
     }
   }

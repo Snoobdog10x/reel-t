@@ -11,7 +11,7 @@ abstract class RetrieveMessageNumsEvent {
       countMessage = await _getCountMessage(currentUser.id);
       onRetrieveMessageNumsEventDone(countMessage);
     } catch (e) {
-      print(e);
+      print("RetrieveMessageNumsEvent $e");
       onRetrieveMessageNumsEventDone(0);
     }
   }

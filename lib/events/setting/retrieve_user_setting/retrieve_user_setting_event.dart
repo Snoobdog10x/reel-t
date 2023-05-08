@@ -9,7 +9,7 @@ abstract class RetrieveUserSettingEvent {
       var setting = await _retrieveUserSetting(userId);
       onRetrieveUserSettingEventDone(setting);
     } catch (e) {
-      print(e);
+      print("RetrieveUserSettingEvent $e");
       onRetrieveUserSettingEventDone(null);
     }
   }

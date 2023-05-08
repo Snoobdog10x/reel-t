@@ -11,7 +11,7 @@ abstract class RetrieveCommentEvent {
       var parentComments = await _retrieveParentComment(videoId);
       onRetrieveCommentEventDone(parentComments);
     } catch (e) {
-      print(e);
+      print("RetrieveCommentEvent $e");
       onRetrieveCommentEventDone([]);
     }
   }

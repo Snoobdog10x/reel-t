@@ -17,6 +17,7 @@ abstract class LinkCredentialEvent {
       var auth = currentUser.linkWithCredential(credential);
       onLinkCredentialEventDone("");
     } catch (e) {
+      print("LinkCredentialEvent $e");
       onLinkCredentialEventDone(e.toString());
     }
   }

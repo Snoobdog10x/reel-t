@@ -17,6 +17,7 @@ abstract class UserSignInEvent {
       var userProfile = UserProfile.fromJson(snapshot.data()!);
       onUserSignInEventDone("", userProfile);
     } on FirebaseAuthException catch (e) {
+      print("UserSignInEvent $e");
       var errorMessage = UserSignUpEvent.getMessageFromErrorCode(e);
       onUserSignInEventDone(errorMessage, null);
     }

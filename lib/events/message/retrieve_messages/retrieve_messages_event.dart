@@ -29,6 +29,7 @@ abstract class RetrieveMessagesEvent {
         onRetrieveMessagesEventDone(messages);
       });
     } catch (e) {
+      print("RetrieveMessagesEvent $e");
       onRetrieveMessagesEventDone([]);
     }
   }

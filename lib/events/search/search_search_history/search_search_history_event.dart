@@ -8,7 +8,7 @@ abstract class SearchSearchHistoryEvent {
       var searchResult = await _searchSearchHistory(searchText);
       onSearchSearchHistoryEventDone(searchResult);
     } catch (e) {
-      print(e);
+      print("SearchSearchHistoryEvent $e");
       onSearchSearchHistoryEventDone([]);
     }
   }

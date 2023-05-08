@@ -14,7 +14,7 @@ abstract class CheckUsernameExistsEvent {
       var isExists = await getCurrentUser(userName, currentUserName);
       onCheckUsernameExistsEventDone(isExists);
     } catch (e) {
-      print(e);
+      print("CheckUsernameExistsEvent $e");
       onCheckUsernameExistsEventDone(true);
     }
   }

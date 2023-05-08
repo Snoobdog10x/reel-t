@@ -9,7 +9,7 @@ abstract class UpdateNotificationEvent {
       await _updateNotification(newNotification);
       onUpdateNotificationEventDone(newNotification);
     } catch (e) {
-      print(e);
+      print("UpdateNotificationEvent $e");
       onUpdateNotificationEventDone(newNotification);
     }
   }

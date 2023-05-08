@@ -10,7 +10,7 @@ abstract class RetrieveConversationUserEvent {
       var userProfiles = await _getUserProfiles(conversations, userId);
       onRetrieveConversationUserEventDone(userProfiles);
     } catch (e) {
-      print(e);
+      print("RetrieveConversationUserEvent $e");
       onRetrieveConversationUserEventDone([]);
     }
   }

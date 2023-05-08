@@ -12,6 +12,7 @@ abstract class StreamConversationsEvent {
     try {
       _createStreamConversations(currentUserId);
     } catch (e) {
+      print("StreamConversationsEvent $e");
       onStreamConversationsEventDone([]);
     }
   }

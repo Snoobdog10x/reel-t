@@ -17,7 +17,7 @@ abstract class RetrieveUserProfileEvent {
 
       onRetrieveUserProfileEventDone("", user, conversationId);
     } catch (e) {
-      print(e);
+      print("RetrieveUserProfileEvent $e");
       onRetrieveUserProfileEventDone(e.toString(), null, conversationId);
     }
   }

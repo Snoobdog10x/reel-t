@@ -13,6 +13,7 @@ abstract class UserSignUpEvent {
       var userProfile = await _createUserProfile(credential);
       onUserSignUpEventDone("", userProfile);
     } on FirebaseAuthException catch (e) {
+      print("UserSignUpEvent $e");
       var errorMessage = getMessageFromErrorCode(e);
       onUserSignUpEventDone(errorMessage, null);
     }

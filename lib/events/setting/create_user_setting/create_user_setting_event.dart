@@ -10,7 +10,7 @@ abstract class CreateUserSettingEvent {
       var setting = await _createUserSetting(userId);
       onCreateUserSettingEventDone(setting);
     } catch (e) {
-      print(e);
+      print("CreateUserSettingEvent $e");
       onCreateUserSettingEventDone(null);
     }
   }

@@ -16,7 +16,7 @@ abstract class SendEmailOtpEvent {
       var result = await callable.call(email);
       onSendEmailOtpEventDone(true);
     } catch (e) {
-      print(e);
+      print('SendEmailOtpEvent $e');
       onSendEmailOtpEventDone(false);
     }
   }

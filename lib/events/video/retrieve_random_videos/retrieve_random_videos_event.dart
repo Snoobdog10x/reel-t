@@ -11,7 +11,7 @@ abstract class RetrieveRandomVideosEvent {
       var videos = await _getRandomVideos(limit);
       onRetrieveRandomVideosEventDone(videos);
     } catch (e) {
-      print(e);
+      print("RetrieveRandomVideosEvent $e");
       onRetrieveRandomVideosEventDone([]);
     }
   }

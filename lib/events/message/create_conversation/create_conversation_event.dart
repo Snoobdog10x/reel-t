@@ -12,7 +12,7 @@ abstract class CreateConversationEvent {
       onCreateConversationEventDone(conversation);
     } catch (e) {
       onCreateConversationEventDone(null);
-      print(e);
+      print("CreateConversationEvent $e");
     }
   }
 

@@ -79,6 +79,7 @@ class DetailChatScreenScreenState
                 userName: user.fullName,
               ),
               body: body,
+              isShowConnect: true,
               bottomNavBar: bottom,
             );
           },

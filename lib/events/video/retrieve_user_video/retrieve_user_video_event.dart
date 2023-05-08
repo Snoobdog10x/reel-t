@@ -9,7 +9,7 @@ abstract class RetrieveUserVideoEvent {
       var userVideos = await _retrieveUserVideos(userId);
       onRetrieveUserVideoEventDone(userVideos);
     } catch (e) {
-      print(e);
+      print("RetrieveUserVideoEvent $e");
       onRetrieveUserVideoEventDone([]);
     }
   }

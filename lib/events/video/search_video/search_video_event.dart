@@ -24,7 +24,7 @@ abstract class SearchVideoEvent {
       var result = _mergeVideosList(searchResultsWait);
       onSearchVideoEventDone(result);
     } catch (e) {
-      print(e);
+      print('SearchVideoEvent $e');
       onSearchVideoEventDone([]);
     }
   }

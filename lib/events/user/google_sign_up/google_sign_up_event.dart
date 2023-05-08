@@ -39,7 +39,7 @@ abstract class GoogleSignUpEvent {
       var signedUser = await _createUserProfile(userCredential);
       onGoogleSignUpEventDone("signup", signedUser);
     } catch (e) {
-      print(e);
+      print("GoogleSignUpEvent $e");
       onGoogleSignUpEventDone(e.toString(), null);
     }
   }

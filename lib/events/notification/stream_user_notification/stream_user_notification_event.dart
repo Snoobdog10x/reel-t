@@ -10,7 +10,7 @@ abstract class StreamUserNotificationEvent {
     try {
       _streamSubscription = _getStreamUserNotification(userId);
     } catch (e) {
-      print(e);
+      print("StreamUserNotificationEvent $e");
       onStreamUserNotificationEventDone([]);
     }
   }

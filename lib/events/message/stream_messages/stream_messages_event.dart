@@ -28,6 +28,7 @@ abstract class StreamMessagesEvent {
         onStreamMessagesEventDone(messages);
       });
     } catch (e) {
+      print("StreamMessagesEvent $e");
       onStreamMessagesEventDone([]);
     }
   }

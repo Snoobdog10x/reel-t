@@ -22,7 +22,7 @@ abstract class VerifyEmailOtpEvent {
       updateEmailOpt(emailOtp);
       return onVerifyEmailOtpEventDone(true, "Success");
     } catch (e) {
-      print(e);
+      print("VerifyEmailOtpEvent $e");
       onVerifyEmailOtpEventDone(
           false, "Server is upgrade, please retry after 15 minutes");
     }

@@ -15,7 +15,7 @@ abstract class SearchUserEvent {
       var mergedList = _mergeLists(await Future.wait(userProfilesListFuture));
       onSearchUserEventDone(mergedList);
     } catch (e) {
-      print(e);
+      print("sendSearchUserEvent $e");
       onSearchUserEventDone([]);
     }
   }

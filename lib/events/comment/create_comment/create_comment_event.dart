@@ -10,7 +10,7 @@ abstract class CreateCommentEvent {
       await _createCommnet(parentComment, subComment);
       onCreateCommentEventDone(null);
     } catch (e) {
-      print(e);
+      print("CreateCommentEvent $e");
       onCreateCommentEventDone(e);
     }
   }

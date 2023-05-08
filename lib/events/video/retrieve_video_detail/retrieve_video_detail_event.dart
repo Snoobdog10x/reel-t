@@ -26,7 +26,7 @@ abstract class RetrieveVideoDetailEvent {
         like: like,
       );
     } catch (e) {
-      print(e);
+      print("RetrieveVideoDetailEvent $e");
       onRetrieveVideoDetailEventDone();
     }
   }

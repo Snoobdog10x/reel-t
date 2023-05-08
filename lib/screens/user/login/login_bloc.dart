@@ -76,6 +76,7 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
       state.pushToScreen(NavigationScreen(), isReplace: true);
       return;
     }
+
     state.showAlertDialog(
       title: "Sign-in",
       content: e,
@@ -88,7 +89,6 @@ class LoginBloc extends AbstractBloc<LoginScreenState>
   @override
   void onRetrieveUserSettingEventDone(Setting? setting) {
     if (setting != null) {
-      print(setting.isTurnOffTwoFa);
       if (setting.isTurnOffTwoFa) {
         state.stopLoading();
         appStore.localSetting.setUserSetting(setting);

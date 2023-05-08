@@ -14,7 +14,7 @@ abstract class RetrieveFollowingUserEvent {
       onRetrieveFollowingUserEventDone(userProfiles);
     } catch (e) {
       onRetrieveFollowingUserEventDone([]);
-      print(e);
+      print("RetrieveFollowingUserEvent $e");
     }
   }
 

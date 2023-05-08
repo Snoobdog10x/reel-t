@@ -21,6 +21,7 @@ abstract class SendMessageEvent {
       await batch.commit();
       onSendMessageEventDone(null);
     } catch (e) {
+      print("SendMessageEvent $e");
       onSendMessageEventDone(e);
     }
   }

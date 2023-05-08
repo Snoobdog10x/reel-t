@@ -15,7 +15,7 @@ abstract class LikeVideoEvent {
         likeVideo: like,
       );
     } catch (e) {
-      print(e);
+      print("LikeVideoEvent $e");
       onLikeVideoEventDone(
         videoId: videoId,
         currentUserId: currentUserId,

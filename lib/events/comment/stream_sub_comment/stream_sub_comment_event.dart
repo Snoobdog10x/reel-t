@@ -38,7 +38,7 @@ abstract class StreamSubCommentEvent {
         onStreamSubCommentEventDone(newComments);
       });
     } catch (e) {
-      print(e);
+      print("StreamSubCommentEvent $e");
       onStreamSubCommentEventDone([]);
     }
   }

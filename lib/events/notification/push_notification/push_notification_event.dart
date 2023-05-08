@@ -14,7 +14,7 @@ abstract class PushNotificationEvent {
           await _createNotification(userId, notificationContent, type);
       onPushNotificationEventDone(notification);
     } catch (e) {
-      print(e);
+      print("PushNotificationEvent $e");
       onPushNotificationEventDone(null);
     }
   }

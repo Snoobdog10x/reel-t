@@ -11,7 +11,7 @@ abstract class GetFollowUserEvent {
       var follow = await _retrieveFollow(currentUserId, creatorId);
       onGetFollowUserEventDone(follow: follow);
     } catch (e) {
-      print(e);
+      print("GetFollowUserEvent $e");
       onGetFollowUserEventDone();
     }
   }

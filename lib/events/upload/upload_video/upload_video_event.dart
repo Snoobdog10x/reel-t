@@ -19,6 +19,7 @@ abstract class UploadVideoEvent {
 
       onUploadVideoEventDone(downloadUrl);
     } catch (e) {
+      print("UploadVideoEvent $e");
       onUploadVideoEventDone("");
     }
   }
