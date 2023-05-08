@@ -44,7 +44,6 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
   @override
   void onReady() {
     bloc.init();
-
   }
 
   @override
@@ -141,7 +140,6 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
                 Row(
                   children: <Widget>[
                     Expanded(
-                      flex: 7,
                       child: Text(
                         (bloc.contactUser[message.userId]?.fullName ?? '') +
                             ' send you a new message!',
@@ -153,28 +151,25 @@ class NotificationScreenState extends AbstractState<NotificationScreen>
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 3,
-                      child: Row(
-                        children: [
-                          Text(
-                            " · " +
-                                getNotificationTime(bloc
-                                    .parseNotificationToMessage(notification)),
-                            style: TextStyle(
-                              fontSize: SharedTextStyle.NORMAL_SIZE,
-                              fontWeight: SharedTextStyle.NORMAL_WEIGHT,
-                              fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
-                            ),
+                    Row(
+                      children: [
+                        Text(
+                          " · " +
+                              getNotificationTime(bloc
+                                  .parseNotificationToMessage(notification)),
+                          style: TextStyle(
+                            fontSize: SharedTextStyle.NORMAL_SIZE,
+                            fontWeight: SharedTextStyle.NORMAL_WEIGHT,
+                            fontFamily: SharedTextStyle.DEFAULT_FONT_TEXT,
                           ),
-                          SizedBox(width: 5),
-                          Icon(
-                            CupertinoIcons.circle_fill,
-                            color: Colors.blue,
-                            size: 10,
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(width: 5),
+                        Icon(
+                          CupertinoIcons.circle_fill,
+                          color: Colors.blue,
+                          size: 10,
+                        ),
+                      ],
                     ),
                   ],
                 ),

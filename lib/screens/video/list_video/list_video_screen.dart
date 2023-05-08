@@ -51,6 +51,7 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   void onCreate() {
     bloc = ListVideoBloc();
     _controller = PreloadPageController(initialPage: widget.startAtIndex);
+    bloc.init(widget.videos);
   }
 
   @override
@@ -87,7 +88,6 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
       itemCount: videos.length,
       onPageChanged: (index) {
         if (index >= videos.length - 4) widget.loadMoreVideos();
-
       },
       itemBuilder: (context, index) {
         var video = videos[index];
@@ -239,7 +239,8 @@ class ListVideoScreenState extends AbstractState<ListVideoScreen>
   }
 
   @override
-  void onDispose() {}
+  void onDispose() {
+  }
 
   @override
   // TODO: implement wantKeepAlive
