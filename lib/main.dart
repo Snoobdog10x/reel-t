@@ -26,7 +26,7 @@ Future<void> main() async {
     runApp(
       OverlaySupport.global(
         child: MaterialApp(
-          home: NavigationScreen(),
+          home: DefaultScreen(),
         ),
       ),
     );
