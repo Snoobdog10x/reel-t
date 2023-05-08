@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reel_t/models/follow/follow.dart';
 
+import '../../../models/user_profile/user_profile.dart';
+
 abstract class FollowUserEvent {
   Future<void> sendFollowUserEvent(String userId, String currentUserId) async {
     try {
       var follow = await _followUser(userId, currentUserId);
       onFollowUserEventDone(userId: userId, follow: follow);
     } catch (e) {
-      print("FollowUserEvent $e");
+      print(e);
       onFollowUserEventDone(userId: userId, follow: null);
     }
   }
