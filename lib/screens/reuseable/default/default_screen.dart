@@ -47,11 +47,11 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
   @override
   Future<void> onCreate() async {
     bloc = DefaultBloc();
+    await appStore.postInitServices();
   }
 
   @override
-  void onReady() {
-  }
+  void onReady() {}
 
   @override
   Widget build(BuildContext context) {

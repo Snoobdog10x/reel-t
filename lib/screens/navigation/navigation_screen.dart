@@ -7,6 +7,7 @@ import 'package:reel_t/screens/video/camera_ar/camera_ar_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_screen.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
+import '../../generated/app_init.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
 import '../video/feed/feed_screen.dart';
 import '../navigation/navigation_bloc.dart';
@@ -28,7 +29,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   late NavigationBloc bloc;
   PreloadPageController _pageController = PreloadPageController();
   int currentScreen = NavigationPage.FEED.index;
-  late Map<int, Widget> pages;
+  Map<int, Widget> pages = {};
   bool loadedVideo = false;
   Timer? _timeoutTimer;
   @override
@@ -42,15 +43,18 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   @override
-  void onCreate() {
+  Future<void> onCreate() async {
     bloc = NavigationBloc();
     bloc.currentUser = appStore.localUser.getCurrentUser();
-    bloc.init();
     _timeoutTimer = Timer(Duration(seconds: 10), () {
       loadedVideo = true;
+      _timeoutTimer?.cancel();
       notifyDataChanged();
     });
+  }
 
+  @override
+  void onReady() {
     pages = {
       NavigationPage.FEED.index: FeedScreen(
         loadDoneCallback: () {
@@ -72,13 +76,10 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         user: bloc.currentUser,
       ),
     };
-  }
-
-  @override
-  void onReady() {
     if (isLogin()) {
       appStore.receiveNotification
           .setNotificationStream(appStore.localUser.getCurrentUser().id);
+      bloc.init();
     }
   }
 
@@ -108,7 +109,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
 
   Widget buildBottomBar() {
     var isBlackBackground = currentScreen == 0;
-
     return Container(
       width: screenWidth(),
       height: screenHeight() * 0.08,
@@ -296,6 +296,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   Widget buildBody() {
+    if (pages.isEmpty) return WelcomeScreen();
     return Stack(
       children: [
         PreloadPageView(

@@ -133,11 +133,9 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
           print("recording");
           if (media.isRecordingVideo) {
             print("recording");
-
             return;
           }
           print("saving");
-
           bloc.saveVideo(media.filePath);
         },
         captureButton: AwesomeCaptureButton(

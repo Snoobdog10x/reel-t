@@ -13,7 +13,6 @@ class NavigationBloc extends AbstractBloc<NavigationScreenState>
   int? countMessages = 0;
   late UserProfile currentUser;
   void init() {
-    currentUser = appStore.localUser.getCurrentUser();
     sendRetrieveMessageNumsEvent(currentUser);
     sendRetrieveNotificationNumsEvent(currentUser);
     notifyDataChanged();

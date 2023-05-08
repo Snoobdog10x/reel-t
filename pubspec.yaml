@@ -56,6 +56,10 @@ dependencies:
   camerawesome: 1.4.0
   gallery_saver: 2.3.2
   scrollable_positioned_list: 0.3.7
+  video_editor: 2.4.0
+dependency_overrides:
+  ffmpeg_kit_flutter_min_gpl: 5.1.0-LTS
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

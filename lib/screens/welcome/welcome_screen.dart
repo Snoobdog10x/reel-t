@@ -40,6 +40,7 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
   @override
   void onCreate() {
     bloc = WelcomeBloc();
+    appStore.postInitServices();
   }
 
   @override
