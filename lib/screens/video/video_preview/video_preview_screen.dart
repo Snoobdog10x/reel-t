@@ -40,6 +40,7 @@ class VideoPreviewScreenState extends AbstractState<VideoPreviewScreen> {
   void onCreate() {
     bloc = VideoPreviewBloc();
     bloc.init();
+    print(widget.filePath);
   }
 
   @override
