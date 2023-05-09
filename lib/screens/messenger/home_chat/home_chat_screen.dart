@@ -77,22 +77,21 @@ class HomeChatScreenState extends AbstractState<HomeChatScreen>
     return DefaultAppBar(
       appBarTitle: "Chats",
       appBarAction: GestureDetector(
-        onTap: () {
-          if (appStore.localUser.getCurrentUser().id.isEmpty) return;
-          showScreenBottomSheet(
-            Container(
-              height: screenHeight() * 0.8,
-              child: NewChatScreen(
-                onCreatedConversation: (conversation, userProfile) {
-                  bloc.addedConversation = conversation;
-                  bloc.addedUserProfile = userProfile;
-                },
+          onTap: () {
+            if (appStore.localUser.getCurrentUser().id.isEmpty) return;
+            showScreenBottomSheet(
+              Container(
+                height: screenHeight() * 0.8,
+                child: NewChatScreen(
+                  onCreatedConversation: (conversation, userProfile) {
+                    bloc.addedConversation = conversation;
+                    bloc.addedUserProfile = userProfile;
+                  },
+                ),
               ),
-            ),
-          );
-        },
-        child: Icon(CupertinoIcons.add_circled, size: 28),
-      ),
+            );
+          },
+          child: Icon(CupertinoIcons.add_circled, size: 36)),
     );
   }
 

@@ -74,12 +74,18 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
               Expanded(
                 flex: 2,
                 child: Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
                       popTopDisplay();
                     },
-                    child: Text('Cancel'),
+                    behavior: HitTestBehavior.translucent,
+                    child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(fontSize: 16),
+                        )),
                   ),
                 ),
               ),
