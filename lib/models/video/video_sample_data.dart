@@ -1,18 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
+
+
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:reel_t/models/comment/comment_sample_data.dart';
 import 'package:reel_t/shared_product/utils/format/format_utlity.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../models/video/video.dart';
-
-import '../../shared_product/services/cloud_storage.dart';
-import '../like/like.dart';
 
 class VideoData {
   List<Video> _getVideoData() {

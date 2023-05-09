@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/video/camera_ar/component/custom_camera_button.dart';
 import 'package:reel_t/screens/video/camera_ar/component/custom_video_timer.dart';
+import 'package:reel_t/screens/video/video_preview/video_preview_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import 'camera_ar_bloc.dart';
@@ -12,7 +14,6 @@ import 'component/custom_awesome_media_preview.dart';
 
 class CameraArScreen extends StatefulWidget {
   const CameraArScreen({super.key});
-
   @override
   State<CameraArScreen> createState() => CameraArScreenState();
 }
@@ -98,7 +99,12 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
       middleContentBuilder: (state) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: CustomVideoTimer(state: state),
+          child: CustomVideoTimer(
+            state: state,
+            onRecorded: (filePath) {
+              pushToScreen(VideoPreviewScreen(filePath: filePath));
+            },
+          ),
         );
       },
       bottomActionsBuilder: (state) => Column(
@@ -109,13 +115,14 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
             filterListPadding: const EdgeInsets.only(top: 8),
           ),
           AwesomeBottomActions(
-            captureButton: AwesomeCaptureButton(state: state),
+            captureButton: CustomCameraButton(state: state),
             state: state,
             right: buildCameraPreview(
               state: state,
               onMediaTap: (mediaState) {
-                print("save video");
-                bloc.saveVideo(mediaState.filePath);
+                pushToScreen(VideoPreviewScreen(filePath: mediaState.filePath));
+
+                // bloc.saveVideo(mediaState.filePath);
               },
             ),
             left: Container(),
@@ -135,6 +142,7 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
     Function(MediaCapture)? onMediaTap,
   }) {
     if (state is VideoRecordingCameraState) return const SizedBox(width: 48);
+
     return StreamBuilder<MediaCapture?>(
       stream: state.captureState$,
       builder: (context, snapshot) {
