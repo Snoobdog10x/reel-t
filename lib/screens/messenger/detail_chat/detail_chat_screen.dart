@@ -181,7 +181,7 @@ class DetailChatScreenScreenState
 
   Widget buildTextMessage(Message message) {
     final mWidth = screenWidth();
-    final width = message.content.length > mWidth / 7 ? mWidth / 1.3 : null;
+    final width = message.content.length > mWidth / 10 ? mWidth / 1.5 : null;
     final isCurrentUser = bloc.isCurrentUserMessage(message);
     String avataUrl = bloc.contactUser.avatar;
     List<Widget> layout = [
