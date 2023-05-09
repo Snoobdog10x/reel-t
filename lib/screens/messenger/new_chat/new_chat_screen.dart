@@ -54,10 +54,9 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
             var appBar = buildAppbar();
             var body = buildBody();
             return buildScreen(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 12),
                 appBar: appBar,
-                body: body,
-                isSafe: false);
+                body: body);
           },
         );
       },
@@ -67,53 +66,46 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
   Widget buildAppbar() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: () {
-                      popTopDisplay();
-                    },
-                    behavior: HitTestBehavior.translucent,
-                    child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(fontSize: 16),
-                        )),
-                  ),
-                ),
+          Expanded(
+            flex: 2,
+            child: Align(
+              alignment: Alignment.center,
+              child: GestureDetector(
+                onTap: () {
+                  popTopDisplay();
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(fontSize: 15),
+                    )),
               ),
-              Expanded(
-                flex: 4,
-                child: Center(
-                  child: Container(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'New Message',
-                          style: TextStyle(
-                            fontSize: SharedTextStyle.SUB_TITLE_SIZE,
-                            fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(flex: 2, child: Container())
-            ],
+            ),
           ),
-          searchBar(),
-          SizedBox(height: 10),
+          Expanded(
+            flex: 6,
+            child: Center(
+              child: Container(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'New Message',
+                      style: TextStyle(
+                        fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                        fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(flex: 2, child: Container())
         ],
       ),
     );
@@ -123,6 +115,8 @@ class NewChatScreenState extends AbstractState<NewChatScreen> {
     Widget body = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 8),
+        searchBar(),
         SizedBox(height: 8),
         if (bloc.followingUser.isNotEmpty) ...[
           buildHeaderText("Suggest"),

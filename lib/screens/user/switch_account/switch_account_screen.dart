@@ -73,11 +73,11 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Container(),
               ),
               Expanded(
-                flex: 4,
+                flex: 8,
                 child: Center(
                   child: Container(
                     height: 50,
@@ -97,9 +97,9 @@ class SwitchAccountScreenState extends AbstractState<SwitchAccountScreen> {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Align(
-                  alignment: Alignment.centerRight,
+                  alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
                       popTopDisplay();

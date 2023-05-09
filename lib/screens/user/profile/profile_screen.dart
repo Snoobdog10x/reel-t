@@ -85,7 +85,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
             appStore.localUser.getCurrentUser().id, widget.user.id);
     }
     isCurrentUserProfile = widget.user == bloc.currentUser;
-    
+
     if (widget.user.id.isNotEmpty)
       bloc.sendStreamingUserProfileEvent(widget.user.id);
   }
@@ -183,7 +183,7 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 3,
             child: GestureDetector(
               onTap: () {
                 if (!isCurrentUserProfile) return;
@@ -214,44 +214,63 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    pushToScreen(CommingsoonScreen());
-                  },
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    child: Icon(
-                      CupertinoIcons.paw,
-                      // Profile view history will appear here
+          isCurrentUserProfile
+              ? Expanded(
+                  flex: 2,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            pushToScreen(CommingsoonScreen());
+                          },
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            child: Icon(
+                              CupertinoIcons.paw,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (!isCurrentUserProfile) return;
+                            if (appStore.localUser.isLogin())
+                              pushToScreen(SettingAndPrivacyPersonalScreen());
+                          },
+                          child: isCurrentUserProfile
+                              ? Container(
+                                  height: 30,
+                                  width: 30,
+                                  child: Icon(
+                                    CupertinoIcons.line_horizontal_3,
+                                  ),
+                                )
+                              : Container(),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Expanded(
+                  flex: 2,
+                  child: GestureDetector(
+                    onTap: () {
+                      pushToScreen(CommingsoonScreen());
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      child: Icon(
+                        CupertinoIcons.paw,
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(width: 12),
-                GestureDetector(
-                  onTap: () {
-                    if (!isCurrentUserProfile) return;
-                    if (appStore.localUser.isLogin())
-                      pushToScreen(SettingAndPrivacyPersonalScreen());
-                  },
-                  child: isCurrentUserProfile
-                      ? Container(
-                          height: 30,
-                          width: 30,
-                          child: Icon(
-                            CupertinoIcons.line_horizontal_3,
-                          ),
-                        )
-                      : Container(),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );

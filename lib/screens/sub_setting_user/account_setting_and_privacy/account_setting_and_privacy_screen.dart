@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
+import '../reset_password/reset_password_screen.dart';
 import 'account_setting_and_privacy_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 
@@ -95,7 +96,9 @@ class AccountSettingAndPrivacyScreenState
                       flex: 2,
                       child: buildOptionItem(
                         'Password',
-                        () {},
+                        () {
+                          pushToScreen(ResetPasswordScreen());
+                        },
                         true,
                         Color.fromARGB(255, 160, 160, 160),
                       ),

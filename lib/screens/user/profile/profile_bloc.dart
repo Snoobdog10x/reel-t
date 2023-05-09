@@ -109,6 +109,7 @@ class ProfileBloc extends AbstractBloc<ProfileScreenState>
       state.widget.user.numFollowing = currentUserProfile.numFollowing;
       state.widget.user.numFollower = currentUserProfile.numFollower;
       state.widget.user.avatar = currentUserProfile.avatar;
+      state.widget.user.bio = currentUserProfile.bio;
       notifyDataChanged();
       if (currentUserProfile.id == this.currentUser.id) {
         appStore.localUser.login(currentUserProfile);
