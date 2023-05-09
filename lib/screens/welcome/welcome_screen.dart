@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
@@ -33,7 +34,18 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
   @override
   Future<void> onCreate() async {
     bloc = WelcomeBloc();
+    await AppInit().init();
+    if (isLogin()) {
+      var user = appStore.localUser.getCurrentUser();
+      bloc.sendRetrieveUserProfileEvent(userId: user.id);
+      return;
+    }
+
+    pushToScreen(NavigationScreen(), isReplace: true);
   }
+
+  @override
+  Future<void> onReady() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +99,4 @@ class WelcomeScreenState extends AbstractState<WelcomeScreen>
 
   @override
   void onDispose() {}
-
-  @override
-  Future<void> onReady() async {}
 }

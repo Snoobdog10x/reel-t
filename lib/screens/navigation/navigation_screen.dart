@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/video/camera_ar/camera_ar_screen.dart';
-import 'package:reel_t/screens/welcome/welcome_screen.dart';
-
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
-import '../../generated/app_init.dart';
 import '../messenger/home_chat/home_chat_screen.dart';
 import '../video/feed/feed_screen.dart';
 import '../navigation/navigation_bloc.dart';
@@ -47,13 +44,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   @override
   Future<void> onCreate() async {
     bloc = NavigationBloc();
-    await AppInit().init(isInitSample: false);
     bloc.currentUser = appStore.localUser.getCurrentUser();
-    _timeoutTimer = Timer(Duration(seconds: 10), () {
-      loadedVideo = true;
-      _timeoutTimer?.cancel();
-      notifyDataChanged();
-    });
     pages = {
       NavigationPage.FEED.index: FeedScreen(
         loadDoneCallback: () {
@@ -75,11 +66,18 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         user: bloc.currentUser,
       ),
     };
+
+    _timeoutTimer = Timer(Duration(seconds: 10), () {
+      loadedVideo = true;
+      _timeoutTimer?.cancel();
+      notifyDataChanged();
+    });
   }
 
   @override
   Future<void> onPostFrame() async {
     super.onPostFrame();
+    await appStore.receiveNotification.init();
   }
 
   @override
@@ -312,8 +310,21 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
           physics: NeverScrollableScrollPhysics(),
           children: pages.values.toList(),
         ),
-        if (pages.isEmpty || !loadedVideo) ...[WelcomeScreen()]
+        if (pages.isEmpty || !loadedVideo) ...[buildLoadWidget()]
       ],
+    );
+  }
+
+  Widget buildLoadWidget() {
+    return Container(
+      color: Colors.black,
+      height: screenHeight(),
+      width: screenWidth(),
+      alignment: Alignment.center,
+      child: CupertinoActivityIndicator(
+        radius: 30,
+        color: Colors.white,
+      ),
     );
   }
 

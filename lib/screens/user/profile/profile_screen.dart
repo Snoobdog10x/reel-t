@@ -72,7 +72,8 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
         bloc.sendRetrieveUserVideoEvent(widget.user.id);
       }
     });
-    bloc.sendStreamingUserProfileEvent(widget.user.id);
+    if (widget.user.id.isNotEmpty)
+      bloc.sendStreamingUserProfileEvent(widget.user.id);
   }
 
   @override
@@ -84,7 +85,9 @@ class ProfileScreenState extends AbstractState<ProfileScreen>
             appStore.localUser.getCurrentUser().id, widget.user.id);
     }
     isCurrentUserProfile = widget.user == bloc.currentUser;
-    bloc.sendStreamingUserProfileEvent(widget.user.id);
+    
+    if (widget.user.id.isNotEmpty)
+      bloc.sendStreamingUserProfileEvent(widget.user.id);
   }
 
   @override
