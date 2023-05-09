@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/video/camera_ar/component/custom_camera_button.dart';
 import 'package:reel_t/screens/video/camera_ar/component/custom_video_timer.dart';
 import 'package:reel_t/screens/video/video_preview/video_preview_screen.dart';
+import 'package:reel_t/shared_product/utils/editor/video_editor.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import '../../../shared_product/assets/icon/tik_tok_icons_icons.dart';
@@ -55,12 +57,14 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
             var body = buildBody();
             return buildScreen(
               isSafe: isLogin() ? false : true,
-              appBar: DefaultAppBar(
-                onTapBackButton: () {
-                  popTopDisplay();
-                },
-                appBarTitle: "Camera Ar",
-              ),
+              appBar: isLogin()
+                  ? null
+                  : DefaultAppBar(
+                      onTapBackButton: () {
+                        popTopDisplay();
+                      },
+                      appBarTitle: "Camera Ar",
+                    ),
               body: body,
               notLoggedBody: buildLoggedBody(),
             );
@@ -112,9 +116,6 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
           padding: const EdgeInsets.only(bottom: 16),
           child: CustomVideoTimer(
             state: state,
-            onRecorded: (filePath) {
-              pushToScreen(VideoPreviewScreen(filePath: filePath));
-            },
           ),
         );
       },
@@ -130,10 +131,8 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
             state: state,
             right: buildCameraPreview(
               state: state,
-              onMediaTap: (mediaState) {
+              onMediaTap: (mediaState) async {
                 pushToScreen(VideoPreviewScreen(filePath: mediaState.filePath));
-
-                // bloc.saveVideo(mediaState.filePath);
               },
             ),
             left: Container(),
