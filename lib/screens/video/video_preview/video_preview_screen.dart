@@ -22,6 +22,10 @@ class VideoPreviewScreen extends StatefulWidget {
 
 class VideoPreviewScreenState extends AbstractState<VideoPreviewScreen> {
   late VideoPreviewBloc bloc;
+  late Widget videoPreview = VideoPlayerItem(
+    videoUrl: widget.filePath,
+    isPlay: false,
+  );
   @override
   AbstractBloc initBloc() {
     return bloc;
@@ -68,10 +72,7 @@ class VideoPreviewScreenState extends AbstractState<VideoPreviewScreen> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          VideoPlayerItem(
-            videoUrl: widget.filePath,
-            isPlay: false,
-          ),
+          videoPreview,
           buildConfirmVideo(),
         ],
       ),
@@ -107,6 +108,7 @@ class VideoPreviewScreenState extends AbstractState<VideoPreviewScreen> {
               () {
                 pushToScreen(CreatePostScreen(
                   filePath: widget.filePath,
+                  recoredVideo: videoPreview,
                 ));
               },
             ),
