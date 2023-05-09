@@ -46,6 +46,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   Future<void> onCreate() async {
     bloc = NavigationBloc();
     bloc.currentUser = appStore.localUser.getCurrentUser();
+    await appStore.postInitServices();
     _timeoutTimer = Timer(Duration(seconds: 10), () {
       loadedVideo = true;
       _timeoutTimer?.cancel();
