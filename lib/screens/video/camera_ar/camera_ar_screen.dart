@@ -7,6 +7,10 @@ import 'package:reel_t/screens/video/camera_ar/component/custom_video_timer.dart
 import 'package:reel_t/screens/video/video_preview/video_preview_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
+import '../../../shared_product/assets/icon/tik_tok_icons_icons.dart';
+import '../../../shared_product/utils/text/shared_text_style.dart';
+import '../../../shared_product/widgets/button/three_row_button.dart';
+import '../../user/login/login_screen.dart';
 import 'camera_ar_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
@@ -50,8 +54,15 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
           builder: (context, value, child) {
             var body = buildBody();
             return buildScreen(
-              isSafe: false,
+              isSafe: isLogin() ? false : true,
+              appBar: DefaultAppBar(
+                onTapBackButton: () {
+                  popTopDisplay();
+                },
+                appBarTitle: "Camera Ar",
+              ),
               body: body,
+              notLoggedBody: buildLoggedBody(),
             );
           },
         );
@@ -157,6 +168,46 @@ class CameraArScreenState extends AbstractState<CameraArScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget buildLoggedBody() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.camera_alt_outlined,
+          size: 150,
+          color: Colors.grey[300],
+        ),
+        SizedBox(height: 8),
+        Text(
+          "Sharing your life now",
+          style: TextStyle(
+            fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+            fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+            color: Colors.grey[600],
+          ),
+        ),
+        SizedBox(height: 16),
+        Container(
+          width: screenWidth() * 0.6,
+          child: ThreeRowButton(
+            onTap: () {
+              pushToScreen(LoginScreen());
+            },
+            title: Text(
+              "Login",
+              style: TextStyle(
+                fontSize: SharedTextStyle.SUB_TITLE_SIZE,
+                fontWeight: SharedTextStyle.SUB_TITLE_WEIGHT,
+                color: Colors.white,
+              ),
+            ),
+            color: Colors.red,
+          ),
+        )
+      ],
     );
   }
 

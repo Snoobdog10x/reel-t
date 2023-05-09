@@ -620,6 +620,8 @@ PODS:
     - Firebase/Functions (= 10.7.0)
     - firebase_core
     - Flutter
+  - device_info_plus (0.0.1):
+    - Flutter
   - Firebase/Auth (10.7.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 10.7.0)
@@ -835,6 +837,7 @@ DEPENDENCIES:
   - camerawesome (from `.symlinks/plugins/camerawesome/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
@@ -892,6 +895,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_functions:
     :path: ".symlinks/plugins/cloud_functions/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -934,6 +939,7 @@ SPEC CHECKSUMS:
   camerawesome: 1e06540f60158809bc70f398ed1ac2cf93fe4188
   cloud_firestore: 3809dfc121ab99b81bba51eb84ac6ca3f9033325
   cloud_functions: ea4b2c12cd82967947885ce40ed01f4adc00f8e2
+  device_info_plus: 7545d84d8d1b896cb16a4ff98c19f07ec4b298ea
   Firebase: 0219acf760880eeec8ce479895bd7767466d9f81
   firebase_auth: 1eb69de8f57040c5c78bb3267412e9cb395fd08c
   firebase_core: dee76ded6c693fdb38b8ea39aef7129e32e587a3
