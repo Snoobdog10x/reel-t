@@ -620,13 +620,6 @@ PODS:
     - Firebase/Functions (= 10.7.0)
     - firebase_core
     - Flutter
-  - ffmpeg-kit-ios-min-gpl (5.1.LTS)
-  - ffmpeg_kit_flutter_min_gpl (5.1.0.LTS):
-    - ffmpeg_kit_flutter_min_gpl/min-gpl-lts (= 5.1.0.LTS)
-    - Flutter
-  - ffmpeg_kit_flutter_min_gpl/min-gpl-lts (5.1.0.LTS):
-    - ffmpeg-kit-ios-min-gpl (= 5.1.LTS)
-    - Flutter
   - Firebase/Auth (10.7.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 10.7.0)
@@ -842,7 +835,6 @@ DEPENDENCIES:
   - camerawesome (from `.symlinks/plugins/camerawesome/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
-  - ffmpeg_kit_flutter_min_gpl (from `.symlinks/plugins/ffmpeg_kit_flutter_min_gpl/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
@@ -866,7 +858,6 @@ SPEC REPOS:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
-    - ffmpeg-kit-ios-min-gpl
     - Firebase
     - FirebaseAppCheckInterop
     - FirebaseAuth
@@ -901,8 +892,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_functions:
     :path: ".symlinks/plugins/cloud_functions/ios"
-  ffmpeg_kit_flutter_min_gpl:
-    :path: ".symlinks/plugins/ffmpeg_kit_flutter_min_gpl/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -945,8 +934,6 @@ SPEC CHECKSUMS:
   camerawesome: 1e06540f60158809bc70f398ed1ac2cf93fe4188
   cloud_firestore: 3809dfc121ab99b81bba51eb84ac6ca3f9033325
   cloud_functions: ea4b2c12cd82967947885ce40ed01f4adc00f8e2
-  ffmpeg-kit-ios-min-gpl: a5cd8da6e4a695e5d4fbdb4433ac3f015fe79b33
-  ffmpeg_kit_flutter_min_gpl: 556fa79bd3ae0bea12d431dc1914b4dcb78bc9c0
   Firebase: 0219acf760880eeec8ce479895bd7767466d9f81
   firebase_auth: 1eb69de8f57040c5c78bb3267412e9cb395fd08c
   firebase_core: dee76ded6c693fdb38b8ea39aef7129e32e587a3
