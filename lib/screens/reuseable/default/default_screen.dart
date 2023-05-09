@@ -44,7 +44,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
   @override
   Future<void> onCreate() async {
     bloc = DefaultBloc();
-    await AppInit().init(isInitSample: false);
+    await AppInit().init();
   }
 
   @override

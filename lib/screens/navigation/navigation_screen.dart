@@ -77,7 +77,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   @override
   Future<void> onPostFrame() async {
     super.onPostFrame();
-    await appStore.receiveNotification.init();
   }
 
   @override

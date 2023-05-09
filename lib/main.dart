@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:platform_local_notifications/platform_local_notifications.dart';
 import 'package:reel_t/generated/app_init.dart';
 import 'package:reel_t/screens/navigation/navigation_screen.dart';
+import 'package:reel_t/screens/reuseable/default/default_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_screen.dart';
 import 'firebase_options.dart';
 
@@ -25,7 +26,7 @@ Future<void> main() async {
     runApp(
       OverlaySupport.global(
         child: MaterialApp(
-          home: NavigationScreen(),
+          home: DefaultScreen(),
         ),
       ),
     );
