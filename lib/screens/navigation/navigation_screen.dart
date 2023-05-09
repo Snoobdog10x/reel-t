@@ -47,11 +47,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   @override
   Future<void> onCreate() async {
     bloc = NavigationBloc();
-  }
-
-  @override
-  Future<void> onPostFrame() async {
-    super.onPostFrame();
     await AppInit().init(isInitSample: false);
     bloc.currentUser = appStore.localUser.getCurrentUser();
     _timeoutTimer = Timer(Duration(seconds: 10), () {
@@ -80,6 +75,11 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         user: bloc.currentUser,
       ),
     };
+  }
+
+  @override
+  Future<void> onPostFrame() async {
+    super.onPostFrame();
   }
 
   @override

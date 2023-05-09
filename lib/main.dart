@@ -22,6 +22,7 @@ Future<void> main() async {
   //   isDebug: true,
   //   // isInitSample: true,
   // ); // uncomment this if you run local only run by Thanh
+
   if (kDebugMode) {
     runApp(
       OverlaySupport.global(
