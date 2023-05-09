@@ -8,6 +8,7 @@ import 'package:reel_t/screens/search/search_screen.dart';
 import 'package:reel_t/screens/user/email_authenticate/email_authenticate_screen.dart';
 import 'package:reel_t/screens/user/personal_information/personal_information_screen.dart';
 import 'package:reel_t/screens/user/profile/profile_screen.dart';
+import 'package:reel_t/screens/user/update_password/update_password_screen.dart';
 import '../../../models/video/video.dart';
 import '../../messenger/home_chat/home_chat_screen.dart';
 import '../../navigation/navigation_screen.dart';
@@ -248,6 +249,13 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
               pushToScreen(CameraArScreen(), isReplace: false);
             },
             child: Text("Camera Video"),
+          ),
+          SizedBox(height: 16),
+          TextButton(
+            onPressed: () {
+              pushToScreen(UpdatePasswordScreen(), isReplace: false);
+            },
+            child: Text("update password"),
           ),
         ],
       ),

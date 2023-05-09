@@ -7,6 +7,7 @@ import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
+import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
@@ -192,6 +193,14 @@ class EmailAuthenticateScreenState
         timer.cancel();
       }
     });
+  }
+
+  @override
+  void onPopWidget(String previousScreen) {
+    // TODO: implement onPopWidget
+    super.onPopWidget(previousScreen);
+    if (previousScreen != ALERT_DIALOG_WIDGET)
+      pushToScreen(NavigationScreen(), isReplace: true);
   }
 
   @override

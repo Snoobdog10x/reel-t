@@ -8,7 +8,9 @@ import 'package:reel_t/events/user/user_sign_up/user_sign_up_event.dart';
 import 'package:reel_t/events/user/verify_email_otp/verify_email_otp_event.dart';
 import 'package:reel_t/models/setting/setting.dart';
 import 'package:reel_t/screens/navigation/navigation_screen.dart';
+import 'package:reel_t/screens/sub_setting_user/reset_password/reset_password_screen.dart';
 import 'package:reel_t/screens/user/signup/signup_screen.dart';
+import 'package:reel_t/screens/user/update_password/update_password_screen.dart';
 import '../../../generated/abstract_bloc.dart';
 import '../../../models/user_profile/user_profile.dart';
 import '../../welcome/welcome_screen.dart';
@@ -61,6 +63,13 @@ class EmailAuthenticateBloc extends AbstractBloc<EmailAuthenticateScreenState>
       var hashedPassword = appStore.security.hashPassword(password);
       if (state.widget.previousScreen == SignupScreenState.SIGN_UP_SCREEN) {
         sendUserSignUpEvent(email: email, password: hashedPassword);
+        return;
+      }
+
+      if (state.widget.previousScreen ==
+          ResetPasswordScreenState.RESET_PASSWORD_SCREEN) {
+        state.stopLoading();
+        state.pushToScreen(UpdatePasswordScreen());
         return;
       }
 
