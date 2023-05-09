@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 class CustomAwesomeMediaPreview extends StatelessWidget {
   final MediaCapture? mediaCapture;
   final OnMediaTap onMediaTap;
-
   const CustomAwesomeMediaPreview({
     super.key,
     required this.mediaCapture,

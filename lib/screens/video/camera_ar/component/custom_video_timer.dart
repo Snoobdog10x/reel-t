@@ -7,7 +7,8 @@ import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 
 class CustomVideoTimer extends StatefulWidget {
   final CameraState state;
-  const CustomVideoTimer({super.key, required this.state});
+  final Function(String filePath)? onRecorded;
+  const CustomVideoTimer({super.key, required this.state, this.onRecorded});
 
   @override
   State<CustomVideoTimer> createState() => _CustomVideoTimerState();
@@ -23,6 +24,7 @@ class _CustomVideoTimerState extends State<CustomVideoTimer> {
   int _selected = 0;
   Duration _currentRecord = Duration(seconds: 15);
   Timer? cancelTimer;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -61,9 +63,9 @@ class _CustomVideoTimerState extends State<CustomVideoTimer> {
           if (_currentRecord.inSeconds == 0) {
             _.stopRecording().whenComplete(() {
               _currentRecord = videoMaxLengths[_selected];
+              widget.onRecorded
+                  ?.call(widget.state.captureState?.filePath ?? "");
             });
-            cancelTimer?.cancel();
-            cancelTimer = null;
           }
         });
 
