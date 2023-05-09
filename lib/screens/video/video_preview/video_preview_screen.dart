@@ -1,9 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/video/create_post/create_post_screen.dart';
-import 'package:reel_t/screens/video/list_video/list_video_screen.dart';
 import 'package:reel_t/shared_product/utils/text/shared_text_style.dart';
 import 'package:reel_t/shared_product/widgets/image/circle_image.dart';
 import 'package:reel_t/shared_product/widgets/video_player_item.dart';
@@ -11,6 +11,7 @@ import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import 'video_preview_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
+
 
 class VideoPreviewScreen extends StatefulWidget {
   final String filePath;
@@ -22,6 +23,7 @@ class VideoPreviewScreen extends StatefulWidget {
 
 class VideoPreviewScreenState extends AbstractState<VideoPreviewScreen> {
   late VideoPreviewBloc bloc;
+
   late Widget videoPreview = VideoPlayerItem(
     videoUrl: widget.filePath,
     isPlay: false,
@@ -37,7 +39,7 @@ class VideoPreviewScreenState extends AbstractState<VideoPreviewScreen> {
   }
 
   @override
-  void onCreate() {
+  Future<void> onCreate() async {
     bloc = VideoPreviewBloc();
     bloc.init();
     print(widget.filePath);
@@ -163,5 +165,5 @@ class VideoPreviewScreenState extends AbstractState<VideoPreviewScreen> {
   }
 
   @override
-  void onDispose() {}
+  Future<void> onDispose() async {}
 }
