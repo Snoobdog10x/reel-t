@@ -11,7 +11,7 @@ import '../../../generated/abstract_bloc.dart';
 import '../../../generated/abstract_state.dart';
 import 'video_preview_bloc.dart';
 import '../../../shared_product/widgets/default_appbar.dart';
-import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+
 
 class VideoPreviewScreen extends StatefulWidget {
   final String filePath;
