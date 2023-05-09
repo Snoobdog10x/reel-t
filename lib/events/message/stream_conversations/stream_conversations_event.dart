@@ -8,7 +8,6 @@ abstract class StreamConversationsEvent {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _conversationStream;
   void sendStreamConversationsEvent(String currentUserId) {
     disposeStreamConversationsEvent();
-    disposeStreamConversationsEvent();
     try {
       _createStreamConversations(currentUserId);
     } catch (e) {

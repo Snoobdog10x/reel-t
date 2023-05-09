@@ -6,6 +6,7 @@ import 'package:platform_local_notifications/platform_local_notifications.dart';
 import 'package:reel_t/generated/app_init.dart';
 import 'package:reel_t/screens/navigation/navigation_screen.dart';
 import 'package:reel_t/screens/reuseable/default/default_screen.dart';
+import 'package:reel_t/screens/welcome/welcome_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -21,7 +22,6 @@ Future<void> main() async {
   //   isDebug: true,
   //   // isInitSample: true,
   // ); // uncomment this if you run local only run by Thanh
-  await AppInit().init(isInitSample: false);
   if (kDebugMode) {
     runApp(
       OverlaySupport.global(

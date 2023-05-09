@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reel_t/generated/app_init.dart';
 import 'package:reel_t/models/user_profile/user_profile.dart';
 import 'package:reel_t/screens/messenger/detail_chat_setting/detail_chat_setting_screen.dart';
 import 'package:reel_t/screens/messenger/new_chat/new_chat_screen.dart';
@@ -43,7 +44,7 @@ class DefaultScreenState extends AbstractState<DefaultScreen> {
   @override
   Future<void> onCreate() async {
     bloc = DefaultBloc();
-    await appStore.postInitServices();
+    await AppInit().init(isInitSample: false);
   }
 
   @override

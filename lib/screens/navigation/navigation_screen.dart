@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:reel_t/screens/video/camera_ar/camera_ar_screen.dart';
 import 'package:reel_t/screens/welcome/welcome_screen.dart';
+
 import '../../generated/abstract_bloc.dart';
 import '../../generated/abstract_state.dart';
 import '../../generated/app_init.dart';
@@ -45,17 +47,18 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   @override
   Future<void> onCreate() async {
     bloc = NavigationBloc();
+  }
+
+  @override
+  Future<void> onPostFrame() async {
+    super.onPostFrame();
+    await AppInit().init(isInitSample: false);
     bloc.currentUser = appStore.localUser.getCurrentUser();
-    await appStore.postInitServices();
     _timeoutTimer = Timer(Duration(seconds: 10), () {
       loadedVideo = true;
       _timeoutTimer?.cancel();
       notifyDataChanged();
     });
-  }
-
-  @override
-  void onReady() {
     pages = {
       NavigationPage.FEED.index: FeedScreen(
         loadDoneCallback: () {
@@ -77,6 +80,10 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
         user: bloc.currentUser,
       ),
     };
+  }
+
+  @override
+  void onReady() {
     if (isLogin()) {
       appStore.receiveNotification
           .setNotificationStream(appStore.localUser.getCurrentUser().id);
@@ -297,7 +304,6 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
   }
 
   Widget buildBody() {
-    if (pages.isEmpty) return WelcomeScreen();
     return Stack(
       children: [
         PreloadPageView(
@@ -306,7 +312,7 @@ class NavigationScreenState extends AbstractState<NavigationScreen> {
           physics: NeverScrollableScrollPhysics(),
           children: pages.values.toList(),
         ),
-        if (loadedVideo == false) ...[WelcomeScreen()],
+        if (pages.isEmpty || !loadedVideo) ...[WelcomeScreen()]
       ],
     );
   }
